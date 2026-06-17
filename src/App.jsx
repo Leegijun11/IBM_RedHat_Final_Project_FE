@@ -1,122 +1,76 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from 'react';
+
+const BACKEND_URL = "https://dearbaby.site";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [dbStatus, setDbStatus] = useState("⌛ 연결 확인 중...");
+  const [itemName, setItemName] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/health/db`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`에러 발생 (코드: ${res.status})`);
+        return res.json();
+      })
+      .then((data) => {
+        if (data.database === "connected") setDbStatus("✅ AWS RDS DB 연결 성공!");
+        else setDbStatus("⚠️ DB 연결 상태 이상");
+      })
+      .catch((err) => setDbStatus(`❌ 연결 실패: ${err.message}`));
+  }, []);
+
+  const handleAddItem = (e) => {
+    e.preventDefault();
+    if (!itemName.trim()) return alert("아이템 이름을 입력하세요!");
+
+    setMessage("⏳ 등록 중...");
+
+    fetch(`${BACKEND_URL}/items`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: itemName })
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`등록 실패 (${res.status})`);
+        return res.json();
+      })
+      .then((data) => {
+        setMessage(`🎉 등록 성공! (ID: ${data.id || '확인됨'})`);
+        setItemName("");
+      })
+      .catch((err) => setMessage(`❌ 등록 에러: ${err.message}`));
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div style={{ padding: '40px', fontFamily: 'sans-serif', maxWidth: '500px', margin: '0 auto' }}>
+      <h2>🚀 Full-Stack 연동 테스트</h2>
+      <hr />
+      {/* DB 상태 표시 구역 */}
+      <div style={{ padding: '15px', backgroundColor: '#f0f0f0', borderRadius: '5px', margin: '20px 0', fontWeight: 'bold' }}>
+        DB 상태: {dbStatus}
+      </div>
+      {/* 데이터 입력 및 API 전송 구역 */}
+      <div style={{ marginTop: '30px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+        <h3>🎁 items 테이블 데이터 추가</h3>
+        <form onSubmit={handleAddItem} style={{ display: 'flex', gap: '10px' }}>
+          <input
+            type="text"
+            placeholder="아이템 이름 입력"
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
+            style={{ padding: '8px', flex: 1, borderRadius: '4px', border: '1px solid #aaa' }}
+          />
+          <button type="submit" style={{ padding: '8px 15px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+            보내기
+          </button>
+        </form>
 
-      <div className="ticks"></div>
+        {/* 결과 메시지 */}
+        {message && <p style={{ marginTop: '15px', fontWeight: 'bold', color: '#0056b3' }}>{message}</p>}
+      </div>
+    </div>
+  );
+} // <- 이 괄호가 누락되어 있었습니다.
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
-}
-
-export default App
+export default App;
