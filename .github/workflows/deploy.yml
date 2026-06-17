@@ -11,25 +11,24 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # v4로 업데이트
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # v4로 업데이트
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
-          #cache: 'npm'
-          cache-dependency-path: 'frontend/package-lock.json'
+          cache: 'npm'
+          # 최상위 폴더에 package-lock.json이 있다고 가정합니다.
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        working-directory: frontend
         run: npm ci
 
       - name: Build
-        working-directory: frontend
         run: npm run build
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4 # v4로 업데이트
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -37,7 +36,9 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync frontend/dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+          # dist 폴더가 어디에 생성되는지 확인 필요 (보통 build 또는 dist)
+          # 만약 빌드 결과물이 최상위 dist 폴더에 생긴다면 아래가 맞습니다.
+          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
       - name: Invalidate CloudFront cache
         run: |
