@@ -1,40 +1,36 @@
 import { useState } from "react";
-import { loginUser } from "../../services/userApi";
+
+import Login_form from "../../Components/User/Login_form";
+import Sign_up from "../../Components/User/Sign_up";
+import Find_account from "../../Components/User/Find_account";
+import Find_password from "../../Components/User/Find_password";
+
 
 function Login() {
-  const [loginData, setLoginData] = useState({
-    u_account: "",
-    u_pw: "",
-  });
-
-  const handleChange = (e) => {
-    setLoginData({
-      ...loginData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleLogin = async () => {
-    try {
-      const result = await loginUser(loginData);
-
-      console.log(result);
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(result)
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [page, setPage] = useState("login");
 
   return (
-    <div>
-      <button onClick={handleLogin}>
-        로그인
-      </button>
-    </div>
+    <>
+      {/* 로그인 */}
+      {page === "login" && (
+        <Login_form setPage={setPage} />
+      )}
+
+      {/* 회원가입 */}
+      {page === "signup" && (
+        <Signup setPage={setPage} />
+      )} 
+
+      {/* 아이디 찾기 */}
+      {page === "findAccount" && (
+        <Find_account setPage={setPage} />
+      )}
+
+      {/* 비밀번호 찾기 */}
+      {page === "findPassword" && (
+        <Find_password setPage={setPage} />
+      )}
+    </>
   );
 }
 

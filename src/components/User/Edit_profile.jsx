@@ -1,0 +1,60 @@
+import { use, useState } from "react";
+import { updateUser } from "../../Services/user_api";
+
+function Edit_profile() {
+    const [u_pw, setU_pw] = useState ("");
+    const [u_name, setU_name] = useState ("");
+    const [u_nickname, setU_nickname] = useState ("");
+    const [u_email, setU_email] = useState ("");
+    const [u_phone, setU_phone] = useState ("");
+
+    // 유저 정보 수정
+    const handleUpdateUser = async (e) => {
+        e.preventDefault();
+
+        try {
+            const result = await updateUser ({u_pw, u_name, u_email,u_nickname, u_phone});
+
+            console.log(result);
+
+            alert("정보를 수정하였습니다.");
+
+        } catch (error) {
+            console.log(error);
+
+            alert("정보 수정에 실패하였습니다.")
+        }
+    };
+
+    return (
+        <div>
+            <h2>프로필 수정</h2>
+
+            <form onSubmit={handleUpdateUser}>
+                <div>
+                    <input type="password" placeholder="새 비밀번호" value={u_pw} onChange={(e) => setU_pw(e.target.value)} />
+                </div>
+
+                <div>
+                    <input type="text" placeholder="이름" value={u_name} onChange={(e) => setU_name(e.target.value)} />
+                </div>
+
+                <div>
+                    <input type="text" placeholder="닉네임" value={u_nickname} onChange={(e) => setU_nickname(e.target.value)} />
+                </div>
+
+                <div>
+                    <input type="email" placeholder="이메일" value={u_email} onChange={(e) => setU_email(e.target.value)} />
+                </div>
+
+                <div>
+                    <input type="text" placeholder="전화번호" value={u_phone} onChange={(e) => setU_phone(e.target.value)} />
+                </div>
+
+                <button type="submit">수정하기</button>
+            </form>
+        </div>
+    );
+} 
+
+export default Edit_profile;

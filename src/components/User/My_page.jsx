@@ -1,0 +1,72 @@
+import { useEffect, useState } from "react";
+import { logoutUser, getCurrentUser } from "../../Services/user_api";
+
+function My_page() {
+  const [u_id, setU_id] = useState("");
+  const [user, setUser] = useState(null);
+
+  // 로그 아웃
+  const handleLogout = async () => {
+
+    try {
+      const result = await logoutUser(u_id);
+
+      console.log(result);
+
+      alert("정상적으로 로그아웃 되었습니다.");
+
+    } catch (error) {
+      console.log(error);
+
+      alert("로그아웃 실패.");
+    }
+  };
+
+  // 현재 유저 정보
+  const handleGetCurrentUser = async () =>{
+
+    try {
+      const result = await getCurrentUser(u_id);
+
+      console.log(result);
+
+      setUser(result.user);
+
+    } catch (error) {
+      console.log(error);
+
+      alert("유저 정보 조회 실패.")
+    }
+  };
+
+  useEffect(() => {
+
+    if (u_id) {
+      handleGetCurrentUser();
+    }
+  }, [u_id]);
+
+  return (
+    <div>
+      <h2>마이페이지</h2>
+
+      {user && (
+        <>
+        <p>아이디 : {user.u_account}</p>
+
+        <p>이름 : {user.u_name}</p>
+
+        <p>닉네임 : {user.u_nickname}</p>
+
+        <p>이메일 : {user.u_email}</p>
+
+        <p>전화번호 : {user.u_phone}</p>
+        </>
+      )}
+
+      <button onClick={handleLogout}>로그아웃</button>
+    </div>
+  );
+}
+
+export default My_page;
