@@ -1,34 +1,38 @@
 import { useState } from "react";
-import { createPartner } from "../../services/partnerApi";
+import { createPartner } from "../../services/Partner_api";
 
-function PartnerInvite() {
-  const [uId, setUId] = useState("");
+function Partner_invite() {
+  const [u_id, setU_id] = useState("");
 
-  const handleInvite = async () => {
+  // 공동 양육자 초대
+  const handlCretePartner = async (e) => {
+    e.preventDefault();
+
     try {
-      const result = await createPartner(Number(uId));
+      const result = await createPartner({u_id});
 
       console.log(result);
 
-      alert(result.msg);
+      alert("공동 양육자를 초대하였습니다.");
+
     } catch (error) {
-      console.error(error);
+      console.log(error);
+
+      alert("공동 양육자 초대에 실패하였습니다.");
     }
   };
 
   return (
     <div>
-      <input
-        placeholder="유저 ID"
-        value={uId}
-        onChange={(e) => setUId(e.target.value)}
-      />
+      <h2>공동 양육자 초대</h2>
 
-      <button onClick={handleInvite}>
-        공동 양육자 초대
-      </button>
+      <form onSubmit={handlCretePartner}>
+        <input type="numbr" placeholder="유저 ID" value={u_id} onChange={(e) => setU_id(e.target.value)} />
+
+        <button type="submit">초대하기</button>
+      </form>
     </div>
   );
 }
 
-export default PartnerInvite;
+export default Partner_invite;
