@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPartnerList, deletePartner } from "../../services/Partner_api";
+import { getPartnerList, deletePartner } from "../../services/partner_api";
 import PartnerList from './partner_list';
 
 function Partner_list() {

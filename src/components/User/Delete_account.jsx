@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { deleteUser } from "../../services/User_api";
+import { deleteUser } from "../../services/user_api";
 
 function Delete_account () {
   const [u_id, setU_id] = useState("");

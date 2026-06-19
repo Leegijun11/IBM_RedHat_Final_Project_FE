@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createPartner } from "../../services/Partner_api";
+import { createPartner } from "../../services/partner_api";
 
 function Partner_invite() {
   const [u_id, setU_id] = useState("");
