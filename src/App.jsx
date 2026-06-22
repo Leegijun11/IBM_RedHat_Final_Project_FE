@@ -6,7 +6,9 @@ import Home from './pages/Home/Home';
 import CommunityPage from './pages/Community/CommunityPage';
 import BabyInfoPage from './pages/BabyInfo/BabyInfoPage';
 import Diary from './pages/Diary/Diary';
-import EbookPage from './pages/E-book/EbookPage';
+import EBookCreate from './pages/E-book/EBookCreate'
+import EBookMainPage from './pages/E-book/EBookMainPage';
+
 const App = () => {
   return (
     <Routes>
@@ -16,7 +18,8 @@ const App = () => {
       <Route path='community' element={<CommunityPage/>}/>
       <Route path='babyinfo' element={<BabyInfoPage/>}/>
       <Route path='diary' element={<Diary/>}/>
-      <Route path='ebook' element={<EbookPage/>}/>
+      <Route path='ebook' element={<EBookMainPage/>}/>
+      <Route path='/ebook/create' element={<EBookCreate/>}/>
     </Routes>
   );
 };

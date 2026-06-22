@@ -1,45 +1,37 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { getPartnerList, deletePartner } from "../../services/partner_api";
-import PartnerList from './partner_list';
+import useAuth from "../../hooks/useAuth";
 
 function Partner_list() {
-  const [u_id, setU_id] = useState("");
-  const [PartnerList, setPartnerList] = useState ([]);
+  const { my_id } = useAuth();
+  const [partnerList, setPartnerList] = useState([]);
 
   // 공동 양육자 목록 조회
   const handleGetPartnerList = async () => {
-
     try {
-
-      const result = await getPartnerList(u_id);
-
+      const result = await getPartnerList(my_id);
+      console.log(result);
+      setPartnerList(result);
     } catch (error) {
-      console.log (error);
-
+      console.log(error);
       alert("공동 양육자 목록을 불러오는데 실패하였습니다.");
     }
   };
 
-  useEffect(() =>{
-
-    if (u_id) {
+  useEffect(() => {
+    if (my_id) {
       handleGetPartnerList();
     }
-  }, [u_id]);
+  }, [my_id]);
 
   // 공동 양육자 삭제
-  const handleDeletepartner = async () => {
-
+  const handleDeletePartner = async (partnerId) => {
     try {
-
-      await deletePartner({u_id});
-
+      await deletePartner(partnerId);
       alert("공동 양육자 지정이 취소되었습니다.");
-
-      handleGetParrtnerList();
+      handleGetPartnerList();
     } catch (error) {
       console.log(error);
-
       alert("공동 양육자 지정 취소에 실패하였습니다.");
     }
   };
@@ -48,17 +40,13 @@ function Partner_list() {
     <div>
       <h2>공동 양육자 목록</h2>
 
-      {PartnerList.map((Partner, index) => (
+      {partnerList.map((partner, index) => (
         <div key={index}>
-          <p>이름 : {Partner.u_nanme}</p>
-
-          <p>역할 : {Partner.u_p_role}</p>
-
-          <p>관계 : {Partner.u_category}</p>
-
-          <p>상태 : {Partner.u_state}</p>
-
-          <button onChange={handleDeletepartner}>삭제</button>
+          <p>이름 : {partner.u_name}</p>
+          <p>역할 : {partner.u_p_role}</p>
+          <p>관계 : {partner.u_category}</p>
+          <p>상태 : {partner.u_state}</p>
+          <button onClick={() => handleDeletePartner(partner.u_id)}>삭제</button>
         </div>
       ))}
     </div>

@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { loginUser } from "../../services/user_api";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 function Login_form({ setPage }) {
   const [u_account, setU_account] = useState("");
   const [u_pw, setU_pw] = useState("");
+  const { login } = useAuth()
   const navigate = useNavigate()
   // 로그인
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const result = await loginUser({
-        u_account, u_pw,
-      });
+      const result = await loginUser({u_account, u_pw});
 
-      console.log(result);      
+      login(result.u_id);      
       navigate("babyinfo")
       // TODO
       // 아기 등록 여부 확인 후

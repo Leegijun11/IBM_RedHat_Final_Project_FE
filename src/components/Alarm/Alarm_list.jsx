@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { getAlarm, deleteAlarm } from "../../services/alarm_api";
+import useAuth from "../../hooks/useAuth";
 
-function Alarm_list({ u_id }) {
+function Alarm_list() {
+  const {my_id} = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [alarms, setAlarms] = useState([]);
 
   const fetchAlarms = async () => {
     try {
-      const result = await getAlarm(u_id);
+      const result = await getAlarm(my_id);
       console.log(result);
-      setAlarms(result);
+      setAlarms(Array.isArray(result) ? result : result.alarm || []);
     } catch (error) {
       console.log(error);
       alert("알람을 불러오는데 실패하였습니다.");
