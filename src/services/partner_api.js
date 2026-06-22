@@ -1,10 +1,8 @@
-import api from "./api";
+import api from "../hooks/api";
 
 // 공동 양육자 등록 ( C )
 export const createPartner = async (u_id) => {
-const response = await api.post("/partners/add", {
-u_id,
-});
+const response = await api.post("/partners/add", u_id);
 
 return response.data;
 };

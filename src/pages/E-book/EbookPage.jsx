@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CommunityPage = () => {
+const EbookPage = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const CommunityPage = () => {
     );
 };
 
-export default CommunityPage;
+export default EbookPage;

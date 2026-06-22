@@ -1,5 +1,4 @@
-import api from "./api";
-
+import api from "../hooks/api";
 // 회원가입 ( C )
 export const signupUser = async (userData) => {
   const response = await api.post("/users/signup", userData);

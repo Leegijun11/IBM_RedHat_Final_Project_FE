@@ -18,7 +18,7 @@ function Login() {
 
       {/* 회원가입 */}
       {page === "signup" && (
-        <Signup setPage={setPage} />
+        <Sign_up setPage={setPage} />
       )} 
 
       {/* 아이디 찾기 */}

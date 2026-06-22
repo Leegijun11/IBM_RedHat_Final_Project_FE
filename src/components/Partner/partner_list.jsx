@@ -7,11 +7,11 @@ function Partner_list() {
   const [PartnerList, setPartnerList] = useState ([]);
 
   // 공동 양육자 목록 조회
-  const handleGetParrtnerList = async () => {
+  const handleGetPartnerList = async () => {
 
     try {
 
-      const result = await getPartnerList({u_id});
+      const result = await getPartnerList(u_id);
 
     } catch (error) {
       console.log (error);

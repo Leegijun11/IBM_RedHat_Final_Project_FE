@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "../hooks/api";
 
 // 팁 목록 ( R )
 export const getTipList = async () => {

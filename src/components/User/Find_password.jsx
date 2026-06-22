@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Find_password, findPassword } from "../../Services/user_api";
+import { findPassword } from "../../Services/user_api";
 
 function Find_password ({ setPage }) {
     const [u_account, setU_account] = useState("");
