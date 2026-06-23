@@ -1,51 +1,63 @@
-import { useState } from "react";
-import { createDiary } from "../../Services/diary_api"
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Diary_write() {
-    const [b_id, setB_id,] = useState("");
-    const [d_title, setD_title] = useState("");
-    const [d_content, setD_content] = useState("");
-    const [d_label, setD_label] = useState("");
-    const [d_eat, setD_eat] = useState("");
-    const [d_sleep, setD_sleep] = useState("");
-    const [d_toilet, setD_toilet] = useState("");
-    const [d_temp, setD_temp] = useState("");
+    const navigate = useNavigate();
+    
+    const [record, setRecord] = useState("");
+    const [image, setImage] = useState(null);
 
-    // 일기 작성 ( C )
-    const handleCreateDiary = async (e) => {
+    // 권한 체크
+    useEffect(() => {
+
+        const my_id = localStorage.getItem("my_id");
+
+        if (!my_id) {
+
+            alert("로그인이 필요한 서비스 입니다.");
+            navigate("/");
+        }
+    }, []);
+
+    // 기록 저장 
+    const handleSaveRecord = async (e) => {
         e.preventDefault();
 
         try {
 
-            const result = await createDiary({b_id, d_title, d_content, d_label, d_eat, d_sleep, d_toilet, d_temp});
+            // 추후 기록 저장 API 연결 필요
 
-            console.log(result);
+            console.log("오늘의 기록 : ", record);
+            console.log("업로드 사진 : ", image);
 
-            alert("일기가 등록되었습니다.");
+            alert("기록이 저장되었습니다.");
+
+            //입력값 초기화
+            setRecord("");
+            setImage(null);
+
         } catch (error) {
-            console.log (error);
 
-            alert("일기 작성에 실패하였습니다.")
+            console.log(error);
+
+            alert("기록 저장에 실패하였습니다.");
         }
     };
 
     return (
         <div>
-            <h2>일기 작성</h2>
+            <h2>오늘의 기록</h2>
 
-            <form onSubmit={handleCreateDiary}>
-            <input type="number" placeholder="아기 ID" value={b_id} onChange={(e) => setB_id(e.target.value)}/>
-            <input type="text" placeholder="제목" value={d_title} onChange={(e) => setD_title(e.target.value)} />
-            <textarea placeholder="내용" value={d_content} onChange={(e) => setD_content(e.target.value)} />
-            <input type="text" placeholder="라벨" value={d_label} onChange={(e) => setD_label(e.target.value)} />
-            <input type="text" placeholder="식사" value={d_eat} onChange={(e) => setD_eat(e.target.value)} />
-            <input type="text" placeholder="수면" value={d_sleep} onChange={(e) => setD_sleep(e.target.value)} />
-            <input type="text" placeholder="화장실" value={d_toilet} onChange={(e) => setD_toilet(e.target.value)} />
-            <input type="text" placeholder="체온" value={d_temp} onChange={(e) => setD_temp(e.target.value)} />
+            <form onSubmit={handleSaveRecord}>
 
-            <button type="submit">등록</button>
-        </form>   
-    </div>
+                <textarea placeholder="오늘 있었던 일을 기록하여 주세요." value={record} onChange={(e) => setRecord(e.target.value)} rows="8" cols="50" /> <br />
+
+                <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])}/> <br />
+
+                <button type="submit">기록 저장</button>
+
+            </form>
+        </div>
     );
 }
 

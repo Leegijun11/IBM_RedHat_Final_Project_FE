@@ -10,9 +10,6 @@ const Diary = () => {
 
             <Diary_list />
 
-            <Diary_detail />
-
-            <Diary_edit />
         </div>
     );
 };
