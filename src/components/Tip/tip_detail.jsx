@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { getTipDetail } from "../../services/tip_api";
+import { getTipDetail } from "../../Services/tip_api";
 
 function Tip_detail() {
     const [t_id, setT_id] = useState("");
-    const [b_birth, setB_birth] = useState("");
     const [tip, setTip] = useState(null);
 
     // 팁 상세 조회
     const handleGetTipDetail = async () => {
         
         try {
-            const result = await getTipDetail (t_id, b_birth);
+            const result = await getTipDetail (t_id);
 
             console.log(result);
 
@@ -26,11 +25,11 @@ function Tip_detail() {
         <div>
             <h2>AI 발달 팁 상세</h2>
 
-            <input type="number" placeholder="팁 ID" value={t_id} onChange={(e) => setB_birth(e.target.value)} />
+            <input type="number" placeholder="팁 ID" value={t_id} onChange={(e) => setT_id(e.target.value)} />
 
             <button onClick={handleGetTipDetail}>조회</button>
 
-            {Tip && (
+            {tip && (
                 <div>
                     <h3>{tip.t_title}</h3>
 

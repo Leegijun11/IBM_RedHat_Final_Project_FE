@@ -8,6 +8,7 @@ import BabyInfoPage from './pages/BabyInfo/BabyInfoPage';
 import Diary from './pages/Diary/Diary';
 import EBookCreate from './pages/E-book/EBookCreate'
 import EBookMainPage from './pages/E-book/EBookMainPage';
+import Tip from "./pages/Tip/Tip";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Route path='diary' element={<Diary/>}/>
       <Route path='ebook' element={<EBookMainPage/>}/>
       <Route path='/ebook/create' element={<EBookCreate/>}/>
+      <Route path="tips" element={<Tip />} />
     </Routes>
   );
 };

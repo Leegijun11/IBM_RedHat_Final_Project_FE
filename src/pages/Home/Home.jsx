@@ -11,14 +11,14 @@ function Home() {
     const navigate = useNavigate();
 
     // 로그인 체크
-    useEffect(() => {
-        const my_id = localStorage.getItem("my_id");
+   // useEffect(() => {
+        // const my_id = localStorage.getItem("my_id");
 
-        if (!my_id) {
-            alert("로그인이 필요한 서비스 입니다.");
-            navigate("/");
-        }
-    },[]);
+        // if (!my_id) {
+            // alert("로그인이 필요한 서비스 입니다.");
+            // navigate("/");
+        // }
+    // },[]);
 
     return (
         <div style={{padding: "20px"}}>
