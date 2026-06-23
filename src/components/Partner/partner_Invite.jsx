@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { createPartner } from "../../services/partner_api";
 import { createAlarm } from "../../services/alarm_api";
+import useAuth from "../../hooks/useAuth";
 
-function Partner_invite() {
+function Partner_invite({ onClose }) {
+  const { my_id } = useAuth(); 
   const [u_id, setU_id] = useState("");
 
   const handleCreatePartner = async (e) => {
@@ -14,11 +16,13 @@ function Partner_invite() {
 
       // 초대 알람 생성
       await createAlarm({
-        receive_id: u_id, // 알람 받을 사람
-        content: "공동 양육자로 초대되었습니다.",
+        send_id: my_id,
+        receive_id: u_id,
       });
 
       alert("공동 양육자를 초대하였습니다.");
+      setU_id("");
+      if (onClose) onClose();
     } catch (error) {
       console.log(error);
       alert("공동 양육자 초대에 실패하였습니다.");
@@ -37,6 +41,7 @@ function Partner_invite() {
           onChange={(e) => setU_id(e.target.value)}
         />
         <button type="submit">초대하기</button>
+        <button type="button" onClick={onClose}>취소</button>
       </form>
     </div>
   );
