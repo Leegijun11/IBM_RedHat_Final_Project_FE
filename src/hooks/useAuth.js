@@ -1,11 +1,11 @@
 import useLocalStorage from "./useLocalStorage";
 
 function useAuth() {
-  const [my_id, setMy_id, removeMy_id] = useLocalStorage("u_id");
+const [my_id, setMy_id, removeMy_id] = useLocalStorage("u_account");
 
-  const login = (u_id) => {
-    setMy_id(u_id);
-  };
+const login = (u_account) => {
+  setMy_id(u_account);
+};;
 
   const logout = () => {
     removeMy_id();
