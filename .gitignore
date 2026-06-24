@@ -26,3 +26,6 @@ dist-ssr
 
 .cache
 .vite
+
+IBM_RedHat_Final_Project_BE/
+.env
