@@ -5,6 +5,7 @@ import MyPage from './pages/MyPage/MyPage';
 import Home from './pages/Home/Home';
 import CommunityPage from './pages/Community/CommunityPage';
 import BabyInfoPage from './pages/BabyInfo/BabyInfoPage';
+import Diary_write from "./Components/Diary/Diary_write";
 import Diary from './pages/Diary/Diary';
 import EBookCreate from './pages/E-book/EBookCreate'
 import EBookMainPage from './pages/E-book/EBookMainPage';
@@ -19,6 +20,7 @@ const App = () => {
       <Route path='community' element={<CommunityPage/>}/>
       <Route path='babyinfo' element={<BabyInfoPage/>}/>
       <Route path='diary' element={<Diary/>}/>
+      <Route path="/diary/write" element={<Diary_write />} />
       <Route path='ebook' element={<EBookMainPage/>}/>
       <Route path='/ebook/create' element={<EBookCreate/>}/>
       <Route path="tips" element={<Tip />} />

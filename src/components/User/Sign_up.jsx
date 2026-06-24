@@ -1,5 +1,5 @@
-import { use, useState } from "react";
-import { signupUser } from "../../services/user_api";
+import { useState } from "react";
+import { signupUser } from "../../Services/user_api";
 
 function Sign_up({ setPage }) {
     const [u_account,setU_account] = useState("");
