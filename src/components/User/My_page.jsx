@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { logoutUser } from './../../services/user_api';
+import { logoutUser } from './../../Services/user_api';
 
 function My_page({ user }) {
   const { my_id, logout } = useAuth();
@@ -9,12 +9,12 @@ function My_page({ user }) {
   // 로그아웃
   const handleLogout = async () => {
     try {
-      const result = await logoutUser(my_id);
+      const result = await logoutUser();
       console.log(result);
 
       logout(); // localStorage에서 u_id 삭제
       alert("정상적으로 로그아웃 되었습니다.");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(error);
       alert("로그아웃 실패.");

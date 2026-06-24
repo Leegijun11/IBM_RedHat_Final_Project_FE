@@ -18,9 +18,32 @@ export const logoutUser = async () => {
     return response.data;
 };
 
-// 내 정보 조회
-export const getMyInfo = async () => {
+// 현재 사용자 정보 조회
+export const getCurrentUser = async () => {
     const response = await api.get("/users/me");
+    return response.data;
+};
+
+// 다른 사용자 정보 조회
+export const getUserById = async (u_id) => {
+    const response = await api.get(`/users/${u_id}`);
+    return response.data;
+};
+
+// 아이디 찾기
+export const findAccount = async ({
+    u_name,
+    u_email,
+    u_phone,
+}) => {
+    const response = await api.get("/users/find_account", {
+        params: {
+            u_name,
+            u_email,
+            u_phone,
+        },
+    });
+
     return response.data;
 };
 
@@ -33,43 +56,5 @@ export const updateUser = async (data) => {
 // 회원탈퇴
 export const deleteUser = async () => {
     const response = await api.delete("/users/del");
-    return response.data;
-};
-
-// 아이디 찾기
-export const findAccount = async (u_name, u_email, u_phone) => {
-    const response = await api.get("/users/find_account", {
-        params: {
-            u_name,
-            u_email,
-            u_phone,
-        },
-    });
-
-    return response.data;
-};
-
-// 비밀번호 찾기
-export const findPassword = async ({
-    u_account,
-    u_name,
-    u_email,
-    u_phone,
-}) => {
-    const response = await api.get("/users/find_password", {
-        params: {
-            u_account,
-            u_name,
-            u_email,
-            u_phone,
-        },
-    });
-
-    return response.data;
-};
-
-// 현재 사용자 정보 조회
-export const getCurrentUser = async () => {
-    const response = await api.get("/users/me");
     return response.data;
 };

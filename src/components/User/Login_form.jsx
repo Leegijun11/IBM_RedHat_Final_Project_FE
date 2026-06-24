@@ -15,7 +15,7 @@ function Login_form({ setPage }) {
       const result = await loginUser({u_account, u_pw});
 
       login(result.u_id);      
-      navigate("babyinfo")
+      navigate("/babyinfo")
       // TODO
       // 아기 등록 여부 확인 후
       // Home 또는 Onboarding 이동
