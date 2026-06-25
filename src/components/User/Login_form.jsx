@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "../../Services/user_api";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../Hooks/useAuth";
 
 
 function Login_form({ setPage }) {
@@ -12,27 +12,31 @@ function Login_form({ setPage }) {
 
 
   // 로그인
-  const handleLogin = async (e) => {
-    e.preventDefault();
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-    try {
-      const result = await loginUser({u_account, u_pw});
+  try {
+    const result = await loginUser({
+      u_account,
+      u_pw,
+    });
 
-      console.log("로그인 응답", result);
+    console.log("로그인 응답", result);
 
-      login(result.u_account);
-      navigate("/babyinfo")
+    localStorage.setItem(
+      "u_id",
+      result.u_id
+    );
 
-      // TODO
-      // 아기 등록 여부 확인 후
-      // Home 또는 Onboarding 이동
+    login(result.u_id);
 
-    } catch (error) {
-      console.log(error);
+    navigate("/babyinfo");
+  } catch (error) {
+    console.log(error);
 
-      alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-    }
-  };
+    alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+  }
+};
 
   return (
     <div>

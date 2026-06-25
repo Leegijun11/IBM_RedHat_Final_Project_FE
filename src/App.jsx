@@ -10,6 +10,7 @@ import Diary from './pages/Diary/Diary';
 import EBookCreate from './pages/E-book/EBookCreate'
 import EBookMainPage from './pages/E-book/EBookMainPage';
 import Tip from "./pages/Tip/Tip";
+import Partner from "./pages/Partner/Partner";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
       <Route path='ebook' element={<EBookMainPage/>}/>
       <Route path='/ebook/create' element={<EBookCreate/>}/>
       <Route path="tips" element={<Tip />} />
+      <Route path="partner" element={<Partner />} />
     </Routes>
   );
 };
