@@ -11,7 +11,7 @@ function Login_form({ setPage }) {
   const navigate = useNavigate()
 
 
-  // 로그인
+// 로그인
 const handleLogin = async (e) => {
   e.preventDefault();
 
@@ -21,11 +21,14 @@ const handleLogin = async (e) => {
       u_pw,
     });
 
-    console.log("로그인 응답", result);
+    console.log("로그인 응답 =", result);
+    console.log("result.u_id =", result.u_id);
 
-    localStorage.setItem(
-      "u_id",
-      result.u_id
+    localStorage.setItem("u_id", result.u_id);
+
+    console.log(
+      "저장된 u_id =",
+      localStorage.getItem("u_id")
     );
 
     login(result.u_id);

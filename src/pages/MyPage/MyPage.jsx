@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import { getCurrentUser } from "../../services/user_api";
-import Partner_invite from "../../components/Partner/Partner_Invite";
-import Alarm_list from "../../components/Alarm/Alarm_list";
-import Partner_list from "../../components/Partner/Partner_list";
-import My_page from "../../components/User/My_page";
-import User_edit_profile from "../../components/User/Edit_profile";
-import Baby_list from "../../components/Baby/Baby_list";
-import Baby_add from "../../components/Baby/Baby_add";
-import Baby_edit_profile from "../../components/Baby/Edit_profile";
-import useAuth from "../../hooks/useAuth";
+import { getCurrentUser } from "../../Services/user_api";
+import Partner_invite from "../../Components/Partner/Partner_Invite";
+import Alarm_list from "../../Components/Alarm/Alarm_list";
+import Partner_list from "../../Components/Partner/Partner_list";
+import My_page from "../../Components/User/My_page";
+import User_edit_profile from "../../Components/User/Edit_profile";
+import Baby_list from "../../Components/Baby/Baby_list";
+import Baby_add from "../../Components/Baby/Baby_add";
+import Baby_edit_profile from "../../Components/Baby/Edit_profile";
+import useAuth from "../../Hooks/useAuth";
 
 function MyPage() {
   const { my_id } = useAuth();

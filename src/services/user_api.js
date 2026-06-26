@@ -58,3 +58,14 @@ export const deleteUser = async () => {
     const response = await api.delete("/users/del");
     return response.data;
 };
+
+// 아이디(u_account)로 사용자 검색
+export const searchUser = async (u_account) => {
+    const response = await api.get("/users/search", {
+        params: {
+            u_account,
+        },
+    });
+
+    return response.data;
+};

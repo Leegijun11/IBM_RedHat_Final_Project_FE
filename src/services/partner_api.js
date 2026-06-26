@@ -40,3 +40,22 @@ export const deletePartner = async (p_id) => {
 
   return response.data;
 };
+
+// 공동육아 찾기
+export const findPartner = async (u_id, g_id) => {
+  const response = await api.get("/parents/find", {
+    params: {
+      u_id,
+      g_id,
+    },
+  });
+
+  return response.data;
+};
+
+// 공동육아 수정
+export const updatePartner = async (p_id, data) => {
+  const response = await api.post(`/parents/${p_id}`, data);
+
+  return response.data;
+};

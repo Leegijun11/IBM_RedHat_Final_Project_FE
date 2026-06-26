@@ -5,21 +5,26 @@ import Photo_card from "../../Components/Home/Photo_card";
 import Record_card from "../../Components/Home/Record_card";
 import Tip_card from "../../Components/Home/Tip_card";
 import Growth_card from "../../Components/Home/Growth_card";
-import Alarm_modal from "../../Components/Home/Alarm_modal";
+import Alarm_list from './../../Components/Alarm/Alarm_list';
 
 function Home() {
     const navigate = useNavigate();
 
     // 로그인 체크
-   // useEffect(() => {
-        // const my_id = localStorage.getItem("my_id");
+    useEffect(() => {
+        console.log("localStorage u_id =", localStorage.getItem("u_id"));
 
-        // if (!my_id) {
-            // alert("로그인이 필요한 서비스 입니다.");
-            // navigate("/");
-        // }
-    // },[]);
+        const my_id = localStorage.getItem("u_id");
 
+        console.log("my_id =", my_id);
+
+        if (!my_id) {
+            alert("로그인이 필요한 서비스 입니다.");
+            navigate("/");
+        }
+    }, []);
+
+    
     return (
         <div style={{padding: "20px"}}>
 
@@ -27,7 +32,7 @@ function Home() {
             <h1>홈</h1>
 
             {/* 알림 */}
-            <Alarm_modal />
+            <Alarm_list />
 
             {/* D - Day */}
             <Day_card />
