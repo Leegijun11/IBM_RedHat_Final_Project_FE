@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signupUser } from "../../Services/user_api";
+import { signupUser, uploadUserImage } from "../../Services/user_api";
 
 function Sign_up({ setPage }) {
     const [u_account, setU_account] = useState("");
@@ -10,6 +10,7 @@ function Sign_up({ setPage }) {
     const [u_email, setU_email] = useState("");
     const [u_phone, setU_phone] = useState("");
     const [u_address, setU_address] = useState("");
+    const [imageFile, setImageFile] = useState(null);
 
     // 회원가입
     const handleSignup = async (e) => {
@@ -21,6 +22,12 @@ function Sign_up({ setPage }) {
         }
 
         try {
+            let imagePath = null;
+            if (imageFile) {
+                const uploadResult = await uploadUserImage(imageFile);
+                imagePath = uploadResult.image_url;
+            }
+
             const result = await signupUser({
                 u_account,
                 u_pw,
@@ -29,6 +36,7 @@ function Sign_up({ setPage }) {
                 u_email,
                 u_phone,
                 u_address,
+                u_image: imagePath,
             });
 
             console.log(result);
@@ -104,6 +112,16 @@ function Sign_up({ setPage }) {
                         value={u_address}
                         onChange={(e) => setU_address(e.target.value)}
                     />
+
+                    <div>
+                        <label>프로필 사진</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setImageFile(e.target.files[0])}
+                        />
+                        {imageFile && <p>{imageFile.name}</p>}
+                    </div>
                 </div>
 
                 <button type="submit">회원가입</button>

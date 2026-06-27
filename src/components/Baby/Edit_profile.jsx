@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { updateBaby } from "../../services/baby_api";
+import { updateBaby, uploadBabyImage } from "../../services/baby_api";
 
 function Edit_profile({ baby, onClose, onSuccess }) {
   const [b_name, setB_name] = useState(baby?.b_name || "");
   const [b_birth, setB_birth] = useState(baby?.b_birth || "");
   const [b_height, setB_height] = useState(baby?.b_height || "");
   const [b_weight, setB_weight] = useState(baby?.b_weight || "");
-  const [b_image, setB_image] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setB_image(file);
+      setImageFile(file);
     }
   };
 
@@ -20,17 +20,22 @@ function Edit_profile({ baby, onClose, onSuccess }) {
     e.preventDefault();
 
     try {
-      const formData = new FormData();
-      formData.append("b_id", baby.b_id);
-      formData.append("b_name", b_name);
-      formData.append("b_birth", b_birth);
-      formData.append("b_height", b_height);
-      formData.append("b_weight", b_weight);
-      if (b_image) {
-        formData.append("b_image", b_image);
+      let imagePath = baby?.b_image || null;
+
+      if (imageFile) {
+        const uploadResult = await uploadBabyImage(imageFile);
+        imagePath = uploadResult.image_url;
       }
 
-      const result = await updateBaby(formData);
+      const babyData = {
+        b_name,
+        b_birth,
+        b_height: Number(b_height),
+        b_weight: Number(b_weight),
+        b_image: imagePath,
+      };
+
+      const result = await updateBaby(baby.b_id, babyData);
 
       console.log(result);
 
@@ -86,7 +91,7 @@ function Edit_profile({ baby, onClose, onSuccess }) {
         <div>
           <label>아이 사진 변경</label>
           <input type="file" accept="image/*" onChange={handleImageChange} />
-          {b_image && <p>{b_image.name}</p>}
+          {imageFile && <p>{imageFile.name}</p>}
         </div>
 
         <button type="submit">수정하기</button>

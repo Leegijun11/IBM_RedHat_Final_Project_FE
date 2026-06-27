@@ -1,36 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getTipList } from "../../services/tip_api";
+import { getBabies } from "../../services/baby_api";
 
 function Tip_card() {
     const navigate = useNavigate();
+    const [babyMonth, setBabyMonth] = useState(null);
+    const [tip, setTip] = useState(null);
 
-    //임시 데이터 추후 변경
-    const [babyMonth] = useState(5);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const baby = await getCurrentBaby();
+                const birthDate = new Date(baby.b_birth);
+                const today = new Date();
 
-    const tips = {
-        3: "목을 가누기 시작하는 시기예요. 다양한 소리를 들려주새세요.",
-        5: "옹알이가 활발해지는 시기예요. 눈을 맞추며 많이 이야기해주세요.",
-        8: "기기 시작하는 시기예요. 안전란 놀이 공간을 만들어주세요.",
-        12: "첫 걸음을 연습하는 시기예요. 칭찬을 많이해주세요.",
-    };
+                let months =
+                    (today.getFullYear() - birthDate.getFullYear()) * 12 +
+                    (today.getMonth() - birthDate.getMonth());
 
-    const currentTip = tips[babyMonth] || "아가의 성장에 맞는 발달 팁을 준비 중입니다.";
+                if (today.getDate() < birthDate.getDate()) {
+                    months -= 1;
+                }
+
+                setBabyMonth(months);
+
+                const tips = await getTipList(months);
+                if (tips && tips.length > 0) {
+                    setTip(tips[0]);
+                }
+            } catch (error) {
+                console.log(error);
+                setTip(null);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleMore = () => {
-
-        // AI 발달 팁 페이지 추후 연결
-
         navigate("/tips");
     };
 
     return (
-        <div style={{border: "1px solid #ccc", borderRadius: "15px", padding: "20ox", marginBottom: "20px"}}>
+        <div style={{border: "1px solid #ccc", borderRadius: "15px", padding: "20px", marginBottom: "20px"}}>
 
             <h2>AI 발달 팁</h2>
 
-            <h3>{babyMonth}개월 아가</h3>
+            <h3>{babyMonth !== null ? `${babyMonth}개월 아가` : "월령 정보 없음"}</h3>
 
-            <p>{currentTip}</p>
+            <p>{tip ? tip.t_content : "아가의 성장에 맞는 발달 팁을 준비 중입니다."}</p>
 
             <button onClick={handleMore}>더 알아보기</button>
         </div>

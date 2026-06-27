@@ -2,15 +2,9 @@ import api from "../Hooks/api";
 
 
 // 공동육아 목록
-export const getPartnerList = async (u_id) => {
+export const getPartnerList = async () => {
   try {
-    console.log("요청 u_id =", u_id);
-
-    const response = await api.get("/parents/list", {
-      params: {
-        u_id,
-      },
-    });
+    const response = await api.get("/parents/list");
 
     console.log("응답 데이터 =", response.data);
 
@@ -39,4 +33,16 @@ export const deletePartner = async (p_id) => {
   });
 
   return response.data;
+};
+
+export const setCurrentBaby = async (b_id) => {
+    const response = await api.put("/parents/current_baby", null, {
+        params: { b_id },
+    });
+    return response.data;
+};
+
+export const getCurrentBaby = async () => {
+    const response = await api.get("/parents/current_baby");
+    return response.data;
 };

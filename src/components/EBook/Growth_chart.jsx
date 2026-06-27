@@ -1,31 +1,55 @@
 import { useState, useEffect } from "react";
-import { getRecord } from "../../services/record_api"; // API 함수 import
+import { getRecord } from "../../services/record_api";
 
 function Growth_chart({ b_id }) {
-  const [data, setData] = useState([]);
+    const [data, setData] = useState([]);
 
-  useEffect(() => {
-    // b_id가 있을 때만 API 호출
-    if (!b_id) return;
+    useEffect(() => {
+        if (!b_id) return;
 
-    const fetchGrowth = async () => {
-      try {
-        // b_id를 파라미터로 전달
-        const result = await getRecords({ b_id }); 
-        setData(result);
-      } catch (error) {
-        console.error("성장 기록 불러오기 실패:", error);
-      }
-    };
-    fetchGrowth();
-  }, [b_id]); // b_id가 바뀔 때마다 다시 호출
+        const fetchGrowth = async () => {
+            try {
+                const result = await getRecord(b_id);
 
-  return (
-    <div>
-      {/* 데이터 활용하여 차트 렌더링 */}
-      {data.length === 0 ? <p>데이터가 없습니다.</p> : <pre>{JSON.stringify(data, null, 2)}</pre>}
-    </div>
-  );
+                if (Array.isArray(result)) {
+                    setData(result);
+                } else {
+                    setData([]);
+                }
+            } catch (error) {
+                console.error("성장 기록 불러오기 실패:", error);
+                setData([]);
+            }
+        };
+
+        fetchGrowth();
+    }, [b_id]);
+
+    if (data.length === 0) {
+        return <p>데이터가 없습니다.</p>;
+    }
+
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>날짜</th>
+                    <th>키(cm)</th>
+                    <th>몸무게(kg)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {data.map((record) => (
+                    <tr key={record.r_id}>
+                        <td>{record.r_date.substring(0, 10)}</td>
+                        <td>{record.r_height}</td>
+                        <td>{record.r_weight}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
 }
 
 export default Growth_chart;

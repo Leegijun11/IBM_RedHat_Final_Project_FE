@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { loginUser } from "../../Services/user_api";
+import { getBabies } from "../../Services/baby_api";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth";
+import { useAuth } from "../../contexts/AuthContext";
 
 
 function Login_form({ setPage }) {
@@ -10,33 +11,35 @@ function Login_form({ setPage }) {
   const { login } = useAuth()
   const navigate = useNavigate()
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  // 로그인
-const handleLogin = async (e) => {
-  e.preventDefault();
+    try {
+      const result = await loginUser({
+        u_account,
+        u_pw,
+      });
 
-  try {
-    const result = await loginUser({
-      u_account,
-      u_pw,
-    });
+      console.log("로그인 응답", result);
 
-    console.log("로그인 응답", result);
+      login(result); // localStorage 없이 메모리(state)에만 저장
 
-    localStorage.setItem(
-      "u_id",
-      result.u_id
-    );
+      try {
+        const babies = await getBabies();
+        if (babies && babies.length > 0) {
+          navigate("/home");
+        } else {
+          navigate("/babyinfo");
+        }
+      } catch (babyError) {
+        navigate("/babyinfo");
+      }
 
-    login(result.u_id);
-
-    navigate("/babyinfo");
-  } catch (error) {
-    console.log(error);
-
-    alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-  }
-};
+    } catch (error) {
+      console.log(error);
+      alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+    }
+  };
 
   return (
     <div>
@@ -56,20 +59,9 @@ const handleLogin = async (e) => {
 
       <hr />
 
-      {/* 회원가입 */}
-      <button onClick={() => setPage("signup")}>
-        회원가입
-      </button>
-
-      {/* 아이디 찾기 */}
-      <button onClick={() => setPage("findAccount")}>
-        아이디 찾기
-      </button>
-
-      {/* 비밀번호 찾기 */}
-      <button onClick={() => setPage("findPassword")}>
-        비밀번호 찾기
-      </button>
+      <button onClick={() => setPage("signup")}>회원가입</button>
+      <button onClick={() => setPage("findAccount")}>아이디 찾기</button>
+      <button onClick={() => setPage("findPassword")}>비밀번호 찾기</button>
     </div>
   );
 }

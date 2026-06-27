@@ -58,3 +58,18 @@ export const deleteUser = async () => {
     const response = await api.delete("/users/del");
     return response.data;
 };
+
+// 프로필 이미지 업로드
+export const uploadUserImage = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response = await api.post("/users/upload_image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data; // { image_url: "..." }
+};
+
+export const getMe = async () => {
+    const response = await api.get("/users/me");
+    return response.data;
+}
