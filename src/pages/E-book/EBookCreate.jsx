@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createEBook } from "../../services/ebook_api";
 import { getBabies } from "../../services/baby_api";
-
+import NaviBar from "../../components/common/NaviBar";
 function EBookCreate() {
     const navigate = useNavigate();
 
@@ -100,6 +100,8 @@ function EBookCreate() {
             <button onClick={handleCreate}>
                 디지털 북 생성
             </button>
+
+            <NaviBar/>
         </div>
     );
 }

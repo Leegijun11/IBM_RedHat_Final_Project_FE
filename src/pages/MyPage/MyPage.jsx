@@ -10,7 +10,7 @@ import Baby_list from "../../components/Baby/Baby_list";
 import Baby_add from "../../components/Baby/Baby_add";
 import Baby_edit_profile from "../../components/Baby/Edit_profile";
 import { getCurrentBaby } from "../../services/partner_api";
-
+import NaviBar from "../../components/common/NaviBar";
 function MyPage() {
   const [user, setUser] = useState(null);
   const [babies, setBabies] = useState([]);
@@ -55,9 +55,9 @@ function MyPage() {
   };
 
   return (
-    <div>
+    <div style={{paddingBottom: "80px"}}>
       <div>
-        <Alarm_list />
+        <Alarm_list onAccept={fetchCurrentUser} />
       </div>
 
       {/* 내 정보 + 로그아웃 + 프로필 수정 버튼 */}
@@ -109,6 +109,7 @@ function MyPage() {
           <Partner_invite onClose={() => setShowInvite(false)} />
         )}
       </div>
+      <NaviBar/>
     </div>
   );
 }

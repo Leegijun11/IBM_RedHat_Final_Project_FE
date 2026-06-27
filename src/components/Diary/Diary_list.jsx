@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDiaryList, deleteDiary } from "../../Services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
-
+import NaviBar from "../common/NaviBar";
 function Diary_list() {
     const navigate = useNavigate();
 
@@ -119,6 +119,8 @@ function Diary_list() {
             <button
                 onClick={() => navigate("/diary/write")}
                 style={{position: "fixed", bottom: "90px", right: "30px", width: "60px", height: "60px", borderRadius: "50%", fontSize: "30px", backgroundColor: "#ff8a65", color: "white", border: "none", cursor: "pointer"}}>+</button>
+
+            <NaviBar/>
         </div>
     );
 }

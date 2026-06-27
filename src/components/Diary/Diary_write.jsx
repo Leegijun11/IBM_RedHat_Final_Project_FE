@@ -4,7 +4,7 @@ import { createOrUpdateLog } from "../../Services/logs_api";
 import { uploadBabyImage } from "../../Services/babyimage_api";
 import { createDiary } from "../../Services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
-
+import NaviBar from "../common/NaviBar";
 function Diary_write() {
     const navigate = useNavigate();
 
@@ -94,6 +94,7 @@ function Diary_write() {
 
                 <button type="submit">기록 저장</button>
             </form>
+            <NaviBar/>
         </div>
     );
 }

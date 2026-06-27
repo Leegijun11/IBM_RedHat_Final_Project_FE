@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getEBook } from "../../services/ebook_api";
 import { getBabies } from "../../services/baby_api";
-
+import NaviBar from "../../components/common/NaviBar";
 import BookCard from "../../components/EBook/Book_card";
 import BookDetail from "../../components/EBook/Book_detail";
 import GrowthChart from "../../components/EBook/Growth_chart";
@@ -139,6 +139,8 @@ function EBookMainPage() {
                     )} */}
                 </>
             )}
+
+            <NaviBar/>
         </div>
     );
 }

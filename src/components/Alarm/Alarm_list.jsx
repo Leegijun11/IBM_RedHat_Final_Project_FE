@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getAlarm, deleteAlarm } from "../../Services/alarm_api";
 import { createPartner } from "../../Services/partner_api";
 
-function Alarm_list() {
+function Alarm_list({onAccept}) {
   const [isOpen, setIsOpen] = useState(false);
   const [alarms, setAlarms] = useState([]);
 
@@ -43,6 +43,7 @@ function Alarm_list() {
       setAlarms((prev) => prev.filter((a) => a.a_id !== alarm.a_id));
 
       alert("공동 양육자 초대를 수락하였습니다.");
+      if (onAccept) onAccept();
     } catch (error) {
       console.error(error);
       alert("초대 수락에 실패하였습니다.");

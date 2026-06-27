@@ -19,7 +19,8 @@ function PartnerInvite({ onClose }) {
       }
     } catch (error) {
       console.error(error);
-      alert("공동 양육자 초대에 실패하였습니다.");
+      const message = error.response?.data?.detail || "공동 양육자 초대에 실패하였습니다."
+      alert(message);
     }
   };
 
