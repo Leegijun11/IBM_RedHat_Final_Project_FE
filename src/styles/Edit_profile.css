@@ -1,0 +1,29 @@
+/* Edit_profile.css */
+/* 앞서 정의한 .signup-container 및 .baby-관련 스타일을 그대로 공유하거나 아래 스타일 추가 */
+
+.baby-profile-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.baby-image-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #EAE2DB;
+}
+
+.submit-btn {
+  margin-top: 24px;
+  width: 100%;
+  padding: 16px;
+  background-color: #F07C60;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}

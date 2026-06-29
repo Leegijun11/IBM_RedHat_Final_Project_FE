@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { getImageUrl } from "../../hooks/imageUrl";
-import { setCurrentBaby } from "../../Services/partner_api"
+import { setCurrentBaby } from "../../Services/partner_api";
 
 function calculateAgeInMonths(birthDateStr) {
   const birth = new Date(birthDateStr);

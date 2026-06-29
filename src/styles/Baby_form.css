@@ -1,0 +1,107 @@
+
+/* 프로필 영역 스타일 */
+.baby-profile-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.baby-image-label {
+  position: relative;
+  cursor: pointer;
+}
+
+.baby-image-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 2px dashed #F5B079; /* 점선 테두리 */
+  background-color: #FFF5F0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #F57E5C;
+}
+
+.placeholder-icon { font-size: 40px; margin-bottom: 8px; }
+.placeholder-text { font-size: 14px; font-weight: 600; }
+
+/* 우측 하단 카메라 아이콘 */
+.camera-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 44px;
+  height: 44px;
+  background-color: #F07C60;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border: 4px solid #FAF4EF; /* 배경색과 맞춰서 아이콘 테두리 처리 */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 타이틀 정렬 */
+.baby-header-section {
+  padding: 60px 24px 30px;
+  text-align: left;
+}
+.baby-sub-title { font-size: 16px; color: #8C7B6D; margin: 0 0 8px 0; }
+.baby-title { font-size: 32px; color: #333; line-height: 1.2; margin: 0; }
+
+.signup-container {
+  width: 390px;
+  height: 844px;
+  margin: 40px auto;
+  background-color: #FAF4EF; /* 배경 제거하고 깔끔한 색상만 */
+  display: flex;
+  flex-direction: column;
+  font-family: 'Pretendard', sans-serif;
+  border-radius: 48px;
+  border: none;
+  box-shadow: none;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* 로고/타이틀 스타일 */
+.app-title-text {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+  margin-top: 60px;
+}
+
+
+/* 상단 텍스트 */
+.app-title-text { color: white; font-size: 24px; font-weight: 800; margin-top: 40px; }
+
+/* 성격 선택 그리드 */
+.personality-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.personality-btn {
+  padding: 12px 0; border-radius: 16px; border: 1px solid #EAE2DB;
+  background: white; color: #8C7B6D; font-size: 13px; cursor: pointer;
+}
+.personality-btn.active {
+  background-color: #F07C60; color: white; border-color: #F07C60;
+}
+
+/* 성별 선택 등 */
+.row-inputs { display: flex; gap: 12px; }
+.half { flex: 1; }
+
+.skip-btn {
+  background: none; border: none; color: #A3968C; font-size: 13px;
+  text-decoration: underline; cursor: pointer; margin-top: 10px;
+}

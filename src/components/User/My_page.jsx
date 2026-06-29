@@ -1,16 +1,17 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from './../../Services/user_api';
-import { getImageUrl } from "../../hooks/imageUrl";
+import Edit_profile from "./Edit_profile";
+import "../../styles/My_page.css";
 
-function My_page({ user, onEditClick }) {
+function My_page({ user, setUser }) {
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
-  // 로그아웃
+  // 로그아웃 함수 추가! (에러 해결)
   const handleLogout = async () => {
     try {
-      const result = await logoutUser();
-      console.log(result);
-
+      await logoutUser();
       alert("정상적으로 로그아웃 되었습니다.");
       navigate("/");
     } catch (error) {
@@ -19,31 +20,34 @@ function My_page({ user, onEditClick }) {
     }
   };
 
+  // 수정 완료 후 상태 초기화
+  const handleSuccess = () => {
+    setIsEditing(false);
+  };
+
+  if (isEditing) {
+    return <Edit_profile user={user} onClose={() => setIsEditing(false)} onSuccess={handleSuccess} />;
+  }
+
   return (
-    <div>
-      <h2>마이페이지</h2>
+    <div className="signup-container">
+      <div className="my-header-section">
+        <h2 className="my-page-title">마이페이지</h2>
+        <div className="alarm-icon">🔔</div>
+      </div>
 
-      {user && (
-        <>
-          {user.u_image && (
-            <img
-              src={getImageUrl(user.u_image)}
-              alt="프로필"
-              width="80"
-              height="80"
-              style={{ borderRadius: "50%", objectFit: "cover" }}
-            />
-          )}
-          <p>아이디 : {user.u_account}</p>
-          <p>이름 : {user.u_name}</p>
-          <p>닉네임 : {user.u_nickname}</p>
-          <p>이메일 : {user.u_email}</p>
-          <p>전화번호 : {user.u_phone}</p>
-        </>
-      )}
+      <div className="profile-card">
+        <h3 className="user-nickname">{user?.u_nickname || "사용자"}</h3>
+        <p className="user-meta">@{user?.u_account || "아이디"} · 2024년 1월 가입</p>
+        
+        <button className="edit-btn" onClick={() => setIsEditing(true)}>
+          ✏️ 프로필 수정
+        </button>
+      </div>
 
-      <button onClick={onEditClick}>프로필 수정</button>
-      <button onClick={handleLogout}>로그아웃</button>
+      <button className="logout-btn" onClick={handleLogout}>
+        로그아웃
+      </button>
     </div>
   );
 }

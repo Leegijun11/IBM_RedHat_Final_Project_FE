@@ -1,0 +1,40 @@
+/* 하단 고정 네비게이션바 */
+.navibar-wrap {
+    width: 390px;
+    height: 80px;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    left: 50%; /* 화면 중앙 정렬 */
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #EAE2DB;
+    z-index: 1000;
+}
+
+.navibar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #BDBDBD; /* 비활성 색상 */
+    transition: color 0.2s;
+}
+
+/* 활성화 상태 (색상 변경) */
+.navibar-item.active {
+    color: #F57E5C;
+}
+
+.nav-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.nav-label {
+    font-size: 11px;
+    font-weight: 700;
+}
