@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTipList } from "../../services/tip_api";
+import { getCurrentBaby } from "../../services/partner_api";
 import { getBabies } from "../../services/baby_api";
 
 function Tip_card() {
@@ -12,6 +13,7 @@ function Tip_card() {
         const fetchData = async () => {
             try {
                 const baby = await getCurrentBaby();
+                console.log("현재 아이 =", baby);
                 const birthDate = new Date(baby.b_birth);
                 const today = new Date();
 
