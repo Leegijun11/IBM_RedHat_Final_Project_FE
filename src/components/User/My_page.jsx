@@ -1,24 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { logoutUser } from './../../Services/user_api';
 import { getImageUrl } from "../../hooks/imageUrl";
 
 function My_page({ user, onEditClick }) {
-  const navigate = useNavigate();
-
-  // 로그아웃
-  const handleLogout = async () => {
-    try {
-      const result = await logoutUser();
-      console.log(result);
-
-      alert("정상적으로 로그아웃 되었습니다.");
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-      alert("로그아웃 실패.");
-    }
-  };
-
   return (
     <div>
       <h2>마이페이지</h2>
@@ -43,7 +25,6 @@ function My_page({ user, onEditClick }) {
       )}
 
       <button onClick={onEditClick}>프로필 수정</button>
-      <button onClick={handleLogout}>로그아웃</button>
     </div>
   );
 }

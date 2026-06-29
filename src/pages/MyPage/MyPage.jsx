@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getMe } from "../../services/user_api";
 import { getBabies } from "../../services/baby_api";
+import { getCurrentBaby } from "../../services/partner_api";
 import Partner_invite from "../../components/Partner/Partner_Invite";
 import Alarm_list from "../../components/Alarm/Alarm_list";
 import Partner_list from "../../components/Partner/Partner_list";
@@ -9,8 +10,9 @@ import User_edit_profile from "../../components/User/Edit_profile";
 import Baby_list from "../../components/Baby/Baby_list";
 import Baby_add from "../../components/Baby/Baby_add";
 import Baby_edit_profile from "../../components/Baby/Edit_profile";
-import { getCurrentBaby } from "../../services/partner_api";
+import Account_settings from "../../components/User/Account_settings";
 import NaviBar from "../../components/common/NaviBar";
+
 function MyPage() {
   const [user, setUser] = useState(null);
   const [babies, setBabies] = useState([]);
@@ -33,7 +35,6 @@ function MyPage() {
         const current = await getCurrentBaby();
         setSelectedBabyId(current.b_id);
       } catch (error) {
-        // 현재 아이가 아직 설정 안 됐으면 첫 번째로 fallback
         if (babyResult && babyResult.length > 0) {
           setSelectedBabyId(babyResult[0].b_id);
         }
@@ -48,19 +49,18 @@ function MyPage() {
     fetchCurrentUser();
   }, []);
 
-  // 아이 수정 버튼 클릭 → 해당 baby 객체로 수정창 오픈
   const handleEditBaby = (b_id) => {
     const target = babies.find((baby) => baby.b_id === b_id);
     setEditingBaby(target);
   };
 
   return (
-    <div style={{paddingBottom: "80px"}}>
+    <div style={{ paddingBottom: "80px" }}>
       <div>
         <Alarm_list onAccept={fetchCurrentUser} />
       </div>
 
-      {/* 내 정보 + 로그아웃 + 프로필 수정 버튼 */}
+      {/* 내 정보 + 프로필 수정 버튼 */}
       <My_page user={user} onEditClick={() => setShowUserEdit(true)} />
 
       {showUserEdit && (
@@ -109,7 +109,12 @@ function MyPage() {
           <Partner_invite onClose={() => setShowInvite(false)} />
         )}
       </div>
-      <NaviBar/>
+
+      <hr />
+
+      <Account_settings />
+
+      <NaviBar />
     </div>
   );
 }

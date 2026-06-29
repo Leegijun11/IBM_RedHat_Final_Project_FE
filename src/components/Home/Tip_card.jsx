@@ -12,6 +12,8 @@ function Tip_card() {
         const fetchData = async () => {
             try {
                 const baby = await getCurrentBaby();
+                console.log("현재 아이 =", baby);
+
                 const birthDate = new Date(baby.b_birth);
                 const today = new Date();
                 let months = (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
@@ -19,7 +21,12 @@ function Tip_card() {
                 setBabyMonth(months);
 
                 const tips = await getTipList(months);
-                if (tips && tips.length > 0) { setTip(tips[0]); }
+
+                if (tips && tips.length > 0) {
+                    setTip(tips[0]);
+                } else {
+                    setTip(null);
+                }
             } catch (error) {
                 console.log(error);
                 setTip(null);
@@ -28,15 +35,30 @@ function Tip_card() {
         fetchData();
     }, []);
 
+    const handleMore = () => {
+        navigate("/tips");
+    }
+
     return (
         <div className="home-card-base">
             <div className="tip-card-header-wrap">
                 <div className="tip-icon-badge">✨</div>
                 <h2 className="tip-card-title">AI 발달 팁 · 오늘</h2>
-                <span className="tip-card-month-badge">{babyMonth !== null ? `${babyMonth}개월` : "-개"}</span>
+                <span className="tip-card-month-badge">
+                    {babyMonth !== null ? `${babyMonth}개월` : ""}
+                </span>
             </div>
-            <p className="tip-card-content">{tip ? tip.t_content : "아가의 성장에 맞는 발달 팁을 준비 중입니다."}</p>
-            <button className="tip-card-link-btn" onClick={() => navigate("/tips")}>더 알아보기 <span>＞</span></button>
+
+            {tip ? (
+                <>
+                    <h3 className="tip-card-content" style={{ marginBottom: "4px" }}>{tip.t_title}</h3>
+                    <p className="tip-card-content">{tip.t_content}</p>
+                </>
+            ) : (
+                <p className="tip-card-content">해당 월령의 발달 팁이 없습니다.</p>
+            )}
+
+            <button className="tip-card-link-btn" onClick={handleMore}>더 알아보기 <span>＞</span></button>
         </div>
     );
 }
