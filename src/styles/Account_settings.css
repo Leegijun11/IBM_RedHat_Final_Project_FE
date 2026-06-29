@@ -1,0 +1,43 @@
+/* src/styles/Account_settings.css */
+
+.account-settings-container {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+/* 로그아웃 버튼 */
+.logout-btn {
+  flex: 1;
+  padding: 14px;
+  background-color: #F2E8E0;
+  color: #5D5046;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #EAE2DB;
+}
+
+/* 회원 탈퇴 버튼 */
+.delete-btn {
+  flex: 1;
+  padding: 14px;
+  background-color: #FFF2F2;
+  color: #E63946;
+  border: 1px solid #FFD6D6;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #FFE5E5;
+}

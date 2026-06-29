@@ -1,15 +1,36 @@
 import { useState } from "react";
-import "../../styles/Find_account.css"; // 디자인 스타일 재사용
+import { findPassword } from "../../Services/user_api";
 
 function Find_password({ setPage }) {
     const [u_account, setU_account] = useState("");
     const [u_name, setU_name] = useState("");
     const [u_email, setU_email] = useState("");
     const [u_phone, setU_phone] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleFindPassword = (e) => {
+    // 비밀번호 찾기
+    const handleFindPassword = async (e) => {
         e.preventDefault();
-        alert("비밀번호 찾기 기능은 아직 준비 중입니다.");
+        setLoading(true);
+
+        try {
+            const result = await findPassword({
+                u_account,
+                u_name,
+                u_email,
+                u_phone,
+            });
+
+            console.log(result);
+            alert(result.message || "임시 비밀번호가 이메일로 전송되었습니다.");
+            setPage("login");
+        } catch (error) {
+            console.log(error);
+            const message = error.response?.data?.detail || "비밀번호 찾기에 실패하였습니다.";
+            alert(message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -48,7 +69,10 @@ function Find_password({ setPage }) {
                         <input className="signup-input" type="text" placeholder="전화번호" value={u_phone} onChange={(e) => setU_phone(e.target.value)} />
                     </div>
 
-                    <button type="submit" className="submit-btn">비밀번호 찾기</button>
+                    {/* 중복된 버튼을 하나로 합치고 loading 상태 적용 */}
+                    <button type="submit" className="submit-btn" disabled={loading}>
+                        {loading ? "처리 중..." : "비밀번호 찾기"}
+                    </button>
                 </form>
 
                 <button className="back-to-login" onClick={() => setPage("login")}>

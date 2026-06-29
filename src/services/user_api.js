@@ -73,3 +73,10 @@ export const getMe = async () => {
     const response = await api.get("/users/me");
     return response.data;
 }
+
+export const findPassword = async ({ u_account, u_name, u_email, u_phone }) => {
+    const response = await api.post("/users/find_pw", null, {
+        params: { u_account, u_name, u_email, u_phone },
+    });
+    return response.data;
+};

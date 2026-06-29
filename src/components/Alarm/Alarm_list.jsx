@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { getAlarm, deleteAlarm } from "../../Services/alarm_api";
 import { createPartner } from "../../Services/partner_api";
+import "../../styles/Alarm_list.css";
 
-function Alarm_list({onAccept}) {
+function Alarm_list({ onAccept }) {
   const [isOpen, setIsOpen] = useState(false);
   const [alarms, setAlarms] = useState([]);
 
   const fetchAlarms = async () => {
     try {
       const result = await getAlarm();
-
       console.log("알람 목록", result);
-
       setAlarms(Array.isArray(result) ? result : []);
     } catch (error) {
       console.error(error);
@@ -23,11 +22,9 @@ function Alarm_list({onAccept}) {
     if (!isOpen) {
       fetchAlarms();
     }
-
     setIsOpen((prev) => !prev);
   };
 
-  // 수락
   const handleAccept = async (alarm) => {
     try {
       await createPartner({
@@ -39,7 +36,6 @@ function Alarm_list({onAccept}) {
       });
 
       await deleteAlarm(alarm.a_id);
-
       setAlarms((prev) => prev.filter((a) => a.a_id !== alarm.a_id));
 
       alert("공동 양육자 초대를 수락하였습니다.");
@@ -50,13 +46,10 @@ function Alarm_list({onAccept}) {
     }
   };
 
-  // 거절 (삭제)
   const handleDelete = async (a_id) => {
     try {
       await deleteAlarm(a_id);
-
       setAlarms((prev) => prev.filter((alarm) => alarm.a_id !== a_id));
-
       alert("알람이 삭제되었습니다.");
     } catch (error) {
       console.error(error);
@@ -65,31 +58,32 @@ function Alarm_list({onAccept}) {
   };
 
   return (
-    <div>
-      <button onClick={handleOpen}>알람함</button>
+    <div className="alarm-container">
+      {/* 종 모양 버튼 */}
+      <button className="alarm-bell-btn" onClick={handleOpen}>
+        <span className="bell-icon">🔔</span>
+        {/* 새 알림이 있을 때 보여줄 빨간 점 (선택 사항) */}
+        {alarms.length > 0 && <span className="alarm-dot"></span>}
+      </button>
 
+      {/* 드롭다운 형태의 알림 목록 */}
       {isOpen && (
-        <div>
+        <div className="alarm-dropdown">
           {alarms.length === 0 ? (
-            <p>받은 알람이 없습니다.</p>
+            <div className="alarm-empty">받은 알람이 없습니다.</div>
           ) : (
             alarms.map((alarm) => (
-              <div
-                key={alarm.a_id}
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "10px",
-                  marginBottom: "10px",
-                }}
-              >
-                <p>공동 양육자 초대 알림</p>
-
-                <p>보낸 사람 ID : {alarm.send_id}</p>
-
-                <p>그룹 ID : {alarm.g_id}</p>
-
-                <button onClick={() => handleAccept(alarm)}>수락</button>
-                <button onClick={() => handleDelete(alarm.a_id)}>거절</button>
+              <div key={alarm.a_id} className="alarm-item">
+                <div className="alarm-content">
+                  <p className="alarm-title">공동 양육자 초대 알림</p>
+                  <p className="alarm-text">보낸 사람 ID : {alarm.send_id}</p>
+                  <p className="alarm-text">그룹 ID : {alarm.g_id}</p>
+                </div>
+                
+                <div className="alarm-actions">
+                  <button className="accept-btn" onClick={() => handleAccept(alarm)}>수락</button>
+                  <button className="reject-btn" onClick={() => handleDelete(alarm.a_id)}>거절</button>
+                </div>
               </div>
             ))
           )}

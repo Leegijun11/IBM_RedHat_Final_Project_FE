@@ -1,0 +1,86 @@
+/* src/styles/Partner_invite.css */
+
+.invite-dropdown {
+  width: 100%;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #FDF9F5;
+  border-radius: 20px;
+  border: 1px dashed #F5B079;
+  box-sizing: border-box;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.invite-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #5D5046;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.invite-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.invite-input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #EAE2DB;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  background: white;
+}
+
+.invite-input:focus {
+  border-color: #F07C60;
+}
+
+.invite-btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* 🎨 꾸며진 버튼 스타일 */
+.submit-btn {
+  flex: 1;
+  padding: 14px;
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(245, 126, 92, 0.2);
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 14px;
+  background: #EAE2DB;
+  color: #5D5046;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancel-btn:hover {
+  background-color: #D6CCC4;
+}

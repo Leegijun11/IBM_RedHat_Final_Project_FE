@@ -1,29 +1,115 @@
-/* Edit_profile.css */
-/* 앞서 정의한 .signup-container 및 .baby-관련 스타일을 그대로 공유하거나 아래 스타일 추가 */
+/* src/styles/Edit_profile.css */
 
-.baby-profile-section {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
+/* 전체 드롭다운 애니메이션 */
+.profile-edit-dropdown {
+  width: 100%;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #FDF9F5;
+  border-radius: 16px;
+  border: 1px dashed #F5B079;
+  box-sizing: border-box;
+  animation: slideDown 0.3s ease-out;
 }
 
-.baby-image-circle {
-  width: 120px;
-  height: 120px;
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 프로필 사진 섹션 */
+.profile-image-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.image-label {
+  cursor: pointer;
+  position: relative;
+  display: inline-block; /* 핵심: 내용물 크기로 제한하여 중앙 정렬 보장 */
+  margin: 0 auto;
+}
+
+.image-circle {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
   border: 1px solid #EAE2DB;
+  background-color: #f9f9f9;
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border: 1px solid #EAE2DB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 입력 필드 스타일 */
+.input-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #A3968C;
+  margin-bottom: 4px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #EAE2DB;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  background-color: white;
+}
+
+.input-field:focus {
+  border-color: #F07C60;
+}
+
+/* 버튼 그룹 (대칭 맞춤) */
+.btn-group {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.submit-btn, .skip-btn {
+  flex: 1; /* 대칭을 위해 1:1 비율 적용 */
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .submit-btn {
-  margin-top: 24px;
-  width: 100%;
-  padding: 16px;
-  background-color: #F07C60;
+  background: #F07C60;
   color: white;
-  border: none;
-  border-radius: 16px;
-  font-weight: 700;
-  cursor: pointer;
+}
+
+.skip-btn {
+  background: #EAE2DB;
+  color: #5D5046;
 }

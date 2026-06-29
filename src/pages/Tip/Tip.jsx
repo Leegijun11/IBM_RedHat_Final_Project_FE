@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getTipList } from "../../Services/tip_api";
-import { getBabies } from "../../Services/baby_api";
+import { getCurrentBaby } from "../../Services/partner_api";
 
 function Tip() {
   const [tipList, setTipList] = useState([]);
@@ -8,15 +8,15 @@ function Tip() {
 
   const handleGetTipList = async () => {
     try {
-      const babies = await getBabies();
-      if (!babies || babies.length === 0) {
+      const baby = await getCurrentBaby();
+      if (!baby) {
         setTipList([]);
         return;
       }
 
-      const baby = babies[0];
       const birthDate = new Date(baby.b_birth);
-      const today = new Date();
+      const today = new Date;
+
 
       let months =
         (today.getFullYear() - birthDate.getFullYear()) * 12 +
