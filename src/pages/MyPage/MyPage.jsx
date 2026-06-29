@@ -12,6 +12,7 @@ import Baby_add from "../../components/Baby/Baby_add";
 import Baby_edit_profile from "../../components/Baby/Edit_profile";
 import Account_settings from "../../components/User/Account_settings";
 import NaviBar from "../../components/common/NaviBar";
+import "../../styles/MyPage.css";
 
 function MyPage() {
   const [user, setUser] = useState(null);
@@ -21,98 +22,62 @@ function MyPage() {
   const [showUserEdit, setShowUserEdit] = useState(false);
   const [editingBaby, setEditingBaby] = useState(null);
 
-  // 유저 정보 + 아이 목록 조회
   const fetchCurrentUser = async () => {
     try {
       const userResult = await getMe();
-      console.log(userResult);
       setUser(userResult);
-
       const babyResult = await getBabies();
       setBabies(babyResult || []);
-
       try {
         const current = await getCurrentBaby();
         setSelectedBabyId(current.b_id);
       } catch (error) {
-        if (babyResult && babyResult.length > 0) {
-          setSelectedBabyId(babyResult[0].b_id);
-        }
+        if (babyResult && babyResult.length > 0) setSelectedBabyId(babyResult[0].b_id);
       }
     } catch (error) {
-      console.log(error);
-      alert("유저 정보 확인에 실패했습니다.");
+      alert("데이터 로드에 실패했습니다.");
     }
   };
 
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
-
-  const handleEditBaby = (b_id) => {
-    const target = babies.find((baby) => baby.b_id === b_id);
-    setEditingBaby(target);
-  };
+  useEffect(() => { fetchCurrentUser(); }, []);
 
   return (
-    <div style={{ paddingBottom: "80px" }}>
-      <div>
+    <div className="mypage-container">
+      <div className="mypage-header">
         <Alarm_list onAccept={fetchCurrentUser} />
       </div>
 
-      {/* 내 정보 + 프로필 수정 버튼 */}
-      <My_page user={user} onEditClick={() => setShowUserEdit(true)} />
-
-      {showUserEdit && (
-        <User_edit_profile
-          user={user}
-          onClose={() => setShowUserEdit(false)}
-          onSuccess={fetchCurrentUser}
-        />
-      )}
-
-      <hr />
-
-      <div>
-        <h3>아이 프로필 관리</h3>
-
-        <Baby_list
-          babies={babies}
-          selectedBabyId={selectedBabyId}
-          onSelect={setSelectedBabyId}
-          onEdit={handleEditBaby}
-        />
-
-        {editingBaby && (
-          <Baby_edit_profile
-            baby={editingBaby}
-            onClose={() => setEditingBaby(null)}
+      <div className="mypage-section">
+        {/* 프로필 수정이 이 바로 아래로 슬라이드 다운 됩니다 */}
+        <My_page user={user} onEditClick={() => setShowUserEdit(!showUserEdit)} />
+        {showUserEdit && (
+          <User_edit_profile
+            user={user}
+            onClose={() => setShowUserEdit(false)}
             onSuccess={fetchCurrentUser}
           />
         )}
+      </div>
 
+      <div className="mypage-section">
+        <h3 className="section-title">아이 프로필 관리</h3>
+        <Baby_list babies={babies} selectedBabyId={selectedBabyId} onSelect={setSelectedBabyId} onEdit={(b_id) => setEditingBaby(babies.find(b => b.b_id === b_id))} />
+        {editingBaby && <Baby_edit_profile baby={editingBaby} onClose={() => setEditingBaby(null)} onSuccess={fetchCurrentUser} />}
         <Baby_add onSuccess={fetchCurrentUser} />
       </div>
 
-      <hr />
-
-      <div>
-        <h3>공동 양육자 관리</h3>
-
+      <div className="mypage-section">
+        <h3 className="section-title">공동 양육자 관리</h3>
         <Partner_list />
-
         {!showInvite && (
-          <button onClick={() => setShowInvite(true)}>공동 양육자 초대</button>
+          <button className="invite-btn" onClick={() => setShowInvite(true)}>+ 공동 양육자 초대</button>
         )}
-
-        {showInvite && (
-          <Partner_invite onClose={() => setShowInvite(false)} />
-        )}
+        {showInvite && <Partner_invite onClose={() => setShowInvite(false)} />}
       </div>
 
-      <hr />
-
-      <Account_settings />
+      <div className="mypage-section">
+        <Account_settings />
+      </div>
 
       <NaviBar />
     </div>

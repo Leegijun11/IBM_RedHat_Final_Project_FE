@@ -1,0 +1,124 @@
+/* src/styles/Alarm_list.css */
+
+.alarm-container {
+  position: relative; /* 드롭다운을 띄우기 위한 기준점 */
+  display: inline-block;
+}
+
+/* 상단 종 모양 버튼 (피그마 디자인 참고) */
+.alarm-bell-btn {
+  background-color: rgba(255, 255, 255, 0.25);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.bell-icon {
+  font-size: 20px;
+}
+
+/* 새 알림 표시 점 (선택적) */
+.alarm-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: #F57E5C;
+  border-radius: 50%;
+  border: 1px solid white;
+}
+
+/* 드롭다운 알림창 */
+.alarm-dropdown {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  width: 280px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid #EAE2DB;
+  padding: 12px;
+  z-index: 100; /* 다른 요소들 위로 올라오게 함 */
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.alarm-empty {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #A3968C;
+}
+
+/* 개별 알림 아이템 */
+.alarm-item {
+  background-color: #FDF9F5;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #F3EDE8;
+}
+
+.alarm-item:last-child {
+  margin-bottom: 0;
+}
+
+.alarm-content {
+  margin-bottom: 12px;
+}
+
+.alarm-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.alarm-text {
+  font-size: 12px;
+  color: #777;
+  margin: 0 0 2px 0;
+}
+
+/* 수락/거절 버튼 그룹 */
+.alarm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.accept-btn {
+  flex: 1;
+  padding: 8px;
+  background-color: #F07C60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reject-btn {
+  flex: 1;
+  padding: 8px;
+  background-color: #EAE2DB;
+  color: #5D5046;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
