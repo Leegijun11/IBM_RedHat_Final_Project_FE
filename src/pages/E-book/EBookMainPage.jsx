@@ -27,7 +27,6 @@ function EBookMainPage() {
         } catch (error) {
             console.log(error);
             setBooks([]);
-            alert("디지털북 목록을 불러오는데 실패했습니다.");
         }
     };
 
