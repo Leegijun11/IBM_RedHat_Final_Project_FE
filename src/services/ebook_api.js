@@ -1,21 +1,27 @@
 import api from "../hooks/api";
 
-export const createEBook = async () => { // 매개변수 뭘 받아야하지
-    const response = await api.post("/stories/create",)
+// 생성
+export const createEBook = async (story) => {
+    const response = await api.post("/stories/create", story);
     return response.data;
-}
+};
 
-export const getEBook = async (u_id) => {
-    const response = await api.get("/stories/list",{ params : {u_id}})
+// 목록
+export const getEBook = async (b_id) => {
+    const response = await api.get("/stories/list", {
+        params: { b_id }
+    });
     return response.data;
-}
+};
 
+// 상세
 export const getEBookDetail = async (s_id) => {
-    const response = await api.get(`/stories/${s_id}`)
+    const response = await api.get(`/stories/${s_id}`);
     return response.data;
-}
+};
 
+// 삭제
 export const deleteEBook = async (s_id) => {
-    const response = await api.delete("/stories/del",{data : {s_id}});
+    const response = await api.delete(`/stories/del/${s_id}`);
     return response.data;
-}
+};

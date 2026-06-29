@@ -69,3 +69,40 @@ export const searchUser = async (u_account) => {
 
     return response.data;
 };
+
+// 프로필 이미지 업로드
+export const uploadUserImage = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await api.post("/users/upload_image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    return response.data;
+};
+
+// 내 정보 조회
+export const getMe = async () => {
+    const response = await api.get("/users/me");
+    return response.data;
+};
+
+// 비밀번호 찾기
+export const findPassword = async ({
+    u_account,
+    u_name,
+    u_email,
+    u_phone,
+}) => {
+    const response = await api.post("/users/find_pw", null, {
+        params: {
+            u_account,
+            u_name,
+            u_email,
+            u_phone,
+        },
+    });
+
+    return response.data;
+};

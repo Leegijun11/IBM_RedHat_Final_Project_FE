@@ -1,45 +1,29 @@
 import { useState } from "react";
 import { getAlarm, deleteAlarm } from "../../Services/alarm_api";
-import {
-  findPartner,
-  updatePartner,
-  deletePartner,
-} from "../../Services/partner_api";
-import useAuth from "../../Hooks/useAuth";
-import AlarmModal from "./Alarm_modal";
+import { createPartner } from "../../Services/partner_api";
 
-function Alarm_list() {
-  console.log("Alarm_list 렌더링");
-
-  const { my_id } = useAuth();
-
+function Alarm_list({ onAccept }) {
   const [isOpen, setIsOpen] = useState(false);
   const [alarms, setAlarms] = useState([]);
-  const [selectedAlarm, setSelectedAlarm] = useState(null);
 
   // 알람 조회
   const fetchAlarms = async () => {
-    console.log("FetchAlarms 호출됨");
-
     try {
-      const result = await getAlarm(my_id);
-
-      console.log("알람 목록", result);
-
+      const result = await getAlarm();
       setAlarms(Array.isArray(result) ? result : []);
     } catch (error) {
       if (error.response?.status === 404) {
         setAlarms([]);
+      } else {
+        console.error(error);
+        setAlarms([]);
       }
-      console.error(error);
-      alert("알람을 불러오는데 실패하였습니다.");
     }
   };
 
   // 알람함 열기
   const handleOpen = () => {
     const next = !isOpen;
-
     setIsOpen(next);
 
     if (next) {
@@ -50,54 +34,34 @@ function Alarm_list() {
   // 수락
   const handleAccept = async (alarm) => {
     try {
-      // 양육자 찾기
-      const partner = await findPartner(
-        alarm.send_id,
-        alarm.g_id
-      );
-
-      // 상태 변경
-      await updatePartner(partner.p_id, {
-        p_role: partner.p_role,
-        p_category: partner.p_category,
-        p_state: "승인",
-        current_b_id: partner.current_b_id,
+      await createPartner({
+        p_role: "parent",
+        p_category: "guardian",
+        p_state: "active",
+        g_id: alarm.g_id,
+        u_id: alarm.receive_id,
       });
 
-      // 알람 삭제
       await deleteAlarm(alarm.a_id);
 
-      alert("수락 되었습니다.");
+      setAlarms((prev) => prev.filter((a) => a.a_id !== alarm.a_id));
 
-      setSelectedAlarm(null);
+      alert("공동 양육자 초대를 수락하였습니다.");
 
-      fetchAlarms();
+      if (onAccept) {
+        onAccept();
+      }
     } catch (error) {
       console.error(error);
-      alert("수락에 실패하였습니다.");
+      alert("초대 수락에 실패하였습니다.");
     }
   };
 
   // 거절
-  const handleReject = async (alarm) => {
+  const handleDelete = async (a_id) => {
     try {
-      // 양육자 찾기
-      const partner = await findPartner(
-        alarm.send_id,
-        alarm.g_id
-      );
-
-      // 공동 양육자 삭제
-      await deletePartner(partner.p_id);
-
-      // 알람 삭제
-      await deleteAlarm(alarm.a_id);
-
-      alert("거절 되었습니다.");
-
-      setSelectedAlarm(null);
-
-      fetchAlarms();
+      await deleteAlarm(a_id);
+      setAlarms((prev) => prev.filter((alarm) => alarm.a_id !== a_id));
     } catch (error) {
       console.error(error);
       alert("거절 처리에 실패했습니다.");
@@ -135,22 +99,20 @@ function Alarm_list() {
                 </p>
 
                 <p>공동 양육자로 초대되었습니다.</p>
+                <p>그룹 ID : {alarm.g_id}</p>
 
-                <button onClick={() => setSelectedAlarm(alarm)}>
-                  열기
+                <button onClick={() => handleAccept(alarm)}>
+                  수락
+                </button>
+
+                <button onClick={() => handleDelete(alarm.a_id)}>
+                  거절
                 </button>
               </div>
             ))
           )}
         </div>
       )}
-
-      <AlarmModal
-        alarm={selectedAlarm}
-        onAccept={handleAccept}
-        onReject={handleReject}
-        onClose={() => setSelectedAlarm(null)}
-      />
     </div>
   );
 }

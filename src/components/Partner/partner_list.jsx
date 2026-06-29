@@ -1,39 +1,26 @@
 import { useEffect, useState } from "react";
 import { getPartnerList, deletePartner } from "../../Services/partner_api";
-import useAuth from "../../Hooks/useAuth";
+import { getImageUrl } from "../../hooks/imageUrl";
 
 function PartnerList() {
-  const { my_id } = useAuth();
-
-  console.log("partnerList my_id =", my_id)
-
   const [partnerList, setPartnerList] = useState([]);
 
   const handleGetPartnerList = async () => {
-    if (!my_id) {
-      console.log("my_id 없음 :", my_id);
-      return;
-    }
-
     try {
-      const result = await getPartnerList(my_id);
+      const result = await getPartnerList();
 
       console.log("목록결과", result);
 
       setPartnerList(result);
     } catch (error) {
       console.error(error);
-
-      alert("공동 양육자 목록을 불러오는데 실패하였습니다.");
+      setPartnerList([]);
     }
   };
 
   useEffect(() => {
-    console.log("useEffect my_id =", my_id);
-
-    if (!my_id) return;
     handleGetPartnerList();
-  }, [my_id]);
+  }, []);
 
   const handleDeletePartner = async (p_id) => {
     try {
@@ -53,25 +40,42 @@ function PartnerList() {
     <div>
       <h2>공동 양육자 목록</h2>
 
-      {partnerList.map((partner) => (
-        <div
-          key={partner.p_id}
-          style={{
-            border: "1px solid #ddd",
-            padding: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          <p>이름 : {partner.u_name}</p>
-          <p>역할 : {partner.p_role}</p>
-          <p>관계 : {partner.p_category}</p>
-          <p>상태 : {partner.p_state}</p>
+      {partnerList.length === 0 ? (
+        <p>등록된 공동 양육자가 없습니다.</p>
+      ) : (
+        partnerList.map((partner) => (
+          <div
+            key={partner.p_id}
+            style={{
+              border: "1px solid #ddd",
+              padding: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            {partner.u_image && (
+              <img
+                src={getImageUrl(partner.u_image)}
+                alt={partner.u_name}
+                width="40"
+                height="40"
+                style={{
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+            )}
 
-          <button onClick={() => handleDeletePartner(partner.p_id)}>
-            삭제
-          </button>
-        </div>
-      ))}
+            <p>이름 : {partner.u_name}</p>
+            <p>역할 : {partner.p_role}</p>
+            <p>관계 : {partner.p_category}</p>
+            <p>상태 : {partner.p_state}</p>
+
+            <button onClick={() => handleDeletePartner(partner.p_id)}>
+              삭제
+            </button>
+          </div>
+        ))
+      )}
     </div>
   );
 }

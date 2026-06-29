@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
-import { getCurrentUser } from "../../Services/user_api";
-import Partner_invite from "../../Components/Partner/Partner_Invite";
-import Alarm_list from "../../Components/Alarm/Alarm_list";
-import Partner_list from "../../Components/Partner/Partner_list";
-import My_page from "../../Components/User/My_page";
-import User_edit_profile from "../../Components/User/Edit_profile";
-import Baby_list from "../../Components/Baby/Baby_list";
-import Baby_add from "../../Components/Baby/Baby_add";
-import Baby_edit_profile from "../../Components/Baby/Edit_profile";
-import useAuth from "../../Hooks/useAuth";
+import { getMe } from "../../services/user_api";
+import { getBabies } from "../../services/baby_api";
+import { getCurrentBaby } from "../../services/partner_api";
+
+import Partner_invite from "../../components/Partner/Partner_Invite";
+import Alarm_list from "../../components/Alarm/Alarm_list";
+import Partner_list from "../../components/Partner/Partner_list";
+import My_page from "../../components/User/My_page";
+import User_edit_profile from "../../components/User/Edit_profile";
+import Baby_list from "../../components/Baby/Baby_list";
+import Baby_add from "../../components/Baby/Baby_add";
+import Baby_edit_profile from "../../components/Baby/Edit_profile";
+import NaviBar from "../../components/common/NaviBar";
 
 function MyPage() {
-  const { my_id } = useAuth();
   const [user, setUser] = useState(null);
   const [babies, setBabies] = useState([]);
   const [selectedBabyId, setSelectedBabyId] = useState(null);
@@ -19,16 +21,24 @@ function MyPage() {
   const [showUserEdit, setShowUserEdit] = useState(false);
   const [editingBaby, setEditingBaby] = useState(null);
 
-  // 유저 정보 + 아이 목록 한 번에 조회
+  // 유저 정보 + 아이 목록 조회
   const fetchCurrentUser = async () => {
     try {
-      const result = await getCurrentUser(my_id);
-      console.log(result);
-      setUser(result.user);
-      setBabies(result.baby || []);
+      const userResult = await getMe();
+      console.log(userResult);
+      setUser(userResult);
 
-      if (result.baby && result.baby.length > 0) {
-        setSelectedBabyId(result.baby[0].b_id);
+      const babyResult = await getBabies();
+      setBabies(babyResult || []);
+
+      try {
+        const current = await getCurrentBaby();
+        setSelectedBabyId(current.b_id);
+      } catch (error) {
+        // 현재 아이가 설정되지 않은 경우 첫 번째 아이 선택
+        if (babyResult && babyResult.length > 0) {
+          setSelectedBabyId(babyResult[0].b_id);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -37,25 +47,27 @@ function MyPage() {
   };
 
   useEffect(() => {
-    if (my_id) {
-      fetchCurrentUser();
-    }
-  }, [my_id]);
+    fetchCurrentUser();
+  }, []);
 
-  // 아이 수정 버튼 클릭 → 해당 baby 객체로 수정창 오픈
+  // 아이 수정 버튼 클릭
   const handleEditBaby = (b_id) => {
     const target = babies.find((baby) => baby.b_id === b_id);
     setEditingBaby(target);
   };
 
   return (
-    <div>
+    <div style={{ paddingBottom: "80px" }}>
+      {/* 알림 */}
       <div>
-        <Alarm_list />
+        <Alarm_list onAccept={fetchCurrentUser} />
       </div>
 
-      {/* 내 정보 + 로그아웃 + 프로필 수정 버튼 */}
-      <My_page user={user} onEditClick={() => setShowUserEdit(true)} />
+      {/* 내 정보 */}
+      <My_page
+        user={user}
+        onEditClick={() => setShowUserEdit(true)}
+      />
 
       {showUserEdit && (
         <User_edit_profile
@@ -67,6 +79,7 @@ function MyPage() {
 
       <hr />
 
+      {/* 아이 프로필 */}
       <div>
         <h3>아이 프로필 관리</h3>
 
@@ -85,24 +98,31 @@ function MyPage() {
           />
         )}
 
-        <Baby_add />
+        <Baby_add onSuccess={fetchCurrentUser} />
       </div>
 
       <hr />
 
+      {/* 공동 양육자 */}
       <div>
         <h3>공동 양육자 관리</h3>
 
         <Partner_list />
 
         {!showInvite && (
-          <button onClick={() => setShowInvite(true)}>공동 양육자 초대</button>
+          <button onClick={() => setShowInvite(true)}>
+            공동 양육자 초대
+          </button>
         )}
 
         {showInvite && (
-          <Partner_invite onClose={() => setShowInvite(false)} />
+          <Partner_invite
+            onClose={() => setShowInvite(false)}
+          />
         )}
       </div>
+
+      <NaviBar />
     </div>
   );
 }

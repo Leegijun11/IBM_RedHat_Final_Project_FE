@@ -1,15 +1,34 @@
 import { useEffect, useState } from "react";
 import { getTipList } from "../../Services/tip_api";
+import { getBabies } from "../../Services/baby_api";
 
 function Tip() {
   const [tipList, setTipList] = useState([]);
-
-  // 나중에 아기 정보 API에서 받아올 값
-  const b_age = 2;
+  const [babyMonth, setBabyMonth] = useState(null);
 
   const handleGetTipList = async () => {
     try {
-      const result = await getTipList(b_age);
+      const babies = await getBabies();
+      if (!babies || babies.length === 0) {
+        setTipList([]);
+        return;
+      }
+
+      const baby = babies[0];
+      const birthDate = new Date(baby.b_birth);
+      const today = new Date();
+
+      let months =
+        (today.getFullYear() - birthDate.getFullYear()) * 12 +
+        (today.getMonth() - birthDate.getMonth());
+
+      if (today.getDate() < birthDate.getDate()) {
+        months -= 1;
+      }
+
+      setBabyMonth(months);
+
+      const result = await getTipList(months);
 
       console.log("팁 목록 응답 :", result);
 
@@ -21,7 +40,7 @@ function Tip() {
 
     } catch (error) {
       console.log(error);
-      alert("Tip 정보들을 불러오는데 실패하였습니다.");
+      setTipList([]);
     }
   };
 
@@ -32,6 +51,8 @@ function Tip() {
   return (
     <div>
       <h2>AI 발달 팁</h2>
+
+      {babyMonth !== null && <p>{babyMonth}개월 아가 기준</p>}
 
       {tipList.length === 0 ? (
         <p>등록된 Tip이 없습니다.</p>

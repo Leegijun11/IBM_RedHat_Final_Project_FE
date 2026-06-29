@@ -1,24 +1,36 @@
-import useLocalStorage from "./useLocalStorage";
+import { useState, useEffect } from "react";
+import { getMe } from "../services/user_api";
 
 function useAuth() {
-  const [my_id, setMy_id, removeMy_id] = useLocalStorage("u_id");
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (u_id) => {
-    setMy_id(u_id);
+  const checkAuth = async () => {
+    try {
+      const me = await getMe();
+      setUser(me);
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const login = (userData) => {
+    setUser(userData);
   };
 
   const logout = () => {
-    removeMy_id();
+    setUser(null);
   };
 
-  const isLoggedIn = !!my_id;
+  const isLoggedIn = !!user;
 
-  return {
-    my_id,
-    login,
-    logout,
-    isLoggedIn,
-  };
+  return { user, login, logout, isLoggedIn, loading, checkAuth };
 }
 
 export default useAuth;

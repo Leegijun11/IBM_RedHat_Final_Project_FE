@@ -1,27 +1,33 @@
 import { useState } from "react";
-import { updateUser } from "../../services/user_api";
-import useAuth from "../../hooks/useAuth";
+import { updateUser, uploadUserImage } from "../../services/user_api";
 
 function Edit_profile({ user, onClose, onSuccess }) {
-  const { my_id } = useAuth();
   const [u_pw, setU_pw] = useState("");
   const [u_name, setU_name] = useState(user?.u_name || "");
   const [u_nickname, setU_nickname] = useState(user?.u_nickname || "");
   const [u_email, setU_email] = useState(user?.u_email || "");
   const [u_phone, setU_phone] = useState(user?.u_phone || "");
+  const [imageFile, setImageFile] = useState(null);
 
   // 유저 정보 수정
   const handleUpdateUser = async (e) => {
     e.preventDefault();
 
     try {
+      let imagePath = user?.u_image || null;
+
+      if (imageFile) {
+        const uploadResult = await uploadUserImage(imageFile);
+        imagePath = uploadResult.image_url;
+      }
+
       const result = await updateUser({
-        u_id: my_id,
         u_pw,
         u_name,
         u_nickname,
         u_email,
         u_phone,
+        u_image: imagePath,
       });
 
       console.log(result);
@@ -40,6 +46,16 @@ function Edit_profile({ user, onClose, onSuccess }) {
       <h2>프로필 수정</h2>
 
       <form onSubmit={handleUpdateUser}>
+        <div>
+          <label>프로필 사진 변경</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+          {imageFile && <p>{imageFile.name}</p>}
+        </div>
+
         <div>
           <input
             type="password"
