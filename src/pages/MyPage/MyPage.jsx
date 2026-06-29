@@ -11,6 +11,7 @@ import User_edit_profile from "../../components/User/Edit_profile";
 import Baby_list from "../../components/Baby/Baby_list";
 import Baby_add from "../../components/Baby/Baby_add";
 import Baby_edit_profile from "../../components/Baby/Edit_profile";
+import Account_settings from "../../components/User/Account_settings";
 import NaviBar from "../../components/common/NaviBar";
 
 function MyPage() {
@@ -35,7 +36,6 @@ function MyPage() {
         const current = await getCurrentBaby();
         setSelectedBabyId(current.b_id);
       } catch (error) {
-        // 현재 아이가 설정되지 않은 경우 첫 번째 아이 선택
         if (babyResult && babyResult.length > 0) {
           setSelectedBabyId(babyResult[0].b_id);
         }
@@ -121,6 +121,10 @@ function MyPage() {
           />
         )}
       </div>
+
+      <hr />
+
+      <Account_settings />
 
       <NaviBar />
     </div>
