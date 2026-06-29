@@ -38,7 +38,7 @@ function Baby_list({ babies, selectedBabyId, onSelect, onEdit }) {
   };
 
   return (
-    <div>
+    <div className="alarm-wrap">
       {babies.map((baby) => (
         <div
           key={baby.b_id}
