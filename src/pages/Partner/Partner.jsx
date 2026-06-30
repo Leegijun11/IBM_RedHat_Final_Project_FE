@@ -1,4 +1,4 @@
-import PartnerInvite from "../../components/Partner/Partner_Invite";
+import PartnerInvite from "../../components/Partner/partner_Invite";
 import PartnerList from "../../components/Partner/partner_list";
 
 function Partner() {

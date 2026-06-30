@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { getMe } from "../../services/user_api";
 import { getBabies } from "../../services/baby_api";
 import { getCurrentBaby } from "../../services/partner_api";
-import Partner_invite from "../../components/Partner/Partner_Invite";
+import Partner_invite from "../../components/Partner/partner_Invite"
 import Alarm_list from "../../components/Alarm/Alarm_list";
-import Partner_list from "../../components/Partner/Partner_list";
+import Partner_list from "../../components/Partner/partner_list";
 import My_page from "../../components/User/My_page";
 import User_edit_profile from "../../components/User/Edit_profile";
 import Baby_list from "../../components/Baby/Baby_list";
