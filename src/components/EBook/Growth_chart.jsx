@@ -1,54 +1,58 @@
 import { useState, useEffect } from "react";
 import { getRecord } from "../../services/record_api";
+import "../../styles/Growth_chart.css";
 
 function Growth_chart({ b_id }) {
     const [data, setData] = useState([]);
+    // 툴팁 상태 관리
+    const [hoveredData, setHoveredData] = useState(null);
+    const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
-        if (!b_id) return;
-
         const fetchGrowth = async () => {
+            if (!b_id) return;
             try {
                 const result = await getRecord(b_id);
-
-                if (Array.isArray(result)) {
-                    setData(result);
-                } else {
-                    setData([]);
-                }
-            } catch (error) {
-                console.error("성장 기록 불러오기 실패:", error);
-                setData([]);
-            }
+                setData(Array.isArray(result) ? result : []);
+            } catch (error) { setData([]); }
         };
-
         fetchGrowth();
     }, [b_id]);
 
-    if (data.length === 0) {
-        return <p>데이터가 없습니다.</p>;
-    }
+    const handleMouseEnter = (e, record) => {
+        setHoveredData(record);
+        setTooltipPos({ x: e.clientX, y: e.clientY });
+    };
+
+    const maxHeight = data.length > 0 ? Math.max(...data.map(d => Math.max(d.r_height, d.r_weight))) + 20 : 100;
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th>날짜</th>
-                    <th>키(cm)</th>
-                    <th>몸무게(kg)</th>
-                </tr>
-            </thead>
-
-            <tbody>
+        <div className="growth-chart-wrapper">
+            <div className="bar-graph-container">
                 {data.map((record) => (
-                    <tr key={record.r_id}>
-                        <td>{record.r_date.substring(0, 10)}</td>
-                        <td>{record.r_height}</td>
-                        <td>{record.r_weight}</td>
-                    </tr>
+                    <div key={record.r_id} className="graph-item">
+                        <div 
+                            className="bar-wrapper"
+                            onMouseEnter={(e) => handleMouseEnter(e, record)}
+                            onMouseLeave={() => setHoveredData(null)}
+                        >
+                            <div className="bar height-bar" style={{ height: `${(record.r_height / maxHeight) * 100}%` }} />
+                            <div className="bar weight-bar" style={{ height: `${(record.r_weight / maxHeight) * 100}%` }} />
+                        </div>
+                        <span className="graph-date">{record.r_date.substring(5, 7)}월</span>
+                    </div>
                 ))}
-            </tbody>
-        </table>
+            </div>
+
+            {/* 툴팁 컴포넌트 */}
+            {hoveredData && (
+                <div className="chart-tooltip" style={{ left: tooltipPos.x + 10, top: tooltipPos.y - 60 }}>
+                    <p className="tt-date">{hoveredData.r_date.substring(5, 7)}월</p>
+                    <p className="tt-height">키 (cm) : {hoveredData.r_height}</p>
+                    <p className="tt-weight">몸무게 (kg) : {hoveredData.r_weight}</p>
+                </div>
+            )}
+        </div>
     );
 }
 
