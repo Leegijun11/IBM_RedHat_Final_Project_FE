@@ -1,0 +1,588 @@
+/* ==========================================================================
+   0. 공통 변수 (Home.css와 동일하게 통일)
+   ========================================================================== */
+:root {
+  --main-bg: #FAF4EF;
+  --card-white: #FFFFFF;
+  --color-border: #EAE2DB;
+  --text-main: #3A332D;
+  --text-sub: #A3968C;
+  --text-hint: #B5AFA4;
+
+  --color-coral: #F07C60;
+  --color-coral-deep: #F57E5C;
+  --color-coral-light: #F5B079;
+  --color-coral-bg: #FFEFE8;
+
+  --color-purple: #9B8CF5;
+  --color-purple-bg: #F1EEFE;
+
+  --color-green: #4CC9A0;
+  --color-green-bg: #E6F8F1;
+
+  --shadow-light: 0 4px 16px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 6px 16px rgba(0, 0, 0, 0.08);
+
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+}
+
+/* ==========================================================================
+   1. 전체 페이지 레이아웃 (Diary_list.jsx 최상단 div)
+   ========================================================================== */
+.diary-page-wrap {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--main-bg);
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  color: var(--text-main);
+  padding: 20px 20px 100px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* 페이지 헤더 ("성장 일기 📝") */
+.diary-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.diary-page-wrap h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 4px 0 0;
+}
+
+/* hr 구분선 제거 → 보이지 않게 처리 (Home 카드 톤과 안 맞음) */
+.diary-page-wrap hr {
+  display: none;
+}
+
+/* ==========================================================================
+   2. 날짜 선택 영역 (input[type=date] 커스텀)
+   - 시안의 주간 캘린더 대신, 기존 date input을 카드형 박스로 감싼 형태로 대체
+   ========================================================================== */
+.diary-page-wrap input[type="date"] {
+  width: 100%;
+  background-color: var(--card-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-hint);
+  box-sizing: border-box;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.diary-page-wrap input[type="date"]:focus {
+  border-color: var(--color-coral);
+  box-shadow: var(--shadow-card);
+}
+
+/* Chrome/Edge의 달력 아이콘에 코랄 톤 입히기 (필터로 색감만 보정) */
+.diary-page-wrap input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.55) sepia(1) saturate(3) hue-rotate(330deg);
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* ==========================================================================
+   3. 일기 카드 리스트 (Diary_list.jsx의 .map() div)
+   ========================================================================== */
+.diary-card {
+  position: relative;
+  background-color: var(--card-white);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-light);
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.diary-card:active {
+  transform: scale(0.985);
+  box-shadow: var(--shadow-card);
+}
+
+.diary-card h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 8px;
+}
+
+.diary-card p {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.5;
+  margin: 0 0 6px;
+}
+
+/* 작성일(d_date) 텍스트는 우측 상단처럼 보이도록 보조 톤 처리 */
+.diary-card p:last-of-type {
+  font-size: 12px;
+  color: var(--text-hint);
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* 일기 없음 안내 문구 */
+.diary-empty-text {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-sub);
+  padding: 40px 0;
+}
+
+/* ==========================================================================
+   4. 육아 스탯 칩 (d_sleep, d_temp, d_toilet)
+   - d_eat(식사) 칩은 가이드에 따라 스타일 작성하지 않음
+   - 현재 JSX는 <p>식사 : ...</p> 형태의 일반 텍스트라 칩 형태 클래스는
+     아래에 정의해두되, 실제 칩처럼 보이게 하려면 JSX에 className 부여가 필요함.
+     지금은 p 태그 자체를 칩 톤의 inline 텍스트로 최대한 가깝게 스타일링함.
+   ========================================================================== */
+.chip-sleep,
+.chip-temp,
+.chip-toilet {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin: 4px 6px 4px 0;
+}
+
+.chip-sleep {
+  background-color: var(--color-purple-bg);
+  color: var(--color-purple);
+}
+
+.chip-temp {
+  background-color: var(--color-coral-bg);
+  color: var(--color-coral-deep);
+}
+
+.chip-toilet {
+  background-color: var(--color-green-bg);
+  color: var(--color-green);
+}
+
+/* ==========================================================================
+   5. 글쓰기 버튼 (Diary_list.jsx의 + 버튼)
+   ========================================================================== */
+.diary-page-wrap button {
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.diary-page-wrap button:active {
+  opacity: 0.85;
+  transform: scale(0.96);
+}
+
+/* 카드 내부 "삭제" 버튼 별도 톤 (일반 button 셀렉터보다 더 구체적으로) */
+.diary-card button {
+  background-color: var(--main-bg);
+  color: var(--text-sub);
+  border: none;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.diary-card button:active {
+  background-color: var(--color-border);
+}
+
+/* + 버튼(FAB) — 시안 위치: 화면 우측 하단, NaviBar 위 */
+.diary-page-wrap {
+  position: relative;
+}
+
+.diary-write-fab {
+  position: fixed;
+  bottom: 96px; /* NaviBar 높이(약 80px) 위로 여유 확보 */
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(245, 126, 92, 0.35);
+  z-index: 60;
+}
+
+/* 420px보다 넓은 화면(웹 뷰)에서는 가운데 정렬된 페이지 컨테이너 우측 기준으로 보정 */
+@media (min-width: 461px) {
+  .diary-write-fab {
+    right: calc(50% - 210px + 24px);
+  }
+}
+
+/* ==========================================================================
+   6. 일기 상세 페이지 (Diary_detail.jsx)
+   ========================================================================== */
+.diary-detail-wrap {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--main-bg);
+  padding: 20px 20px 60px;
+  box-sizing: border-box;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.diary-detail-wrap h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 4px 0 16px;
+}
+
+.diary-detail-card {
+  background-color: var(--card-white);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  box-shadow: var(--shadow-light);
+  box-sizing: border-box;
+}
+
+.diary-detail-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 12px;
+}
+
+.diary-detail-card p {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.6;
+  margin: 0 0 8px;
+}
+
+.diary-detail-wrap > button {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px 0;
+  background-color: var(--card-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--text-sub);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   7. 일기 수정 폼 (Diary_edit.jsx)
+   ========================================================================== */
+.diary-edit-wrap {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--main-bg);
+  padding: 20px 20px 60px;
+  box-sizing: border-box;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.diary-edit-wrap h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 4px 0 16px;
+}
+
+.diary-edit-wrap form {
+  background-color: var(--card-white);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-light);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.diary-edit-wrap input,
+.diary-edit-wrap textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-main);
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.diary-edit-wrap input::placeholder,
+.diary-edit-wrap textarea::placeholder {
+  color: var(--text-hint);
+}
+
+.diary-edit-wrap input:focus,
+.diary-edit-wrap textarea:focus {
+  border-color: var(--color-coral);
+}
+
+.diary-edit-wrap textarea {
+  resize: none;
+  min-height: 120px;
+}
+
+.diary-edit-wrap form button[type="submit"] {
+  margin-top: 4px;
+  padding: 16px 0;
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   8. 오늘의 기록 작성 페이지 (Diary_write.jsx)
+   - Home의 Record_card 모달(.custom-modal-body)과 동일한 톤으로 통일
+   ========================================================================== */
+.diary-write-wrap {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--main-bg);
+  padding: 20px 20px 100px; /* 하단 NaviBar 여유 */
+  box-sizing: border-box;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 카드 본체 (Record_card 모달의 .custom-modal-body와 동일한 톤) */
+.diary-write-card {
+  background-color: var(--card-white);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  box-shadow: var(--shadow-light);
+  box-sizing: border-box;
+  margin-top: 12px;
+}
+
+.diary-write-card h2 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.diary-write-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.diary-write-card textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-main);
+  box-sizing: border-box;
+  outline: none;
+  resize: none;
+  transition: border-color 0.2s;
+}
+
+.diary-write-card textarea::placeholder {
+  color: var(--text-hint);
+}
+
+.diary-write-card textarea:focus {
+  border-color: var(--color-coral);
+}
+
+/* 파일 input은 브라우저 기본 룩이 제각각이라, 박스로 감싸 톤만 맞춤 */
+.diary-write-card input[type="file"] {
+  font-size: 13px;
+  color: var(--text-sub);
+  background-color: var(--main-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+/* 저장/취소 버튼 가로 배치 (Record_card 모달의 .modal-btn-row와 동일) */
+.diary-write-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.diary-write-btn-row button {
+  flex: 1;
+  padding: 14px 0;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.diary-write-save-btn {
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+}
+
+.diary-write-cancel-btn {
+  background-color: var(--main-bg);
+  color: var(--text-sub);
+}
+
+/* ==========================================================================
+   9. 주간 요일 캘린더 + d_label 칩 (실사용 클래스)
+   ========================================================================== */
+.week-calendar-month-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.week-calendar-month {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.week-calendar-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--card-white);
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--text-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-light);
+  padding: 0;
+}
+
+.week-calendar-arrow:active {
+  background-color: var(--color-coral-bg);
+  color: var(--color-coral-deep);
+}
+
+.week-day-list {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.week-day-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 0 14px;
+  border-radius: var(--radius-md);
+  background-color: var(--card-white);
+  box-shadow: var(--shadow-light);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+/* 일기 존재 여부 인디케이터 (Dot) */
+.week-day-dot {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-coral);
+}
+
+.week-day-item.active .week-day-dot {
+  background-color: white;
+}
+
+.week-day-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-hint);
+}
+
+.week-day-num {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.week-day-item.active {
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  box-shadow: var(--shadow-card);
+}
+
+.week-day-item.active .week-day-label,
+.week-day-item.active .week-day-num {
+  color: white;
+}
+
+/* d_label 칩: 사진이 없는 카드 구조라 카드 상단에 inline 배치 */
+.diary-label-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background-color: var(--color-coral-bg);
+  color: var(--color-coral-deep);
+  margin-bottom: 10px;
+}

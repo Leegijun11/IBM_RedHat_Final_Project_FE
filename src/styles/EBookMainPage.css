@@ -1,0 +1,96 @@
+.ebook-page {
+    background: #FBF1E7;
+    min-height: 100vh;
+    padding: 16px 16px 90px;
+    max-width: 390px;
+    margin: 0 auto;
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    color: #33291F;
+    position: relative;
+}
+
+.ebook-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.ebook-header h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #2B2118;
+    margin: 0;
+}
+
+.ebook-header .create-btn {
+    background: linear-gradient(135deg, #C8552E, #EE9159);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(200, 85, 46, 0.25);
+}
+
+.book-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.empty-book {
+    text-align: center;
+    padding: 40px 0;
+    color: #A89C92;
+    font-size: 14px;
+    background: #FFFFFF;
+    border-radius: 16px;
+}
+
+.ebook-tab {
+    display: flex;
+    background: #FFFFFF;
+    border-radius: 999px;
+    padding: 4px;
+    margin-bottom: 20px;
+    gap: 4px;
+}
+
+.ebook-tab button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #A89C92;
+    cursor: pointer;
+}
+
+.ebook-tab button.active {
+    background: #FFFFFF;
+    color: #D8603F;
+    border: 1.5px solid #E8825A;
+}
+
+.content-card {
+    background: #FFFFFF;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.content-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2B2118;
+    margin: 0 0 14px 0;
+}
+

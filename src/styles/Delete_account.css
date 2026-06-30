@@ -1,0 +1,23 @@
+/* Delete_account.css */
+/* signup-container 규격은 이미 공통 css에 있음 */
+
+.delete-info-box {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.delete-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: #FF5252; /* 탈퇴 버튼은 강조를 위해 빨간색 계열 */
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.delete-btn:hover {
+  opacity: 0.9;
+}
