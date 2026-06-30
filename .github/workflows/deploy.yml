@@ -25,6 +25,9 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          # GitHub Actions에 저장한 변수를 빌드할 때 주입합니다.
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }} # Secrets 탭에 넣었다면 secrets.VITE_API_BASE_URL
         run: npm run build
 
       - name: Configure AWS credentials

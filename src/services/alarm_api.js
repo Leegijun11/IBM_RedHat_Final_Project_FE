@@ -1,4 +1,4 @@
-import api from "../Hooks/api";
+import api from "../hooks/api"
 
 // 알람 생성
 export const createAlarm = async ({ receive_account }) => {

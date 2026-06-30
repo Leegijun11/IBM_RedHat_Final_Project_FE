@@ -1,4 +1,4 @@
-import api from "../Hooks/api";
+import api from "../hooks/api"
 
 // 회원가입
 export const signupUser = async (data) => {

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getAlarm, deleteAlarm } from "../../Services/alarm_api";
-import { createPartner } from "../../Services/partner_api";
+import { getAlarm, deleteAlarm } from "../../services/alarm_api";
+import { createPartner } from "../../services/partner_api";
 import "../../styles/Alarm_list.css";
 
 function Alarm_list({ onAccept }) {

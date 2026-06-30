@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signupUser, uploadUserImage } from "../../Services/user_api";
+import { signupUser, uploadUserImage } from "../../services/user_api";
 import "../../styles/Sign_up.css";
 
 function Sign_up({ setPage }) {

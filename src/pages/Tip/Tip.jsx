@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getTipList } from "../../Services/tip_api";
-import { getCurrentBaby } from "../../Services/partner_api";
+import { getTipList } from "../../services/tip_api";
+import { getCurrentBaby } from "../../services/partner_api";
 
 function Tip() {
   const [tipList, setTipList] = useState([]);

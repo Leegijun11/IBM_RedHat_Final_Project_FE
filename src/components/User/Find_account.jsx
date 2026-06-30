@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { findAccount } from "../../Services/user_api";
+import { findAccount } from "../../services/user_api";
 import "../../styles/Find_account.css";
 
 function Find_account({ setPage }) {

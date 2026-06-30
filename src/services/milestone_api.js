@@ -1,4 +1,4 @@
-import api from "../Hooks/api";
+import api from "../hooks/api"
 
 // 특정 개월수와 카테고리에 맞는 마일스톤 조회
 export const getMilestones = async (months, category) => {

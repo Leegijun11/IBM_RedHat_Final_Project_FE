@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createAlarm } from "../../Services/alarm_api";
+import { createAlarm } from "../../services/alarm_api";
 import "../../styles/Partner_invite.css"; // 스타일 파일 연결
 
 function PartnerInvite({ onClose }) {

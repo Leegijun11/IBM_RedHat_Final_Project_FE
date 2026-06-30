@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { loginUser } from "../../Services/user_api";
-import { getBabies } from "../../Services/baby_api";
+import { loginUser } from "../../services/user_api";
+import { getBabies } from "../../services/baby_api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "../../styles/Login_form.css"; // 🔥 CSS 연결

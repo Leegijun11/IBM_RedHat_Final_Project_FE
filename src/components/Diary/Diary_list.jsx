@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDiaryList, deleteDiary } from "../../Services/diary_api";
+import { getDiaryList, deleteDiary } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import NaviBar from "../common/NaviBar";
 
