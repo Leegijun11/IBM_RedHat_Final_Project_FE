@@ -8,17 +8,31 @@
   box-sizing: border-box;
 }
 
+/* 🔥 높이와 가로 비율을 완벽하게 통일하는 마법의 코드 적용 */
+.logout-btn, .delete-btn {
+  flex: 1 1 0%; /* 글자 길이를 무시하고 완벽한 50:50 대칭 강제 */
+  height: 50px; /* 테두리가 있든 없든 높이를 50px로 쾅 박아버림 */
+  padding: 0; 
+  margin: 0; 
+  
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 15px; /* 글자 크기 동일하게 세팅 */
+  cursor: pointer;
+  box-sizing: border-box; /* 테두리가 높이를 뚫고 나가지 않게 방어 */
+  
+  /* 글자를 정중앙에 완벽하게 위치시킴 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
 /* 로그아웃 버튼 */
 .logout-btn {
-  flex: 1;
-  padding: 14px;
   background-color: #F2E8E0;
   color: #5D5046;
   border: none;
-  border-radius: 12px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .logout-btn:hover {
@@ -27,15 +41,9 @@
 
 /* 회원 탈퇴 버튼 */
 .delete-btn {
-  flex: 1;
-  padding: 14px;
   background-color: #FFF2F2;
   color: #E63946;
-  border: 1px solid #FFD6D6;
-  border-radius: 12px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  border: 1px solid #FFD6D6; /* 테두리가 있어도 box-sizing과 고정 height 덕분에 크기가 어긋나지 않음 */
 }
 
 .delete-btn:hover {

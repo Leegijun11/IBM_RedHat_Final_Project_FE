@@ -27,19 +27,23 @@
 .profile-image-section {
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
+/* 1. 라벨을 사진 크기(80px)만큼 딱 맞춰서 고정합니다 */
 .image-label {
   cursor: pointer;
-  position: relative;
-  display: inline-block; /* 핵심: 내용물 크기로 제한하여 중앙 정렬 보장 */
+  position: relative; /* 이게 있어야 내부 절대 위치(absolute)가 작동합니다 */
+  display: inline-block;
+  width: 80px;
+  height: 80px;
   margin: 0 auto;
 }
 
+/* 사진 원형 스타일 */
 .image-circle {
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
@@ -47,19 +51,32 @@
   background-color: #f9f9f9;
 }
 
+/* 2. 카메라 아이콘 */
 .camera-icon {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: white;
+  
+  /* 주황색 원의 크기를 작고 일정하게 강제 고정합니다! */
+  width: 28px;  
+  height: 28px; 
+  padding: 0; 
+  
+  background-color: #F07C60;
   border-radius: 50%;
-  padding: 6px;
-  font-size: 14px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  border: 1px solid #EAE2DB;
+  font-size: 12px;
+  
+  /* 테두리와 그림자로 디테일 살리기 */
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  
+  /* 아이콘 정중앙 정렬 */
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  /* 사진 영역 밖으로 살짝만 빼주기 */
+  transform: translate(10%, 10%); 
 }
 
 /* 입력 필드 스타일 */
@@ -93,15 +110,24 @@
   margin-top: 10px;
 }
 
+/* 🔥 높이와 가로 비율을 완벽하게 통일하는 마법의 코드 */
 .submit-btn, .skip-btn {
-  flex: 1; /* 대칭을 위해 1:1 비율 적용 */
-  padding: 14px;
+  flex: 1 1 0%; /* 가로 넓이 무조건 50:50 강제 */
+  height: 50px; /* 높이 50px 강제 고정 (padding에 의존하지 않음) */
+  padding: 0; /* 기존 padding 제거 */
+  margin: 0; /* 불필요한 기본 마진 제거 */
+  
   border: none;
   border-radius: 12px;
   font-weight: 800;
+  font-size: 15px; /* 글자 크기도 똑같이 통일 */
   cursor: pointer;
   box-sizing: border-box;
-  text-align: center;
+  
+  /* 글자를 정중앙에 완벽하게 위치시킴 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .submit-btn {
