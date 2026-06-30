@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createBaby, createBabyPersonality, uploadBabyImage } from "../../services/baby_api";
+import "../../styles/Baby_form.css"; 
 
 const PERSONALITY_OPTIONS = [
   { label: "활발해요", key: "c_active" },
@@ -17,158 +18,113 @@ function Baby_form() {
   const [b_height, setB_height] = useState("");
   const [b_weight, setB_weight] = useState("");
   const [b_image, setB_image] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
   const [b_personality, setB_personality] = useState([]);
   const [b_gender, setB_gender] = useState("");
 
   const navigate = useNavigate();
 
-  // 사진 선택
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setB_image(file);
+      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
-  // 성격 복수 선택 토글
   const togglePersonality = (option) => {
     setB_personality((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
+      prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
     );
   };
 
-  // 시작하기
   const handleStart = async (e) => {
     e.preventDefault();
-
     try {
-      // 1. 사진이 있으면 먼저 업로드해서 경로(문자열) 받기
       let imagePath = null;
       if (b_image) {
         const uploadResult = await uploadBabyImage(b_image);
         imagePath = uploadResult.image_url;
       }
-
-      // 2. 아기 기본 정보 등록 (JSON)
-      const babyData = {
-        b_name,
-        b_birth,
-        b_height: Number(b_height),
-        b_weight: Number(b_weight),
-        b_gender,
-        b_image: imagePath,
-      };
-
+      const babyData = { b_name, b_birth, b_height: Number(b_height), b_weight: Number(b_weight), b_gender, b_image: imagePath };
       const babyResult = await createBaby(babyData);
-      console.log(babyResult);
-      const newBabyId = babyResult.b_id; // 응답 구조 확인 필요
-
-      // 3. 성격 정보를 boolean으로 변환해서 등록
       if (b_personality.length > 0) {
-        const personalityData = { b_id: newBabyId };
-        PERSONALITY_OPTIONS.forEach((option) => {
-          personalityData[option.key] = b_personality.includes(option.label);
-        });
-
+        const personalityData = { b_id: babyResult.b_id };
+        PERSONALITY_OPTIONS.forEach((opt) => personalityData[opt.key] = b_personality.includes(opt.label));
         await createBabyPersonality(personalityData);
       }
-
       navigate("/home");
     } catch (error) {
-      console.log(error);
       alert("아기 정보 등록에 실패했습니다.");
     }
   };
 
-  // 다음에 등록하기
-  const handleSkip = () => {
-    navigate("/home");
-  };
-
   return (
-    <div>
-      <h2>아기 정보 입력</h2>
+    <div className="signup-container">
+      <div className="baby-header-section">
+        <p className="baby-sub-title">우리 아기를 소개해주세요</p>
+        <h1 className="baby-title">아기 정보<br/>입력하기</h1>
+      </div>
 
-      <form onSubmit={handleStart}>
-        <div>
-          <input
-            type="text"
-            placeholder="아기 이름"
-            value={b_name}
-            onChange={(e) => setB_name(e.target.value)}
-          />
+      <div className="baby-bottom-sheet">
+        <div className="baby-profile-section">
+          <label htmlFor="baby-upload" className="baby-image-label">
+            <div className="baby-image-circle" style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}>
+              {!previewUrl && (
+                <>
+                  <span className="placeholder-icon">👶</span>
+                  <span className="placeholder-text">사진 없음</span>
+                </>
+              )}
+            </div>
+            <div className="camera-icon">📷</div>
+          </label>
+          <input id="baby-upload" type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
         </div>
+    
+        <form onSubmit={handleStart} className="baby-form">
+          <label className="signup-label">아기 이름</label>
+          <input className="signup-input" type="text" placeholder="예) 박지수" value={b_name} onChange={(e) => setB_name(e.target.value)} />
 
-        <div>
-          <input
-            type="date"
-            placeholder="생년월일"
-            value={b_birth}
-            onChange={(e) => setB_birth(e.target.value)}
-          />
-        </div>
+          <label className="signup-label">생년월일</label>
+          <input className="signup-input" type="date" value={b_birth} onChange={(e) => setB_birth(e.target.value)} />
 
-        <div>
-          <input
-            type="number"
-            placeholder="키 (cm)"
-            value={b_height}
-            onChange={(e) => setB_height(e.target.value)}
-          />
-        </div>
+          <div className="row-inputs">
+            <div className="input-group half">
+              <label className="signup-label">키 (cm)</label>
+              <input className="signup-input" type="number" placeholder="예) 65.0" value={b_height} onChange={(e) => setB_height(e.target.value)} />
+            </div>
+            <div className="input-group half">
+              <label className="signup-label">몸무게 (kg)</label>
+              <input className="signup-input" type="number" placeholder="예) 7.2" value={b_weight} onChange={(e) => setB_weight(e.target.value)} />
+            </div>
+          </div>
 
-        <div>
-          <label>성별</label>
-          <select value={b_gender} onChange={(e) => setB_gender(e.target.value)}>
-            <option value="">선택</option>
+          <label className="signup-label">성별</label>
+          <select className="signup-input" value={b_gender} onChange={(e) => setB_gender(e.target.value)}>
+            <option value="">선택하세요</option>
             <option value="M">남자</option>
             <option value="F">여자</option>
           </select>
-        </div>
 
-        <div>
-          <input
-            type="number"
-            placeholder="몸무게 (kg)"
-            value={b_weight}
-            onChange={(e) => setB_weight(e.target.value)}
-          />
-        </div>
+          <label className="signup-label">아기의 성격 (복수 선택)</label>
+          <div className="personality-grid">
+            {PERSONALITY_OPTIONS.map((opt) => (
+              <button
+                type="button"
+                key={opt.key}
+                className={`personality-btn ${b_personality.includes(opt.label) ? "active" : ""}`}
+                onClick={() => togglePersonality(opt.label)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
 
-        <div>
-          <label>아기 사진</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-          {b_image && <p>{b_image.name}</p>}
-        </div>
-
-        <hr />
-
-        <div>
-          <p>아기 성격 (복수 선택 가능)</p>
-          {PERSONALITY_OPTIONS.map((option) => (
-            <button
-              type="button"
-              key={option.key}
-              onClick={() => togglePersonality(option.label)}
-              style={{
-                fontWeight: b_personality.includes(option.label) ? "bold" : "normal",
-                backgroundColor: b_personality.includes(option.label) ? "#ffd6e8" : "#fff",
-              }}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-
-        <hr />
-
-        <button type="submit">시작하기</button>
-        <button type="button" onClick={handleSkip}>
-          다음에 등록하기
-        </button>
-      </form>
+          <button type="submit" className="submit-btn">시작하기 →</button>
+          <button type="button" className="skip-btn" onClick={() => navigate("/home")}>다음에 등록하기</button>
+        </form>
+      </div>
     </div>
   );
 }

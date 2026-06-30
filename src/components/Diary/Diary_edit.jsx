@@ -55,7 +55,7 @@ function Diary_edit() {
     };
 
     return (
-        <div>
+        <div className="diary-edit-wrap">
             <h2>일기 수정</h2>
 
             <form onSubmit={handleCreateDiary}>

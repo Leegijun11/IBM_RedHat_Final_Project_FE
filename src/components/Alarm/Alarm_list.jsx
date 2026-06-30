@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getAlarm, deleteAlarm } from "../../Services/alarm_api";
 import { createPartner } from "../../Services/partner_api";
+import "../../styles/Alarm_list.css";
 
 function Alarm_list({ onAccept }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,6 @@ function Alarm_list({ onAccept }) {
     }
   };
 
-  // 수락
   const handleAccept = async (alarm) => {
     try {
       await createPartner({
@@ -43,7 +43,6 @@ function Alarm_list({ onAccept }) {
       });
 
       await deleteAlarm(alarm.a_id);
-
       setAlarms((prev) => prev.filter((a) => a.a_id !== alarm.a_id));
 
       alert("공동 양육자 초대를 수락하였습니다.");
@@ -72,6 +71,7 @@ function Alarm_list({ onAccept }) {
     <div>
       <button onClick={handleOpen}>🔔 알림함</button>
 
+      {/* 드롭다운 형태의 알림 목록 */}
       {isOpen && (
         <div
           style={{
@@ -84,7 +84,7 @@ function Alarm_list({ onAccept }) {
           <h3>알림 목록</h3>
 
           {alarms.length === 0 ? (
-            <p>받은 알람이 없습니다.</p>
+            <div className="alarm-empty">받은 알람이 없습니다.</div>
           ) : (
             alarms.map((alarm) => (
               <div

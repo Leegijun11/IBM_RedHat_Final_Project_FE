@@ -74,26 +74,31 @@ function Diary_write() {
     };
 
     return (
-        <div>
-            <h2>오늘의 기록</h2>
+        <div className="diary-write-wrap">
+            <div className="diary-write-card">
+                <h2>오늘의 기록</h2>
 
-            <form onSubmit={handleSaveRecord}>
-                <textarea
-                    placeholder="오늘 있었던 일을 기록하여 주세요."
-                    value={record}
-                    onChange={(e) => setRecord(e.target.value)}
-                    rows="8"
-                    cols="50"
-                /> <br />
+                <form onSubmit={handleSaveRecord}>
+                    <textarea
+                        placeholder="오늘 있었던 일을 기록하여 주세요."
+                        value={record}
+                        onChange={(e) => setRecord(e.target.value)}
+                        rows="8"
+                        cols="50"
+                    />
 
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImage(e.target.files[0])}
-                /> <br />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImage(e.target.files[0])}
+                    />
 
-                <button type="submit">기록 저장</button>
-            </form>
+                    <div className="diary-write-btn-row">
+                        <button type="submit" className="diary-write-save-btn">저장</button>
+                        <button type="button" className="diary-write-cancel-btn" onClick={() => navigate("/diary")}>취소</button>
+                    </div>
+                </form>
+            </div>
             <NaviBar/>
         </div>
     );

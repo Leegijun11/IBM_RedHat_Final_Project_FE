@@ -1,0 +1,38 @@
+/* 이미 설정한 공통 컨테이너 스타일 적용 (아래 코드 추가) */
+@import "./Sign_up.css"; 
+
+/* 추가 필요한 전용 스타일 */
+.result-box {
+  text-align: center;
+  background-color: #FFF5F0;
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 20px;
+  border: 1px solid #F5B079;
+}
+.result-label { font-size: 13px; color: #A3968C; margin: 0; }
+.result-value { font-size: 20px; color: #F07C60; font-weight: 800; margin: 8px 0 0 0; }
+
+/* 로그인 돌아가기 버튼 디자인 */
+.back-to-login {
+  background: none;
+  border: none;
+  color: #A3968C; /* 기본 색상 */
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 24px;
+  width: 100%;
+  transition: all 0.2s ease; /* 부드럽게 색이 바뀌도록 추가 */
+}
+
+/* 마우스를 올렸을 때 (hover) 스타일 */
+.back-to-login:hover {
+  color: #F07C60; /* 마우스를 올리면 로그인 창의 포인트 코랄색으로 변경 */
+  transform: scale(1.02); /* 살짝 커지게 하여 클릭 느낌 강조 */
+}
+
+/* 클릭했을 때 (active) 스타일 */
+.back-to-login:active {
+  opacity: 0.6;
+}

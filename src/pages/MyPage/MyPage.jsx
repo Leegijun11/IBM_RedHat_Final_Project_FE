@@ -13,20 +13,20 @@ import Baby_add from "../../components/Baby/Baby_add";
 import Baby_edit_profile from "../../components/Baby/Edit_profile";
 import Account_settings from "../../components/User/Account_settings";
 import NaviBar from "../../components/common/NaviBar";
+import "../../styles/MyPage.css";
 
 function MyPage() {
   const [user, setUser] = useState(null);
   const [babies, setBabies] = useState([]);
   const [selectedBabyId, setSelectedBabyId] = useState(null);
+
   const [showInvite, setShowInvite] = useState(false);
   const [showUserEdit, setShowUserEdit] = useState(false);
   const [editingBaby, setEditingBaby] = useState(null);
 
-  // 유저 정보 + 아이 목록 조회
   const fetchCurrentUser = async () => {
     try {
       const userResult = await getMe();
-      console.log(userResult);
       setUser(userResult);
 
       const babyResult = await getBabies();
@@ -35,14 +35,14 @@ function MyPage() {
       try {
         const current = await getCurrentBaby();
         setSelectedBabyId(current.b_id);
-      } catch (error) {
-        if (babyResult && babyResult.length > 0) {
+      } catch {
+        if (babyResult?.length > 0) {
           setSelectedBabyId(babyResult[0].b_id);
         }
       }
     } catch (error) {
-      console.log(error);
-      alert("유저 정보 확인에 실패했습니다.");
+      console.error(error);
+      alert("데이터 로드에 실패했습니다.");
     }
   };
 
@@ -50,44 +50,43 @@ function MyPage() {
     fetchCurrentUser();
   }, []);
 
-  // 아이 수정 버튼 클릭
-  const handleEditBaby = (b_id) => {
-    const target = babies.find((baby) => baby.b_id === b_id);
-    setEditingBaby(target);
-  };
-
   return (
-    <div style={{ paddingBottom: "80px" }}>
+    <div className="mypage-container">
+
       {/* 알림 */}
-      <div>
+      <div className="mypage-header">
         <Alarm_list onAccept={fetchCurrentUser} />
       </div>
 
       {/* 내 정보 */}
-      <My_page
-        user={user}
-        onEditClick={() => setShowUserEdit(true)}
-      />
-
-      {showUserEdit && (
-        <User_edit_profile
+      <div className="mypage-section">
+        <My_page
           user={user}
-          onClose={() => setShowUserEdit(false)}
-          onSuccess={fetchCurrentUser}
+          onEditClick={() => setShowUserEdit(!showUserEdit)}
         />
-      )}
 
-      <hr />
+        {showUserEdit && (
+          <User_edit_profile
+            user={user}
+            onClose={() => setShowUserEdit(false)}
+            onSuccess={fetchCurrentUser}
+          />
+        )}
+      </div>
 
       {/* 아이 프로필 */}
-      <div>
-        <h3>아이 프로필 관리</h3>
+      <div className="mypage-section">
+        <h3 className="section-title">아이 프로필 관리</h3>
 
         <Baby_list
           babies={babies}
           selectedBabyId={selectedBabyId}
           onSelect={setSelectedBabyId}
-          onEdit={handleEditBaby}
+          onEdit={(b_id) =>
+            setEditingBaby(
+              babies.find((baby) => baby.b_id === b_id)
+            )
+          }
         />
 
         {editingBaby && (
@@ -101,17 +100,18 @@ function MyPage() {
         <Baby_add onSuccess={fetchCurrentUser} />
       </div>
 
-      <hr />
-
       {/* 공동 양육자 */}
-      <div>
-        <h3>공동 양육자 관리</h3>
+      <div className="mypage-section">
+        <h3 className="section-title">공동 양육자 관리</h3>
 
         <Partner_list />
 
         {!showInvite && (
-          <button onClick={() => setShowInvite(true)}>
-            공동 양육자 초대
+          <button
+            className="invite-btn"
+            onClick={() => setShowInvite(true)}
+          >
+            + 공동 양육자 초대
           </button>
         )}
 
@@ -122,9 +122,10 @@ function MyPage() {
         )}
       </div>
 
-      <hr />
-
-      <Account_settings />
+      {/* 계정 설정 */}
+      <div className="mypage-section">
+        <Account_settings />
+      </div>
 
       <NaviBar />
     </div>

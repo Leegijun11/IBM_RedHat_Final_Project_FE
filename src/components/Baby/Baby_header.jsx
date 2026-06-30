@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getCurrentUser } from "../../services/user_api";
 import { getImageUrl } from "../../hooks/imageUrl";
 import { getCurrentBaby } from "../../Services/partner_api";
+
 function calculateAge(birthDateStr) {
     const birth = new Date(birthDateStr);
     const today = new Date();
@@ -16,8 +17,6 @@ function calculateAge(birthDateStr) {
 
     const years = Math.floor(months / 12);
     const remainMonths = months % 12;
-
-    // 일 수 계산 (며칠인지)
     const diffDays = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
 
     if (years > 0) {
@@ -43,24 +42,22 @@ function Baby_header() {
 
     if (!baby) {
         return (
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+            <div className="baby-header-wrap">
                 <p>안녕하세요 👋</p>
             </div>
         );
     }
 
     return (
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+        <div className="baby-header-wrap">
             {baby.b_image && (
                 <img
                     src={getImageUrl(baby.b_image)}
                     alt={baby.b_name}
-                    width="50"
-                    height="50"
-                    style={{ borderRadius: "50%", objectFit: "cover" }}
+                    className="baby-header-img"
                 />
             )}
-            <div>
+            <div className="baby-header-info">
                 <p>안녕하세요 👋</p>
                 <h2>{baby.b_name} · {calculateAge(baby.b_birth)}</h2>
             </div>
