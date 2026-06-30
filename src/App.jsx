@@ -5,7 +5,7 @@ import MyPage from './pages/MyPage/MyPage';
 import Home from './pages/Home/Home';
 import CommunityPage from './pages/Community/CommunityPage';
 import BabyInfoPage from './pages/BabyInfo/BabyInfoPage';
-import Diary_write from "./Components/Diary/Diary_write";
+import Diary_write from "./components/Diary/Diary_write";
 import Diary from './pages/Diary/Diary';
 import EBookCreate from './pages/E-book/EBookCreate'
 import EBookMainPage from './pages/E-book/EBookMainPage';

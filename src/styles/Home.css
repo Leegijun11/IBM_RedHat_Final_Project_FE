@@ -1,0 +1,584 @@
+/* ==========================================================================
+   Home.css
+   - 기준: Figma 시안 + Sign_up.css 톤(코랄 포인트, 베이지 배경, 16px 라운드)
+   - 주의: JSX 로직/className은 전혀 건드리지 않음. 스타일만 정의.
+   ========================================================================== */
+
+/* ==========================================================================
+   0. 공통 변수 (Sign_up.css 톤과 통일)
+   ========================================================================== */
+:root {
+  --color-bg: #FAF4EF;           /* 베이지 배경 */
+  --color-card-bg: #FFFFFF;
+  --color-border: #EAE2DB;
+  --color-text-main: #3A332D;
+  --color-text-sub: #A3968C;
+  --color-text-hint: #B5AFA4;
+  --color-coral: #F07C60;
+  --color-coral-deep: #F57E5C;
+  --color-coral-light: #F5B079;
+  --color-purple: #9B8CF5;
+  --color-purple-bg: #F1EEFE;
+  --color-green: #4CC9A0;
+  --color-green-bg: #E6F8F1;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+}
+
+/* ==========================================================================
+   1. 전체 페이지 레이아웃
+   ========================================================================== */
+.home-main-view {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-bg);
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  color: var(--color-text-main);
+  padding: 20px 20px 100px; /* 하단 NaviBar 높이만큼 여유 */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. 상단 헤더 바 (Baby_header + Alarm_list)
+   ========================================================================== */
+.home-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+/* --- Baby_header.jsx --- */
+.baby-header-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.baby-header-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-card-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.baby-header-info p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-sub);
+}
+
+.baby-header-info h2 {
+  margin: 2px 0 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-text-main);
+}
+
+/* ==========================================================================
+   3. Alarm_list.jsx (벨 아이콘 + 드롭다운)
+   ========================================================================== */
+.alarm-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.alarm-trigger-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-card-bg);
+  border: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: opacity 0.2s;
+}
+
+.alarm-trigger-btn:active {
+  opacity: 0.7;
+}
+
+.alarm-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--color-coral-deep);
+  border: 2px solid var(--color-bg);
+}
+
+.alarm-dropdown {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  width: 280px;
+  max-height: 320px;
+  overflow-y: auto;
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 12px;
+  z-index: 50;
+}
+
+.alarm-dropdown p {
+  font-size: 13px;
+  color: var(--color-text-sub);
+  margin: 8px 4px;
+}
+
+.alarm-item {
+  background-color: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.alarm-item:last-child {
+  margin-bottom: 0;
+}
+
+.alarm-item-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin: 0 0 6px;
+}
+
+.alarm-item p {
+  font-size: 12px;
+  color: var(--color-text-sub);
+  margin: 2px 0;
+}
+
+.alarm-item-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.alarm-item-actions button {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.alarm-item-actions button:first-child {
+  background-color: var(--color-coral);
+  color: white;
+}
+
+.alarm-item-actions button:last-child {
+  background-color: var(--color-border);
+  color: var(--color-text-sub);
+}
+
+/* ==========================================================================
+   4. 공통 카드 베이스 (Day_card, Tip_card 등)
+   ========================================================================== */
+.home-card-base {
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   5. Day_card.jsx (D-Day 카드 + progress bar)
+   ========================================================================== */
+.day-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.day-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-sub);
+  margin: 0;
+}
+
+.day-card-subinfo {
+  font-size: 11px;
+  color: var(--color-text-hint);
+  margin-top: 2px;
+}
+
+.day-card-value {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--color-coral-deep);
+  margin: 8px 0 16px;
+  letter-spacing: -1px;
+}
+
+.day-card-hint {
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+/* --- progress 태그 브라우저 기본 스타일 제거 후 커스텀 --- */
+.home-progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border: none;
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: var(--color-border); /* Firefox 트랙 배경 */
+}
+
+/* Chrome / Safari / Edge (WebKit) */
+.home-progress::-webkit-progress-bar {
+  background-color: var(--color-border);
+  border-radius: 999px;
+}
+
+.home-progress::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--color-coral-deep) 0%, var(--color-coral-light) 100%);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* Firefox */
+.home-progress::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--color-coral-deep) 0%, var(--color-coral-light) 100%);
+  border-radius: 999px;
+}
+
+/* ==========================================================================
+   6. 액션 카드 2열 (Photo_card + Record_card)
+   ========================================================================== */
+.action-cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.action-click-card {
+  border-radius: var(--radius-lg);
+  padding: 20px 16px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 150px;
+  box-sizing: border-box;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.action-click-card:active {
+  transform: scale(0.98);
+  opacity: 0.92;
+}
+
+.action-click-card h2 {
+  font-size: 16px;
+  font-weight: 800;
+  margin: auto 0 4px;
+}
+
+.action-click-card p {
+  font-size: 12px;
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.action-icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+/* 사진 찍기 카드 (코랄 그라데이션) */
+.photo-bg {
+  background: linear-gradient(135deg, #F57E5C 0%, #F5A26B 100%);
+}
+
+/* 오늘의 기록 카드 (퍼플 그라데이션) */
+.record-bg {
+  background: linear-gradient(135deg, #9B8CF5 0%, #B8A9F7 100%);
+}
+
+.action-card-btn {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+/* ==========================================================================
+   7. Tip_card.jsx (AI 발달 팁)
+   ========================================================================== */
+.tip-card-header-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tip-icon-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #FFEFE8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.tip-card-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin: 0;
+  flex: 1;
+}
+
+.tip-card-month-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #C9A227;
+  background-color: #FFF6D8;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.tip-card-content {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.tip-card-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-coral);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tip-card-link-btn span {
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   8. Growth_card.jsx (키 / 몸무게 / 연속 기록 3열)
+   ========================================================================== */
+.growth-grid-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.growth-item-box {
+  border-radius: var(--radius-md);
+  padding: 16px 8px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.growth-item-box h3 {
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.growth-item-box h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.bg-orange { background-color: #FFEFE8; }
+.bg-green  { background-color: var(--color-green-bg); }
+.bg-purple { background-color: var(--color-purple-bg); }
+
+.text-orange { color: var(--color-coral-deep); }
+.text-green  { color: var(--color-green); }
+.text-purple { color: var(--color-purple); }
+
+.text-sub-purple {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-purple);
+  margin: 4px 0 0;
+}
+
+/* ==========================================================================
+   9. Record_card.jsx 모달 (오늘의 기록 작성)
+   ========================================================================== */
+.custom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.custom-modal-body {
+  width: 100%;
+  max-width: 360px;
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  box-sizing: border-box;
+}
+
+.custom-modal-body h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.custom-modal-body textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text-main);
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.custom-modal-body textarea::placeholder {
+  color: var(--color-text-hint);
+}
+
+.custom-modal-body textarea:focus {
+  border-color: var(--color-coral);
+}
+
+.modal-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.modal-btn-row button {
+  flex: 1;
+  padding: 14px 0;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.modal-btn-row button:active {
+  opacity: 0.8;
+}
+
+.modal-btn-save {
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+}
+
+.modal-btn-cancel {
+  background-color: var(--color-bg);
+  color: var(--color-text-sub);
+}
+
+/* ==========================================================================
+   10. NaviBar.jsx (하단 고정 탭바)
+   ========================================================================== */
+.navibar-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--color-card-bg);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  z-index: 40;
+}
+
+.navibar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+}
+
+.navibar-item span:first-child {
+  font-size: 18px;
+}
+
+/* ==========================================================================
+   11. Baby_list.jsx 보조 스타일 (마이페이지 등에서도 재사용)
+   ========================================================================== */
+.alarm-wrap > div + div {
+  margin-top: 8px;
+}

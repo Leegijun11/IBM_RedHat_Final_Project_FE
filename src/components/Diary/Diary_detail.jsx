@@ -23,11 +23,11 @@ function Diary_detail() {
     }, [d_id]);
 
     return (
-        <div>
+        <div className="diary-detail-wrap">
             <h2>일기 상세 조회</h2>
 
             {diary && (
-                <div>
+                <div className="diary-detail-card">
                     <h3>{diary.d_title}</h3>
                     <p>{diary.d_content}</p>
                     <p>라벨 : {diary.d_label}</p>

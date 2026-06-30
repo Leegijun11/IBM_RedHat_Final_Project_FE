@@ -21,7 +21,7 @@ function MyPage() {
   const [showInvite, setShowInvite] = useState(false);
   const [showUserEdit, setShowUserEdit] = useState(false);
   const [editingBaby, setEditingBaby] = useState(null);
-
+  const [partnerRefreshKey, setPartnerRefreshKey] = useState(0);
   const fetchCurrentUser = async () => {
     try {
       const userResult = await getMe();
@@ -34,6 +34,7 @@ function MyPage() {
       } catch (error) {
         if (babyResult && babyResult.length > 0) setSelectedBabyId(babyResult[0].b_id);
       }
+      setPartnerRefreshKey((prev)=> prev + 1);
     } catch (error) {
       alert("데이터 로드에 실패했습니다.");
     }
@@ -68,7 +69,7 @@ function MyPage() {
 
       <div className="mypage-section">
         <h3 className="section-title">공동 양육자 관리</h3>
-        <Partner_list />
+        <Partner_list key={partnerRefreshKey}/>
         {!showInvite && (
           <button className="invite-btn" onClick={() => setShowInvite(true)}>+ 공동 양육자 초대</button>
         )}
