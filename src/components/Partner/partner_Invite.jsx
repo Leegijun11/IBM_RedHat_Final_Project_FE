@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createAlarm } from "../../services/alarm_api";
-import "../../styles/Partner_invite.css"; // 스타일 파일 연결
+import "../../styles/partner_invite.css"; // 스타일 파일 연결
 
 function PartnerInvite({ onClose }) {
   const [u_account, setU_account] = useState("");
