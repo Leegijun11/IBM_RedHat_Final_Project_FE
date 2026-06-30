@@ -1,7 +1,7 @@
 .ebook-create-page{
-    max-width:430px;
+    max-width:520px;
     margin:0 auto;
-    padding:24px 18px 90px;
+    padding:24px 24px 100px;
     background:#FCF8F5;
     min-height:100vh;
 }
@@ -26,9 +26,11 @@
 
 /* 카드 */
 .create-card{
+    width:100%;
+    box-sizing:border-box;
     background:#fff;
     border-radius:28px;
-    padding:28px 24px;
+    padding:32px 18px;
     box-shadow:0 10px 30px rgba(0,0,0,.05);
 }
 
@@ -56,7 +58,7 @@
     height:52px;
     border:1px solid #F2D8C5;
     border-radius:16px;
-    padding:0 18px;
+    padding:0 14px;
     font-size:16px;
     margin-bottom:28px;
     background:#fff;
