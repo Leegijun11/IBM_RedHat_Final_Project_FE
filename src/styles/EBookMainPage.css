@@ -1,96 +1,109 @@
+/* src/styles/EBookMainPage.css */
+
+/* 전체 페이지 레이아웃 (마이페이지와 동일) */
 .ebook-page {
-    background: #FBF1E7;
-    min-height: 100vh;
-    padding: 16px 16px 90px;
-    max-width: 390px;
-    margin: 0 auto;
-    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
-    color: #33291F;
-    position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: #FAF4EF; /* 따뜻한 베이지 배경 */
+  padding-bottom: 90px; /* 네비게이션 바 높이만큼 여백 */
+  box-sizing: border-box;
+  overflow-x: hidden;
+  position: relative;
 }
 
+/* 헤더 영역 */
 .ebook-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px;
 }
 
-.ebook-header h2 {
-    font-size: 20px;
-    font-weight: 800;
-    color: #2B2118;
-    margin: 0;
+.ebook-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #333333;
+  margin: 0;
 }
 
-.ebook-header .create-btn {
-    background: linear-gradient(135deg, #C8552E, #EE9159);
-    color: #FFFFFF;
-    border: none;
-    border-radius: 999px;
-    padding: 10px 16px;
-    font-size: 13px;
-    font-weight: 700;
-    white-space: nowrap;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(200, 85, 46, 0.25);
+.create-btn {
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(245, 126, 92, 0.2);
+  transition: transform 0.1s;
 }
 
+.create-btn:active {
+  transform: scale(0.98);
+}
+
+/* 책 리스트 컨테이너 */
 .book-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 20px;
+  padding: 0 20px;
+  margin-bottom: 24px;
 }
 
 .empty-book {
-    text-align: center;
-    padding: 40px 0;
-    color: #A89C92;
-    font-size: 14px;
-    background: #FFFFFF;
-    border-radius: 16px;
+  text-align: center;
+  color: #A3968C;
+  padding: 40px 0;
+  font-size: 14px;
 }
 
+/* 탭 버튼 영역 (완벽한 50:50 대칭) */
 .ebook-tab {
-    display: flex;
-    background: #FFFFFF;
-    border-radius: 999px;
-    padding: 4px;
-    margin-bottom: 20px;
-    gap: 4px;
+  display: flex;
+  background-color: #F2E8E0;
+  border-radius: 30px;
+  margin: 0 20px 24px 20px;
+  padding: 6px;
 }
 
 .ebook-tab button {
-    flex: 1;
-    border: none;
-    background: transparent;
-    border-radius: 999px;
-    padding: 10px 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #A89C92;
-    cursor: pointer;
+  flex: 1 1 0%; /* 마법의 1:1 대칭 코드 */
+  padding: 14px 0;
+  border: none;
+  background: transparent;
+  border-radius: 24px;
+  font-weight: 800;
+  font-size: 15px;
+  color: #A3968C;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* 활성화된 탭 */
 .ebook-tab button.active {
-    background: #FFFFFF;
-    color: #D8603F;
-    border: 1.5px solid #E8825A;
+  background-color: #FFFFFF;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+/* 하얀색 콘텐츠 카드 뼈대 */
 .content-card {
-    background: #FFFFFF;
-    border-radius: 18px;
-    padding: 20px;
-    margin-bottom: 16px;
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  padding: 24px;
+  margin: 0 20px 24px 20px;
+  border: 1px solid #EAE2DB;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
-.content-card h3 {
-    font-size: 15px;
-    font-weight: 700;
-    color: #2B2118;
-    margin: 0 0 14px 0;
+.card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #333333;
+  margin-top: 0;
+  margin-bottom: 20px;
 }
-

@@ -9,7 +9,7 @@ import MilestoneList from "../../components/EBook/MilestoneList";
 import CompareChart from "../../components/EBook/CompareChart";
 import NaviBar from "../../components/common/NaviBar";
 
-import "../../styles/EBookMainPage.css";
+import "../../styles/EBookMainPage.css"; // 🔥 스타일 파일 연결
 
 function EBookMainPage() {
     const navigate = useNavigate();
@@ -67,8 +67,9 @@ function EBookMainPage() {
     return (
         <div className="ebook-page">
 
+            {/* 헤더 영역 */}
             <div className="ebook-header">
-                <h2>성장 디지털 북 📖</h2>
+                <h2 className="ebook-title">성장 디지털 북 📖</h2>
 
                 <button
                     className="create-btn"
@@ -78,6 +79,7 @@ function EBookMainPage() {
                 </button>
             </div>
 
+            {/* 책 목록 영역 */}
             <div className="book-list">
                 {books.length === 0 ? (
                     <p className="empty-book">
@@ -101,6 +103,7 @@ function EBookMainPage() {
                 />
             )}
 
+            {/* 탭 토글 영역 */}
             <div className="ebook-tab">
                 <button
                     className={tab === "growth" ? "active" : ""}
@@ -117,11 +120,11 @@ function EBookMainPage() {
                 </button>
             </div>
 
+            {/* 탭 콘텐츠 영역 */}
             {tab === "growth" ? (
                 <>
                     <div className="content-card">
-                        <h3>신체 성장 추이</h3>
-
+                        <h3 className="card-title">신체 성장 추이</h3>
                         {selectedBabyId && (
                             <GrowthChart b_id={selectedBabyId} />
                         )}
@@ -144,6 +147,7 @@ function EBookMainPage() {
                 </>
             )}
 
+            {/* 하단 네비게이션 바 */}
             <div className="navi-wrapper">
                 <NaviBar />
             </div>
