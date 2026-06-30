@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getMilestones, checkMilestone } from "../../services/milestone_api";
+import "../../styles/MilestoneList.css";
 
 function MilestoneList({ babyId, babyAgeMonths }) {
   const [milestones, setMilestones] = useState([]);
@@ -37,7 +38,7 @@ function MilestoneList({ babyId, babyAgeMonths }) {
     const targetAge = getTargetAge(babyAgeMonths);
     const fetchMilestones = async () => {
       try {
-        const data = await getMilestones(targetAge, selectedCategory === "전체" ? "" : selectedCategory);
+        const data = await getMilestones(targetAge, selectedCategory === "전체" ? "" : selectedCategory, babyId);
         setMilestones(data);
       } catch (error) {
         console.error("마일스톤 조회 실패:", error);
@@ -46,29 +47,57 @@ function MilestoneList({ babyId, babyAgeMonths }) {
     fetchMilestones();
   }, [babyAgeMonths, selectedCategory]);
 
-  return (
-    <div>
-      {/* 구간 라벨 표시 */}
-      <h4>발달 마일스톤 ({getAgeRangeLabel(babyAgeMonths)} 기준)</h4>
-      
-      <select onChange={(e) => setSelectedCategory(e.target.value)} value={selectedCategory}>
-        {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-      </select>
-      
-      <ul>
-        {milestones.map((m) => (
-          <li key={m.id}>
-            <input 
-                type="checkbox" 
-                checked={m.is_achieved} 
-                onChange={() => checkMilestone(babyId, m.id, !m.is_achieved)} 
-            />
-            {m.app_milestone}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+return (
+  <div className="milestone-card">
+
+    <h4>발달 마일스톤 ({getAgeRangeLabel(babyAgeMonths)} 기준)</h4>
+
+    <select
+      value={selectedCategory}
+      onChange={(e) => setSelectedCategory(e.target.value)}
+    >
+      {categories.map((cat) => (
+        <option key={cat} value={cat}>
+          {cat}
+        </option>
+      ))}
+    </select>
+
+    <ul>
+      {milestones.map((m) => (
+<li key={m.m_id}>
+    <label className="milestone-item">
+        <input
+            type="checkbox"
+            checked={m.is_achieved}
+            onChange={async () => {
+                await checkMilestone(
+                    babyId,
+                    m.m_id,
+                    !m.is_achieved
+                );
+
+                setMilestones((prev) =>
+                    prev.map((item) =>
+                        item.m_id === m.m_id
+                            ? {
+                                  ...item,
+                                  is_achieved: !item.is_achieved,
+                              }
+                            : item
+                    )
+                );
+            }}
+        />
+
+        <span>{m.app_milestone}</span>
+    </label>
+</li>
+      ))}
+    </ul>
+
+  </div>
+);
 }
 
 export default MilestoneList;

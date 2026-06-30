@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { createEBook } from "../../services/ebook_api";
 import { getBabies } from "../../services/baby_api";
 import NaviBar from "../../components/common/NaviBar";
+import "../../styles/EBookCreate.css";
+
 function EBookCreate() {
     const navigate = useNavigate();
 
@@ -13,7 +15,6 @@ function EBookCreate() {
         end: "",
     });
 
-    // 아기 정보 조회
     useEffect(() => {
         const fetchBaby = async () => {
             try {
@@ -26,7 +27,6 @@ function EBookCreate() {
                 }
 
                 setBId(babies[0].b_id);
-
             } catch (error) {
                 console.log(error);
                 alert("로그인이 필요합니다.");
@@ -37,11 +37,15 @@ function EBookCreate() {
         fetchBaby();
     }, []);
 
-    // 디지털북 생성
     const handleCreate = async () => {
 
         if (!period.start || !period.end) {
             alert("기간을 선택해주세요.");
+            return;
+        }
+
+        if (period.start > period.end) {
+            alert("종료 날짜는 시작 날짜보다 이후여야 합니다.");
             return;
         }
 
@@ -62,46 +66,57 @@ function EBookCreate() {
     };
 
     return (
-        <div>
-            <h2>기간 선택하기</h2>
+        <div className="ebook-create-page">
 
-            <div>
-                <p>시작 날짜</p>
-                <input
-                    type="date"
-                    value={period.start}
-                    onChange={(e) =>
-                        setPeriod({
-                            ...period,
-                            start: e.target.value,
-                        })
-                    }
-                />
+            <h2>📖 디지털 북 만들기</h2>
+
+            <p className="sub-title">
+                원하는 기간을 선택하여 성장 디지털 북을 생성하세요.
+            </p>
+
+            <div className="create-card">
+
+                <div className="input-box">
+                    <label>시작 날짜</label>
+
+                    <input
+                        type="date"
+                        value={period.start}
+                        onChange={(e) =>
+                            setPeriod({
+                                ...period,
+                                start: e.target.value,
+                            })
+                        }
+                    />
+                </div>
+
+                <div className="input-box">
+                    <label>종료 날짜</label>
+
+                    <input
+                        type="date"
+                        value={period.end}
+                        onChange={(e) =>
+                            setPeriod({
+                                ...period,
+                                end: e.target.value,
+                            })
+                        }
+                    />
+                </div>
+
+                <button
+                    className="create-book-btn"
+                    onClick={handleCreate}
+                >
+                    디지털 북 생성
+                </button>
+
             </div>
 
-            <br />
+            <NaviBar />
 
-            <div>
-                <p>종료 날짜</p>
-                <input
-                    type="date"
-                    value={period.end}
-                    onChange={(e) =>
-                        setPeriod({
-                            ...period,
-                            end: e.target.value,
-                        })
-                    }
-                />
-            </div>
-
-            <br />
-
-            <button onClick={handleCreate}>
-                디지털 북 생성
-            </button>
-
-            <NaviBar/>
         </div>
     );
 }

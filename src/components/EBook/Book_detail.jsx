@@ -1,3 +1,4 @@
+import "../../styles/Book_detail.css";
 function Book_detail({ book, onClose }) {
     return (
         <div

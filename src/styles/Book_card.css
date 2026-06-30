@@ -1,0 +1,182 @@
+.book-card{
+    display:flex;
+    background:#4A2F21;
+    border-radius:26px;
+    overflow:hidden;
+
+    width:100%;
+    height:190px;
+
+    box-shadow:0 10px 24px rgba(0,0,0,.08);
+}
+
+/* 좌측 텍스트 영역 */
+.book-cover{
+    flex:1.1;
+
+    background:linear-gradient(
+        90deg,
+        #5A3928 0%,
+        #6A4530 70%,
+        #734B35 100%
+    );
+
+    padding:22px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    color:white;
+}
+
+.book-volume {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #FF8A65;
+    background: rgba(255, 138, 101, 0.18);
+    border-radius: 999px;
+    padding: 4px 10px;
+    margin-bottom: 12px;
+}
+
+.book-title{
+
+    margin:0;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    line-height:1.35;
+
+    color:white;
+}
+
+.book-card-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    align-items:flex-start;
+}
+
+.book-period {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0 0 18px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.book-info {
+    display: flex;
+    gap: 16px;
+    margin-top: auto;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.info-item strong {
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.info-item span {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.55);
+    margin-top: 2px;
+}
+
+/* 책등 - 핵심 수정: 폭 고정 + flex-shrink로 늘어남 방지 */
+.book-spine {
+    width: 6px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+/* 우측 사진 영역 */
+.book-photo{
+
+    flex:.9;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:#E9D6C5;
+}
+
+.book-image{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    object-position:75% center;
+
+    transform:scale(1.05);
+
+}
+
+.book-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 55%);
+    z-index: 0;
+}
+
+.order-btn{
+
+    border:none;
+
+    background:#FF946D;
+
+    color:white;
+
+    border-radius:30px;
+
+    height:42px;
+
+    padding:0 18px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.detail-btn{
+
+    border:none;
+
+    background:white;
+
+    border-radius:24px;
+
+    height:36px;
+
+    padding:0 14px;
+
+    font-size:12px;
+
+    cursor:pointer;
+}
