@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPartnerList, deletePartner } from "../../services/partner_api"; // 경로 대소문자 확인 필요 (Services -> services)
 import { getImageUrl } from "../../hooks/imageUrl";
-import "../../styles/Partner_list.css"; // 🔥 스타일 파일 연결
+import "../../styles/partner_list.css"; // 🔥 스타일 파일 연결
 
 function PartnerList() {
   const [partnerList, setPartnerList] = useState([]);
