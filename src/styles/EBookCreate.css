@@ -1,98 +1,81 @@
 .ebook-create-page{
-
-    width:100%;
     max-width:430px;
     margin:0 auto;
-    padding:24px 20px 100px;
-    box-sizing:border-box;
-
+    padding:24px 18px 90px;
+    background:#FCF8F5;
+    min-height:100vh;
 }
 
-.ebook-create-page h2{
-
-    margin:0;
+/* 제목 */
+.create-header{
     text-align:center;
-    font-size:28px;
+    margin-bottom:22px;
+}
+
+.create-header h2{
+    font-size:34px;
     font-weight:700;
-    color:#3A2C24;
-
+    color:#2E241E;
+    margin-bottom:6px;
 }
 
-.sub-title{
-
-    margin-top:10px;
-    margin-bottom:30px;
-    text-align:center;
-    font-size:14px;
-    color:#8B7A70;
-    line-height:1.6;
-
+.create-header p{
+    font-size:15px;
+    color:#8F8177;
 }
 
+/* 카드 */
 .create-card{
-
-    background:#FFF;
-    border-radius:24px;
-    padding:30px;
-    box-shadow:0 8px 24px rgba(0,0,0,.08);
-
+    background:#fff;
+    border-radius:28px;
+    padding:28px 24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
 }
 
-.input-box{
-
-    margin-bottom:24px;
-
+/* 소제목 */
+.create-card h3{
+    text-align:center;
+    font-size:22px;
+    margin-bottom:28px;
+    color:#2E241E;
 }
 
-.input-box label{
-
+/* label */
+.create-label{
     display:block;
-    margin-bottom:8px;
-    font-size:15px;
-    font-weight:700;
-    color:#4C3C31;
-
+    margin-bottom:10px;
+    font-size:17px;
+    font-weight:600;
+    text-align:center;
 }
 
-.input-box input{
-
+/* 날짜 입력 */
+.date-input{
     width:100%;
-    height:50px;
-    border:1px solid #E8D7C6;
-    border-radius:14px;
-    padding:0 16px;
     box-sizing:border-box;
-    font-size:15px;
-    outline:none;
-    transition:.2s;
-
-}
-
-.input-box input:focus{
-
-    border-color:#EA7A4D;
-    box-shadow:0 0 0 3px rgba(234,122,77,.15);
-
-}
-
-.create-book-btn{
-
-    width:100%;
     height:52px;
-    border:none;
-    border-radius:999px;
-    background:linear-gradient(135deg,#EA7A4D,#F39A60);
-    color:#FFF;
+    border:1px solid #F2D8C5;
+    border-radius:16px;
+    padding:0 18px;
     font-size:16px;
+    margin-bottom:28px;
+    background:#fff;
+}
+
+/* 생성 버튼 */
+.create-submit{
+    width:100%;
+    height:56px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(90deg,#F17C48,#F59A58);
+    color:#fff;
+    font-size:20px;
     font-weight:700;
     cursor:pointer;
     transition:.2s;
-
 }
 
-.create-book-btn:hover{
-
+.create-submit:hover{
     transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(234,122,77,.25);
-
 }
