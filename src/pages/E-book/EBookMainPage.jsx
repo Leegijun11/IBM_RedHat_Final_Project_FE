@@ -46,8 +46,15 @@ function EBookMainPage() {
 
                 setBabyAge(Math.max(0, months));
 
-                const result = await getEBook(baby.b_id);
-                setBooks(Array.isArray(result) ? result : []);
+                // 디지털북 조회는 별도로 분리 (없어도 정상 상황)
+                try {
+                    const result = await getEBook(baby.b_id);
+                    setBooks(Array.isArray(result) ? result : []);
+                } catch (bookError) {
+                    console.log(bookError);
+                    setBooks([]);
+                }
+
             } catch (error) {
                 console.error(error);
                 alert("정보를 불러오는 중 오류가 발생했습니다.");
