@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signupUser, uploadUserImage } from "../../Services/user_api";
 import "../../styles/Sign_up.css";
 
@@ -7,7 +7,7 @@ function Sign_up({ setPage }) {
     const [u_pw, setU_pw] = useState("");
     const [confirm_pw, setConfirm_pw] = useState("");
     const [u_name, setU_name] = useState("");
-    const [u_nickname, setU_nicknameU] = useState("");
+    const [u_nickname, setU_nickname] = useState("");
     const [u_email, setU_email] = useState("");
     const [u_phone, setU_phone] = useState("");
     const [u_address, setU_address] = useState("");
@@ -75,10 +75,6 @@ function Sign_up({ setPage }) {
         setTouched(prev => ({ ...prev, [field]: true }));
     };
 
-    const handleBlur = (field) => {
-        setTouched(prev => ({ ...prev, [field]: true }));
-    };
-
     // 실시간 유효성 검사 로직 
     useEffect(() => {
         const newErrors = { ...errors };
@@ -108,7 +104,7 @@ function Sign_up({ setPage }) {
         // 전화번호 형식 검증
         const phoneRegex = /^010[0-9]{7,8}$/;
         if (u_phone && !phoneRegex.test(u_phone)) {
-            newErrors.u_phone = "올바른 전화번호 형식(예: 010XXXXXXXX)이 아닙니다. 숫자만 입력해주세요.";
+            newErrors.u_phone = "올바른 전화번호 형식(예: 010XXXXXXXX)이 아닙니다.";
         } else {
             newErrors.u_phone = "";
         }
@@ -150,24 +146,27 @@ function Sign_up({ setPage }) {
         if (!u_email.trim()) finalErrors.u_email = "이메일을 입력해주세요.";
         if (!u_phone.trim()) finalErrors.u_phone = "전화번호를 입력해주세요.";
         if (!u_address.trim()) finalErrors.u_address = "주소를 입력해주세요.";
-        if (!confirm_pw.trim()) finalErrors.confirm_pw = "비밀번호 확인을 입력해주세요.";
+        if (!confirm_pw.trim()) finalErrors.confirm_pw = "비밀번호를 입력해주세요.";
 
         if (!u_pw) {
             alert("비밀번호를 입력해주세요.");
             return;
         }
         
-        // 💡 pwdStrength.isValid 대신 동적 변수 기본값인 isPasswordValid로 바로 체크!
+        // pwdStrength.isValid 대신 동적 변수 기본값인 isPasswordValid로 바로 체크!
         if (!isPasswordValid) {
             alert("비밀번호 필수 조건을 만족하지 못했습니다. (8자 이상, 숫자 및 특수문자 조합)");
             return;
         }
 
-        if (Object.values(finalErrors).length > 0 || Object.values(errors).some(msg => msg !== "")) {
+        const hasFinalErrors = Object.keys(finalErrors).length > 0;
+        const hasLiveErrors = Object.values(errors).some(msg => msg !== "");
+
+        if (hasFinalErrors || hasLiveErrors) {
             setErrors(prev => ({ ...prev, ...finalErrors }));
-            alert("입력 정보를 다시 확인해주세요.");
+            alert("미기입 항목 또는 입력 형식을 다시 확인해 주세요.");
             return;
-        }
+        }   
 
         if (!agreed) {
             alert("이용약관 및 개인정보 처리방침에 동의해주세요.");
@@ -236,7 +235,7 @@ function Sign_up({ setPage }) {
                     placeholder="사용하실 아이디를 입력해주세요"
                     value={u_account}
                     onChange={(e) => setU_account(e.target.value)}
-                    onBlur={() => handleBlur("u_account")} {/* 💡 u_name에서 u_account로 수정 */}
+                    onBlur={() => handleBlur("u_account")} 
                 />
                 {touched.u_account && errors.u_account && <p className="error-text">{errors.u_account}</p>}
 
@@ -259,7 +258,7 @@ function Sign_up({ setPage }) {
                     type="text"
                     placeholder="사용하실 닉네임을 입력해주세요"
                     value={u_nickname}
-                    onChange={(e) => setU_nicknameU(e.target.value)}
+                    onChange={(e) => setU_nickname(e.target.value)}
                     onBlur={() => handleBlur("u_nickname")}
                 />
                 {touched.u_nickname && errors.u_nickname && <p className="error-text">{errors.u_nickname}</p>}
@@ -321,7 +320,6 @@ function Sign_up({ setPage }) {
                     </span>
                 </div>
 
-                {/* 💡 변수 직결 형태로 컴팩트해진 렌더링 파트 */}
                 {u_pw && (
                     <div className="password-strength-wrapper">
                         <div className="strength-bar-container">
@@ -352,7 +350,7 @@ function Sign_up({ setPage }) {
                     <input
                         className={`signup-input ${touched.confirm_pw && errors.confirm_pw ? "input-error" : ""}`}
                         type={showConfirmPw ? "text" : "password"}
-                        placeholder="비밀번호를 입력해주세요"
+                        placeholder="비밀번호를 재입력해주세요"
                         value={confirm_pw}
                         onChange={(e) => setConfirm_pw(e.target.value)}
                         onBlur={() => handleBlur("confirm_pw")}
