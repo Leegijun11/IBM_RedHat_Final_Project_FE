@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPartnerList, deletePartner } from "../../services/partner_api";
 import { getImageUrl } from "../../hooks/imageUrl";
-import "../../styles/Partner_list.css"; 
+import "../../styles/partner_list.css"; 
 
 function PartnerList() {
   const [partnerList, setPartnerList] = useState([]);
