@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTipDetail } from "../../Services/tip_api";
+import { getTipDetail } from "../../services/tip_api";
 
 function Tip_detail() {
     const [t_id, setT_id] = useState("");

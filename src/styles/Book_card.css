@@ -1,0 +1,143 @@
+/* src/styles/Book_card.css */
+
+.book-card-container {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 24px;
+  
+  /* 🔥 화사하고 밝은 코랄/주황색 그라데이션 적용 */
+  background: linear-gradient(100deg, #F8AD8D 0%, #F07C60 100%);
+  margin-bottom: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+  
+  /* 그림자도 주황톤으로 맞춰서 자연스럽게 */
+  box-shadow: 0 8px 16px rgba(240, 124, 96, 0.2); 
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* 우측 상단 디테일 보기 버튼 */
+.detail-link-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.25); /* 밝은 배경에 맞춰 살짝 진하게 */
+  border: none;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
+  z-index: 10;
+}
+
+.detail-link-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* 카드 내부 텍스트 콘텐츠 영역 */
+.book-card-content {
+  color: #FFFFFF;
+  z-index: 1;
+}
+
+.book-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.book-icon {
+  font-size: 14px;
+  color: #FFFFFF; /* 통일감을 위해 하얀색으로 변경 */
+}
+
+.book-vol {
+  font-size: 12px;
+  font-weight: 800;
+  color: #FFFFFF; /* 텍스트 하얀색 */
+  letter-spacing: 0.5px;
+}
+
+.book-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  /* 밝은 배경에서 글씨가 더 또렷하게 보이도록 아주 옅은 그림자 추가 */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+}
+
+.book-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 20px 0;
+}
+
+/* 통계 배지(동그라미) 디자인 */
+.book-badges {
+  display: flex;
+  gap: 12px;
+}
+
+.badge-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.badge-num {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.badge-text {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 우측 하단 메인 주문 버튼 (플로팅 스타일) */
+.order-floating-btn {
+  position: absolute;
+  bottom: 20px;
+  right: -10px;
+  
+  /* 🔥 배경이 주황색이므로, 버튼을 하얀색으로 만들어 확 눈에 띄게 포인트 줌 */
+  background: #FFFFFF; 
+  color: #F07C60; /* 글자는 코랄 주황색 */
+  
+  border: none;
+  padding: 16px 28px 16px 20px; 
+  border-radius: 30px 0 0 30px; 
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: -4px 4px 16px rgba(240, 124, 96, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.1s;
+  z-index: 10;
+}
+
+.order-floating-btn:active {
+  transform: translateX(4px); 
+}
+
+.btn-icon {
+  font-size: 16px;
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { editDiary } from "../../Services/diary_api";
+import { editDiary } from "../../services/diary_api";
 
 function Diary_edit() {
     const navigate = useNavigate();

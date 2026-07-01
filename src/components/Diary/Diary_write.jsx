@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createOrUpdateLog } from "../../Services/logs_api";
-import { uploadBabyImage } from "../../Services/babyimage_api";
-import { createDiary } from "../../Services/diary_api";
+import { createOrUpdateLog } from "../../services/logs_api";
+import { uploadBabyImage } from "../../services/babyimage_api";
+import { createDiary } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import NaviBar from "../common/NaviBar";
 function Diary_write() {

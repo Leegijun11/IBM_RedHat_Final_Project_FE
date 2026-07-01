@@ -1,0 +1,131 @@
+/* src/styles/Baby_edit_profile.css */
+
+.baby-edit-dropdown {
+  width: 100%;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #FDF9F5; /* 카드 내부의 부드러운 배경색 */
+  border-radius: 16px;
+  border: 1px dashed #EAE2DB;
+  animation: slideDown 0.3s ease-out;
+  box-sizing: border-box;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.baby-edit-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #5D5046;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.baby-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 입력 필드 그룹 */
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.double-input {
+  flex-direction: row;
+  gap: 12px;
+}
+
+.input-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #A3968C;
+  margin-bottom: 4px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #EAE2DB;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  background-color: white;
+}
+
+.input-field:focus {
+  border-color: #F07C60;
+}
+
+/* 파일 업로드 영역 */
+.file-upload-group {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.file-input-field {
+  font-size: 13px;
+  color: #5D5046;
+}
+
+.file-input-field::file-selector-button {
+  background-color: #F2E8E0;
+  color: #5D5046;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.file-name-text {
+  font-size: 12px;
+  color: #F07C60;
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+/* 하단 버튼 그룹 */
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.submit-btn {
+  flex: 1;
+  padding: 14px;
+  background: #F07C60;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 14px;
+  background: #EAE2DB;
+  color: #5D5046;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}

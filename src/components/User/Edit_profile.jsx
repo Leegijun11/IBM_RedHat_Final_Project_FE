@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { updateUser, uploadUserImage } from "../../services/user_api";
+import "../../styles/Edit_profile.css";
 
 function Edit_profile({ user, onClose, onSuccess }) {
   const [u_pw, setU_pw] = useState("");
@@ -8,101 +9,64 @@ function Edit_profile({ user, onClose, onSuccess }) {
   const [u_email, setU_email] = useState(user?.u_email || "");
   const [u_phone, setU_phone] = useState(user?.u_phone || "");
   const [imageFile, setImageFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(user?.u_image || null);
 
-  // 유저 정보 수정
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
   const handleUpdateUser = async (e) => {
     e.preventDefault();
-
     try {
       let imagePath = user?.u_image || null;
-
       if (imageFile) {
         const uploadResult = await uploadUserImage(imageFile);
         imagePath = uploadResult.image_url;
       }
-
-      const result = await updateUser({
-        u_pw,
-        u_name,
-        u_nickname,
-        u_email,
-        u_phone,
-        u_image: imagePath,
-      });
-
-      console.log(result);
-
+      await updateUser({ u_pw, u_name, u_nickname, u_email, u_phone, u_image: imagePath });
       alert("정보를 수정하였습니다.");
       if (onSuccess) onSuccess();
       if (onClose) onClose();
     } catch (error) {
-      console.log(error);
       alert("정보 수정에 실패하였습니다.");
     }
   };
 
   return (
-    <div>
-      <h2>프로필 수정</h2>
-
-      <form onSubmit={handleUpdateUser}>
-        <div>
-          <label>프로필 사진 변경</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImageFile(e.target.files[0])}
-          />
-          {imageFile && <p>{imageFile.name}</p>}
+    <div className="profile-edit-dropdown">
+      <form onSubmit={handleUpdateUser} className="edit-form">
+        {/* 프로필 사진 수정 */}
+        <div className="profile-image-section">
+          <label htmlFor="profile-upload" className="image-label">
+            <div className="image-circle" style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}} />
+            <div className="camera-icon">📷</div>
+          </label>
+          <input id="profile-upload" type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
         </div>
 
-        <div>
-          <input
-            type="password"
-            placeholder="새 비밀번호"
-            value={u_pw}
-            onChange={(e) => setU_pw(e.target.value)}
-          />
-        </div>
+        <label className="input-label">비밀번호 변경</label>
+        <input className="input-field" type="password" placeholder="새 비밀번호를 입력하세요" value={u_pw} onChange={(e) => setU_pw(e.target.value)} />
 
-        <div>
-          <input
-            type="text"
-            placeholder="이름"
-            value={u_name}
-            onChange={(e) => setU_name(e.target.value)}
-          />
-        </div>
+        <label className="input-label">이름</label>
+        <input className="input-field" type="text" value={u_name} onChange={(e) => setU_name(e.target.value)} />
 
-        <div>
-          <input
-            type="text"
-            placeholder="닉네임"
-            value={u_nickname}
-            onChange={(e) => setU_nickname(e.target.value)}
-          />
-        </div>
+        <label className="input-label">닉네임</label>
+        <input className="input-field" type="text" value={u_nickname} onChange={(e) => setU_nickname(e.target.value)} />
 
-        <div>
-          <input
-            type="email"
-            placeholder="이메일"
-            value={u_email}
-            onChange={(e) => setU_email(e.target.value)}
-          />
-        </div>
+        <label className="input-label">이메일</label>
+        <input className="input-field" type="email" value={u_email} onChange={(e) => setU_email(e.target.value)} />
 
-        <div>
-          <input
-            type="text"
-            placeholder="전화번호"
-            value={u_phone}
-            onChange={(e) => setU_phone(e.target.value)}
-          />
-        </div>
+        <label className="input-label">전화번호</label>
+        <input className="input-field" type="text" value={u_phone} onChange={(e) => setU_phone(e.target.value)} />
 
-        <button type="submit">수정하기</button>
-        <button type="button" onClick={onClose}>취소</button>
+        <div className="btn-group">
+          <button type="submit" className="submit-btn">수정 완료</button>
+          <button type="button" className="cancel-btn" onClick={onClose}>취소</button>
+        </div>
       </form>
     </div>
   );

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getMilestones, checkMilestone } from "../../services/milestone_api";
+import "../../styles/MilestoneList.css"; // 🔥 스타일 연결
 
 function MilestoneList({ babyId, babyAgeMonths }) {
   const [milestones, setMilestones] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const categories = ["전체", "인지", "언어/의사소통", "신체 발달", "사회성/정서"];
 
-  // 구간을 표시하기 위한 라벨 계산
   const getAgeRangeLabel = (months) => {
     if (months < 2) return "0~2개월";
     if (months < 4) return "2~4개월";
@@ -20,7 +20,6 @@ function MilestoneList({ babyId, babyAgeMonths }) {
     return "60개월 이상";
   };
 
-  // 서버에 전달할 타겟 나이 (기존 로직 유지 또는 필요에 따라 조정)
   const getTargetAge = (months) => {
     if (months < 2) return 2;
     if (months < 4) return 4;
@@ -47,26 +46,34 @@ function MilestoneList({ babyId, babyAgeMonths }) {
   }, [babyAgeMonths, selectedCategory]);
 
   return (
-    <div>
-      {/* 구간 라벨 표시 */}
-      <h4>발달 마일스톤 ({getAgeRangeLabel(babyAgeMonths)} 기준)</h4>
+    <div className="milestone-container">
+      <h4 className="milestone-title">발달 마일스톤 ({getAgeRangeLabel(babyAgeMonths)} 기준)</h4>
       
-      <select onChange={(e) => setSelectedCategory(e.target.value)} value={selectedCategory}>
+      <select 
+        className="milestone-select" 
+        onChange={(e) => setSelectedCategory(e.target.value)} 
+        value={selectedCategory}
+      >
         {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
       </select>
       
-      <ul>
-        {milestones.map((m) => (
-          <li key={m.id}>
-            <input 
-                type="checkbox" 
-                checked={m.is_achieved} 
-                onChange={() => checkMilestone(babyId, m.id, !m.is_achieved)} 
-            />
-            {m.app_milestone}
-          </li>
-        ))}
-      </ul>
+        <ul className="milestone-list">
+          {milestones.map((m) => (
+            <li key={m.id} className={`milestone-item ${m.is_achieved ? 'achieved' : ''}`}>
+              {/* 라벨로 감싸서 영역 전체 클릭 가능하게 설정 */}
+              <label className="checkbox-wrapper">
+                <input 
+                    type="checkbox" 
+                    checked={m.is_achieved} 
+                    onChange={() => checkMilestone(babyId, m.id, !m.is_achieved)} 
+                />
+                {/* 이 span이 동그라미 역할을 합니다 */}
+                <span className="custom-circle"></span>
+                <span className="checkbox-text">{m.app_milestone}</span>
+              </label>
+            </li>
+          ))}
+        </ul>
     </div>
   );
 }

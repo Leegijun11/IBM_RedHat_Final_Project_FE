@@ -1,0 +1,76 @@
+/* src/styles/Growth_chart.css */
+
+.growth-chart-wrapper { width: 100%; }
+
+/* 그래프 컨테이너 */
+.bar-graph-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 150px;
+    padding: 20px 10px;
+    background: #FFF9F7;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.graph-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
+
+.bar-wrapper { display: flex; gap: 4px; height: 100px; align-items: flex-end; }
+
+.bar { width: 12px; border-radius: 6px 6px 0 0; transition: height 0.8s ease; }
+.height-bar { background-color: #F07C60; }
+.weight-bar { background-color: #F5B079; }
+
+.graph-date { margin-top: 8px; font-size: 11px; color: #A3968C; font-weight: 700; }
+
+/* 기존 표 스타일 */
+.growth-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.growth-table th { color: #A3968C; padding: 10px; border-bottom: 1px solid #EAE2DB; }
+.growth-table td { padding: 12px; text-align: center; color: #5D5046; border-bottom: 1px solid #FDF9F5; }
+.data-val { font-weight: 700; color: #333; }
+
+
+/* 기존 스타일 아래에 추가 */
+
+/* 툴팁 디자인 */
+.chart-tooltip {
+    position: fixed;
+    background: white;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-size: 12px;
+    font-weight: 700;
+    color: #5D5046;
+    pointer-events: none; /* 마우스가 툴팁을 방해하지 않게 */
+    z-index: 100;
+    border: 1px solid #EAE2DB;
+}
+
+.tt-date { margin: 0 0 4px 0; color: #A3968C; }
+.tt-height { color: #F07C60; margin: 0; }
+.tt-weight { color: #F5B079; margin: 0; }
+
+/* 막대에 호버 효과 추가 */
+.bar-wrapper {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.bar-wrapper:hover {
+    opacity: 0.7;
+}
+
+/* (이전 스타일 유지) */
+.bar-graph-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 150px;
+    padding: 20px 10px;
+    background: #FFF9F7;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}

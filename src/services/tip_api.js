@@ -1,4 +1,4 @@
-import api from "../Hooks/api";
+import api from "../hooks/api"
 
 // 팁 목록 조회
 export const getTipList = async (t_age) => {

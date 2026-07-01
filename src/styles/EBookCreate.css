@@ -1,0 +1,83 @@
+.ebook-create-page{
+    max-width:520px;
+    margin:0 auto;
+    padding:24px 24px 100px;
+    background:#FCF8F5;
+    min-height:100vh;
+}
+
+/* 제목 */
+.create-header{
+    text-align:center;
+    margin-bottom:22px;
+}
+
+.create-header h2{
+    font-size:34px;
+    font-weight:700;
+    color:#2E241E;
+    margin-bottom:6px;
+}
+
+.create-header p{
+    font-size:15px;
+    color:#8F8177;
+}
+
+/* 카드 */
+.create-card{
+    width:100%;
+    box-sizing:border-box;
+    background:#fff;
+    border-radius:28px;
+    padding:32px 18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+
+/* 소제목 */
+.create-card h3{
+    text-align:center;
+    font-size:22px;
+    margin-bottom:28px;
+    color:#2E241E;
+}
+
+/* label */
+.create-label{
+    display:block;
+    margin-bottom:10px;
+    font-size:17px;
+    font-weight:600;
+    text-align:center;
+}
+
+/* 날짜 입력 */
+.date-input{
+    width:100%;
+    box-sizing:border-box;
+    height:52px;
+    border:1px solid #F2D8C5;
+    border-radius:16px;
+    padding:0 14px;
+    font-size:16px;
+    margin-bottom:28px;
+    background:#fff;
+}
+
+/* 생성 버튼 */
+.create-submit{
+    width:100%;
+    height:56px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(90deg,#F17C48,#F59A58);
+    color:#fff;
+    font-size:20px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.create-submit:hover{
+    transform:translateY(-2px);
+}

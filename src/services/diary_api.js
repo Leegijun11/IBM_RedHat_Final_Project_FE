@@ -1,4 +1,4 @@
-import api from './../Hooks/api';
+import api from "../hooks/api"
 
 // 일기 작성 ( C )
 export const createDiary = async (data) => {

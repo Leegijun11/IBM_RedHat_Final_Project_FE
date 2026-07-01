@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getCurrentUser } from "../../services/user_api";
 import { getImageUrl } from "../../hooks/imageUrl";
-import { getCurrentBaby } from "../../Services/partner_api";
+import { getCurrentBaby } from "../../services/partner_api";
 
 function calculateAge(birthDateStr) {
     const birth = new Date(birthDateStr);

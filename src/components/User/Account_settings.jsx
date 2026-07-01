@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { logoutUser, deleteUser } from "../../Services/user_api";
+import { logoutUser, deleteUser } from "../../services/user_api";
+import "../../styles/Account_settings.css"; // 🔥 스타일 파일 연결
 
 function Account_settings() {
   const navigate = useNavigate();
@@ -28,7 +29,6 @@ function Account_settings() {
 
     try {
       await deleteUser();
-
       alert("회원 탈퇴가 완료되었습니다.");
       navigate("/");
     } catch (error) {
@@ -39,9 +39,11 @@ function Account_settings() {
   };
 
   return (
-    <div>
-      <button onClick={handleLogout}>로그아웃</button>
-      <button onClick={handleDeleteAccount} style={{ color: "red" }}>
+    <div className="account-settings-container">
+      <button className="logout-btn" onClick={handleLogout}>
+        로그아웃
+      </button>
+      <button className="delete-btn" onClick={handleDeleteAccount}>
         회원 탈퇴
       </button>
     </div>

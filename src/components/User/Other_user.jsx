@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getUserById } from "../../Services/user_api";
+import { getUserById } from "../../services/user_api";
 
 function Other_user() {
     const [u_id, setU_id] = useState("");

@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import Login_form from "../../Components/User/Login_form";
-import Sign_up from "../../Components/User/Sign_up";
-import Find_account from "../../Components/User/Find_account";
-import Find_password from "../../Components/User/Find_password";
+import Login_form from "../../components/User/Login_form";
+import Sign_up from "../../components/User/Sign_up";
+import Find_account from "../../components/User/Find_account";
+import Find_password from "../../components/User/Find_password";
 
 
 function Login() {
