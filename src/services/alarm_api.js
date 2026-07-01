@@ -1,9 +1,12 @@
 import api from "../hooks/api"
 
-// 알람 생성
-export const createAlarm = async ({ receive_account }) => {
+// 알람 생성 (인자에 p_category 추가)
+export const createAlarm = async ({ receive_account, p_category }) => {
     const response = await api.post("/alarms/create", null, {
-        params: { receive_account },
+        params: { 
+            receive_account,
+            p_category
+        },
     });
     return response.data;
 };

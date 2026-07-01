@@ -76,8 +76,9 @@ function Alarm_list({ onAccept }) {
               <div key={alarm.a_id} className="alarm-item">
                 <div className="alarm-content">
                   <p className="alarm-title">공동 양육자 초대 알림</p>
-                  <p className="alarm-text">보낸 사람 ID : {alarm.send_id}</p>
-                  <p className="alarm-text">그룹 ID : {alarm.g_id}</p>
+                  <p className="alarm-text">
+                    <strong>{alarm.sender_name}</strong>님이 초대를 보냈습니다.
+                  </p>
                 </div>
                 
                 <div className="alarm-actions">

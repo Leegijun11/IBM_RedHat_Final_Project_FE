@@ -35,6 +35,16 @@ function Baby_list({ babies, selectedBabyId, onSelect, onEdit }) {
     }
   };
 
+  if (!babies || babies.length === 0) {
+    return (
+      <div className="baby-list-empty">
+        <p>연동되거나 등록된 아이 프로필이 없습니다.</p>
+      </div>
+    );
+  }
+
+
+
   return (
     <div className="baby-list-container">
       {babies.map((baby) => {

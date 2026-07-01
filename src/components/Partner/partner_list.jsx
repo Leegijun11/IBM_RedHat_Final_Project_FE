@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getPartnerList, deletePartner } from "../../services/partner_api"; // 경로 대소문자 확인 필요 (Services -> services)
+import { getPartnerList, deletePartner } from "../../services/partner_api";
 import { getImageUrl } from "../../hooks/imageUrl";
-import "../../styles/partner_list.css"; // 🔥 스타일 파일 연결
+import "../../styles/Partner_list.css"; 
 
 function PartnerList() {
   const [partnerList, setPartnerList] = useState([]);
-
+  
   const handleGetPartnerList = async () => {
     try {
       const result = await getPartnerList();
@@ -13,7 +13,7 @@ function PartnerList() {
       setPartnerList(result);
     } catch (error) {
       console.error(error);
-      setPartnerList([]); // alert 대신 조용히 빈 목록 처리
+      setPartnerList([]); 
     }
   };
 
@@ -63,6 +63,7 @@ function PartnerList() {
 
             {/* 3. 상태 배지 및 삭제 버튼 */}
             <div className="partner-actions">
+              {/* ★ 기존 CSS인 active와 pending 클래스에 정확히 매칭시켰습니다 */}
               <span className={`status-badge ${partner.p_state === 'active' ? 'active' : 'pending'}`}>
                 {partner.p_state === 'active' ? '활성' : partner.p_state}
               </span>

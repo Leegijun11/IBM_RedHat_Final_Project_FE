@@ -22,6 +22,7 @@ function MyPage() {
   const [showUserEdit, setShowUserEdit] = useState(false);
   const [editingBaby, setEditingBaby] = useState(null);
   const [partnerRefreshKey, setPartnerRefreshKey] = useState(0);
+
   const fetchCurrentUser = async () => {
     try {
       const userResult = await getMe();
@@ -40,6 +41,11 @@ function MyPage() {
     }
   };
 
+  // ★ 초대가 완료되었을 때 리스트만 깔끔하게 단독 리렌더링 시키는 함수 정의
+  const handleRefreshPartnerList = () => {
+    setPartnerRefreshKey((prev) => prev + 1);
+  };
+
   useEffect(() => { fetchCurrentUser(); }, []);
 
   return (
@@ -49,7 +55,6 @@ function MyPage() {
       </div>
 
       <div className="mypage-section">
-        {/* 프로필 수정이 이 바로 아래로 슬라이드 다운 됩니다 */}
         <My_page user={user} onEditClick={() => setShowUserEdit(!showUserEdit)} />
         {showUserEdit && (
           <User_edit_profile
@@ -73,7 +78,13 @@ function MyPage() {
         {!showInvite && (
           <button className="invite-btn" onClick={() => setShowInvite(true)}>+ 공동 양육자 초대</button>
         )}
-        {showInvite && <Partner_invite onClose={() => setShowInvite(false)} />}
+        {/* ★ 생성한 토글 리프레시 함수를 Props로 주입해줍니다 */}
+        {showInvite && (
+          <Partner_invite 
+            onClose={() => setShowInvite(false)} 
+            onRefresh={handleRefreshPartnerList} 
+          />
+        )}
       </div>
 
       <div className="mypage-section">
