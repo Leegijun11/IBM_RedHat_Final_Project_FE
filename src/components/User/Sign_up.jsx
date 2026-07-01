@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { signupUser, uploadUserImage } from "../../Services/user_api";
+import { signupUser, uploadUserImage } from "../../services/user_api";
 import "../../styles/Sign_up.css";
 
 function Sign_up({ setPage }) {
@@ -77,44 +77,42 @@ function Sign_up({ setPage }) {
 
     // 실시간 유효성 검사 로직 
     useEffect(() => {
-        const newErrors = { ...errors };
+        const newErrors = {
+            u_account: "", u_name: "", u_nickname: "", u_email: "", u_phone: "", u_address: "", u_pw: "", confirm_pw: ""
+        };
 
-        // 아이디 검증
         const accountRegex = /^(?=.*[a-zA-Z])[a-zA-Z\d]{4,20}$/;
         if (u_account && !accountRegex.test(u_account)) {
             newErrors.u_account = "아이디는 영문 필수, 숫자 선택 조합으로 4~20자 사이여야 합니다.";
-        } else {
-            newErrors.u_account = "";
-        }
-        // 비밀번호 확인 검증
+        } 
+
         if (confirm_pw && u_pw !== confirm_pw) {
             newErrors.confirm_pw = "비밀번호가 일치하지 않습니다.";
-        } else {
-            newErrors.confirm_pw = "";
-        }
+        } 
 
-        // 이메일 형식 검증
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (u_email && !emailRegex.test(u_email)) {
             newErrors.u_email = "올바른 이메일 형식이 아닙니다.";
-        } else {
-            newErrors.u_email = "";
-        }
+        } 
 
-        // 전화번호 형식 검증
         const phoneRegex = /^010[0-9]{7,8}$/;
         if (u_phone && !phoneRegex.test(u_phone)) {
             newErrors.u_phone = "올바른 전화번호 형식(예: 010XXXXXXXX)이 아닙니다.";
-        } else {
-            newErrors.u_phone = "";
+        } 
+
+        if (touched.u_name && !u_name.trim()) newErrors.u_name = "이름을 입력해주세요.";
+        if (touched.u_nickname && !u_nickname.trim()) newErrors.u_nickname = "닉네임을 입력해주세요.";
+        if (touched.u_address && !u_address.trim()) newErrors.u_address = "주소를 입력해주세요.";
+
+       if (touched.u_pw && u_pw && !isPasswordValid) {
+            newErrors.u_pw = "비밀번호 조건을 확인해주세요.";
         }
 
-        if (u_name) newErrors.u_name = "";
-        if (u_nickname) newErrors.u_nickname = "";
-        if (u_address) newErrors.u_address = "";
-
         setErrors(newErrors);
-    }, [u_account, u_pw, confirm_pw, u_email, u_phone, u_name, u_nickname, u_address]);
+        
+    }, [u_account, u_pw, confirm_pw, u_email, u_phone, u_name, u_nickname, 
+        u_address, touched.u_name, touched.u_nickname, touched.u_address, 
+        touched.u_pw, isPasswordValid]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -127,17 +125,9 @@ function Sign_up({ setPage }) {
     const handleSignup = async (e) => {
         e.preventDefault();
 
-        const allTouched = {
-            u_account: true,
-            u_name: true,
-            u_nickname: true,
-            u_email: true,
-            u_phone: true,
-            u_address: true,
-            u_pw: true,
-            confirm_pw: true
-        };
-        setTouched(allTouched);
+        setTouched({
+            u_account: true, u_name: true, u_nickname: true, u_email: true, u_phone: true, u_address: true, u_pw: true, confirm_pw: true
+        });
 
         const finalErrors = {};
         if (!u_account.trim()) finalErrors.u_account = "아이디를 입력해주세요.";
@@ -148,12 +138,11 @@ function Sign_up({ setPage }) {
         if (!u_address.trim()) finalErrors.u_address = "주소를 입력해주세요.";
         if (!confirm_pw.trim()) finalErrors.confirm_pw = "비밀번호를 입력해주세요.";
 
-        if (!u_pw) {
+        if (!u_pw.trim()) {
             alert("비밀번호를 입력해주세요.");
             return;
         }
         
-        // pwdStrength.isValid 대신 동적 변수 기본값인 isPasswordValid로 바로 체크!
         if (!isPasswordValid) {
             alert("비밀번호 필수 조건을 만족하지 못했습니다. (8자 이상, 숫자 및 특수문자 조합)");
             return;
@@ -180,18 +169,10 @@ function Sign_up({ setPage }) {
                 imagePath = uploadResult.image_url;
             }
 
-            const result = await signupUser({
-                u_account,
-                u_pw,
-                u_name,
-                u_nickname,
-                u_email,
-                u_phone,
-                u_address,
-                u_image: imagePath,
+            await signupUser({
+                u_account, u_pw, u_name, u_nickname, u_email, u_phone, u_address, u_image: imagePath,
             });
 
-            console.log(result);
             alert(`${u_nickname}님 회원가입을 환영합니다.`);
             setPage("login");
         } catch (error) {
@@ -209,21 +190,12 @@ function Sign_up({ setPage }) {
                 {/* 프로필 사진 */}
                 <div className="signup-image-wrapper">
                     <label htmlFor="profile-upload" className="signup-image-label">
-                        <div
-                            className="signup-image-circle"
-                            style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}
-                        >
+                        <div className="signup-image-circle" style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}>
                             {!previewUrl && <span className="signup-image-placeholder">👤</span>}
                         </div>
                         <span className="signup-image-camera">📷</span>
                     </label>
-                    <input
-                        id="profile-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        style={{ display: "none" }}
-                    />
+                    <input id="profile-upload" type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
                     <p className="signup-image-hint">프로필 사진 추가</p>
                 </div>
 
@@ -311,35 +283,24 @@ function Sign_up({ setPage }) {
                         onBlur={() => handleBlur("u_pw")}
                         style={{ width: "100%" }}
                     />
-                    <span 
-                        className="password-toggle-icon"
-                        onClick={() => setShowPw(!showPw)}
-                        style={{ position: "absolute", right: "15px", top: "12px", cursor: "pointer" }}
-                    >
+                    <span className="password-toggle-icon" onClick={() => setShowPw(!showPw)} style={{ position: "absolute", right: "15px", top: "12px", cursor: "pointer" }}>
                         {showPw ? "👁️" : "👁️‍🗨️"}
                     </span>
                 </div>
 
+                {/* [추가 안내] 
+                     비밀번호 입력 시 실시간 에러 클래스 및 텍스트 출력을 위해
+                     input 태그 하단에 u_pw 에러 문구 노출 로직을 유지하거나 아래의 가이드라인을 타게 됩니다. */}
                 {u_pw && (
                     <div className="password-strength-wrapper">
                         <div className="strength-bar-container">
-                            <div 
-                                className="strength-bar-fill"
-                                style={{ width: `${strengthPercent}%`, background: strengthColor }} 
-                            />
+                            <div className="strength-bar-fill" style={{ width: `${strengthPercent}%`, background: strengthColor }} />
                         </div>
                         <p className="strength-text">보안 강도: <b>{strengthText}</b></p>
-                        
                         <ul className="milestone-list">
-                            <li className={isLengthValid ? "valid" : "invalid"}>
-                                {isLengthValid ? "✓" : "✕"} 8자 이상
-                            </li>
-                            <li className={hasNumber ? "valid" : "invalid"}>
-                                {hasNumber ? "✓" : "✕"} 숫자 포함
-                            </li>
-                            <li className={hasSpecial ? "valid" : "invalid"}>
-                                {hasSpecial ? "✓" : "✕"} 특수문자 포함
-                            </li>
+                            <li className={isLengthValid ? "valid" : "invalid"}>{isLengthValid ? "✓" : "✕"} 8자 이상</li>
+                            <li className={hasNumber ? "valid" : "invalid"}>{hasNumber ? "✓" : "✕"} 숫자 포함</li>
+                            <li className={hasSpecial ? "valid" : "invalid"}>{hasSpecial ? "✓" : "✕"} 특수문자 포함</li>
                         </ul>
                     </div>
                 )}
@@ -356,35 +317,21 @@ function Sign_up({ setPage }) {
                         onBlur={() => handleBlur("confirm_pw")}
                         style={{ width: "100%" }}
                     />
-                    <span 
-                        className="password-toggle-icon"
-                        onClick={() => setShowConfirmPw(!showConfirmPw)}
-                        style={{ position: "absolute", right: "15px", top: "12px", cursor: "pointer" }}
-                    >
+                    <span className="password-toggle-icon" onClick={() => setShowConfirmPw(!showConfirmPw)} style={{ position: "absolute", right: "15px", top: "12px", cursor: "pointer" }}>
                         {showConfirmPw ? "👁️" : "👁️‍🗨️"}
                     </span>
                 </div>
                 {touched.confirm_pw && errors.confirm_pw && <p className="error-text">{errors.confirm_pw}</p>}
 
                 <div className="signup-agree-row">
-                    <input
-                        type="checkbox"
-                        checked={agreed}
-                        onChange={(e) => setAgreed(e.target.checked)}
-                    />
-                    <span>
-                        <span className="signup-agree-link">이용약관 및 개인정보 처리방침</span>에 동의합니다
-                    </span>
+                    <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
+                    <span><span className="signup-agree-link">이용약관 및 개인정보 처리방침</span>에 동의합니다</span>
                 </div>
 
-                <button type="submit" className="signup-submit-btn">
-                    회원가입 완료
-                </button>
+                <button type="submit" className="signup-submit-btn">회원가입 완료</button>
             </form>
 
-            <p className="signup-login-link">
-                이미 계정이 있으신가요? <span onClick={() => setPage("login")}>로그인</span>
-            </p>
+            <p className="signup-login-link">이미 계정이 있으신가요? <span onClick={() => setPage("login")}>로그인</span></p>
         </div>
     );
 }

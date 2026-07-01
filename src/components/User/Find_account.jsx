@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { findAccount } from "../../Services/user_api";
+import { findAccount } from "../../services/user_api";
 
 function Find_account ({setPage}) {
     const [u_name, setU_name] = useState("");
