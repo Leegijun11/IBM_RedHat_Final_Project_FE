@@ -89,7 +89,7 @@ function Baby_form() {
           <div className="row-inputs">
             <div className="input-group half">
               <label className="baby-label">키 (cm)</label>
-              <input className="baby-input" type="number" placeholder="예) 65.0" value={b_height} onChange={(e) => setB_height(e.target.value)} />
+              <input className="baby-input" type="number" placeholder="예) 40.5" value={b_height} onChange={(e) => setB_height(e.target.value)} />
             </div>
             <div className="input-group half">
               <label className="baby-label">몸무게 (kg)</label>

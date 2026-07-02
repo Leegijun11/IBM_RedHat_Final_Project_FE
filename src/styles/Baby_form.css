@@ -111,11 +111,28 @@
   margin-bottom: 20px;
 }
 .personality-btn {
-  padding: 12px 0; border-radius: 16px; border: 1px solid #EAE2DB;
-  background: white; color: #8C7B6D; font-size: 13px; cursor: pointer;
+  padding: 13px 0;
+  border-radius: 16px;
+  border: 1px solid #F0E6DC;
+  background: #FFFBF8;
+  color: #A3968C;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
 }
+
+.personality-btn:hover {
+  border-color: #F5B079;
+}
+
 .personality-btn.active {
-  background-color: #F07C60; color: white; border-color: #F07C60;
+  background: linear-gradient(135deg, #F5876A 0%, #F5A579 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 10px rgba(240, 124, 96, 0.35);
+  font-weight: 600;
 }
 
 .row-inputs { display: flex; gap: 12px; }
