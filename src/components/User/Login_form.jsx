@@ -51,7 +51,7 @@ function Login_form({ setPage }) {
         <div className="logo-box">
           <span className="logo-icon">👶</span>
         </div>
-        <h1 className="app-title">그로우</h1>
+        <h1 className="app-title">DearBaby</h1>
       </div>
 
       {/* 하단 흰색 시트 영역 */}
