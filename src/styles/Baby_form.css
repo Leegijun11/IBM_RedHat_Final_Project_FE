@@ -33,6 +33,11 @@
   margin-bottom: 12px;
 }
 
+.baby-input::placeholder {
+  color: #C9BEB4;
+  font-weight: 400;
+}
+
 .baby-input:focus {
   border-color: #F07C60;
 }
@@ -87,7 +92,16 @@
   text-align: left;
 }
 .baby-sub-title { font-size: 16px; color: #8C7B6D; margin: 0 0 8px 0; }
-.baby-title { font-size: 32px; color: #333; line-height: 1.2; margin: 0; }
+.baby-title {
+  font-size: 28px;
+  color: #2B2118;
+  line-height: 1.3;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
 
 .personality-grid {
   display: grid;
