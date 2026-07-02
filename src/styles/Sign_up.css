@@ -1,81 +1,138 @@
 /* ==========================================================================
-   Header (로그인 창과 동일한 로고/타이틀 스타일)
+   Base Layout & Background
+   ========================================================================== */
+.signup-container {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, #F57E5C 0%, #F5B079 100%);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+}
+
+/* ==========================================================================
+   배경 장식 (원형 그래픽)
+   ========================================================================== */
+.bg-circle {
+  position: absolute;
+  top: -30px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15);
+  z-index: 0;
+}
+
+.circle-left { left: -35px; }
+.circle-right { right: -35px; }
+
+.header-section,
+.bottom-sheet {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Header (로고/타이틀)
    ========================================================================== */
 .header-section {
-  position: relative;
-  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 80px;
   padding-bottom: 30px;
 }
+
 .logo-box {
-  width: 72px; 
+  width: 72px;
   height: 72px;
   background-color: white;
   border-radius: 24px;
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   margin-bottom: 12px;
 }
+
 .logo-icon { font-size: 32px; }
-.app-title { 
-  color: white; 
-  font-size: 20px; 
-  font-weight: 800; 
-  margin: 0; 
-}
 
-
-
-/* ==========================================================================
-   Base Layout & Background
-   ========================================================================== */
-.signup-container {
-  width: 100%;
-  max-width: 420px; /* 모바일 뷰 고정 */
-  min-height: 100vh;
-  margin: 0 auto;
-  background: linear-gradient(145deg, #F57E5C 0%, #F5B079 100%);
-  display: flex;
-  flex-direction: column;
-  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
-  overflow-x: hidden;
-}
-
-/* ==========================================================================
-   Top Header (Title & Subtitle)
-   ========================================================================== */
-.signup-title {
+.app-title {
   color: white;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
-  text-align: center;
-  margin-top: 60px;
-  margin-bottom: 8px;
-}
-
-.signup-subtitle {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 30px;
+  margin: 0;
 }
 
 /* ==========================================================================
-   Bottom Sheet (Form Area)
+   바텀 시트 (탭 전환 + 인사말 + 폼 전체를 감싸는 카드)
    ========================================================================== */
-form {
+.bottom-sheet {
   flex: 1;
-  background-color: #FAF4EF; /* 따뜻한 베이지/화이트톤 */
+  background-color: #FAF4EF;
   border-radius: 32px 32px 0 0;
   padding: 32px 24px 16px;
   display: flex;
   flex-direction: column;
+}
+
+.bottom-sheet form {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
+}
+
+/* ==========================================================================
+   탭 전환 (로그인 / 회원가입)
+   ========================================================================== */
+.tab-switcher {
+  display: flex;
+  background-color: #EAE2DB;
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 0;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #A3968C;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background-color: #fff;
+  color: #F07C60;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* ==========================================================================
+   인사말 영역
+   ========================================================================== */
+.greeting-box {
+  margin-bottom: 20px;
+}
+
+.greeting-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 4px;
+  color: #333;
+}
+
+.greeting-subtitle {
+  color: #A3968C;
+  font-size: 13px;
+  margin: 0;
 }
 
 /* ==========================================================================
@@ -108,9 +165,7 @@ form {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.signup-image-placeholder {
-  font-size: 32px;
-}
+.signup-image-placeholder { font-size: 32px; }
 
 .signup-image-camera {
   position: absolute;
@@ -139,7 +194,7 @@ form {
   font-weight: 700;
   color: #A3968C;
   margin-top: 4px;
-  margin-bottom: -4px; /* 입력창과 간격 좁히기 */
+  margin-bottom: -4px;
 }
 
 .signup-input {
@@ -155,26 +210,8 @@ form {
   transition: border-color 0.2s;
 }
 
-.signup-input::placeholder {
-  color: #C0B5AC;
-}
-
-.signup-input:focus {
-  border-color: #F07C60;
-}
-
-/* ==========================================================================
-
-
-
-
-
-
-
-
-
-
-
+.signup-input::placeholder { color: #C0B5AC; }
+.signup-input:focus { border-color: #F07C60; }
 
 /* ==========================================================================
    Terms Agreement (체크박스 커스텀)
@@ -191,13 +228,12 @@ form {
   margin-bottom: 8px;
 }
 
-/* 1. 기본 네모 체크박스 숨기기 및 동그라미로 뼈대 만들기 */
 .signup-agree-row input[type="checkbox"] {
-  appearance: none; /* 브라우저 기본 스타일 제거 */
+  appearance: none;
   -webkit-appearance: none;
   width: 24px;
   height: 24px;
-  border-radius: 50%; /* 완벽한 동그라미 */
+  border-radius: 50%;
   border: 2px solid #EAE2DB;
   background-color: white;
   cursor: pointer;
@@ -206,13 +242,11 @@ form {
   flex-shrink: 0;
 }
 
-/* 2. 체크되었을 때 코랄색으로 채우기 */
 .signup-agree-row input[type="checkbox"]:checked {
   background-color: #F07C60;
   border-color: #F07C60;
 }
 
-/* 3. 체크되었을 때 가운데에 하얀색 체크(✔) 모양 넣기 */
 .signup-agree-row input[type="checkbox"]:checked::after {
   content: "✔";
   color: white;
@@ -224,10 +258,7 @@ form {
   transform: translate(-50%, -50%);
 }
 
-.signup-agree-row span {
-  font-size: 13px;
-  color: #A3968C;
-}
+.signup-agree-row span { font-size: 13px; color: #A3968C; }
 
 .signup-agree-link {
   font-weight: 800;
@@ -236,60 +267,49 @@ form {
 }
 
 /* ==========================================================================
-   Submit Button (회원가입 완료 버튼 커스텀)
+   Submit Button
    ========================================================================== */
 .signup-submit-btn {
   width: 100%;
   padding: 18px 0;
-  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%); /* 코랄 그라데이션 */
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
   color: white;
-  border: none; /* 캡처에 있던 얇은 검은 테두리 제거 */
+  border: none;
   border-radius: 16px;
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(245, 126, 92, 0.3); /* 피그마 스타일 은은한 그림자 */
+  box-shadow: 0 6px 16px rgba(245, 126, 92, 0.3);
   margin-top: 12px;
   margin-bottom: 12px;
   transition: opacity 0.2s;
 }
 
-.signup-submit-btn:active {
-  opacity: 0.8;
-}
-
-
+.signup-submit-btn:active { opacity: 0.8; }
 
 /* ==========================================================================
-   Footer Login Link (하단 로그인 링크 영역 커스텀)
+   Footer Login Link
    ========================================================================== */
 .signup-login-link {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px; /* 텍스트 사이 간격 */
-  
+  gap: 6px;
   text-align: center;
   font-size: 14px;
-  color: #A3968C; /* 부드러운 웜그레이 톤 */
-  
-  /* 위쪽 form 태그(바텀 시트)와 완벽하게 이어지도록 동일한 배경색 적용 */
-  background-color: #FAF4EF; 
+  color: #A3968C;
+  background-color: #FAF4EF;
   margin: 0;
-  
-  /* 핸드폰 프레임 하단 둥근 모서리에 글자가 잘리지 않도록 아래 여백 넉넉히 주기 */
-  padding: 16px 0 40px; 
+  padding: 16px 0 40px;
 }
 
-/* '로그인' 클릭 버튼 텍스트 강조 */
 .signup-login-link span {
-  color: #F07C60; /* 메인 코랄 포인트 컬러 */
-  font-weight: 800; /* 폰트 두껍게 */
+  color: #F07C60;
+  font-weight: 800;
   cursor: pointer;
   transition: opacity 0.2s;
 }
 
-/* 터치하거나 마우스 올렸을 때 살짝 투명해지는 애니메이션 */
 .signup-login-link span:hover,
 .signup-login-link span:active {
   opacity: 0.7;
@@ -297,79 +317,69 @@ form {
 }
 
 /* ==========================================================================
-   ✨ 새로 추가 및 통합된 유효성 검사 / 비밀번호 래퍼 모듈 스타일
+   유효성 검사 / 비밀번호 강도 표시
    ========================================================================== */
-
 .error-text {
-    color: #ff4d4f;
-    font-size: 12px;
-    margin: -8px 0 14px 4px;
-    text-align: left;
+  color: #ff4d4f;
+  font-size: 12px;
+  margin: -8px 0 14px 4px;
+  text-align: left;
 }
 
-.signup-input.input-error {
-    border: 1px solid #ff4d4f;
-}
+.signup-input.input-error { border: 1px solid #ff4d4f; }
 
-.password-input-wrapper .signup-input {
-    padding-right: 48px;
-}
+.password-input-wrapper .signup-input { padding-right: 48px; }
 
 .password-toggle-icon {
-    user-select: none;
-    font-size: 16px;
+  user-select: none;
+  font-size: 16px;
 }
 
 .password-strength-wrapper {
-    background-color: #fdfdfd;
-    border: 1px solid #f2ece9;
-    border-radius: 12px;
-    padding: 12px 14px;
-    margin-bottom: 14px;
+  background-color: #fdfdfd;
+  border: 1px solid #f2ece9;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
 }
 
 .strength-bar-container {
-    width: 100%;
-    height: 5px;
-    background-color: #e5e5e5;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 6px;
+  width: 100%;
+  height: 5px;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
 }
 
 .strength-bar-fill {
-    height: 100%;
-    border-radius: 10px;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
 }
 
 .strength-text {
-    font-size: 12.5px;
-    color: #555;
-    margin: 0 0 10px 2px;
-    text-align: left;
+  font-size: 12.5px;
+  color: #555;
+  margin: 0 0 10px 2px;
+  text-align: left;
 }
 
 .milestone-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 12px;
 }
 
 .milestone-list li {
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-weight: 500;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
 }
 
-.milestone-list li.valid {
-    color: #43b110;
-}
-
-.milestone-list li.invalid {
-    color: #aaa;
-}
+.milestone-list li.valid { color: #43b110; }
+.milestone-list li.invalid { color: #aaa; }
