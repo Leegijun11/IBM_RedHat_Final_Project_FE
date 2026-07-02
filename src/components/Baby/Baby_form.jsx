@@ -71,10 +71,7 @@ function Baby_form() {
           <label htmlFor="baby-upload" className="baby-image-label">
             <div className="baby-image-circle" style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}>
               {!previewUrl && (
-                <>
-                  <span className="placeholder-icon">👶</span>
-                  <span className="placeholder-text">사진 없음</span>
-                </>
+                <span className="placeholder-text">사진 없음</span>
               )}
             </div>
             <div className="camera-icon">📷</div>
