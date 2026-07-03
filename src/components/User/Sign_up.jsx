@@ -162,8 +162,16 @@ function Sign_up({ setPage }) {
             setPage("login");
         } catch (error) {
             console.log(error);
-            alert("회원가입에 실패하였습니다.");
+            const detail = error.response?.data?.detail;
+            if (Array.isArray(detail)) {
+                alert(detail.map((d) => d.msg.replace(/^Value error,\s*/, "")).join("\n"));
+            } else if (typeof detail === "string") {
+                alert(detail);
+            } else {
+                alert("회원가입에 실패하였습니다. 잠시 후 다시 시도해주세요.");
+            }
         }
+
     };
 
     return (
