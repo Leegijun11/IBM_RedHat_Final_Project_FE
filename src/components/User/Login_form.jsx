@@ -65,7 +65,7 @@ function Login_form({ setPage }) {
 
         {/* 환영 인사 */}
         <div className="greeting-box">
-          <h2 className="greeting-title">다시 만나요! 👋</h2>
+          <h2 className="greeting-title">로그인</h2>
           <p className="greeting-subtitle">계정으로 로그인하세요</p>
         </div>
 
