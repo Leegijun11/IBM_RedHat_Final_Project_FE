@@ -384,3 +384,53 @@
 
 .milestone-list li.valid { color: #43b110; }
 .milestone-list li.invalid { color: #aaa; }
+
+/* ==========================================================================
+   아이디 중복확인
+   ========================================================================== */
+.account-input-wrapper {
+  position: relative;
+}
+
+.account-input-wrapper .signup-input {
+  padding-right: 44px;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.account-status-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.account-status-icon:has(> .spinner) {
+  color: transparent;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #EAE2DB;
+  border-top-color: #F07C60;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.success-text {
+  color: #43b110;
+  font-size: 12px;
+  margin: -8px 0 14px 4px;
+  text-align: left;
+}

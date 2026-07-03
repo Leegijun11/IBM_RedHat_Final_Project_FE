@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { signupUser, uploadUserImage } from "../../services/user_api";
+import { signupUser, uploadUserImage, checkAccount } from "../../services/user_api";
 import "../../styles/Sign_up.css";
 
 function Sign_up({ setPage }) {
@@ -27,6 +27,7 @@ function Sign_up({ setPage }) {
 
     const [showPw, setShowPw] = useState(false);
     const [showConfirmPw, setShowConfirmPw] = useState(false);
+    const [accountStatus, setAccountStatus] = useState("idle"); // idle | checking | available | unavailable
 
     const isLengthValid = u_pw.length >= 8;
     const hasNumber = /\d/.test(u_pw);
@@ -108,7 +109,7 @@ function Sign_up({ setPage }) {
 
     const handleSignup = async (e) => {
         e.preventDefault();
-
+        
         setTouched({
             u_account: true, u_name: true, u_nickname: true, u_email: true,
             u_phone: true, u_address: true, u_pw: true, confirm_pw: true
@@ -122,6 +123,8 @@ function Sign_up({ setPage }) {
         if (!u_phone.trim()) finalErrors.u_phone = "전화번호를 입력해주세요.";
         if (!u_address.trim()) finalErrors.u_address = "주소를 입력해주세요.";
         if (!confirm_pw.trim()) finalErrors.confirm_pw = "비밀번호를 입력해주세요.";
+        if (accountStatus === "unavailable") finalErrors.u_account = "이미 사용중인 아이디입니다.";
+        if (accountStatus === "checking") { alert("아이디 확인 중입니다. 잠시만 기다려주세요."); return; }
 
         if (!u_pw.trim()) {
             alert("비밀번호를 입력해주세요.");
@@ -174,6 +177,26 @@ function Sign_up({ setPage }) {
 
     };
 
+    useEffect(() => {
+    if (!u_account || errors.u_account) {
+        setAccountStatus("idle");
+        return;
+    }
+
+    setAccountStatus("checking");
+
+    const timer = setTimeout(async () => {
+        try {
+            const result = await checkAccount(u_account);
+            setAccountStatus(result.available ? "available" : "unavailable");
+        } catch (error) {
+            setAccountStatus("idle");
+        }
+    }, 500);
+
+    return () => clearTimeout(timer);
+}, [u_account, errors.u_account]);
+
     return (
         <div className="signup-container">
             <div className="bg-circle circle-left"></div>
@@ -210,13 +233,23 @@ function Sign_up({ setPage }) {
                     </div>
 
                     <label className="signup-label">아이디</label>
-                    <input
-                        className={`signup-input ${touched.u_account && errors.u_account ? "input-error" : ""}`}
-                        type="text" placeholder="영문, 숫자 조합 4~20자"
-                        value={u_account} onChange={(e) => setU_account(e.target.value)}
-                        onBlur={() => handleBlur("u_account")}
-                    />
+                    <div className="account-input-wrapper">
+                        <input
+                            className={`signup-input ${touched.u_account && errors.u_account ? "input-error" : ""}`}
+                            type="text" placeholder="영문, 숫자 조합 4~20자"
+                            value={u_account}
+                            onChange={(e) => setU_account(e.target.value)}
+                            onBlur={() => handleBlur("u_account")}
+                        />
+                        <span className="account-status-icon">
+                            {accountStatus === "checking" && <span className="spinner" />}
+                            {accountStatus === "available" && <span style={{ color: "#43b110" }}>✓</span>}
+                            {accountStatus === "unavailable" && <span style={{ color: "#ff4d4f" }}>✕</span>}
+                        </span>
+                    </div>
                     {touched.u_account && errors.u_account && <p className="error-text">{errors.u_account}</p>}
+                    {accountStatus === "available" && <p className="success-text">사용 가능한 아이디입니다.</p>}
+                    {accountStatus === "unavailable" && <p className="error-text">이미 사용중인 아이디입니다.</p>}
 
                     <label className="signup-label">이름</label>
                     <input
