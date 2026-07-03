@@ -1,5 +1,49 @@
+.baby-container {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #FAF4EF;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Pretendard', sans-serif;
+  position: relative;
+}
 
-/* 프로필 영역 스타일 */
+.baby-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #A3968C;
+  margin-top: 4px;
+  margin-bottom: -4px;
+}
+
+.baby-input {
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #EAE2DB;
+  background-color: white;
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.baby-input::placeholder {
+  color: #C9BEB4;
+  font-weight: 400;
+}
+
+.baby-input:focus {
+  border-color: #F07C60;
+}
+
+/* 아래는 기존 그대로 유지 */
+
 .baby-profile-section {
   display: flex;
   justify-content: center;
@@ -16,7 +60,7 @@
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  border: 2px dashed #F5B079; /* 점선 테두리 */
+  border: 2px dashed #F5B079;
   background-color: #FFF5F0;
   display: flex;
   flex-direction: column;
@@ -25,10 +69,8 @@
   color: #F57E5C;
 }
 
-.placeholder-icon { font-size: 40px; margin-bottom: 8px; }
-.placeholder-text { font-size: 14px; font-weight: 600; }
+.placeholder-text { font-size: 14px; font-weight: 600; color: #C98B6E; }
 
-/* 우측 하단 카메라 아이콘 */
 .camera-icon {
   position: absolute;
   bottom: 5px;
@@ -41,47 +83,26 @@
   justify-content: center;
   align-items: center;
   color: white;
-  border: 4px solid #FAF4EF; /* 배경색과 맞춰서 아이콘 테두리 처리 */
+  border: 4px solid #FAF4EF;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* 타이틀 정렬 */
 .baby-header-section {
   padding: 60px 24px 30px;
   text-align: left;
 }
 .baby-sub-title { font-size: 16px; color: #8C7B6D; margin: 0 0 8px 0; }
-.baby-title { font-size: 32px; color: #333; line-height: 1.2; margin: 0; }
-
-.signup-container {
-  width: 390px;
-  height: 844px;
-  margin: 40px auto;
-  background-color: #FAF4EF; /* 배경 제거하고 깔끔한 색상만 */
-  display: flex;
-  flex-direction: column;
-  font-family: 'Pretendard', sans-serif;
-  border-radius: 48px;
-  border: none;
-  box-shadow: none;
-  overflow-y: auto;
-  position: relative;
+.baby-title {
+  font-size: 28px;
+  color: #2B2118;
+  line-height: 1.3;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
-/* 로고/타이틀 스타일 */
-.app-title-text {
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: 800;
-  text-align: center;
-  margin-top: 60px;
-}
-
-
-/* 상단 텍스트 */
-.app-title-text { color: white; font-size: 24px; font-weight: 800; margin-top: 40px; }
-
-/* 성격 선택 그리드 */
 .personality-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -90,18 +111,95 @@
   margin-bottom: 20px;
 }
 .personality-btn {
-  padding: 12px 0; border-radius: 16px; border: 1px solid #EAE2DB;
-  background: white; color: #8C7B6D; font-size: 13px; cursor: pointer;
-}
-.personality-btn.active {
-  background-color: #F07C60; color: white; border-color: #F07C60;
+  padding: 13px 0;
+  border-radius: 16px;
+  border: 1px solid #F0E6DC;
+  background: #FFFBF8;
+  color: #A3968C;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
 }
 
-/* 성별 선택 등 */
+.personality-btn:hover {
+  border-color: #F5B079;
+}
+
+.personality-btn.active {
+  background: linear-gradient(135deg, #F5876A 0%, #F5A579 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 10px rgba(240, 124, 96, 0.35);
+  font-weight: 600;
+}
+
 .row-inputs { display: flex; gap: 12px; }
 .half { flex: 1; }
 
 .skip-btn {
   background: none; border: none; color: #A3968C; font-size: 13px;
   text-decoration: underline; cursor: pointer; margin-top: 10px;
+}
+
+.baby-bottom-sheet {
+  flex: 1;
+  background-color: #FAF4EF;
+  border-radius: 32px 32px 0 0;
+  padding: 0 24px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.baby-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 18px 0;
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(245, 126, 92, 0.3);
+  margin-top: 16px;
+  transition: opacity 0.2s;
+}
+
+.submit-btn:active {
+  opacity: 0.8;
+}
+
+.baby-input[type="date"] {
+  font-family: inherit;
+  color: #333;
+}
+
+.baby-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(60%) sepia(40%) saturate(500%) hue-rotate(320deg);
+  cursor: pointer;
+}
+
+.baby-input select,
+select.baby-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-family: inherit;
+  color: #333;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23A3968C' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.baby-input select option {
+  color: #333;
 }

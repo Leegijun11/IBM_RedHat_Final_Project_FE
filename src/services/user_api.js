@@ -12,6 +12,14 @@ export const loginUser = async (data) => {
     return response.data;
 };
 
+// 아이디 중복검사
+export const checkAccount = async (u_account) => {
+  const response = await api.get("/users/check_account", {
+    params: { u_account },
+  });
+  return response.data;
+};
+
 // 로그아웃
 export const logoutUser = async () => {
     const response = await api.post("/users/logout");
