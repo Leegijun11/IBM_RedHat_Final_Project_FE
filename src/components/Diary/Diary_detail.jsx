@@ -7,7 +7,7 @@ const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"
 
 function Diary_detail() {
     const navigate = useNavigate();
-    const { d_id } = useParams();
+    const { d_id } = useParams();   
     const [diary, setDiary] = useState(null);
 
     useEffect(() => {
