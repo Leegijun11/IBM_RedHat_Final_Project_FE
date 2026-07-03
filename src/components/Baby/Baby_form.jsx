@@ -100,8 +100,8 @@ function Baby_form() {
           <label className="baby-label">성별</label>
           <select className="baby-input" value={b_gender} onChange={(e) => setB_gender(e.target.value)}>
             <option value="">선택하세요</option>
-            <option value="M">남자</option>
-            <option value="F">여자</option>
+            <option value="남">남자</option>
+            <option value="여">여자</option>
           </select>
 
           <label className="baby-label">아기의 성격 (복수 선택)</label>
