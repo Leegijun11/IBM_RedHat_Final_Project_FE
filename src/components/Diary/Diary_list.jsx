@@ -4,15 +4,17 @@ import { getDiaryList, deleteDiary } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import NaviBar from "../common/NaviBar";
 
+// ★ 백엔드 주소 설정 (환경변수 로드, 로컬 테스트용 기본값 지정)
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
 // 요일 라벨 (월요일 시작)
 const WEEK_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
 
 // selectedDate(YYYY-MM-DD)가 포함된 주의 월~일 7일을 계산해서 배열로 반환
-// (신규 함수: 기존 데이터 조회/삭제 로직과는 무관, 캘린더 표시 전용)
 function getWeekDates(dateStr) {
     const base = new Date(dateStr);
     const day = base.getDay(); // 0=일, 1=월, ... 6=토
-    const mondayOffset = day === 0 ? -6 : 1 - day; // 일요일이면 -6, 그 외엔 1-day
+    const mondayOffset = day === 0 ? -6 : 1 - day;
     const monday = new Date(base);
     monday.setDate(base.getDate() + mondayOffset);
 
@@ -25,7 +27,7 @@ function getWeekDates(dateStr) {
     return week;
 }
 
-// Date 객체를 YYYY-MM-DD 문자열로 변환 (selectedDate 형식과 동일하게)
+// Date 객체를 YYYY-MM-DD 문자열로 변환
 function toDateStr(d) {
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -47,7 +49,6 @@ function Diary_list() {
     const handleCreateDiaryList = async (b_id) => {
         try {
             const result = await getDiaryList(b_id, selectedDate);
-
             console.log(result);
 
             if (Array.isArray(result)) {
@@ -55,7 +56,6 @@ function Diary_list() {
             } else {
                 setDiaryList([]);
             }
-
         } catch (error) {
             console.log(error);
             setDiaryList([]);
@@ -99,7 +99,6 @@ function Diary_list() {
         }
     };
 
-    // 캘린더에서 날짜 클릭 시 selectedDate만 갱신 (기존 useEffect가 알아서 재조회함)
     const weekDates = getWeekDates(selectedDate);
     const selectedMonthLabel = `${new Date(selectedDate).getFullYear()}년 ${new Date(selectedDate).getMonth() + 1}월`;
 
@@ -109,7 +108,7 @@ function Diary_list() {
                 <h2>성장 일기 📝</h2>
             </div>
 
-            {/* 연/월 표시 + 주간 이동 (이동 화살표는 selectedDate를 ±7일 이동) */}
+            {/* 연/월 표시 + 주간 이동 */}
             <div className="week-calendar-month-row">
                 <button
                     type="button"
@@ -141,9 +140,7 @@ function Diary_list() {
                 {weekDates.map((d, idx) => {
                     const dStr = toDateStr(d);
                     const isActive = dStr === selectedDate;
-                    // TODO: 더미 플래그. 추후 "주간 일기 존재 여부" API 연동 시
-                    // 아래 hasDiary를 실제 응답값(boolean)으로 교체하면 됨.
-                    const hasDiary = false;
+                    const hasDiary = false; // 추후 기능 확장용 보존
                     return (
                         <div
                             key={dStr}
@@ -158,13 +155,14 @@ function Diary_list() {
                 })}
             </div>
 
-            {/* 기존 날짜 입력창은 보조 수단으로 유지 (캘린더와 동일한 selectedDate를 공유) */}
+            {/* 보조 날짜 입력창 */}
             <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
             />
 
+            {/* 일기 리스트 영역 */}
             {diaryList.length === 0 ? (
                 <p className="diary-empty-text">등록된 일기가 없습니다.</p>
             ) : (
@@ -174,29 +172,72 @@ function Diary_list() {
                         className="diary-card"
                         onClick={() => navigate(`/diary/${diary.d_id}`)}
                     >
+                        {/* 1. 상단 감정 라벨 배치 */}
                         {diary.d_label && (
-                            <span className="diary-label-chip">{diary.d_label}</span>
+                            <div style={{ marginBottom: "6px" }}>
+                                <span className="diary-label-chip">✨ {diary.d_label}</span>
+                            </div>
                         )}
-                        <h3>{diary.d_title}</h3>
-                        <p>{diary.d_content}</p>
-                        <p>식사 : {diary.d_eat}</p>
-                        <p>수면 : {diary.d_sleep}</p>
-                        <p>화장실 : {diary.d_toilet}</p>
-                        <p>{diary.d_date}</p>
 
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteDiary(diary.d_id);
-                            }}
-                        >
-                            삭제
-                        </button>
+                        {/* 텍스트 내용과 이미지를 가로(Flex)로 배치하여 레이아웃을 최적화 */}
+                        <div style={{ display: "flex", gap: "14px", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                                <h3>{diary.d_title}</h3>
+                                <p style={{ WebkitLineClamp: 2, display: "-webkit-box", WebkitBoxOrient: "vertical", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                    {diary.d_content}
+                                </p>
+                            </div>
+                            
+                            {/* ★ 변경 포인트: BACKEND_URL 주소를 결합하여 이미지 절대 주소 완성 */}
+                            {diary.d_image && (
+                                <div style={{ width: "64px", height: "64px", flexShrink: 0, borderRadius: "var(--radius-sm)", overflow: "hidden", border: "1px solid var(--color-border)" }}>
+                                    <img 
+                                        src={`${BACKEND_URL}/${diary.d_image}`} 
+                                        alt="아기 스냅샷" 
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* 2. 하단 육아 범주 데이터 스탯 칩 (조건부 렌더링) */}
+                        <div style={{ display: "flex", flexWrap: "wrap", margin: "8px 0" }}>
+                            {diary.d_eat && diary.d_eat !== "없음" && (
+                                <span className="chip-eat" style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "12px", fontWeight: "700", padding: "6px 12px", borderRadius: "999px", margin: "4px 6px 4px 0", backgroundColor: "#FFF3CD", color: "#856404" }}>
+                                    🍼 식사 {diary.d_eat}
+                                </span>
+                            )}
+                            {diary.d_sleep && diary.d_sleep !== "없음" && (
+                                <span className="chip-sleep">💤 수면 {diary.d_sleep}</span>
+                            )}
+                            {diary.d_toilet && diary.d_toilet !== "없음" && (
+                                <span className="chip-toilet">💩 배변 {diary.d_toilet}</span>
+                            )}
+                            {diary.d_temp && diary.d_temp !== "없음" && (
+                                <span className="chip-temp">🌡️ 체온 {diary.d_temp}</span>
+                            )}
+                        </div>
+
+                        {/* 3. 하단 정보 영역 (작성일 및 삭제 버튼 정돈) */}
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px" }}>
+                            <span style={{ fontSize: "12px", color: "var(--text-hint)", fontWeight: "600" }}>
+                                {diary.d_date ? diary.d_date.split("T")[0] : ""}
+                            </span>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation(); // 카드 상세 이동 클릭 이벤트 전파 차단
+                                    handleDeleteDiary(diary.d_id);
+                                }}
+                                style={{ margin: 0 }} 
+                            >
+                                삭제
+                            </button>
+                        </div>
                     </div>
                 ))
             )}
 
-            {/* + 버튼 */}
+            {/* 플로팅 글쓰기 버튼 */}
             <button
                 className="diary-write-fab"
                 onClick={() => navigate("/diary/write")}
@@ -204,7 +245,7 @@ function Diary_list() {
                 +
             </button>
 
-            <NaviBar/>
+            <NaviBar />
         </div>
     );
 }
