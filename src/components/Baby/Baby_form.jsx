@@ -40,6 +40,10 @@ function Baby_form() {
 
   const handleStart = async (e) => {
     e.preventDefault();
+    if (!b_name.trim() || !b_birth || !b_height || !b_weight || !b_gender) {
+      alert("모든 항목을 입력해주세요.");
+      return;
+    }
     try {
       let imagePath = null;
       if (b_image) {
@@ -55,7 +59,15 @@ function Baby_form() {
       }
       navigate("/home");
     } catch (error) {
-      alert("아기 정보 등록에 실패했습니다.");
+      const detail = error.response?.data?.detail;
+      if (Array.isArray(detail)) {
+        const messages = detail.map((d) => d.msg.replace(/^Value error,\s*/, "")).join("\n");
+        alert(messages);
+      } else if (typeof detail === "string") {
+        alert(detail);
+      } else {
+        alert("아기 정보 등록에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
     }
   };
 
