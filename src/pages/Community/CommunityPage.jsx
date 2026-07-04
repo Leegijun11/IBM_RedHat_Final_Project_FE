@@ -2,38 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from "../../hooks/useAuth"; 
 import { getCommunity, toggleCommunityLike } from "../../services/community_api";
-import { getBabies } from "../../services/baby_api";
+import { getBabies } from "../../services/baby_api"
 import CommunityCard from "../../components/Community/community_card"; 
 import NaviBar from "../../components/common/NaviBar";
-
 
 function CommunityPage() {
     const navigate = useNavigate();
     const { user, isLoggedIn } = useAuth();
 
-    const [posts, setPosts] = useState([])
-    const [sort, setSort] = useState("latest")
-    const [activeTag, setActiveTag] = useState("")
-    const [babyCharacter, setBabyCharacter] = useState("")
+    const [posts, setPosts] = useState([]);
+    const [sort, setSort] = useState("latest");
+    const [activeTag, setActiveTag] = useState("");
+    const [babyCharacter, setBabyCharacter] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [activeBabyId, setActiveBabyId] = useState(null); 
     const [isFilteringByBaby, setIsFilteringByBaby] = useState(false);
 
-
     useEffect(() => {
-        const fetchBabyInfo = async () => {
-            if (!isLoggedIn) return;
-            try {
-                const babies = await getBabies();
-                if (babies && babies.length > 0) {
-                    setActiveBabyId(babies[0].b_id);
-                }
-            } catch (error) { console.error("아기 정보 로드 실패", error); }
-        };
-        fetchBabyInfo();
+        if (!isLoggedIn) return;
+        const storedBabyId = localStorage.getItem("activeBabyId");
+        
+        if (storedBabyId) {
+            setActiveBabyId(Number(storedBabyId)); 
+        } else {
+            setActiveBabyId(null);
+        }
     }, [isLoggedIn]);
-
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,9 +37,10 @@ function CommunityPage() {
                 setPosts([]);
                 const sortParam = sort === "likes" ? "likes" : "latest";
                 const tagParam = activeTag === "" ? null : activeTag;
-                const charParam = babyCharacter === "" ? null : babyCharacter;
-                
-                const result = await getCommunity(1, 10, "", sortParam, tagParam, charParam, activeBabyId);
+                const charParam = babyCharacter === "my_baby" ? "my_baby" : null;
+                const result = await getCommunity(
+                    1, 10, "", sortParam, tagParam, charParam, activeBabyId
+                );
 
                 setPosts(Array.isArray(result) ? result : []);
             } catch (error) {
@@ -57,23 +52,33 @@ function CommunityPage() {
         fetchData();
     }, [sort, activeTag, babyCharacter, isLoggedIn, activeBabyId]);
 
-
     const handleTagToggle = (tagValue) => {
         if (activeTag === tagValue) {
             setActiveTag(""); 
         } else {
-            setActiveTag(tagValue)
+            setActiveTag(tagValue);
         }
-    }
+    };
 
-    const handleBabyCharacterToggle = () => {
+    const handleBabyCharacterToggle = async () => {
         if (babyCharacter) {
             setBabyCharacter(""); 
         } else {
-            if (activeBabyId) {
-                setBabyCharacter("my_baby"); 
+            if (!activeBabyId) {
+                try {
+                    const babies = await getBabies();
+                    if (babies && babies.length > 0) {
+                        setActiveBabyId(babies[0].b_id); 
+                        setBabyCharacter("my_baby");   
+                    } else {
+                        alert("등록된 아기 정보가 없습니다. 마이페이지에서 아기를 먼저 등록해주세요.");
+                    }
+                } catch (error) {
+                    console.error("아기 정보 조회 실패", error);
+                    alert("아기 정보를 불러오는데 실패했습니다.");
+                }
             } else {
-                alert("등록된 아기 정보가 없습니다.");
+                setBabyCharacter("my_baby");
             }
         }
     };
@@ -119,9 +124,7 @@ function CommunityPage() {
                 <button onClick={() => setSort("likes")}>좋아요순</button>
             </div>
 
-
             <div>
-                {/* <span>주제: </span> */}
                 <button onClick={() => handleTagToggle("sleep")}>
                     수면 {activeTag === "sleep" ? "✅" : ""}
                 </button>
@@ -157,7 +160,7 @@ function CommunityPage() {
                 <NaviBar />
             </div>
         </div>
-    )
+    );
 }
 
 export default CommunityPage;

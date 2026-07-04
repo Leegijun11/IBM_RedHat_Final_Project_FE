@@ -57,7 +57,7 @@ const CommunityCreate = () => {
             }
         }
 
-        // 🌟 복구 완료: 에러를 유발하던 b_id와 u_id를 제거하고 순수 데이터만 전송
+
         const postData = {
             f_title: title,
             f_content: context,
@@ -70,12 +70,12 @@ const CommunityCreate = () => {
             }
         };
 
+
         try {
             await createCommunity(postData);
             alert("새 게시물이 성공적으로 등록되었습니다!");
             navigate('/community');
         } catch (error) {
-            console.error("게시물 작성 오류:", error);
             alert("게시물 작성에 실패했습니다.");
         }
     };
