@@ -11,7 +11,7 @@ function NaviBar() {
         { label: "홈",       path: "/home",   icon: "🏠" },
         { label: "기록",     path: "/diary",  icon: "✎"  },
         { label: "책",       path: "/ebook",  icon: "📖" },
-        { label: "커뮤니티",  path: "/comm",   icon: "👥" },
+        { label: "커뮤니티",  path: "/community",   icon: "👥" },
         { label: "설정",     path: "/mypage", icon: "⚙️" },
     ];
 
