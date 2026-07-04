@@ -40,6 +40,10 @@ function Baby_form() {
 
   const handleStart = async (e) => {
     e.preventDefault();
+    if (!b_name.trim() || !b_birth || !b_height || !b_weight || !b_gender) {
+      alert("모든 항목을 입력해주세요.");
+      return;
+    }
     try {
       let imagePath = null;
       if (b_image) {
@@ -55,12 +59,20 @@ function Baby_form() {
       }
       navigate("/home");
     } catch (error) {
-      alert("아기 정보 등록에 실패했습니다.");
+      const detail = error.response?.data?.detail;
+      if (Array.isArray(detail)) {
+        const messages = detail.map((d) => d.msg.replace(/^Value error,\s*/, "")).join("\n");
+        alert(messages);
+      } else if (typeof detail === "string") {
+        alert(detail);
+      } else {
+        alert("아기 정보 등록에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
     }
   };
 
   return (
-    <div className="signup-container">
+    <div className="baby-container">
       <div className="baby-header-section">
         <p className="baby-sub-title">우리 아기를 소개해주세요</p>
         <h1 className="baby-title">아기 정보<br/>입력하기</h1>
@@ -71,10 +83,7 @@ function Baby_form() {
           <label htmlFor="baby-upload" className="baby-image-label">
             <div className="baby-image-circle" style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}>
               {!previewUrl && (
-                <>
-                  <span className="placeholder-icon">👶</span>
-                  <span className="placeholder-text">사진 없음</span>
-                </>
+                <span className="placeholder-text">사진 없음</span>
               )}
             </div>
             <div className="camera-icon">📷</div>
@@ -83,31 +92,31 @@ function Baby_form() {
         </div>
     
         <form onSubmit={handleStart} className="baby-form">
-          <label className="signup-label">아기 이름</label>
-          <input className="signup-input" type="text" placeholder="예) 박지수" value={b_name} onChange={(e) => setB_name(e.target.value)} />
+          <label className="baby-label">아기 이름</label>
+          <input className="baby-input" type="text" placeholder="예) 박지수" value={b_name} onChange={(e) => setB_name(e.target.value)} />
 
-          <label className="signup-label">생년월일</label>
-          <input className="signup-input" type="date" value={b_birth} onChange={(e) => setB_birth(e.target.value)} />
+          <label className="baby-label">생년월일</label>
+          <input className="baby-input" type="date" value={b_birth} onChange={(e) => setB_birth(e.target.value)} />
 
           <div className="row-inputs">
             <div className="input-group half">
-              <label className="signup-label">키 (cm)</label>
-              <input className="signup-input" type="number" placeholder="예) 65.0" value={b_height} onChange={(e) => setB_height(e.target.value)} />
+              <label className="baby-label">키 (cm)</label>
+              <input className="baby-input" type="number" placeholder="예) 40.5" value={b_height} onChange={(e) => setB_height(e.target.value)} />
             </div>
             <div className="input-group half">
-              <label className="signup-label">몸무게 (kg)</label>
-              <input className="signup-input" type="number" placeholder="예) 7.2" value={b_weight} onChange={(e) => setB_weight(e.target.value)} />
+              <label className="baby-label">몸무게 (kg)</label>
+              <input className="baby-input" type="number" placeholder="예) 7.2" value={b_weight} onChange={(e) => setB_weight(e.target.value)} />
             </div>
           </div>
 
-          <label className="signup-label">성별</label>
-          <select className="signup-input" value={b_gender} onChange={(e) => setB_gender(e.target.value)}>
+          <label className="baby-label">성별</label>
+          <select className="baby-input" value={b_gender} onChange={(e) => setB_gender(e.target.value)}>
             <option value="">선택하세요</option>
-            <option value="M">남자</option>
-            <option value="F">여자</option>
+            <option value="남">남자</option>
+            <option value="여">여자</option>
           </select>
 
-          <label className="signup-label">아기의 성격 (복수 선택)</label>
+          <label className="baby-label">아기의 성격 (복수 선택)</label>
           <div className="personality-grid">
             {PERSONALITY_OPTIONS.map((opt) => (
               <button

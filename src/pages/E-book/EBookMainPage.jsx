@@ -9,7 +9,7 @@ import MilestoneList from "../../components/EBook/MilestoneList";
 import CompareChart from "../../components/EBook/CompareChart";
 import NaviBar from "../../components/common/NaviBar";
 
-import "../../styles/EBookMainPage.css"; // 🔥 스타일 파일 연결
+import "../../styles/EBookMainPage.css?v=1"; // 🔥 스타일 파일 연결
 
 function EBookMainPage() {
     const navigate = useNavigate();
@@ -142,6 +142,7 @@ function EBookMainPage() {
             ) : (
                 <>
                     <div className="content-card">
+                    
                         <CompareChart />
                     </div>
                 </>
