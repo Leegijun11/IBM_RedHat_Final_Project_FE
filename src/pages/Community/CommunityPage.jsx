@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from "../../hooks/useAuth"; 
 import { getCommunity, toggleCommunityLike } from "../../services/community_api";
-import { getBabies } from "../../services/baby_api"
+import { getBabies } from "../../services/baby_api";
 import CommunityCard from "../../components/Community/community_card"; 
 import NaviBar from "../../components/common/NaviBar";
 
@@ -37,9 +37,12 @@ function CommunityPage() {
                 setPosts([]);
                 const sortParam = sort === "likes" ? "likes" : "latest";
                 const tagParam = activeTag === "" ? null : activeTag;
+                
                 const charParam = babyCharacter === "my_baby" ? "my_baby" : null;
+                const bIdParam = babyCharacter === "my_baby" ? activeBabyId : null;
+                
                 const result = await getCommunity(
-                    1, 10, "", sortParam, tagParam, charParam, activeBabyId
+                    1, 10, "", sortParam, tagParam, charParam, bIdParam
                 );
 
                 setPosts(Array.isArray(result) ? result : []);
@@ -68,8 +71,10 @@ function CommunityPage() {
                 try {
                     const babies = await getBabies();
                     if (babies && babies.length > 0) {
-                        setActiveBabyId(babies[0].b_id); 
-                        setBabyCharacter("my_baby");   
+                        const firstBabyId = babies[0].b_id;
+                        setActiveBabyId(firstBabyId);
+                        localStorage.setItem("activeBabyId", firstBabyId);
+                        setBabyCharacter("my_baby");
                     } else {
                         alert("등록된 아기 정보가 없습니다. 마이페이지에서 아기를 먼저 등록해주세요.");
                     }
