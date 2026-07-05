@@ -1,0 +1,185 @@
+/* 전체 폼 컨테이너 (모바일 최적화) */
+.community-edit-container {
+    max-width: 420px;
+    margin: 0 auto;
+    background-color: #FAF4EF;
+    min-height: 100vh;
+    padding: 24px 20px 40px 20px;
+    font-family: 'Pretendard', sans-serif;
+    box-sizing: border-box;
+}
+
+/* 상단 헤더 */
+.edit-header h2 {
+    margin: 0 0 24px 0;
+    color: #5D5046;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* 폼 그룹 간격 */
+.form-group {
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 라벨 텍스트 */
+.form-label {
+    color: #5D5046;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* 입력창 공통 스타일 (제목, 내용) */
+.edit-input,
+.edit-textarea {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid #EAE2DB;
+    background-color: #FFFFFF;
+    font-size: 15px;
+    color: #5D5046;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+}
+
+.edit-input:focus,
+.edit-textarea:focus {
+    outline: none;
+    border-color: #F07C60;
+}
+
+/* 텍스트 영역 우측 하단 크기 조절 방지 */
+.edit-textarea {
+    resize: none;
+    line-height: 1.5;
+}
+
+/* 사진 첨부 커스텀 UI */
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 16px;
+    border: 2px dashed #EAE2DB;
+    background-color: #FDF9F5;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.file-upload-label:active {
+    background-color: #FAF4EF;
+}
+
+.file-upload-text {
+    color: #F5B079;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+/* 사진 미리보기 영역 (Create와 동일하게 적절한 크기로 유지) */
+.image-preview-wrapper {
+    margin-top: 12px;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #EAE2DB;
+    background-color: #FFFFFF;
+}
+
+.image-preview {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    display: block;
+}
+
+/* 태그 그룹 */
+.edit-tags-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center; 
+}
+
+.tag-btn {
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 19px;
+    background-color: #FFFFFF;
+    border: 1px solid #EAE2DB;
+    color: #5D5046;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tag-btn.active {
+    border-color: #F07C60;
+    color: #F07C60;
+    font-weight: 600;
+    background-color: #FFF5F2;
+}
+
+/* =============================================
+하단 액션 버튼 그룹 (어긋남 절대 차단, 강제 수평/높이 고정)
+============================================= */
+.edit-action-group {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important; 
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-top: 40px !important;
+    width: 100% !important;
+}
+
+.action-btn {
+    flex: 1 1 0% !important;
+    height: 52px !important;
+    margin: 0 !important; 
+    padding: 0 !important; 
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 14px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    line-height: 1 !important;
+    font-family: inherit !important;
+    appearance: none !important; 
+    -webkit-appearance: none !important;
+    outline: none !important;
+    transition: transform 0.1s ease;
+}
+
+.action-btn:active {
+    transform: scale(0.97);
+}
+
+/* 취소 버튼 */
+.cancel-btn {
+    background-color: #FFFFFF !important;
+    border: 1px solid #EAE2DB !important;
+    color: #A3968C !important;
+}
+
+/* 수정 완료 버튼 */
+.submit-btn {
+    background-color: #F57E5C !important;
+    border: 1px solid #F57E5C !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 6px 16px rgba(245, 126, 92, 0.25) !important;
+}

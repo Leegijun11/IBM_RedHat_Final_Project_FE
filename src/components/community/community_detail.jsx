@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import { getCommunityDetail,toggleCommunityLike,deleteCommunity, getComments, createComments,createCommentLike,deleteCommentLike } from "../../services/community_api";
 import { getImageUrl } from "../../hooks/imageUrl";
 import CommentCard from "../../components/Community/Comment_card"; 
+import "../../styles/community_detail.css"; 
 
 const CommunityDetail = () => {
 
@@ -92,82 +93,103 @@ const CommunityDetail = () => {
     }
 
     if (!post) {
-        return <div>게시글을 불러오는 중입니다... </div>
+        return <div className="loading-container">게시글을 불러오는 중입니다... </div>
     }
 
     const isAuthor = user && post && user.u_id === post.u_id;
 
     return (
-            <div>
-                <h2>{post.f_title}</h2>
-                {post.f_image && (<img src={getImageUrl(post.f_image)} alt={post.f_title} width="150"/>)}
-
-                <div>
-                    <span>작성자: {post.user?.u_name}</span>
-                    <span>{new Date(post.f_created_at).toLocaleDateString()}</span>
+        <div className="community-detail-container">
+            
+            {/* 1. 맨 위: 글쓴이 + 제목 (한 줄), 날짜 (아래) / 수정, 삭제 (우측) */}
+            <div className="detail-ig-header">
+                <div className="ig-header-left">
+                    <div className="ig-author-title-row">
+                        <span className="ig-author">{post.user?.u_name || "익명"}</span>
+                        <h2 className="ig-title-inline">{post.f_title}</h2>
+                    </div>
+                    <span className="ig-date">{new Date(post.f_created_at).toLocaleDateString()}</span>
                 </div>
-
-                <div><p>{post.f_content}</p></div>
-
-                <div>
-                    {post.forum_tag?.ft_sleep && <span>#수면 </span>}
-                    {post.forum_tag?.ft_food && <span>#이유식 </span>}
-                    {post.forum_tag?.ft_health && <span>#건강 </span>}
-                    {post.forum_tag?.ft_play && <span>#놀이 </span>}
-                </div>
-
-
-                <div>
-                    <button onClick={handleLikeClick}>
-                        {post.is_liked ? "좋아요함" : "좋아요안함"}:{post.f_like_count || 0}
-                    </button>
-
+                <div className="ig-header-right">
                     {isAuthor && (
-                        <div>
-                            <button onClick={handleEditClick}>수정</button>
-                            <button onClick={handleDeleteClick}>삭제</button>
-                        </div>
+                        <>
+                            <button className="ig-text-action-btn" onClick={handleEditClick}>수정</button>
+                            <button className="ig-text-action-btn" onClick={handleDeleteClick}>삭제</button>
+                        </>
                     )}
-                    <button onClick={() => navigate('/community')}>목록으로</button>
                 </div>
-                
-                <hr />
+            </div>
 
-                <div>
-                    <span>댓글 {comments.length}</span>
-                    
-                    <button onClick={() => setIsInputOpen(!isInputOpen)}>
+            {/* 2. 사진: 공백 없이 화면을 꽉 채움 */}
+            {post.f_image && (
+                <div className="detail-ig-image">
+                    <img src={getImageUrl(post.f_image)} alt={post.f_title} />
+                </div>
+            )}
+
+            {/* 3. 사진 바로 아래: 좋아요, 댓글 수, 태그 */}
+            <div className="detail-ig-actions">
+                <div className="ig-icons-box">
+                    <button className={`ig-like-btn ${post.is_liked ? "liked" : ""}`} onClick={handleLikeClick}>
+                        <span className="icon">{post.is_liked ? "❤️" : "🤍"}</span>
+                        <span className="count">{post.f_like_count || 0}</span>
+                    </button>
+                    <div className="ig-comment-count">
+                        <span className="icon">💬</span>
+                        <span className="count">{comments.length}</span>
+                    </div>
+                </div>
+
+                <div className="ig-tags-row">
+                    {post.forum_tag?.ft_sleep && <span className="ig-tag">#수면</span>}
+                    {post.forum_tag?.ft_food && <span className="ig-tag">#이유식</span>}
+                    {post.forum_tag?.ft_health && <span className="ig-tag">#건강</span>}
+                    {post.forum_tag?.ft_play && <span className="ig-tag">#놀이</span>}
+                </div>
+            </div>
+
+            {/* 4. 그 아래: 본문 내용 */}
+            <div className="detail-ig-content">
+                <p className="ig-body-text">{post.f_content}</p>
+            </div>
+
+            <hr className="ig-divider" />
+
+            {/* 5. 맨 아래: 댓글 목록 및 목록으로 버튼 */}
+            <div className="detail-ig-comments">
+                <div className="comment-header">
+                    <span className="comment-count">댓글 {comments.length}</span>
+                    <button className="comment-toggle-btn" onClick={() => setIsInputOpen(!isInputOpen)}>
                         {isInputOpen ? "작성 취소" : "댓글 작성"}
                     </button>
-
-                    {isInputOpen && (
-                        <div>
-                            <form onSubmit={handleCommentSubmit}>
-                                <input 
-                                    type="text" 
-                                    placeholder="댓글을 입력하세요" 
-                                    value={commentInput}
-                                    onChange={(e) => setCommentInput(e.target.value)}
-                                />
-                                <button type="submit">등록하기</button>
-                            </form>
-                        </div>
-                    )}
                 </div>
 
-                <div>
-                    <h4>댓글 목록</h4>
+                {isInputOpen && (
+                    <div className="comment-input-area">
+                        <form className="comment-form" onSubmit={handleCommentSubmit}>
+                            <input 
+                                className="comment-input"
+                                type="text" 
+                                placeholder="따뜻한 댓글을 남겨주세요..." 
+                                value={commentInput}
+                                onChange={(e) => setCommentInput(e.target.value)}
+                            />
+                            <button className="comment-submit-btn" type="submit">등록</button>
+                        </form>
+                    </div>
+                )}
+
+                <div className="comment-list">
                     {comments.length === 0 ? (
-                        <p>등록된 댓글이 없습니다.</p>
+                        <p className="empty-comment">등록된 댓글이 없습니다. 첫 댓글을 남겨보세요!</p>
                     ) : (
-                        <div>
+                        <div className="comment-items">
                             {comments.map((c) => (
                                 <CommentCard 
                                     key={c.fc_id} 
                                     comment={c} 
                                     currentUser={user}     
                                     postuserId={post.u_id}
-                                    
                                     onDelete={(deleteId)=>setComments((prev) => prev.filter(item => item.fc_id !== deleteId))}
                                     onUpdate={(updatedId, updatedData) => setComments((prev) => prev.map(item => item.fc_id === updatedId ? updatedData : item))}
                                 />
@@ -176,8 +198,16 @@ const CommunityDetail = () => {
                     )}
                 </div>
 
+                {/* 목록으로 돌아가기 버튼을 댓글 목록 아래에 배치 */}
+                <div className="ig-bottom-action">
+                    <button className="ig-list-btn" onClick={() => navigate('/community')}>
+                        목록으로 돌아가기
+                    </button>
+                </div>
             </div>
-        );
-    };
+            
+        </div>
+    );
+};
 
 export default CommunityDetail;

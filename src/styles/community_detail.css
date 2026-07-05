@@ -1,0 +1,378 @@
+/* 전체 레이아웃 (모바일 화면 맞춤) */
+.community-detail-container {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    background-color: #FAF4EF;
+    min-height: 100vh;
+    padding: 0 0 60px 0; /* 좌우 패딩을 없애 사진이 끝까지 채워지도록 설정 */
+    font-family: 'Pretendard', sans-serif;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.loading-container {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 60px 20px;
+    color: #A3968C;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* =============================================
+   1. 상단 헤더 (글쓴이, 날짜, 수정/삭제)
+============================================= */
+.detail-ig-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #FAF4EF; /* 전체 배경색과 통일 */
+}
+
+.ig-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ig-author {
+    font-size: 15px;
+    font-weight: 700;
+    color: #5D5046;
+}
+
+.ig-date {
+    font-size: 12px;
+    color: #A3968C;
+}
+
+.ig-header-right {
+    display: flex;
+    gap: 12px;
+}
+
+.ig-text-action-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #A3968C;
+    cursor: pointer;
+}
+
+.ig-text-action-btn:hover {
+    color: #F07C60;
+}
+
+/* =============================================
+   2. 사진 영역 (공백 없이 가로 100% 채움)
+============================================= */
+.detail-ig-image {
+    width: 100%;
+    display: block;
+    background-color: #FFFFFF;
+}
+
+.detail-ig-image img {
+    width: 100%;
+    height: auto;
+    max-height: 500px; /* 세로로 너무 길어지는 것 방지 */
+    object-fit: cover; /* 비율 찌그러짐 방지 */
+    display: block;
+}
+
+/* =============================================
+   3. 좋아요, 댓글 수, 태그 영역
+============================================= */
+.detail-ig-actions {
+    padding: 16px 20px 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 좋아요/댓글 박스 디자인 */
+.ig-icons-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #FFFFFF; /* 박스 배경색 */
+    padding: 8px 16px;
+    border-radius: 20px; /* 둥근 박스 */
+    border: 1px solid #EAE2DB;
+    width: fit-content;
+    transition: all 0.3s ease;
+}
+
+/* 마우스를 올리면 박스 전체 색상과 테두리 변화 */
+.ig-icons-box:hover {
+    background-color: #FDF9F5;
+    border-color: #F07C60;
+}
+
+/* 내부 버튼 스타일 */
+.ig-like-btn, .ig-comment-count {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.2s ease;
+}
+
+/* 좋아요 버튼 클릭 시 살짝 커지는 효과 */
+.ig-like-btn:active {
+    transform: scale(1.2);
+}
+
+.ig-like-btn .count, .ig-comment-count .count {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5D5046;
+}
+.ig-like-btn, .ig-comment-count {
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.ig-like-btn .icon, .ig-comment-count .icon {
+    font-size: 18px;
+}
+
+.ig-like-btn .count, .ig-comment-count .count {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5D5046;
+}
+
+.ig-like-btn.liked .count {
+    color: #F07C60;
+}
+
+.ig-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ig-tag {
+    color: #F07C60;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* =============================================
+   4. 제목 및 본문 영역
+============================================= */
+.detail-ig-content {
+    padding: 0 20px 24px 20px;
+}
+
+.ig-title {
+    margin: 0 0 8px 0;
+    color: #5D5046;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.ig-body-text {
+    margin: 0;
+    color: #5D5046;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* 구분선 */
+.ig-divider {
+    border: none;
+    border-top: 1px solid #EAE2DB;
+    margin: 0;
+}
+
+/* =============================================
+   5. 맨 아래 댓글 영역 및 목록 버튼
+============================================= */
+.detail-ig-comments {
+    padding: 24px 20px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.comment-count {
+    font-size: 15px;
+    font-weight: 700;
+    color: #5D5046;
+}
+
+.comment-toggle-btn {
+    background-color: transparent;
+    border: none;
+    color: #F07C60;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+/* 댓글 폼 */
+.comment-input-area {
+    width: 100%;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 24px;
+    border: 1px solid #EAE2DB;
+    box-sizing: border-box;
+}
+
+.comment-form {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.comment-input {
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    color: #5D5046;
+    padding: 6px;
+    outline: none;
+    font-family: inherit;
+    min-width: 0;
+}
+
+.comment-submit-btn {
+    background-color: #F07C60;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.empty-comment {
+    text-align: center;
+    color: #A3968C;
+    padding: 40px 0;
+    font-size: 14px;
+}
+
+.comment-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+/* 목록으로 돌아가기 버튼 */
+.ig-bottom-action {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.ig-list-btn {
+    width: 100%;
+    height: 50px;
+    background-color: #FFFFFF;
+    border: 1px solid #EAE2DB;
+    color: #5D5046;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ig-list-btn:active {
+    background-color: #FDF9F5;
+}
+
+/* 수정된 버튼 및 정렬 스타일 */
+.ig-header-right {
+    display: flex;
+    gap: 8px; /* 버튼 간격 고정 */
+}
+
+.ig-text-action-btn {
+    background: #FDF9F5; /* 배경색 살짝 넣어 버튼 형태 강조 */
+    border: 1px solid #EAE2DB;
+    padding: 6px 12px; /* 패딩 고정으로 크기 통일 */
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5D5046;
+    cursor: pointer;
+}
+
+.ig-text-action-btn:hover {
+    background-color: #F07C60;
+    color: #FFFFFF;
+    border-color: #F07C60;
+}
+
+/* 댓글 목록 버튼도 동일하게 통일 */
+.comment-toggle-btn {
+    background: #FDF9F5;
+    border: 1px solid #EAE2DB;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #F07C60;
+    font-weight: 600;
+}
+
+
+/* 목록으로 돌아가기 버튼 스타일 */
+.ig-list-btn {
+    width: 100%;
+    height: 45px;
+    background-color: #FFFFFF;
+    border: 1px solid #EAE2DB;
+    color: #5D5046;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease; /* 색상 변화를 부드럽게 */
+}
+
+/* 마우스를 올렸을 때의 효과 */
+.ig-list-btn:hover {
+    background-color: #FDF9F5; /* 연한 베이지색으로 변경 */
+    border-color: #F07C60;    /* 테두리 색을 포인트 컬러로 */
+    color: #F07C60;           /* 글자색도 포인트 컬러로 */
+}
+
+/* 클릭했을 때 살짝 눌리는 느낌 */
+.ig-list-btn:active {
+    transform: scale(0.98);
+}

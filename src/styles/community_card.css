@@ -1,0 +1,161 @@
+/* 카드 전체 컨테이너 */
+.community-card {
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(93, 80, 70, 0.04);
+    border: 1px solid #FDF9F5;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 1. 상단 메타 정보 (이름, 날짜) */
+.card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #A3968C;
+}
+
+.card-author {
+    font-weight: 600;
+    color: #5D5046;
+}
+
+.card-divider {
+    color: #EAE2DB;
+}
+
+/* 2. 본문 영역 */
+.card-content {
+    margin-bottom: 4px;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #5D5046;
+    line-height: 1.4;
+    word-break: keep-all;
+}
+
+/* 3. 태그 영역 */
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.card-tag {
+    background-color: #FDF9F5;
+    color: #F07C60;
+    border: 1px solid #F5B079;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* 4. 푸터 영역 (이미지 + 버튼) */
+.card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 4px;
+    border-top: 1px dashed #EAE2DB;
+    padding-top: 16px;
+}
+
+/* 이미지 썸네일 래퍼 */
+.card-image-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-thumbnail {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+/* 하단 버튼 및 통계 영역 */
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 두 박스 사이의 간격 조정 */
+}
+
+/* [요청 반영] 좋아요 버튼 주변에 작고 부드러운 박스 추가 */
+.card-like-btn {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 16px; /* 예쁜 둥근 모서리 박스 */
+    background-color: #FDF9F5;
+    border: 1px solid #EAE2DB;
+    font-size: 13px;
+    color: #5D5046;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.card-like-btn:active {
+    transform: scale(0.95);
+}
+
+/* 좋아요가 눌렸을 때 박스 테두리와 배경 테마 강조 */
+.card-like-btn.liked {
+    background-color: #FFF5F2;
+    border-color: #F07C60;
+    color: #F07C60;
+    font-weight: 600;
+}
+
+/* [요청 반영] 댓글 수 영역 주변에 작고 부드러운 박스 추가 */
+.card-comment-count {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 16px; /* 좋아요와 통일감 있는 박스 형태 */
+    background-color: #FDF9F5;
+    border: 1px solid #EAE2DB;
+    font-size: 13px;
+    color: #5D5046;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    box-sizing: border-box;
+}
+
+/* 자세히 보기 버튼 */
+.card-detail-btn {
+    background-color: #FAF4EF;
+    color: #F07C60;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.card-detail-btn:active {
+    background-color: #FDF9F5;
+}

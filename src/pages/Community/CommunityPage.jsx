@@ -5,6 +5,7 @@ import { getCommunity, toggleCommunityLike } from "../../services/community_api"
 import { getBabies } from "../../services/baby_api";
 import CommunityCard from "../../components/Community/community_card"; 
 import NaviBar from "../../components/common/NaviBar";
+import "../../styles/CommunityPage.css"; // 지정하신 styles 폴더 경로 유지
 
 function CommunityPage() {
     const navigate = useNavigate();
@@ -118,50 +119,74 @@ function CommunityPage() {
     };
 
     return (
-        <div>
-            <div>
-                <h2>육아 포럼</h2>
-                <button onClick={() => navigate('/community/create')}>+ 새 게시물 쓰기</button>
+        <div className="community-page-container">
+            {/* 1. 페이지 타이틀 */}
+            <div className="community-title-area">
+                <h2>육아 포럼 💬</h2>
             </div>
 
-            <div>
-                <button onClick={() => setSort("latest")}>최신순</button>
-                <button onClick={() => setSort("likes")}>좋아요순</button>
-            </div>
-
-            <div>
-                <button onClick={() => handleTagToggle("sleep")}>
+            {/* 2. 태그 및 기질 분류 (상단 배치 & 가로 스크롤 통합) */}
+            <div className="community-tags-scroll">
+                <button className={`tag-btn ${activeTag === "sleep" ? "active" : ""}`} onClick={() => handleTagToggle("sleep")}>
                     수면 {activeTag === "sleep" ? "✅" : ""}
                 </button>
-                <button onClick={() => handleTagToggle("food")}>
+                <button className={`tag-btn ${activeTag === "food" ? "active" : ""}`} onClick={() => handleTagToggle("food")}>
                     이유식 {activeTag === "food" ? "✅" : ""}
                 </button>
-                <button onClick={() => handleTagToggle("health")}>
+                <button className={`tag-btn ${activeTag === "health" ? "active" : ""}`} onClick={() => handleTagToggle("health")}>
                     건강 {activeTag === "health" ? "✅" : ""}
                 </button>
-                <button onClick={() => handleTagToggle("play")}>
+                <button className={`tag-btn ${activeTag === "play" ? "active" : ""}`} onClick={() => handleTagToggle("play")}>
                     놀이 {activeTag === "play" ? "✅" : ""}
                 </button>
-            </div>
-
-            <div>
-                <button onClick={handleBabyCharacterToggle}>
-                    {babyCharacter ? "전체 보기" : " 비슷한 기질"}
+                {/* 네가 수정한 기질 버튼 부분 적용 완료 */}
+                <button className={`filter-btn ${babyCharacter ? "active" : ""}`} onClick={handleBabyCharacterToggle}>
+                    {babyCharacter ? "비슷한 기질 ✅" : "비슷한 기질"}
                 </button>
             </div>
 
-            <div>
+            {/* 3. 새 게시물 쓰기 */}
+            <div className="community-create-section">
+                <button className="create-post-btn" onClick={() => navigate('/community/create')}>
+                    <span className="create-placeholder">오늘의 육아 이야기를 나눠보세요...</span>
+                    <div className="create-icon-circle">+</div>
+                </button>
+            </div>
+
+            {/* 4. 정렬 버튼 */}
+            <div className="community-sort-group">
+                <button 
+                    className={`sort-btn ${sort === "latest" ? "active" : ""}`} 
+                    onClick={() => setSort("latest")}
+                >
+                    최신순
+                </button>
+                <button 
+                    className={`sort-btn ${sort === "likes" ? "active" : ""}`} 
+                    onClick={() => setSort("likes")}
+                >
+                    좋아요순
+                </button>
+            </div>
+
+            {/* 5. 게시글 리스트 영역 */}
+            <div className="community-post-list">
                 {posts.length === 0 ? (
-                    <p>등록된 게시글이 없습니다.</p>
+                    <p className="empty-message">등록된 게시글이 없습니다.</p>
                 ) : (
                     posts.map((post) => (
-                        <CommunityCard key={post.f_id} post={post} onClick={() => navigate(`/community/${post.f_id}`)} 
-                        onLikeToggle={handleListLikeToggle}/>
+                        <CommunityCard 
+                            key={post.f_id} 
+                            post={post} 
+                            onClick={() => navigate(`/community/${post.f_id}`)} 
+                            onLikeToggle={handleListLikeToggle}
+                        />
                     ))
                 )}
             </div>
 
-            <div>
+            {/* 6. 하단 네비게이션 */}
+            <div className="bottom-nav-container">
                 <NaviBar />
             </div>
         </div>

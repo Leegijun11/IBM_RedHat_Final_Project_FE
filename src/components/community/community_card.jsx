@@ -1,6 +1,8 @@
 import React from "react";
 import { getImageUrl } from "../../hooks/imageUrl";
 import { updateComments, deleteComments } from "../../services/community_api";
+import "../../styles/community_card.css"; // 지정하신 하위 styles 폴더 및 소문자 파일명 경로 준수
+
 function CommunityCard({ post, onClick, onLikeToggle }) {
     
     const checkDate = (dateString) => {
@@ -19,32 +21,48 @@ function CommunityCard({ post, onClick, onLikeToggle }) {
     }
 
     return (
-        <div>
-            <div>
-                <span>{post.user?.u_name || "익명"} | </span>
-                <span>{checkDate(post.f_created_at)}</span>
+        <div className="community-card">
+            {/* 1. 작성자 및 날짜 영역 */}
+            <div className="card-meta">
+                <span className="card-author">{post.user?.u_name || "익명"}</span>
+                <span className="card-divider">|</span>
+                <span className="card-date">{checkDate(post.f_created_at)}</span>
             </div>
             
-            <div>
-                <h3>{post.f_title}</h3>
-                {/* <p>{post.f_content}</p> */}
+            {/* 2. 게시글 제목 영역 */}
+            <div className="card-content">
+                <h3 className="card-title">{post.f_title}</h3>
+                {/* <p className="card-text">{post.f_content}</p> */}
             </div>
 
-            <div>
-                {post.forum_tag?.ft_sleep && <span>#수면</span>}
-                {post.forum_tag?.ft_food && <span>#이유식</span>}
-                {post.forum_tag?.ft_health && <span>#건강</span>}
-                {post.forum_tag?.ft_play && <span>#놀이</span>}
+            {/* 3. 태그 영역 */}
+            <div className="card-tags">
+                {post.forum_tag?.ft_sleep && <span className="card-tag">#수면</span>}
+                {post.forum_tag?.ft_food && <span className="card-tag">#이유식</span>}
+                {post.forum_tag?.ft_health && <span className="card-tag">#건강</span>}
+                {post.forum_tag?.ft_play && <span className="card-tag">#놀이</span>}
             </div>
             
-            <div>
-                {post.f_image && (<img src={getImageUrl(post.f_image)} alt={post.f_title} width="150"/>)}
-                <button onClick={handleLikeClick}>
-                    {post.is_liked ? "좋아요함" : "좋아요안함"} {post.f_like_count || 0}
-                </button>
-                <span>댓글 수: {post.comment_count || 0}</span>
+            {/* 4. 이미지 및 하단 액션 버튼 영역 */}
+            <div className="card-footer">
+                {post.f_image && (
+                    <div className="card-image-wrapper">
+                        <img src={getImageUrl(post.f_image)} alt={post.f_title} className="card-thumbnail" />
+                    </div>
+                )}
+                
+                <div className="card-actions">
+                    <div className="card-stats">
+                        {/* 둥근 박스 스타일이 적용된 좋아요 버튼 */}
+                        <button className={`card-like-btn ${post.is_liked ? "liked" : ""}`} onClick={handleLikeClick}>
+                            {post.is_liked ? "❤️" : "🤍"} {post.f_like_count || 0}
+                        </button>
+                        {/* 둥근 박스 스타일이 적용된 댓글 수 영역 */}
+                        <span className="card-comment-count">💬 {post.comment_count || 0}</span>
+                    </div>
 
-                <button onClick={onClick}>자세히 보기</button>
+                    <button className="card-detail-btn" onClick={onClick}>자세히 보기</button>
+                </div>
             </div>
         </div>
     );

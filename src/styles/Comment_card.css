@@ -1,0 +1,165 @@
+/* 전체 행 레이아웃 (Flexbox 좌우 분리) */
+.yt-style-comment-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding: 12px 0 !important;
+    border-bottom: 1px solid #EAE2DB !important; /* 구분선만 남김 */
+    background: transparent !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 1. 좌측 프로필 (회색 동그라미) */
+.yt-avatar-placeholder {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background-color: #D9D9D9 !important;
+    flex-shrink: 0 !important;
+}
+
+/* 2. 중앙 내용 영역 (이름, 본문, 수정/삭제) */
+.yt-comment-main {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important; /* 긴 텍스트 넘침 방지 */
+}
+
+/* 작성자 이름 및 뱃지 */
+.yt-comment-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin-bottom: 4px !important;
+}
+
+.yt-author-name {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #333333 !important;
+}
+
+.yt-author-badge {
+    background-color: #FFF5F2 !important;
+    color: #F07C60 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    padding: 2px 6px !important;
+    border-radius: 8px !important;
+    border: 1px solid #F5B079 !important;
+}
+
+/* 본문 텍스트 */
+.yt-comment-text {
+    font-size: 14px !important;
+    color: #111111 !important;
+    margin: 0 0 6px 0 !important;
+    line-height: 1.4 !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+}
+
+/* 본문 바로 아래 수정/삭제 버튼 (작고 연한 회색) */
+.yt-meta-actions {
+    display: flex !important;
+    gap: 12px !important;
+}
+
+.yt-meta-btn {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: 12px !important;
+    color: #888888 !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+}
+
+.yt-meta-btn:hover {
+    color: #333333 !important;
+}
+
+/* 3. 우측 끝 좋아요 영역 */
+.yt-comment-right {
+    margin-left: 12px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    flex-shrink: 0 !important;
+}
+
+.yt-like-btn {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important; /* 하트 밑에 숫자가 오도록 세로 배치 */
+    align-items: center !important;
+    gap: 2px !important;
+    cursor: pointer !important;
+    outline: none !important;
+}
+
+.yt-like-icon {
+    font-size: 14px !important;
+}
+
+.yt-like-count {
+    font-size: 11px !important;
+    color: #888888 !important;
+    font-weight: 500 !important;
+}
+
+.yt-like-btn.liked .yt-like-count {
+    color: #F07C60 !important;
+}
+
+
+/* =========================================
+   수정 모드 폼 스타일
+========================================= */
+.yt-edit-form {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 8px !important;
+}
+
+.yt-edit-input {
+    width: 100% !important;
+    border: none !important;
+    border-bottom: 1px solid #111111 !important; /* 밑줄만 있는 스타일 */
+    background: transparent !important;
+    padding: 4px 0 !important;
+    font-size: 14px !important;
+    color: #111111 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+}
+
+.yt-edit-actions {
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+}
+
+.yt-edit-btn {
+    padding: 6px 12px !important;
+    border-radius: 16px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    border: none !important;
+}
+
+.yt-edit-btn.cancel {
+    background-color: transparent !important;
+    color: #111111 !important;
+}
+
+.yt-edit-btn.save {
+    background-color: #F07C60 !important;
+    color: #FFFFFF !important;
+}

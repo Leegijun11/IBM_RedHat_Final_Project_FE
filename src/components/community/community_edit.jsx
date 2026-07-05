@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getCommunityDetail, updateCommunity } from "../../services/community_api";
 import { uploadForumImage } from "../../services/community_api";
 import { getImageUrl } from "../../hooks/imageUrl";
+import "../../styles/community_edit.css"; // 소문자 파일명 경로 규칙 적용 완료
 
 const CommunityEdit = () => {
     const navigate = useNavigate();
@@ -63,7 +64,6 @@ const CommunityEdit = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
         let editedImageUrl = existingImageUrl
 
         if(imageFile){
@@ -99,49 +99,84 @@ const CommunityEdit = () => {
     };
 
     return (
-        <div>
-            <h2>게시물 수정</h2>
+        <div className="community-edit-container">
+            <div className="edit-header">
+                <h2>게시물 수정 ✍️</h2>
+            </div>
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>제목: </label>
-                    <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <form onSubmit={handleSubmit} className="edit-form">
+                
+                {/* 1. 제목 입력 */}
+                <div className="form-group">
+                    <label className="form-label">제목</label>
+                    <input 
+                        className="edit-input"
+                        type="text" 
+                        value={title} 
+                        onChange={(e) => setTitle(e.target.value)} 
+                    />
                 </div>
 
+                {/* 2. 사진 첨부 */}
+                <div className="form-group">
+                    <label className="form-label">사진 첨부 (변경 시 선택)</label>
+                    
+                    <label className="file-upload-label">
+                        <span className="file-upload-text">📸 탭하여 사진 변경하기</span>
+                        <input 
+                            className="hidden-file-input"
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleImageChange} 
+                        />
+                    </label>
 
-                <div>
-                    <p>사진 첨부 (변경 시 선택):</p>
-                    <input type="file" accept="image/*" onChange={handleImageChange} />
                     {imageView && (
-                        <div>
-                            <img src={imageView} alt="미리보기" width="150" />
+                        <div className="image-preview-wrapper">
+                            <img src={imageView} alt="미리보기" className="image-preview" />
                         </div>
                     )}
                 </div>
 
-                <div>
-                    <button type="button" onClick={() => handleTagToggle("ft_sleep")}>
-                        수면 {tags.ft_sleep ? "✅" : ""}
-                    </button>
-                    <button type="button" onClick={() => handleTagToggle("ft_food")}>
-                        이유식 {tags.ft_food ? "✅" : ""}
-                    </button>
-                    <button type="button" onClick={() => handleTagToggle("ft_health")}>
-                        건강 {tags.ft_health ? "✅" : ""}
-                    </button>
-                    <button type="button" onClick={() => handleTagToggle("ft_play")}>
-                        놀이 {tags.ft_play ? "✅" : ""}
-                    </button>
+                {/* 3. 태그 선택 */}
+                <div className="form-group">
+                    <label className="form-label">주제 태그 (여러 개 선택 가능)</label>
+                    <div className="edit-tags-group">
+                        <button type="button" className={`tag-btn ${tags.ft_sleep ? "active" : ""}`} onClick={() => handleTagToggle("ft_sleep")}>
+                            수면 {tags.ft_sleep ? "✅" : ""}
+                        </button>
+                        <button type="button" className={`tag-btn ${tags.ft_food ? "active" : ""}`} onClick={() => handleTagToggle("ft_food")}>
+                            이유식 {tags.ft_food ? "✅" : ""}
+                        </button>
+                        <button type="button" className={`tag-btn ${tags.ft_health ? "active" : ""}`} onClick={() => handleTagToggle("ft_health")}>
+                            건강 {tags.ft_health ? "✅" : ""}
+                        </button>
+                        <button type="button" className={`tag-btn ${tags.ft_play ? "active" : ""}`} onClick={() => handleTagToggle("ft_play")}>
+                            놀이 {tags.ft_play ? "✅" : ""}
+                        </button>
+                    </div>
                 </div>
 
-                <div>
-                    <p>내용:</p>
-                    <textarea rows="8" cols="40" value={context} onChange={(e) => setContext(e.target.value)} />
+                {/* 4. 내용 입력 */}
+                <div className="form-group">
+                    <label className="form-label">내용</label>
+                    <textarea 
+                        className="edit-textarea"
+                        rows="8" 
+                        cols="40" 
+                        value={context} 
+                        onChange={(e) => setContext(e.target.value)} 
+                    />
                 </div>
 
-                <div>
-                    <button type="button" onClick={() => navigate(`/community/${f_id}`)}>취소</button>
-                    <button type="submit">수정 완료</button>
+                {/* 5. 하단 액션 버튼 */}
+                <div className="edit-action-group">
+                    <button type="button" className="action-btn cancel-btn" onClick={() => navigate(`/community/${f_id}`)}>
+                        취소
+                    </button>
+                    <button type="submit" className="action-btn submit-btn">
+                        수정 완료
+                    </button>
                 </div>
             </form>
         </div>
