@@ -9,7 +9,7 @@ import MilestoneList from "../../components/EBook/MilestoneList";
 import CompareChart from "../../components/EBook/CompareChart";
 import NaviBar from "../../components/common/NaviBar";
 
-import "../../styles/EBookMainPage.css?v=1"; // 🔥 스타일 파일 연결
+import "../../styles/EBookMainPage.css?v=1"; // 스타일 파일 연결
 
 function EBookMainPage() {
     const navigate = useNavigate();
@@ -33,6 +33,7 @@ function EBookMainPage() {
 
                 setSelectedBabyId(baby.b_id);
 
+                // 아기 개월 수 계산
                 const birthDate = new Date(baby.b_birth);
                 const today = new Date();
 
@@ -46,17 +47,17 @@ function EBookMainPage() {
 
                 setBabyAge(Math.max(0, months));
 
-                // 디지털북 조회는 별도로 분리 (없어도 정상 상황)
+                // 디지털북 목록 조회
                 try {
                     const result = await getEBook(baby.b_id);
                     setBooks(Array.isArray(result) ? result : []);
                 } catch (bookError) {
-                    console.log(bookError);
+                    console.error("책 목록 조회 실패:", bookError);
                     setBooks([]);
                 }
 
             } catch (error) {
-                console.error(error);
+                console.error("초기 데이터 로드 에러:", error);
                 alert("정보를 불러오는 중 오류가 발생했습니다.");
             }
         };
@@ -96,6 +97,7 @@ function EBookMainPage() {
                 )}
             </div>
 
+            {/* 책 상세 팝업 (정상적으로 내부에서 페이지들을 fetching함) */}
             {selectedBook && (
                 <BookDetail
                     book={selectedBook}
@@ -142,7 +144,6 @@ function EBookMainPage() {
             ) : (
                 <>
                     <div className="content-card">
-                    
                         <CompareChart />
                     </div>
                 </>
