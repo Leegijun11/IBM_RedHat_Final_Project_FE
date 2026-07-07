@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { createOrUpdateLog } from "../../services/logs_api";
 import { getBabies } from "../../services/baby_api";
 import { getCurrentBaby } from "../../services/partner_api";
-import { getAgeInMonths, getTipPool } from "../../constants/milestoneTips";
+import { getAgeInMonths, getTipPool } from "../../services/milestoneTips";
+
 
 function Record_card() {
     const [isOpen, setIsOpen] = useState(false);
