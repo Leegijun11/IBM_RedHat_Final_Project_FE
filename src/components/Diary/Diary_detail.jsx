@@ -43,13 +43,14 @@ function Diary_detail() {
 
                     {/* 2. 제목 */}
                     <h3>{diary.d_title}</h3>
+                    {console.log("최종 요청 주소:", `${BACKEND_URL}/${diary.d_image}`)}
 
                     {/* 3. 아기 컴포넌트 성장 사진이 업로드 되어있을 경우 이미지 뷰어 바인딩 */}
                     {/* ★ 변경 포인트: BACKEND_URL 주소를 결합하여 이미지 절대 주소 완성 */}
                     {diary.d_image && (
                         <div style={{ width: "100%", maxHeight: "280px", overflow: "hidden", borderRadius: "var(--radius-md)", margin: "14px 0", border: "1px solid var(--color-border)" }}>
                             <img 
-                                src={`${BACKEND_URL}/${diary.d_image}`} 
+                                src={diary.d_image.startsWith("http") ? diary.d_image : `${BACKEND_URL}/${diary.d_image}`}
                                 alt="아기 일기 성장 스냅샷" 
                                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
                             />
@@ -82,6 +83,10 @@ function Diary_detail() {
             )}
 
             <button onClick={() => navigate("/diary")}>목록으로</button>
+
+            
+            <button type="button" onClick={() => navigate(`/diary/edit/${d_id}`)}>수정</button>
+            
         </div>
     );
 }

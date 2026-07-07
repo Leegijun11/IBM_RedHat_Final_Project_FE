@@ -1,11 +1,10 @@
 import api from "../hooks/api"
 
 // 일기 작성 ( C )
-export const createDiary = async (data) => {
-    const response = await api.post("/diaries/create", data);
+export const createDiary = async (data, isAi = true) => { 
+    const response = await api.post(`/diaries/create?ai_create=${isAi}`, data);
     return response.data;
 };
-
 // 날짜별 일기 목록 조회 ( R )
 export const getDiaryList = async (b_id, d_date) => {
     const response = await api.get("/diaries/list", { params: { b_id, d_date } });
@@ -20,7 +19,7 @@ export const getDiaryDetail = async (d_id) => {
 
 // 일기 수정 ( U )
 export const editDiary = async (d_id, data) => {
-    const response = await api.put(`/diaries/edit/${d_id}`, data);
+    const response = await api.put(`/diaries/edit/${d_id}?b_id=${data.b_id}`, data);
     return response.data;
 };
 

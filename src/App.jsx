@@ -9,6 +9,8 @@ import CommunityDetail from './components/Community/community_detail';
 import CommunityEdit from './components/community/community_edit';
 import BabyInfoPage from './pages/BabyInfo/BabyInfoPage';
 import Diary_write from "./components/Diary/Diary_write";
+import Direct_Diary_write from "./components/Diary/Direct_Diary_write";
+import Diary_edit from "./components/Diary/Diary_edit";
 import Diary from './pages/Diary/Diary';
 import EBookCreate from './pages/E-book/EBookCreate'
 import EBookMainPage from './pages/E-book/EBookMainPage';
@@ -31,6 +33,8 @@ const App = () => {
         <Route path='babyinfo' element={<BabyInfoPage/>}/>
         <Route path='diary' element={<Diary/>}/>
         <Route path="/diary/write" element={<Diary_write />} />
+        <Route path="/diary/write/direct" element={<Direct_Diary_write />} />
+        <Route path="/diary/edit/:d_id" element={<Diary_edit />} />
         <Route path='ebook' element={<EBookMainPage/>}/>
         <Route path='/ebook/create' element={<EBookCreate/>}/>
         <Route path="tips" element={<Tip />} />
