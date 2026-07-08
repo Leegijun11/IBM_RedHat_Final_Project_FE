@@ -74,7 +74,7 @@ function Login_form({ setPage }) {
           <div className="input-group">
             <label className="input-label">아이디</label>
             <div className="input-wrapper">
-              <span className="icon-left">👤</span>
+              <span className="icon-left"></span>
               <input
                 type="text" 
                 className="custom-input"
@@ -89,7 +89,7 @@ function Login_form({ setPage }) {
           <div className="input-group">
             <label className="input-label">비밀번호</label>
             <div className="input-wrapper">
-              <span className="icon-left">🔑</span>
+              <span className="icon-left"></span>
               <input 
                 type="password" 
                 className="custom-input"
