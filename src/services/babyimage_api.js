@@ -24,3 +24,10 @@ export const deleteBabyImage = async (i_id) => {
     });
     return response.data;
 };
+
+export const getAllBabyImages=async (b_id)=>{
+    const response=await api.get("/babyimages/list_all", {
+        params: {b_id}
+    })
+    return response.data
+}

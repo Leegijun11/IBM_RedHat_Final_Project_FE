@@ -3,6 +3,7 @@ import { Routes, Route, Outlet } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import MyPage from './pages/MyPage/MyPage';
 import Home from './pages/Home/Home';
+import Photo_Gallery from './components/Home/Photo_Gallery';
 import CommunityPage from './pages/Community/CommunityPage';
 import CommunityCreate from './components/community/community_create';
 import CommunityDetail from './components/Community/community_detail';
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/' element={<Login/>}/>
         <Route path='mypage' element={<MyPage/>}/>
         <Route path='home' element={<Home/>}/>
+        <Route path="/home/gallery" element={<Photo_Gallery />} />
         <Route path='community' element={<CommunityPage/>}/>
         <Route path='community/create' element={<CommunityCreate/>}/>
         <Route path='community/:f_id' element={<CommunityDetail/>}/>

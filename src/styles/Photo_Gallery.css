@@ -1,0 +1,126 @@
+/* ==========================================================================
+   1. 최상위 레이아웃 (420px 모바일 강제 고정 및 톤앤매너 적용)
+   ========================================================================== */
+.gallery-container {
+    width: 100% !important;
+    max-width: 420px !important; /* 화면 가로폭 고정 */
+    margin: 0 auto !important;   /* 화면 중앙 정렬 */
+    background-color: #FAF4EF !important; /* 베이지 배경톤 */
+    min-height: 100vh !important;
+    box-sizing: border-box !important;
+    font-family: 'Pretendard', sans-serif !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* ==========================================================================
+   2. 갤러리 상단 헤더 (앱 상단바 스타일)
+   ========================================================================== */
+.gallery-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    padding: 20px !important;
+    background-color: #FAF4EF !important; /* 배경과 동일하게 자연스럽게 */
+    z-index: 10 !important;
+}
+
+.gallery-back-btn {
+    position: absolute !important;
+    left: 20px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: #5D5046 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.gallery-back-btn:active {
+    color: #F07C60 !important; /* 클릭 시 코랄 색상 피드백 */
+}
+
+.gallery-header h2 {
+    margin: 0 !important;
+    color: #5D5046 !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+}
+
+/* ==========================================================================
+   3. 메인 콘텐츠 및 상태 메세지
+   ========================================================================== */
+.gallery-content {
+    flex: 1 !important;
+    padding-bottom: 60px !important; /* 스크롤 여유 공간 */
+}
+
+.gallery-empty-state {
+    text-align: center !important;
+    color: #A3968C !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    padding-top: 100px !important;
+}
+
+/* ==========================================================================
+   4. 사진 격자형(Grid) 레이아웃 
+   ========================================================================== */
+.gallery-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 32px !important; /* 날짜 그룹 간의 간격 */
+}
+
+.gallery-date-group {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* 날짜 텍스트 (예: 7월 5일) */
+.gallery-date-title {
+    margin: 0 0 12px 0 !important;
+    padding: 0 20px !important; /* 텍스트는 좌우 여백 적용 */
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #5D5046 !important;
+}
+
+/* 인스타그램 / 기본 갤러리 3열 그리드 적용 */
+.gallery-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* 1줄에 3개 강제 배치 */
+    gap: 2px !important; /* 사진과 사진 사이 아주 얇은 간격 (갤러리 국룰) */
+    width: 100% !important;
+    /* 그리드 전체는 420px 꽉 차도록 여백 없음 */
+}
+
+/* 개별 사진 래퍼 (정사각형 비율 강제) */
+.gallery-item {
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important; /* 가로세로 1:1 완벽한 정사각형 유지 */
+    background-color: #EAE2DB !important; /* 사진 로딩 전 보여질 회색 박스 */
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 실제 이미지 속성 */
+.gallery-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* 비율이 깨지지 않고 1:1 사이즈에 꽉 차게 잘림 */
+    display: block !important;
+    transition: filter 0.2s ease !important;
+}
+
+.gallery-img:active {
+    filter: brightness(0.8) !important; /* 사진을 터치했을 때 살짝 어두워지는 피드백 */
+}
