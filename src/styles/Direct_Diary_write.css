@@ -1,0 +1,229 @@
+/* ==========================================================================
+   1. 최상위 레이아웃 (420px 모바일 강제 고정)
+   ========================================================================== */
+.direct-diary-container {
+    width: 100% !important;
+    max-width: 420px !important; /* 화면이 무한정 늘어나는 현상 방지 */
+    margin: 0 auto !important;   /* 화면 중앙 정렬 */
+    background-color: #FAF4EF !important;
+    min-height: 100vh !important;
+    padding: 24px 20px 100px 20px !important; 
+    font-family: 'Pretendard', sans-serif !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+/* 폼을 감싸는 하얀색 둥근 카드 */
+.direct-diary-card {
+    width: 100% !important;
+    background-color: #FFFFFF !important;
+    border-radius: 24px !important;
+    padding: 24px 20px !important;
+    box-shadow: 0 4px 16px rgba(93, 80, 70, 0.04) !important;
+    box-sizing: border-box !important;
+}
+
+.direct-diary-header h2 {
+    margin: 0 0 24px 0 !important;
+    color: #5D5046 !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+}
+
+.direct-diary-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    width: 100% !important;
+}
+
+/* ==========================================================================
+   2. 입력 필드 그룹
+   ========================================================================== */
+.form-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+}
+
+.form-label {
+    color: #5D5046 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+}
+
+/* 공통 입력창 스타일 */
+.custom-input,
+.custom-select,
+.custom-textarea {
+    width: 100% !important;
+    padding: 14px 16px !important;
+    border-radius: 12px !important;
+    border: 1px solid #EAE2DB !important;
+    background-color: #FFFFFF !important;
+    font-size: 15px !important;
+    color: #5D5046 !important;
+    box-sizing: border-box !important;
+    font-family: inherit !important;
+    transition: border-color 0.2s ease !important;
+    outline: none !important;
+}
+
+.custom-input:focus,
+.custom-select:focus,
+.custom-textarea:focus {
+    border-color: #F07C60 !important;
+}
+
+.custom-input::placeholder,
+.custom-textarea::placeholder {
+    color: #B5AFA4 !important;
+}
+
+/* 텍스트 영역 특화 */
+.custom-textarea {
+    resize: none !important;
+    line-height: 1.5 !important;
+    min-height: 150px !important;
+}
+
+/* 셀렉트 박스 특화 (기본 화살표 제거 및 커스텀) */
+.select-wrapper {
+    position: relative !important;
+    width: 100% !important;
+}
+
+.custom-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23A3968C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 16px center !important;
+    cursor: pointer !important;
+}
+
+/* ==========================================================================
+   3. 태그 그룹
+   ========================================================================== */
+.direct-tags-group {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: flex-start !important;
+}
+
+.tag-btn {
+    height: 38px !important;
+    padding: 0 16px !important;
+    border-radius: 19px !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #EAE2DB !important;
+    color: #5D5046 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    margin: 0 !important;
+}
+
+.tag-btn.active {
+    border-color: #F07C60 !important;
+    color: #F07C60 !important;
+    background-color: #FFF5F2 !important;
+}
+
+/* ==========================================================================
+   4. 사진 첨부 UI
+   ========================================================================== */
+.file-upload-label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    border-radius: 16px !important;
+    border: 2px dashed #EAE2DB !important;
+    background-color: #FDF9F5 !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.file-upload-text {
+    color: #F5B079 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+
+.hidden-file-input {
+    display: none !important;
+}
+
+.image-preview-wrapper {
+    margin-top: 12px !important;
+    width: 100% !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    border: 1px solid #EAE2DB !important;
+}
+
+.image-preview {
+    width: 100% !important;
+    max-height: 250px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* ==========================================================================
+   5. 하단 취소/저장 버튼 (엄격한 50:50 대칭 강제 적용)
+   ========================================================================== */
+.action-group {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-top: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.action-btn {
+    flex: 1 1 0% !important; /* 강제 50:50 비율 */
+    height: 50px !important; /* 높이 고정 */
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    line-height: 1 !important;
+    font-family: inherit !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    outline: none !important;
+    transition: transform 0.1s ease !important;
+}
+
+.action-btn:active {
+    transform: scale(0.97) !important;
+}
+
+.cancel-btn {
+    background-color: #FFFFFF !important;
+    border: 1px solid #EAE2DB !important;
+    color: #A3968C !important;
+}
+
+.submit-btn {
+    background-color: #F07C60 !important; /* 메인 코랄색 */
+    border: 1px solid #F07C60 !important;
+    color: #FFFFFF !important;
+}

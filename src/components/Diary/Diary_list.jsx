@@ -45,6 +45,8 @@ function Diary_list() {
         new Date().toISOString().split("T")[0]
     );
 
+    const [isFabOpen, setIsFabOpen] = useState(false)
+
     // 일기 목록 조회
     const handleCreateDiaryList = async (b_id) => {
         try {
@@ -97,6 +99,20 @@ function Diary_list() {
             console.log(error);
             alert("일기 삭제에 실패하였습니다.");
         }
+    };
+
+
+    const getImageUrl = (path) => {
+        if (!path) return null;
+        if (path.startsWith("http")) return path; // AI 생성 이미지 (절대 경로)
+        
+        // 직접 업로드 이미지 (상대 경로)
+        // 1. ../ 가 있다면 제거
+        let cleanPath = path.replace(/\.\.\//g, '');
+        // 2. 만약 앞의 /가 중복되면 하나만 남김
+        if (cleanPath.startsWith('/')) cleanPath = cleanPath.slice(1);
+        
+        return `${BACKEND_URL}/${cleanPath}`;
     };
 
     const weekDates = getWeekDates(selectedDate);
@@ -192,7 +208,7 @@ function Diary_list() {
                             {diary.d_image && (
                                 <div style={{ width: "64px", height: "64px", flexShrink: 0, borderRadius: "var(--radius-sm)", overflow: "hidden", border: "1px solid var(--color-border)" }}>
                                     <img 
-                                        src={`${BACKEND_URL}/${diary.d_image}`} 
+                                        src={diary.d_image.startsWith("http") ? diary.d_image : `${BACKEND_URL}/${diary.d_image}`}
                                         alt="아기 스냅샷" 
                                         style={{ width: "100%", height: "100%", objectFit: "cover" }} 
                                     />
@@ -236,14 +252,25 @@ function Diary_list() {
                     </div>
                 ))
             )}
-
-            {/* 플로팅 글쓰기 버튼 */}
-            <button
-                className="diary-write-fab"
-                onClick={() => navigate("/diary/write")}
-            >
-                +
-            </button>
+            <div className="diary-fab-container">
+                {isFabOpen && (
+                    <div className="diary-fab-menu">
+                        <button className="fab-menu-ai" onClick={() => navigate("/diary/write")}>
+                            AI 일기 쓰기
+                        </button>
+                        <button className="fab-menu-direct" onClick={() => navigate("/diary/write/direct")}>
+                            직접 쓰기
+                        </button>
+                    </div>
+                )}
+                
+                <button 
+                    className="diary-write-fab" 
+                    onClick={() => setIsFabOpen(!isFabOpen)}
+                >
+                    {isFabOpen ? "×" : "+"}
+                </button>
+            </div>
 
             <NaviBar />
         </div>

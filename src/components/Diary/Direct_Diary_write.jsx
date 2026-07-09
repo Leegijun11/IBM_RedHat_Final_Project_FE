@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getDiaryDetail, editDiary } from "../../services/diary_api";
-import { uploadBabyImage } from "../../services/babyimage_api";
+import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { getCurrentBaby } from "../../services/partner_api";
-import NaviBar from "../common/NaviBar"; // 상대 경로 확인 (필요시 ../../components/common/NaviBar 로 수정)
-import "../../styles/diary_edit.css"; 
+import { uploadBabyImage } from "../../services/babyimage_api";
+import { createDiary } from "../../services/diary_api";
+import NaviBar from "../../components/common/NaviBar";
+import "../../styles/Direct_Diary_write.css"; 
 
 const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
-const Diary_edit = () => {
+const Direct_Diary_write = () => {
     const navigate = useNavigate();
-    const { d_id } = useParams(); 
-    
+
     const [babyID, setBabyID] = useState(null);
-    const [diaryDate, setDiaryDate] = useState("");
+    const [diaryDate, setDiaryDate] = useState(new Date().toISOString().split("T")[0]);
+
     const [diaryTitle, setDiaryTitle] = useState("");
     const [diaryContent, setDiaryContent] = useState("");
     const [diaryLabel, setDiaryLabel] = useState("");
     
-    const [imageFile, setImageFile] = useState(null);
-    const [existingImageUrl, setExistingImageUrl] = useState(null);
-    const [imageView, setImageView] = useState(""); // 미리보기용 상태 추가
-    
+    const [image, setImage] = useState(null); 
+    const [imageView, setImageView] = useState(""); 
+
     const [tags, setTags] = useState({
         d_eat: false,
         d_sleep: false,
@@ -29,46 +28,17 @@ const Diary_edit = () => {
         d_temp: false
     });
 
-    useEffect(() => {
-        const fetchDiary = async () => {
-            try {
-                const baby = await getCurrentBaby();
-                setBabyID(baby.b_id); 
-
-                const data = await getDiaryDetail(d_id);
-                
-                setDiaryDate(data.d_date ? data.d_date.split("T")[0] : new Date().toISOString().split("T")[0]);
-                setDiaryTitle(data.d_title);
-                setDiaryContent(data.d_content);
-                setDiaryLabel(data.d_label);
-                
-                setExistingImageUrl(data.d_image);
-                
-                // 기존 이미지가 있다면 미리보기에 세팅
-                if (data.d_image) {
-                    const cleanPath = data.d_image.replace(/\.\.\//g, '').replace(/^\/+/, '');
-                    setImageView(cleanPath.startsWith("http") ? cleanPath : `${BACKEND_URL}/${cleanPath}`);
-                }
-
-                setTags({
-                    d_eat: data.d_eat === "완료" || data.d_eat === "1",
-                    d_sleep: data.d_sleep === "완료" || data.d_sleep === "1",
-                    d_toilet: data.d_toilet === "완료" || data.d_toilet === "1",
-                    d_temp: data.d_temp === "완료" || data.d_temp === "1"
-                });
-            } catch (error) {
-                console.error("일기 불러오기 실패:", error);
-                alert("일기를 불러올 수 없습니다.");
-                navigate(-1);
-            }
-        };
-        fetchDiary();
-    }, [d_id, navigate]);
+    const handleTagToggle = (tagKey) => {
+        setTags((prevTags) => ({
+            ...prevTags,
+            [tagKey]: !prevTags[tagKey]
+        }));
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setImageFile(file);
+            setImage(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImageView(reader.result);
@@ -77,73 +47,81 @@ const Diary_edit = () => {
         }
     };
 
-    const handleTagToggle = (tagName) => {
-        setTags((prev) => ({
-            ...prev,
-            [tagName]: !prev[tagName]
-        }));
-    };
+    useEffect(() => {
+        const fetchBaby = async () => {
+            try {
+                const baby = await getCurrentBaby();
+                setBabyID(baby.b_id);
+            } catch (error) {
+                console.log(error);
+                alert("등록된 아기 정보가 없습니다.");
+                navigate("/babyinfo");
+            }
+        };
+        fetchBaby();
+    }, [navigate]);
 
-    const handleSubmit = async (e) => {
+    const handleSaveRecord = async (e) => {
         e.preventDefault();
 
         if (!diaryLabel) {
-            alert("오늘 아이의 감정을 선택해주세요.");
+            alert("오늘 아이의 감정을 선택해주세요");
             return;
         }
-        if (!diaryTitle.trim() || !diaryContent.trim()) {
-            alert("제목과 내용을 모두 입력해주세요.");
+        if (!diaryTitle.trim()) {
+            alert("제목을 입력해주세요");
             return;
         }
-
-        let editedImageUrl = existingImageUrl;
-
-        if (imageFile) {
-            try {
-                const response = await uploadBabyImage(babyID, imageFile);
-                
-                if (response && response.i_image) {
-                    let path = response.i_image.replace(/\.\.\//g, '').replace(/^\/+/, '');
-                    editedImageUrl = path;
-                }
-            } catch (error) {
-                alert("이미지 업로드에 실패했습니다.");
-                return;
-            }
+        if (!diaryContent.trim()) {
+            alert("내용을 입력해주세요");
+            return;
         }
-
-        const updateData = {
-            b_id: babyID,
-            d_date: diaryDate,
-            d_title: diaryTitle,
-            d_content: diaryContent,
-            d_label: diaryLabel,
-            d_image: editedImageUrl,
-            d_eat: tags.d_eat ? "1" : "0",
-            d_sleep: tags.d_sleep ? "1" : "0",
-            d_toilet: tags.d_toilet ? "1" : "0",
-            d_temp: tags.d_temp ? "1" : "0"
-        };
+        if (!babyID) {
+            alert("아기 정보를 불러오지 못했습니다");
+            return;
+        }
 
         try {
-            await editDiary(d_id, updateData);
-            alert("일기가 성공적으로 수정되었습니다!");
-            navigate(`/diary/${d_id}`);
+            let uploadedImageUrl = null;
+            
+            if (image) {
+                const response = await uploadBabyImage(babyID, image);
+                if (response && response.i_image) {
+                    let path = response.i_image.replace(/\.\.\//g, '').replace(/^\/+/, '');
+                    uploadedImageUrl = path;
+                }
+            }
+
+            await createDiary({
+                b_id: babyID,
+                d_date: diaryDate,
+                d_title: diaryTitle,
+                d_content: diaryContent,
+                d_label: diaryLabel,
+                d_image:uploadedImageUrl,
+                d_eat: tags.d_eat ? "1" : "0",
+                d_sleep: tags.d_sleep ? "1" : "0",
+                d_toilet: tags.d_toilet ? "1" : "0",
+                d_temp: tags.d_temp ? "1" : "0"
+            }, false);
+
+            alert("성장 일기를 등록했습니다");
+            navigate("/diary");
         } catch (error) {
-            console.error("일기 수정 오류:", error);
-            alert("일기 수정에 실패했습니다.");
+            console.log(error);
+            alert("성장 일기 등록을 실패했습니다");
         }
     };
 
     return (
-        <div className="diary-edit-container">
-            <div className="diary-edit-card">
-                <div className="diary-edit-header">
-                    <h2>성장 일기 수정 ✍️</h2>
+        <div className="direct-diary-container">
+            <div className="direct-diary-card">
+                <div className="direct-diary-header">
+                    <h2>오늘의 기록 ✍️</h2>
                 </div>
 
-                <form onSubmit={handleSubmit} className="diary-edit-form">
-
+                <form onSubmit={handleSaveRecord} className="direct-diary-form">
+                    
                     {/* 1. 아이의 기분 */}
                     <div className="form-group">
                         <label className="form-label">아이의 기분</label>
@@ -166,7 +144,7 @@ const Diary_edit = () => {
                         <input 
                             className="custom-input"
                             type="text" 
-                            placeholder="일기 제목을 작성하세요"
+                            placeholder="일기 제목을 작성하세요" 
                             value={diaryTitle} 
                             onChange={(e) => setDiaryTitle(e.target.value)} 
                         />
@@ -177,17 +155,17 @@ const Diary_edit = () => {
                         <label className="form-label">내용</label>
                         <textarea 
                             className="custom-textarea"
-                            placeholder="오늘 있었던 일을 작성하세요" 
-                            rows="8" 
+                            placeholder="오늘 있었던 일을 자세히 기록해 주세요..." 
                             value={diaryContent} 
                             onChange={(e) => setDiaryContent(e.target.value)} 
+                            rows="8"
                         />
                     </div>
 
                     {/* 4. 오늘의 특이사항 */}
                     <div className="form-group">
                         <label className="form-label">오늘의 특이사항</label>
-                        <div className="edit-tags-group">
+                        <div className="direct-tags-group">
                             <button type="button" className={`tag-btn ${tags.d_eat ? "active" : ""}`} onClick={() => handleTagToggle("d_eat")}>
                                 🍼 식사 {tags.d_eat ? "✅" : ""}
                             </button>
@@ -205,9 +183,9 @@ const Diary_edit = () => {
 
                     {/* 5. 사진 첨부 */}
                     <div className="form-group">
-                        <label className="form-label">사진 첨부 (변경 시 선택)</label>
+                        <label className="form-label">사진 첨부</label>
                         <label className="file-upload-label">
-                            <span className="file-upload-text">📸 탭하여 사진 변경하기</span>
+                            <span className="file-upload-text">📸 탭하여 사진 선택하기</span>
                             <input 
                                 className="hidden-file-input"
                                 type="file" 
@@ -222,13 +200,13 @@ const Diary_edit = () => {
                         )}
                     </div>
 
-                    {/* 6. 하단 액션 버튼 */}
+                    {/* 6. 하단 액션 버튼 (강제 50:50 대칭) */}
                     <div className="action-group">
-                        <button type="button" className="action-btn cancel-btn" onClick={() => navigate(`/diary/${d_id}`)}>
+                        <button type="button" className="action-btn cancel-btn" onClick={() => navigate("/diary")}>
                             취소
                         </button>
                         <button type="submit" className="action-btn submit-btn">
-                            수정 완료
+                            저장
                         </button>
                     </div>
                     
@@ -239,4 +217,4 @@ const Diary_edit = () => {
     );
 };
 
-export default Diary_edit;
+export default Direct_Diary_write;

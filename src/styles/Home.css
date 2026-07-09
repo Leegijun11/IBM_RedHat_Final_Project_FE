@@ -348,6 +348,91 @@
   align-self: flex-start;
 }
 
+
+.photo-menu-container {
+  /* 🌟 핵심: 카드를 밀어내지 않고 공중에 띄웁니다 */
+  position: absolute; 
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn 0.15s ease-in-out;
+}
+
+.photo-menu-btn {
+  width: 100%;
+  padding: 10px 0; /* 버튼이 카드 밖으로 나가지 않게 높이 살짝 조절 */
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.photo-menu-btn:active {
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* 1. 기본 상태 (메뉴 닫힘) 컨테이너 */
+.photo-card-default {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+}
+
+/* 기존 공통 css인 margin 지정을 유지하기 위해 정렬 보정 */
+.photo-card-default .action-card-btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* 2. 메뉴 활성화 상태 (버튼 2개) 컨테이너 */
+.photo-card-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: auto; /* 카드의 가장 아래쪽으로 밀착 */
+}
+
+/* 3. 사진 등록 / 사진 갤러리 큰 버튼 스타일 */
+.photo-menu-btn {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+/* 버튼 클릭 시 반응 */
+.photo-menu-btn:active {
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: scale(0.97);
+}
+
 /* ==========================================================================
    7. Tip_card.jsx (AI 발달 팁)
    ========================================================================== */

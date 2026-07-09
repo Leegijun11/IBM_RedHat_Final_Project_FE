@@ -48,8 +48,12 @@ function CommunityPage() {
 
                 setPosts(Array.isArray(result) ? result : []);
             } catch (error) {
-                console.error("게시글 불러오기 오류:", error);
-                setPosts([]);
+                if(error.response && error.response.status === 400){
+                    const errorMessage = error.response.data.detail;
+                    alert(errorMessage);
+
+                    setBabyCharacter(""); 
+                }
             }
         };
 
@@ -124,7 +128,6 @@ function CommunityPage() {
             <div className="community-title-area">
                 <h2>육아 포럼 💬</h2>
             </div>
-
             {/* 2. 태그 및 기질 분류 (상단 배치 & 가로 스크롤 통합) */}
             <div className="community-tags-scroll">
                 <button className={`tag-btn ${activeTag === "sleep" ? "active" : ""}`} onClick={() => handleTagToggle("sleep")}>
