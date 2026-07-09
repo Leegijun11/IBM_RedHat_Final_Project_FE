@@ -25,9 +25,19 @@ export const deleteBabyImage = async (i_id) => {
     return response.data;
 };
 
+// 갤러리용 API
+
 export const getAllBabyImages=async (b_id)=>{
     const response=await api.get("/babyimages/list_all", {
         params: {b_id}
     })
     return response.data
 }
+
+
+export const getMonthlyBabyImages = async (b_id, year, month) => {
+    const response = await api.get("/babyimages/monthly", {
+        params: { b_id, year, month },
+    });
+    return response.data;
+};
