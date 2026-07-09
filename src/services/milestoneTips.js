@@ -138,6 +138,15 @@ function getNearestBrackets(ageMonths, count = 2) {
     .slice(0, count);
 }
 
+function shuffle(arr) {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 export function getTipPool(ageMonths) {
   const nearBrackets = getNearestBrackets(ageMonths);
   const relevantIds = MILESTONES
@@ -146,5 +155,5 @@ export function getTipPool(ageMonths) {
 
   const tips = relevantIds.map((id) => MILESTONE_TIPS[id]).filter(Boolean);
 
-  return tips.length > 0 ? tips : GENERIC_TIPS;
+  return tips.length > 0 ? shuffle(tips) : shuffle(GENERIC_TIPS);
 }
