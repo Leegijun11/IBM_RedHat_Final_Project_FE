@@ -1,23 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { createOrUpdateLog } from "../../services/logs_api";
 import { uploadBabyImage } from "../../services/babyimage_api";
 import { createDiary } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
+import { getAgeInMonths, getTipPool } from "../../services/milestoneTips";
 import NaviBar from "../common/NaviBar";
+
 function Diary_write() {
     const navigate = useNavigate();
 
     const [record, setRecord] = useState("");
     const [image, setImage] = useState(null);
     const [bId, setBId] = useState(null);
+    const [babyBirth, setBabyBirth] = useState(null);
 
-    // 아기 정보 가져오기
+    const [isLoading, setIsLoading] = useState(false);
+    const [tipIndex, setTipIndex] = useState(0);
+    const [tipPool, setTipPool] = useState([]);
+    const tipTimerRef = useRef(null);
+
     useEffect(() => {
         const fetchBaby = async () => {
             try {
                 const baby = await getCurrentBaby();
                 setBId(baby.b_id);
+                setBabyBirth(baby.b_birth || null);
             } catch (error) {
                 console.log(error);
                 alert("등록된 아기 정보가 없습니다.");
@@ -27,7 +35,24 @@ function Diary_write() {
         fetchBaby();
     }, []);
 
-    // 기록 저장
+    const startTipRotation = () => {
+        const pool = getTipPool(getAgeInMonths(babyBirth));
+        setTipPool(pool);
+        setTipIndex(0);
+        let i = 0;
+        tipTimerRef.current = setInterval(() => {
+            i = (i + 1) % pool.length;
+            setTipIndex(i);
+        }, 2500);
+    };
+
+    const stopTipRotation = () => {
+        if (tipTimerRef.current) {
+            clearInterval(tipTimerRef.current);
+            tipTimerRef.current = null;
+        }
+    };
+
     const handleSaveRecord = async (e) => {
         e.preventDefault();
 
@@ -41,26 +66,24 @@ function Diary_write() {
             return;
         }
 
+        setIsLoading(true);
+        startTipRotation();
+
         try {
-            // 1. 텍스트 기록 저장
             await createOrUpdateLog({
                 l_content: record,
                 b_id: bId,
             });
 
-            // 2. 사진이 있으면 저장
             if (image) {
                 await uploadBabyImage(bId, image);
             }
 
-            // 3. 오늘 날짜로 일기 생성 요청
             const today = new Date().toISOString().split("T")[0];
             await createDiary({
                 b_id: bId,
                 d_date: today,
             });
-
-            alert("기록이 저장되고 일기가 생성되었습니다.");
 
             setRecord("");
             setImage(null);
@@ -70,6 +93,9 @@ function Diary_write() {
         } catch (error) {
             console.log(error);
             alert("기록 저장에 실패하였습니다.");
+        } finally {
+            stopTipRotation();
+            setIsLoading(false);
         }
     };
 
@@ -99,6 +125,19 @@ function Diary_write() {
                     </div>
                 </form>
             </div>
+
+            {isLoading && tipPool.length > 0 && (
+                <div className="diary-loading-overlay">
+                    <div className="diary-loading-card">
+                        <div className="diary-loading-spinner" />
+                        <p className="diary-loading-header">오늘의 기록 작성 TIP</p>
+                        <p key={tipIndex} className="diary-loading-tip">
+                            {tipPool[tipIndex % tipPool.length]}
+                        </p>
+                    </div>
+                </div>
+            )}
+
             <NaviBar/>
         </div>
     );

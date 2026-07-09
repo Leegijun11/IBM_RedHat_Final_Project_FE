@@ -25,8 +25,15 @@ export const deleteBabyImage = async (i_id) => {
     return response.data;
 };
 
-// 갤러리용 API
+//다중 이미지 삭제 API
+export const deleteMultipleBabyImage = async (i_id) => {
+    const response = await api.delete("/babyimages/multi_del", {
+        data: { i_ids:i_ids },
+    });
+    return response.data;
+};
 
+// 갤러리용 API
 export const getAllBabyImages=async (b_id)=>{
     const response=await api.get("/babyimages/list_all", {
         params: {b_id}

@@ -590,7 +590,6 @@
 
 /* ==========================================================================
    10. FAB 메뉴 (+ 버튼 클릭 시 위로 나오는 확장 메뉴)
-   - 기존 CSS는 1도 건드리지 않고 하단에 완벽하게 추가된 부분입니다.
    ========================================================================== */
 .diary-fab-menu {
   position: fixed;
@@ -645,4 +644,67 @@
       opacity: 1;
       transform: translateY(0);
   }
+}
+
+/* ==========================================================================
+   11. 일기 생성 로딩 오버레이 (Diary_write.jsx)
+   ========================================================================== */
+.diary-loading-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(58, 51, 45, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.diary-loading-card {
+  width: 280px;
+  background-color: var(--card-white);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.diary-loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-coral);
+  border-radius: 50%;
+  animation: diary-spin 0.7s linear infinite;
+  margin-bottom: 4px;
+}
+
+@keyframes diary-spin {
+  to { transform: rotate(360deg); }
+}
+
+.diary-loading-header {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-hint);
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.diary-loading-tip {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-coral-deep);
+  text-align: center;
+  line-height: 1.5;
+  min-height: 40px;
+  margin: 4px 0 0;
+  animation: diary-tip-fade 0.4s ease;
+}
+
+@keyframes diary-tip-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
