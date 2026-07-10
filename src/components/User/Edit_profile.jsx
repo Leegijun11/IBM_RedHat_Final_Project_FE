@@ -11,6 +11,12 @@ function Edit_profile({ user, onClose, onSuccess }) {
   const [imageFile, setImageFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(user?.u_image || null);
 
+  // 회원가입 로직 그대로
+  const isLengthValid = u_pw.length >= 8;
+  const hasNumber = /\d/.test(u_pw);
+  const hasSpecial = /[@$!%*#?&]/.test(u_pw);
+  const isPasswordValid = isLengthValid && hasNumber && hasSpecial;
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -21,25 +27,43 @@ function Edit_profile({ user, onClose, onSuccess }) {
 
   const handleUpdateUser = async (e) => {
     e.preventDefault();
+
+    // 비밀번호를 입력한 경우에만 검증 (빈 값이면 "변경 안 함"으로 간주)
+    if (u_pw && !isPasswordValid) {
+      alert("비밀번호는 8자 이상, 숫자와 특수문자를 포함해야 합니다.");
+      return;
+    }
+
     try {
       let imagePath = user?.u_image || null;
       if (imageFile) {
         const uploadResult = await uploadUserImage(imageFile);
         imagePath = uploadResult.image_url;
       }
-      await updateUser({ u_pw, u_name, u_nickname, u_email, u_phone, u_image: imagePath });
+
+      // u_pw가 빈 값이면 아예 전송 데이터에서 제외 (백엔드 model_dump(exclude_unset=True)와 맞춤)
+      const payload = { u_name, u_nickname, u_email, u_phone, u_image: imagePath };
+      if (u_pw) payload.u_pw = u_pw;
+
+      await updateUser(payload);
       alert("정보를 수정하였습니다.");
       if (onSuccess) onSuccess();
       if (onClose) onClose();
     } catch (error) {
-      alert("정보 수정에 실패하였습니다.");
+      const detail = error.response?.data?.detail;
+      if (Array.isArray(detail)) {
+        alert(detail.map((d) => d.msg.replace(/^Value error,\s*/, "")).join("\n"));
+      } else if (typeof detail === "string") {
+        alert(detail);
+      } else {
+        alert("정보 수정에 실패하였습니다.");
+      }
     }
   };
 
   return (
     <div className="profile-edit-dropdown">
       <form onSubmit={handleUpdateUser} className="edit-form">
-        {/* 프로필 사진 수정 */}
         <div className="profile-image-section">
           <label htmlFor="profile-upload" className="image-label">
             <div className="image-circle" style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}} />
@@ -50,6 +74,15 @@ function Edit_profile({ user, onClose, onSuccess }) {
 
         <label className="input-label">비밀번호 변경</label>
         <input className="input-field" type="password" placeholder="새 비밀번호를 입력하세요" value={u_pw} onChange={(e) => setU_pw(e.target.value)} />
+
+        {/* 회원가입과 동일한 실시간 조건 체크 UI */}
+        {u_pw && (
+          <ul className="milestone-list">
+            <li className={isLengthValid ? "valid" : "invalid"}>{isLengthValid ? "✓" : "✕"} 8자 이상</li>
+            <li className={hasNumber ? "valid" : "invalid"}>{hasNumber ? "✓" : "✕"} 숫자 포함</li>
+            <li className={hasSpecial ? "valid" : "invalid"}>{hasSpecial ? "✓" : "✕"} 특수문자 포함</li>
+          </ul>
+        )}
 
         <label className="input-label">이름</label>
         <input className="input-field" type="text" value={u_name} onChange={(e) => setU_name(e.target.value)} />
