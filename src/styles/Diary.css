@@ -612,6 +612,7 @@
 
 /* 팝업 메뉴 안의 버튼 공통 스타일 */
 .diary-fab-menu button {
+  width: 116px;
   background-color: var(--card-white);
   color: var(--text-main);
   border: 1px solid var(--color-border);

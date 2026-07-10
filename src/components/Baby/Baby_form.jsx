@@ -131,7 +131,7 @@ function Baby_form() {
           </div>
 
           <button type="submit" className="submit-btn">시작하기 →</button>
-          <button type="button" className="skip-btn" onClick={() => navigate("/home")}>다음에 등록하기</button>
+          <button type="button" className="skip-btn" onClick={() => navigate("/mypage")}>다음에 등록하기</button>
         </form>
       </div>
     </div>
