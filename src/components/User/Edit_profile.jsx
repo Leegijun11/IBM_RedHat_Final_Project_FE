@@ -64,8 +64,8 @@ function Edit_profile({ user, onClose, onSuccess }) {
         <input className="input-field" type="text" value={u_phone} onChange={(e) => setU_phone(e.target.value)} />
 
         <div className="btn-group">
-          <button type="submit" className="submit-btn">수정 완료</button>
-          <button type="button" className="cancel-btn" onClick={onClose}>취소</button>
+          <button type="submit" className="edit-profile-submit-btn">수정 완료</button>
+          <button type="button" className="edit-profile-cancel-btn" onClick={onClose}>취소</button>
         </div>
       </form>
     </div>

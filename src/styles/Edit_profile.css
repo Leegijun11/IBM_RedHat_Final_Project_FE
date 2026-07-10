@@ -102,7 +102,6 @@
   border-color: #F07C60;
 }
 
-/* 버튼 그룹 (대칭 맞춤) */
 .btn-group {
   display: flex;
   gap: 12px;
@@ -110,32 +109,28 @@
   margin-top: 10px;
 }
 
-/* 🔥 높이와 가로 비율을 완벽하게 통일하는 마법의 코드 */
-.submit-btn, .skip-btn {
-  flex: 1 1 0%; /* 가로 넓이 무조건 50:50 강제 */
-  height: 50px; /* 높이 50px 강제 고정 (padding에 의존하지 않음) */
-  padding: 0; /* 기존 padding 제거 */
-  margin: 0; /* 불필요한 기본 마진 제거 */
-  
+.edit-profile-submit-btn, .edit-profile-cancel-btn {
+  flex: 1 1 0%;
+  height: 50px;
+  padding: 0;
+  margin: 0;
   border: none;
   border-radius: 12px;
   font-weight: 800;
-  font-size: 15px; /* 글자 크기도 똑같이 통일 */
+  font-size: 15px;
   cursor: pointer;
   box-sizing: border-box;
-  
-  /* 글자를 정중앙에 완벽하게 위치시킴 */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.submit-btn {
+.edit-profile-submit-btn {
   background: #F07C60;
   color: white;
 }
 
-.skip-btn {
+.edit-profile-cancel-btn {
   background: #EAE2DB;
   color: #5D5046;
 }
