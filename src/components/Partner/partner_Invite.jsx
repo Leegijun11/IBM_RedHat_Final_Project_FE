@@ -18,7 +18,7 @@ function PartnerInvite({ onClose, onRefresh }) {
       setU_account("");
       setP_category("");
       
-      // ★ 초대가 정상 성공하면 부모의 key 상태값을 1 올려 목록을 강제 재조회시킵니다.
+      // 초대가 정상 성공하면 부모의 key 상태값을 1 올려 목록을 강제 재조회시킵니다.
       if (onRefresh) onRefresh(); 
       if (onClose) onClose();
     } catch (error) {
@@ -52,8 +52,8 @@ function PartnerInvite({ onClose, onRefresh }) {
         />
 
         <div className="invite-btn-group">
-          <button type="submit" className="submit-btn">초대하기</button>
-          <button type="button" className="cancel-btn" onClick={onClose}>취소</button>
+        <button type="submit" className="invite-submit-btn">초대하기</button>
+        <button type="button" className="invite-cancel-btn" onClick={onClose}>취소</button>
         </div>
       </form>
     </div>

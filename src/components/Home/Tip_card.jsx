@@ -58,7 +58,7 @@ function Tip_card() {
                 <p className="tip-card-content">해당 월령의 발달 팁이 없습니다.</p>
             )}
 
-            <button className="tip-card-link-btn" onClick={handleMore}>더 알아보기 <span>＞</span></button>
+
         </div>
     );
 }

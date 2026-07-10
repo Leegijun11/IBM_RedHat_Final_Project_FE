@@ -43,7 +43,7 @@ function Diary_write() {
         tipTimerRef.current = setInterval(() => {
             i = (i + 1) % pool.length;
             setTipIndex(i);
-        }, 2500);
+        }, 3500);
     };
 
     const stopTipRotation = () => {
