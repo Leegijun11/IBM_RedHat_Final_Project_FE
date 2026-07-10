@@ -52,8 +52,8 @@ function PartnerInvite({ onClose, onRefresh }) {
         />
 
         <div className="invite-btn-group">
-          <button type="submit" className="submit-btn">초대하기</button>
-          <button type="button" className="cancel-btn" onClick={onClose}>취소</button>
+        <button type="submit" className="invite-submit-btn">초대하기</button>
+        <button type="button" className="invite-cancel-btn" onClick={onClose}>취소</button>
         </div>
       </form>
     </div>

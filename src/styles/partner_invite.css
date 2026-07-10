@@ -50,8 +50,7 @@
   gap: 10px;
 }
 
-/* 🎨 꾸며진 버튼 스타일 */
-.submit-btn {
+.invite-submit-btn {
   flex: 1;
   padding: 14px;
   background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
@@ -64,12 +63,12 @@
   transition: transform 0.1s, opacity 0.2s;
 }
 
-.submit-btn:active {
+.invite-submit-btn:active {
   transform: scale(0.98);
   opacity: 0.9;
 }
 
-.cancel-btn {
+.invite-cancel-btn {
   flex: 1;
   padding: 14px;
   background: #EAE2DB;
@@ -81,6 +80,6 @@
   transition: background-color 0.2s;
 }
 
-.cancel-btn:hover {
+.invite-cancel-btn:hover {
   background-color: #D6CCC4;
 }

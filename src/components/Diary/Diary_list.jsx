@@ -204,7 +204,7 @@ function Diary_list() {
                                 </p>
                             </div>
                             
-                            {/* ★ 변경 포인트: BACKEND_URL 주소를 결합하여 이미지 절대 주소 완성 */}
+                            {/* BACKEND_URL 주소를 결합하여 이미지 절대 주소 완성 */}
                             {diary.d_image && (
                                 <div style={{ width: "64px", height: "64px", flexShrink: 0, borderRadius: "var(--radius-sm)", overflow: "hidden", border: "1px solid var(--color-border)" }}>
                                     <img 
