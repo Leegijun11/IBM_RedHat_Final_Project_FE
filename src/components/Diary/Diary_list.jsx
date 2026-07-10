@@ -47,6 +47,9 @@ function Diary_list() {
 
     const [isFabOpen, setIsFabOpen] = useState(false)
 
+    // ★ 추가: 일기가 존재하는 날짜(YYYY-MM-DD) 모음
+    const [diaryDates, setDiaryDates] = useState(new Set());
+
     // 일기 목록 조회
     const handleCreateDiaryList = async (b_id) => {
         try {
@@ -61,6 +64,26 @@ function Diary_list() {
         } catch (error) {
             console.log(error);
             setDiaryList([]);
+        }
+    };
+
+    // ★ 추가: 한 주(월~일) 동안 일기가 있는 날짜만 모아서 Set으로 저장
+    const fetchWeekDiaryDates = async (b_id, weekDates) => {
+        try {
+            const results = await Promise.allSettled(
+                weekDates.map((d) => getDiaryList(b_id, toDateStr(d)))
+            );
+
+            const datesWithDiary = new Set();
+            weekDates.forEach((d, idx) => {
+                const result = results[idx];
+                if (result.status === "fulfilled" && Array.isArray(result.value) && result.value.length > 0) {
+                    datesWithDiary.add(toDateStr(d));
+                }
+            });
+            setDiaryDates(datesWithDiary);
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -83,6 +106,7 @@ function Diary_list() {
     useEffect(() => {
         if (bId) {
             handleCreateDiaryList(bId);
+            fetchWeekDiaryDates(bId, getWeekDates(selectedDate)); // ★ 추가
         }
     }, [selectedDate, bId]);
 
@@ -95,6 +119,7 @@ function Diary_list() {
             await deleteDiary(d_id);
             alert("일기가 삭제되었습니다.");
             handleCreateDiaryList(bId);
+            fetchWeekDiaryDates(bId, getWeekDates(selectedDate)); // ★ 추가: 삭제 후 점 표시도 갱신
         } catch (error) {
             console.log(error);
             alert("일기 삭제에 실패하였습니다.");
@@ -156,7 +181,7 @@ function Diary_list() {
                 {weekDates.map((d, idx) => {
                     const dStr = toDateStr(d);
                     const isActive = dStr === selectedDate;
-                    const hasDiary = false; // 추후 기능 확장용 보존
+                    const hasDiary = diaryDates.has(dStr); // ★ 수정: false 하드코딩 제거
                     return (
                         <div
                             key={dStr}
@@ -165,7 +190,7 @@ function Diary_list() {
                         >
                             <span className="week-day-label">{WEEK_LABELS[idx]}</span>
                             <span className="week-day-num">{d.getDate()}</span>
-                            {hasDiary && <span className="week-day-dot" />}
+                            <span className={`week-day-dot-slot${hasDiary ? " has-diary" : ""}`} />
                         </div>
                     );
                 })}
