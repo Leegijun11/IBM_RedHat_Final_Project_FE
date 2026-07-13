@@ -107,10 +107,11 @@
 }
 
 /* ==========================================================================
-   3. 태그 그룹
+   3. 태그 버튼 그룹 (가로 정렬 Flex Row)
    ========================================================================== */
 .edit-tags-group {
     display: flex !important;
+    flex-direction: row !important;
     flex-wrap: wrap !important;
     gap: 8px !important;
     justify-content: flex-start !important;
@@ -135,6 +136,51 @@
     border-color: #F07C60 !important;
     color: #F07C60 !important;
     background-color: #FFF5F2 !important;
+}
+
+/* ==========================================================================
+   3-1. 태그 입력창 그룹 (버튼 아래 깔끔한 박스)
+   ========================================================================== */
+.tag-inputs-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-top: 4px !important;
+    padding: 16px !important;
+    background-color: #FDF9F5 !important;
+    border-radius: 16px !important;
+    border: 1px solid #EAE2DB !important;
+}
+
+.tag-input-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    width: 100% !important;
+}
+
+.tag-input-label {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #5D5046 !important;
+    width: 50px !important;
+    flex-shrink: 0 !important;
+}
+
+.small-input {
+    flex: 1 !important;
+    height: 40px !important;
+    padding: 0 12px !important;
+    border-radius: 10px !important;
+}
+
+.tag-input-unit {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #A3968C !important;
+    width: 30px !important;
+    text-align: right !important;
 }
 
 /* ==========================================================================
