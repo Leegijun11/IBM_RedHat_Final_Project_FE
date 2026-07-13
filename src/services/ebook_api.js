@@ -1,8 +1,11 @@
 import api from "../hooks/api";
 
 // 1. 디지털북 생성
-export const createEBook = async (story) => {
-    const response = await api.post("/stories/create", story);
+export const createEBook = async (story, d_ids = []) => {
+    const params = new URLSearchParams();
+    d_ids.forEach(id => params.append("d_ids", id));
+
+    const response = await api.post(`/stories/create?${params.toString()}`, story);
     return response.data;
 };
 
