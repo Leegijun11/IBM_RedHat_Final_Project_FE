@@ -28,8 +28,7 @@ function CompareChart() {
         const fetchAllData = async () => {
             try {
                 setLoading(true);
-                
-                // 1. 아기 기본 정보 가져오기
+
                 const baby = await getCurrentBaby();
                 if (!baby) return;
 
@@ -42,30 +41,26 @@ function CompareChart() {
                     bBmi = parseFloat((bWeight / (heightInMeters * heightInMeters)).toFixed(2));
                 }
 
-                // 2. 오늘 날짜 구하기 (YYYY-MM-DD 형식)
                 const today = new Date();
                 const year = today.getFullYear();
                 const month = String(today.getMonth() + 1).padStart(2, "0");
                 const day = String(today.getDate()).padStart(2, "0");
                 const todayStr = `${year}-${month}-${day}`;
 
-                // 3. 오늘 자 작성된 일기 리스트 가져와서 수면 시간 & 배변 횟수 합산하기
                 let totalSleep = 0;
                 let totalToilet = 0;
 
                 try {
                     const diaryList = await getDiaryList(baby.b_id, todayStr);
-                    
+
                     if (diaryList && Array.isArray(diaryList)) {
                         diaryList.forEach((diary) => {
-                            // [수면 시간 가공]
                             const sleepStr = diary.d_sleep;
                             if (sleepStr && sleepStr !== "없음") {
                                 const sleepMatch = sleepStr.match(/[\d.]+/);
                                 if (sleepMatch) totalSleep += parseFloat(sleepMatch[0]);
                             }
 
-                            // [배변 횟수 가공]
                             const toiletStr = diary.d_toilet;
                             if (toiletStr && toiletStr !== "없음") {
                                 const toiletMatch = toiletStr.match(/[\d.]+/);
@@ -77,23 +72,21 @@ function CompareChart() {
                     console.error("수면 및 배변 데이터 로드 실패:", diaryError);
                 }
 
-                // 내 스탯 통합 저장
-                setMyStats({ 
-                    height: bHeight, 
-                    weight: bWeight, 
-                    bmi: bBmi, 
-                    sleep: totalSleep, 
-                    toilet: totalToilet 
+                setMyStats({
+                    height: bHeight,
+                    weight: bWeight,
+                    bmi: bBmi,
+                    sleep: totalSleep,
+                    toilet: totalToilet,
                 });
 
-                // 4. 월령 및 성별 계산 후 표준 데이터 가져오기
                 const mappedGender = baby.b_gender === "여" ? "F" : "M";
                 const birthDate = new Date(baby.b_birth);
-                
-                let months = (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
-                if (today.getDate() < birthDate.getDate()) {
-                    months -= 1;
-                }
+
+                let months =
+                    (today.getFullYear() - birthDate.getFullYear()) * 12 +
+                    (today.getMonth() - birthDate.getMonth());
+                if (today.getDate() < birthDate.getDate()) months -= 1;
                 const finalAge = Math.max(0, months);
 
                 setBabyInfo({ age: finalAge, gender: mappedGender });
@@ -114,25 +107,25 @@ function CompareChart() {
     if (loading) return <div className="loading-box">데이터를 불러오는 중...</div>;
     if (!standardData) return <div className="error-box">표준 데이터를 찾을 수 없습니다.</div>;
 
-    // 💡 [수정] 또래의 적정 평균값(중간값) 계산
+    // 또래 평균 대비 몇 %인지로 정규화 (100 = 또래와 동일)
+    const normalize = (myVal, peerVal) => {
+        if (!peerVal || peerVal === 0) return 0;
+        return Math.round((myVal / peerVal) * 100);
+    };
+
     const peerSleepAvg = (standardData.sleep_min + standardData.sleep_max) / 2;
     const peerToiletAvg = ((standardData.toilet_min || 1) + (standardData.toilet_max || 3)) / 2;
 
-    // 5각형 거미줄 균형을 맞추기 위한 최종 밸런스 스케일링 수식
-    const peerData = [
-        standardData.height,       // 키 기본폭 (예: 75)
-        standardData.weight * 7,   // 몸무게 스케일 보정
-        standardData.bmi * 4.5,    // BMI 스케일 보정
-        peerSleepAvg * 6,          // 👈 [수정] 또래 최대값이 아닌 '평균 수면 시간' 반영
-        peerToiletAvg * 25         // 👈 [수정] 또래 최대값이 아닌 '평균 배변 횟수' 반영
-    ];
+    // 또래 평균은 항상 100 (정오각형)
+    const peerData = [100, 100, 100, 100, 100];
 
+    // 우리 아이는 또래 대비 %로 표시
     const myChartData = [
-        myStats.height,
-        myStats.weight * 7,
-        myStats.bmi * 4.5,
-        myStats.sleep * 6,          // 내 아이의 실제 총 수면 시간 매핑
-        myStats.toilet * 25         // 내 아이의 총 배변 횟수 매핑
+        normalize(myStats.height, standardData.height),
+        normalize(myStats.weight, standardData.weight),
+        normalize(myStats.bmi, standardData.bmi),
+        normalize(myStats.sleep, peerSleepAvg),
+        normalize(myStats.toilet, peerToiletAvg),
     ];
 
     const chartData = {
@@ -147,13 +140,13 @@ function CompareChart() {
                 pointBackgroundColor: "#F07C60",
             },
             {
-                label: "또래 평균", // 👈 라벨 이름도 직관적으로 변경
+                label: "또래 평균",
                 data: peerData,
                 backgroundColor: "rgba(163, 150, 140, 0.12)",
                 borderColor: "#A3968C",
                 borderWidth: 2,
                 pointBackgroundColor: "#A3968C",
-            }
+            },
         ],
     };
 
@@ -163,13 +156,27 @@ function CompareChart() {
         plugins: {
             legend: {
                 position: "bottom",
-                labels: { usePointStyle: true, padding: 10, font: { size: 11, weight: "600" } },
+                labels: {
+                    usePointStyle: true,
+                    padding: 10,
+                    font: { size: 11, weight: "600" },
+                },
+            },
+            tooltip: {
+                callbacks: {
+                    label: (context) => {
+                        const label = context.dataset.label || "";
+                        const value = context.raw;
+                        if (label === "또래 평균") return `${label}: 100% (기준)`;
+                        return `${label}: ${value}%`;
+                    },
+                },
             },
         },
         scales: {
             r: {
                 suggestedMin: 0,
-                suggestedMax: 110,
+                suggestedMax: 150,
                 ticks: { display: false },
                 grid: { color: "#F6EFEA" },
                 angleLines: { color: "#F6EFEA" },
@@ -186,7 +193,9 @@ function CompareChart() {
             <h3 className="compare-chart-main-title">
                 📈 또래 대비 성장 지표 ({babyInfo.age}개월 / {babyInfo.gender === "F" ? "여아" : "남아"})
             </h3>
-            
+
+            <p className="compare-desc">또래 평균을 100%로 기준하여 비교합니다.</p>
+
             <div className="radar-box">
                 <Radar data={chartData} options={options} />
             </div>
@@ -196,23 +205,48 @@ function CompareChart() {
             <div className="compare-stat-rows">
                 <div className="comp-row">
                     <span className="comp-lbl">신장 (키)</span>
-                    <span className="comp-val">우리 아이 <strong>{myStats.height}cm</strong> / 또래 {standardData.height}cm</span>
+                    <span className="comp-val">
+                        우리 아이 <strong>{myStats.height}cm</strong> / 또래 {standardData.height}cm
+                        <span className={`comp-badge ${myChartData[0] >= 100 ? "badge-up" : "badge-down"}`}>
+                            {myChartData[0]}%
+                        </span>
+                    </span>
                 </div>
                 <div className="comp-row">
                     <span className="comp-lbl">체중 (몸무게)</span>
-                    <span className="comp-val">우리 아이 <strong>{myStats.weight}kg</strong> / 또래 {standardData.weight}kg</span>
+                    <span className="comp-val">
+                        우리 아이 <strong>{myStats.weight}kg</strong> / 또래 {standardData.weight}kg
+                        <span className={`comp-badge ${myChartData[1] >= 100 ? "badge-up" : "badge-down"}`}>
+                            {myChartData[1]}%
+                        </span>
+                    </span>
                 </div>
                 <div className="comp-row">
                     <span className="comp-lbl">BMI 비만도</span>
-                    <span className="comp-val">우리 아이 <strong>{myStats.bmi}</strong> / 또래 {standardData.bmi}</span>
+                    <span className="comp-val">
+                        우리 아이 <strong>{myStats.bmi}</strong> / 또래 {standardData.bmi}
+                        <span className={`comp-badge ${myChartData[2] >= 100 ? "badge-up" : "badge-down"}`}>
+                            {myChartData[2]}%
+                        </span>
+                    </span>
                 </div>
                 <div className="comp-row">
                     <span className="comp-lbl">총 수면 시간</span>
-                    <span className="comp-val">우리 아이 <strong>{myStats.sleep}시간</strong> / 권장 {standardData.sleep_min} ~ {standardData.sleep_max}시간</span>
+                    <span className="comp-val">
+                        우리 아이 <strong>{myStats.sleep}시간</strong> / 권장 {standardData.sleep_min}~{standardData.sleep_max}시간
+                        <span className={`comp-badge ${myChartData[3] >= 100 ? "badge-up" : "badge-down"}`}>
+                            {myChartData[3]}%
+                        </span>
+                    </span>
                 </div>
                 <div className="comp-row">
                     <span className="comp-lbl">배변 횟수</span>
-                    <span className="comp-val">우리 아이 <strong>{myStats.toilet}회</strong> / 또래 기준 {standardData.toilet_min || 1} ~ {standardData.toilet_max || 3}회</span>
+                    <span className="comp-val">
+                        우리 아이 <strong>{myStats.toilet}회</strong> / 또래 기준 {standardData.toilet_min || 1}~{standardData.toilet_max || 3}회
+                        <span className={`comp-badge ${myChartData[4] >= 100 ? "badge-up" : "badge-down"}`}>
+                            {myChartData[4]}%
+                        </span>
+                    </span>
                 </div>
             </div>
 

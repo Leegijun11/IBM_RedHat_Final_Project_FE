@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { getMilestones, checkMilestone } from "../../services/milestone_api";
-import "../../styles/MilestoneList.css"; // 🔥 스타일 연결
+import "../../styles/MilestoneList.css";
 
 function MilestoneList({ babyId, babyAgeMonths }) {
+  const [allMilestones, setAllMilestones] = useState([]);
   const [milestones, setMilestones] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("전체");
-  const categories = ["전체", "인지", "언어/의사소통", "신체 발달", "사회성/정서"];
+
+  const categories = ["전체", "신체", "언어·인지", "사회·정서", "자조·독립"];
+
+  const categoryMap = {
+    "신체": ["신체·반사", "신체·소근육", "신체·대근육"],
+    "언어·인지": ["언어·인지", "언어·소통", "인지·감각", "인지·소통", "인지·학습", "시각·감각", "구강·인지", "소통·인지", "소근육·행동"],
+    "사회·정서": ["사회·정서", "사회성·정서", "사회성·모방", "사회·소통", "인지·정서"],
+    "자조·독립": ["자조·독립"],
+  };
 
   const getAgeRangeLabel = (months) => {
     if (months < 2) return "0~2개월";
@@ -36,44 +45,62 @@ function MilestoneList({ babyId, babyAgeMonths }) {
     const targetAge = getTargetAge(babyAgeMonths);
     const fetchMilestones = async () => {
       try {
-        const data = await getMilestones(targetAge, selectedCategory === "전체" ? "" : selectedCategory);
-        setMilestones(data);
+        const data = await getMilestones(babyId, targetAge, "");
+        setAllMilestones(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("마일스톤 조회 실패:", error);
+        setAllMilestones([]);
       }
     };
     fetchMilestones();
-  }, [babyAgeMonths, selectedCategory]);
+  }, [babyId, babyAgeMonths]);
+
+  useEffect(() => {
+    if (selectedCategory === "전체") {
+      setMilestones(allMilestones);
+    } else {
+      const filtered = allMilestones.filter(
+        (m) => categoryMap[selectedCategory]?.includes(m.m_category)
+      );
+      setMilestones(filtered);
+    }
+  }, [selectedCategory, allMilestones]);
 
   return (
     <div className="milestone-container">
-      <h4 className="milestone-title">발달 마일스톤 ({getAgeRangeLabel(babyAgeMonths)} 기준)</h4>
-      
-      <select 
-        className="milestone-select" 
-        onChange={(e) => setSelectedCategory(e.target.value)} 
+      <h4 className="milestone-title">
+        발달 마일스톤 ({getAgeRangeLabel(babyAgeMonths)} 기준)
+      </h4>
+
+      <select
+        className="milestone-select"
+        onChange={(e) => setSelectedCategory(e.target.value)}
         value={selectedCategory}
       >
-        {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+        {categories.map((cat) => (
+          <option key={cat} value={cat}>{cat}</option>
+        ))}
       </select>
-      
+
+      {milestones.length === 0 ? (
+        <p className="milestone-empty">해당 항목이 없습니다.</p>
+      ) : (
         <ul className="milestone-list">
           {milestones.map((m) => (
-            <li key={m.id} className={`milestone-item ${m.is_achieved ? 'achieved' : ''}`}>
-              {/* 라벨로 감싸서 영역 전체 클릭 가능하게 설정 */}
+            <li key={m.m_id} className={`milestone-item ${m.is_achieved ? "achieved" : ""}`}>
               <label className="checkbox-wrapper">
-                <input 
-                    type="checkbox" 
-                    checked={m.is_achieved} 
-                    onChange={() => checkMilestone(babyId, m.id, !m.is_achieved)} 
+                <input
+                  type="checkbox"
+                  checked={m.is_achieved}
+                  onChange={() => checkMilestone(babyId, m.m_id, !m.is_achieved)}
                 />
-                {/* 이 span이 동그라미 역할을 합니다 */}
                 <span className="custom-circle"></span>
                 <span className="checkbox-text">{m.app_milestone}</span>
               </label>
             </li>
           ))}
         </ul>
+      )}
     </div>
   );
 }

@@ -19,6 +19,7 @@ import Tip from "./pages/Tip/Tip";
 import Partner from "./pages/Partner/Partner";
 import { AuthProvider } from './contexts/AuthContext';
 import Diary_detail from './components/Diary/Diary_detail';
+import EBookDiarySelect from './pages/E-book/EBookDiarySelecy';
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="tips" element={<Tip />} />
         <Route path="partner" element={<Partner />} />
         <Route path='/diary/:d_id' element={<Diary_detail/>}/>
+        <Route path='/ebook/select' element={<EBookDiarySelect/>}/>
       </Routes>
     </AuthProvider>
   );

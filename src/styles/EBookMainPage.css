@@ -107,3 +107,101 @@
   margin-top: 0;
   margin-bottom: 20px;
 }
+
+
+/* 마일스톤 게이지 카드 */
+.milestone-gauge-card {
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    padding: 20px 24px;
+    margin: 0 20px 24px 20px;
+    border: 1px solid #EAE2DB;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.gauge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.gauge-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #333333;
+}
+
+.gauge-count {
+    font-size: 14px;
+    font-weight: 700;
+    color: #F07C60;
+    background: #FFF5F0;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.gauge-track {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background: #F2E8E0;
+    border-radius: 10px;
+    overflow: visible;
+    margin-bottom: 12px;
+}
+
+.gauge-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+    border-radius: 10px;
+    transition: width 0.8s ease;
+}
+
+.gauge-marker {
+    position: absolute;
+    top: -4px;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+    background: #C0392B;
+    border-radius: 2px;
+}
+
+.gauge-marker-label {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 700;
+    color: #C0392B;
+    white-space: nowrap;
+}
+
+.gauge-desc {
+    font-size: 13px;
+    color: #A3968C;
+    margin: 18px 0 0 0;
+    text-align: center;
+}
+
+.gauge-create-btn {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+    color: white;
+    padding: 14px 0;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(245, 126, 92, 0.2);
+    transition: transform 0.1s;
+}
+
+.gauge-create-btn:active {
+    transform: scale(0.98);
+}
