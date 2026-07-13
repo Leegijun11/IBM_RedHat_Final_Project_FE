@@ -36,7 +36,7 @@ function MilestoneList({ babyId, babyAgeMonths }) {
     const targetAge = getTargetAge(babyAgeMonths);
     const fetchMilestones = async () => {
       try {
-        const data = await getMilestones(targetAge, selectedCategory === "전체" ? "" : selectedCategory);
+        const data = await getMilestones(babyId,targetAge, selectedCategory === "전체" ? "" : selectedCategory);
         setMilestones(data);
       } catch (error) {
         console.error("마일스톤 조회 실패:", error);
