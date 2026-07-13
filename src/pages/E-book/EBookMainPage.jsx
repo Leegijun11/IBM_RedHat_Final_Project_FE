@@ -16,7 +16,7 @@ function EBookMainPage() {
 
     const [books, setBooks] = useState([]);
     const [selectedBook, setSelectedBook] = useState(null);
-    const [selectedBabyId, setSelectedBabyId] = useState(null);
+    const [baby, setBaby] = useState(null);          // ✅ 추가: 아이 전체 정보를 여기서만 보관
     const [babyAge, setBabyAge] = useState(0);
     const [tab, setTab] = useState("growth");
 
@@ -38,16 +38,16 @@ function EBookMainPage() {
     useEffect(() => {
         const fetchInitData = async () => {
             try {
-                const baby = await getCurrentBaby();
-                if (!baby) {
+                const babyData = await getCurrentBaby();
+                if (!babyData) {
                     alert("등록된 아기 정보가 없습니다.");
                     navigate("/babyinfo");
                     return;
                 }
 
-                setSelectedBabyId(baby.b_id);
+                setBaby(babyData);   // ✅ id뿐 아니라 전체 객체 저장
 
-                const birthDate = new Date(baby.b_birth);
+                const birthDate = new Date(babyData.b_birth);
                 const today = new Date();
                 let months = (today.getFullYear() - birthDate.getFullYear()) * 12
                     + (today.getMonth() - birthDate.getMonth());
@@ -56,13 +56,13 @@ function EBookMainPage() {
                 setBabyAge(finalAge);
 
                 try {
-                    const result = await getEBook(baby.b_id);
+                    const result = await getEBook(babyData.b_id);
                     setBooks(Array.isArray(result) ? result : []);
                 } catch { setBooks([]); }
 
                 try {
                     const targetAge = getTargetAge(finalAge);
-                    const milestoneData = await getMilestones(baby.b_id, targetAge, "");
+                    const milestoneData = await getMilestones(babyData.b_id, targetAge, "");
                     if (Array.isArray(milestoneData)) {
                         setTotalMilestones(milestoneData.length);
                         setAchievedMilestones(milestoneData.filter(m => m.is_achieved).length);
@@ -86,20 +86,14 @@ function EBookMainPage() {
                 <h2 className="ebook-title">성장 디지털 북 📖</h2>
             </div>
 
-            {/* 마일스톤 게이지 카드 */}
             <div className="milestone-gauge-card">
                 <div className="gauge-header">
                     <span className="gauge-title">🌱 성장 마일스톤</span>
                     <span className="gauge-count">{achievedMilestones}개 달성</span>
                 </div>
-
                 <div className="gauge-track">
-                    <div
-                        className="gauge-fill"
-                        style={{ width: `${achievedPct}%` }}
-                    />
+                    <div className="gauge-fill" style={{ width: `${achievedPct}%` }} />
                 </div>
-
                 <p className="gauge-desc">
                     {canCreateBook
                         ? "✨ 디지털북을 만들 수 있어요!"
@@ -107,28 +101,19 @@ function EBookMainPage() {
                         ? `📌 책 만들기까지 ${8 - achievedMilestones}개 더 달성해보세요`
                         : "📚 마일스톤을 충분히 달성했어요!"}
                 </p>
-
                 {canCreateBook && (
-                    <button
-                        className="gauge-create-btn"
-                        onClick={() => navigate("/ebook/create")}
-                    >
+                    <button className="gauge-create-btn" onClick={() => navigate("/ebook/create")}>
                         + 새 책 만들기
                     </button>
                 )}
             </div>
 
-            {/* 책 목록 */}
             <div className="book-list">
                 {books.length === 0 ? (
                     <p className="empty-book">생성된 디지털북이 없습니다.</p>
                 ) : (
                     books.map((book) => (
-                        <BookCard
-                            key={book.s_id}
-                            book={book}
-                            onDetailClick={() => setSelectedBook(book)}
-                        />
+                        <BookCard key={book.s_id} book={book} onDetailClick={() => setSelectedBook(book)} />
                     ))
                 )}
             </div>
@@ -150,17 +135,15 @@ function EBookMainPage() {
                 <>
                     <div className="content-card">
                         <h3 className="card-title">신체 성장 추이</h3>
-                        {selectedBabyId && <GrowthChart b_id={selectedBabyId} />}
+                        {baby && <GrowthChart baby={baby} />}
                     </div>
                     <div className="content-card">
-                        {selectedBabyId && (
-                            <MilestoneList babyId={selectedBabyId} babyAgeMonths={babyAge} />
-                        )}
+                        {baby && <MilestoneList babyId={baby.b_id} babyAgeMonths={babyAge} />}
                     </div>
                 </>
             ) : (
                 <div className="content-card">
-                    <CompareChart />
+                    {baby && <CompareChart baby={baby} babyAge={babyAge} />}
                 </div>
             )}
 
