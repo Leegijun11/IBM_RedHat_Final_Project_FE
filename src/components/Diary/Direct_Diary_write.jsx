@@ -28,11 +28,25 @@ const Direct_Diary_write = () => {
         d_temp: false
     });
 
+    const [tagValues, setTagValues] = useState({
+        d_eat: "",
+        d_sleep: "",
+        d_toilet: "",
+        d_temp: ""
+    });
+
     const handleTagToggle = (tagKey) => {
-        setTags((prevTags) => ({
-            ...prevTags,
-            [tagKey]: !prevTags[tagKey]
-        }));
+        setTags((prevTags) => {
+            const isActive = !prevTags[tagKey];
+            if (!isActive) {
+                setTagValues((prevVals) => ({ ...prevVals, [tagKey]: "" }));
+            }
+            return { ...prevTags, [tagKey]: isActive };
+        });
+    };
+
+    const handleTagValueChange = (tagKey, value) => {
+        setTagValues((prevVals) => ({ ...prevVals, [tagKey]: value }));
     };
 
     const handleImageChange = (e) => {
@@ -64,22 +78,10 @@ const Direct_Diary_write = () => {
     const handleSaveRecord = async (e) => {
         e.preventDefault();
 
-        if (!diaryLabel) {
-            alert("오늘 아이의 감정을 선택해주세요");
-            return;
-        }
-        if (!diaryTitle.trim()) {
-            alert("제목을 입력해주세요");
-            return;
-        }
-        if (!diaryContent.trim()) {
-            alert("내용을 입력해주세요");
-            return;
-        }
-        if (!babyID) {
-            alert("아기 정보를 불러오지 못했습니다");
-            return;
-        }
+        if (!diaryLabel) return alert("오늘 아이의 감정을 선택해주세요");
+        if (!diaryTitle.trim()) return alert("제목을 입력해주세요");
+        if (!diaryContent.trim()) return alert("내용을 입력해주세요");
+        if (!babyID) return alert("아기 정보를 불러오지 못했습니다");
 
         try {
             let uploadedImageUrl = null;
@@ -98,11 +100,11 @@ const Direct_Diary_write = () => {
                 d_title: diaryTitle,
                 d_content: diaryContent,
                 d_label: diaryLabel,
-                d_image:uploadedImageUrl,
-                d_eat: tags.d_eat ? "1" : "0",
-                d_sleep: tags.d_sleep ? "1" : "0",
-                d_toilet: tags.d_toilet ? "1" : "0",
-                d_temp: tags.d_temp ? "1" : "0"
+                d_image: uploadedImageUrl,
+                d_eat: (tags.d_eat && tagValues.d_eat) ? `${tagValues.d_eat}회` : "",
+                d_sleep: (tags.d_sleep && tagValues.d_sleep) ? `${tagValues.d_sleep}시간` : "",
+                d_toilet: (tags.d_toilet && tagValues.d_toilet) ? `${tagValues.d_toilet}회` : "",
+                d_temp: (tags.d_temp && tagValues.d_temp) ? `${tagValues.d_temp}도` : ""
             }, false);
 
             alert("성장 일기를 등록했습니다");
@@ -122,7 +124,6 @@ const Direct_Diary_write = () => {
 
                 <form onSubmit={handleSaveRecord} className="direct-diary-form">
                     
-                    {/* 1. 아이의 기분 */}
                     <div className="form-group">
                         <label className="form-label">아이의 기분</label>
                         <div className="select-wrapper">
@@ -138,33 +139,20 @@ const Direct_Diary_write = () => {
                         </div>
                     </div>
 
-                    {/* 2. 제목 */}
                     <div className="form-group">
                         <label className="form-label">제목</label>
-                        <input 
-                            className="custom-input"
-                            type="text" 
-                            placeholder="일기 제목을 작성하세요" 
-                            value={diaryTitle} 
-                            onChange={(e) => setDiaryTitle(e.target.value)} 
-                        />
+                        <input className="custom-input" type="text" placeholder="일기 제목을 작성하세요" value={diaryTitle} onChange={(e) => setDiaryTitle(e.target.value)} />
                     </div>
 
-                    {/* 3. 내용 */}
                     <div className="form-group">
                         <label className="form-label">내용</label>
-                        <textarea 
-                            className="custom-textarea"
-                            placeholder="오늘 있었던 일을 자세히 기록해 주세요..." 
-                            value={diaryContent} 
-                            onChange={(e) => setDiaryContent(e.target.value)} 
-                            rows="8"
-                        />
+                        <textarea className="custom-textarea" placeholder="오늘 있었던 일을 자세히 기록해 주세요..." value={diaryContent} onChange={(e) => setDiaryContent(e.target.value)} rows="8" />
                     </div>
 
-                    {/* 4. 오늘의 특이사항 */}
                     <div className="form-group">
                         <label className="form-label">오늘의 특이사항</label>
+                        
+                        {/* 1. 가로로 정렬된 태그 버튼 그룹 */}
                         <div className="direct-tags-group">
                             <button type="button" className={`tag-btn ${tags.d_eat ? "active" : ""}`} onClick={() => handleTagToggle("d_eat")}>
                                 🍼 식사 {tags.d_eat ? "✅" : ""}
@@ -179,19 +167,47 @@ const Direct_Diary_write = () => {
                                 🌡️ 체온 {tags.d_temp ? "✅" : ""}
                             </button>
                         </div>
+
+                        {/* 2. 활성화된 태그의 입력창 (깔끔한 리스트 형태) */}
+                        {(tags.d_eat || tags.d_sleep || tags.d_toilet || tags.d_temp) && (
+                            <div className="tag-inputs-container">
+                                {tags.d_eat && (
+                                    <div className="tag-input-row">
+                                        <span className="tag-input-label">🍼 식사</span>
+                                        <input type="number" min="0" className="custom-input small-input" placeholder="예) 3" value={tagValues.d_eat} onChange={(e) => handleTagValueChange("d_eat", e.target.value)} />
+                                        <span className="tag-input-unit">회</span>
+                                    </div>
+                                )}
+                                {tags.d_sleep && (
+                                    <div className="tag-input-row">
+                                        <span className="tag-input-label">💤 수면</span>
+                                        <input type="number" min="0" className="custom-input small-input" placeholder="예) 8" value={tagValues.d_sleep} onChange={(e) => handleTagValueChange("d_sleep", e.target.value)} />
+                                        <span className="tag-input-unit">시간</span>
+                                    </div>
+                                )}
+                                {tags.d_toilet && (
+                                    <div className="tag-input-row">
+                                        <span className="tag-input-label">💩 배변</span>
+                                        <input type="number" min="0" className="custom-input small-input" placeholder="예: 2" value={tagValues.d_toilet} onChange={(e) => handleTagValueChange("d_toilet", e.target.value)} />
+                                        <span className="tag-input-unit">회</span>
+                                    </div>
+                                )}
+                                {tags.d_temp && (
+                                    <div className="tag-input-row">
+                                        <span className="tag-input-label">🌡️ 체온</span>
+                                        <input type="number" step="0.1" className="custom-input small-input" placeholder="예: 36.5" value={tagValues.d_temp} onChange={(e) => handleTagValueChange("d_temp", e.target.value)} />
+                                        <span className="tag-input-unit">도</span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
 
-                    {/* 5. 사진 첨부 */}
                     <div className="form-group">
                         <label className="form-label">사진 첨부</label>
                         <label className="file-upload-label">
                             <span className="file-upload-text">📸 탭하여 사진 선택하기</span>
-                            <input 
-                                className="hidden-file-input"
-                                type="file" 
-                                accept="image/*" 
-                                onChange={handleImageChange} 
-                            />
+                            <input className="hidden-file-input" type="file" accept="image/*" onChange={handleImageChange} />
                         </label>
                         {imageView && (
                             <div className="image-preview-wrapper">
@@ -200,14 +216,9 @@ const Direct_Diary_write = () => {
                         )}
                     </div>
 
-                    {/* 6. 하단 액션 버튼 (강제 50:50 대칭) */}
                     <div className="action-group">
-                        <button type="button" className="action-btn cancel-btn" onClick={() => navigate("/diary")}>
-                            취소
-                        </button>
-                        <button type="submit" className="action-btn submit-btn">
-                            저장
-                        </button>
+                        <button type="button" className="action-btn cancel-btn" onClick={() => navigate("/diary")}>취소</button>
+                        <button type="submit" className="action-btn submit-btn">저장</button>
                     </div>
                     
                 </form>
