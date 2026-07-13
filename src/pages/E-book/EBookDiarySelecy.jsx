@@ -4,24 +4,69 @@ import { createEBook } from "../../services/ebook_api";
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/EBookCreate.css";
 
-// 미달성 일기 목록 API (service_stories_diaries_select 호출)
 import api from "../../hooks/api";
 
 const getSelectableDiaries = async (b_id) => {
     const response = await api.get("/stories/select_diaries", {
         params: { b_id }
     });
+
     return response.data;
 };
+
+
+// 이미지 URL 생성
+const getDiaryImageUrl = (image) => {
+    if (!image) return null;
+
+    const normalized = image.replace(/\\/g, "/");
+
+    // 이미 완전한 URL인 경우
+    if (
+        normalized.startsWith("http://") ||
+        normalized.startsWith("https://")
+    ) {
+        return normalized;
+    }
+
+    // uploads/images/14/날짜/파일명
+    // → http://localhost:8000/images/14/날짜/파일명
+    if (normalized.includes("uploads/images/")) {
+        const path = normalized.split("uploads/images/")[1];
+
+        return `http://localhost:8000/images/${path}`;
+    }
+
+    // ../images/14/날짜/파일명
+    // images/14/날짜/파일명
+    // /images/14/날짜/파일명
+    // → http://localhost:8000/images/14/날짜/파일명
+    if (normalized.includes("images/")) {
+        const path = normalized.split("images/")[1];
+
+        return `http://localhost:8000/images/${path}`;
+    }
+
+    // 파일명만 저장된 경우
+    return `http://localhost:8000/images/${normalized.replace(/^\/+/, "")}`;
+};
+
 
 function EBookDiarySelect() {
     const navigate = useNavigate();
     const { state } = useLocation();
-    const { b_id, start_date, end_date } = state || {};
+
+    const {
+        b_id,
+        start_date,
+        end_date
+    } = state || {};
 
     const [diaries, setDiaries] = useState([]);
     const [selectedIds, setSelectedIds] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [detailDiary, setDetailDiary] = useState(null);
+
 
     useEffect(() => {
         if (!b_id) {
@@ -32,14 +77,25 @@ function EBookDiarySelect() {
         const fetchDiaries = async () => {
             try {
                 const result = await getSelectableDiaries(b_id);
-                setDiaries(Array.isArray(result) ? result : []);
+
+                console.log("추가 가능한 일기 목록:", result);
+
+                setDiaries(
+                    Array.isArray(result)
+                        ? result
+                        : []
+                );
+
             } catch (error) {
                 console.error(error);
                 setDiaries([]);
             }
         };
+
         fetchDiaries();
-    }, [b_id]);
+
+    }, [b_id, navigate]);
+
 
     const toggleSelect = (d_id) => {
         setSelectedIds((prev) =>
@@ -49,8 +105,25 @@ function EBookDiarySelect() {
         );
     };
 
+
+    const handleDetail = (e, diary) => {
+        // 자세히 보기 클릭 시 일기 선택 방지
+        e.stopPropagation();
+
+        console.log("선택한 일기:", diary);
+        console.log("d_image 값:", diary.d_image);
+        console.log(
+            "최종 이미지 URL:",
+            getDiaryImageUrl(diary.d_image)
+        );
+
+        setDetailDiary(diary);
+    };
+
+
     const handleCreate = async () => {
         setLoading(true);
+
         try {
             await createEBook(
                 {
@@ -64,73 +137,220 @@ function EBookDiarySelect() {
                 },
                 selectedIds
             );
+
             alert("디지털북이 생성되었습니다!");
+
             navigate("/ebook");
+
         } catch (error) {
             console.error(error);
-            const msg = error.response?.data?.detail || "생성에 실패했습니다.";
+
+            const msg =
+                error.response?.data?.detail ||
+                "생성에 실패했습니다.";
+
             alert(msg);
+
         } finally {
             setLoading(false);
         }
     };
 
+
     return (
         <div className="ebook-create-page">
+
             <div className="create-header">
+
                 <h2>📖 일기 추가 선택</h2>
-                <p>마일스톤 미달성 일기 중 책에 포함할 일기를 선택하세요. (선택 안 해도 됩니다)</p>
+
+                <p>
+                    마일스톤 미달성 일기 중 책에 포함할 일기를 선택하세요.
+                    <br />
+                    (선택 안 해도 됩니다)
+                </p>
+
             </div>
 
+
             <div className="create-card">
+
                 {diaries.length === 0 ? (
-                    <p style={{ color: "#A3968C", textAlign: "center" }}>
+
+                    <p
+                        style={{
+                            color: "#A3968C",
+                            textAlign: "center"
+                        }}
+                    >
                         추가 가능한 일기가 없습니다.
                     </p>
+
                 ) : (
-                    <ul style={{ listStyle: "none", padding: 0 }}>
+
+                    <ul className="ebook-diary-list">
+
                         {diaries.map((diary) => (
+
                             <li
                                 key={diary.d_id}
-                                onClick={() => toggleSelect(diary.d_id)}
-                                style={{
-                                    padding: "12px 16px",
-                                    marginBottom: "10px",
-                                    borderRadius: "12px",
-                                    border: selectedIds.includes(diary.d_id)
-                                        ? "2px solid #F07C60"
-                                        : "1px solid #EAE2DB",
-                                    background: selectedIds.includes(diary.d_id)
-                                        ? "#FFF5F0"
-                                        : "#FAF4EF",
-                                    cursor: "pointer",
-                                }}
+
+                                className={
+                                    `ebook-diary-item ${
+                                        selectedIds.includes(diary.d_id)
+                                            ? "selected"
+                                            : ""
+                                    }`
+                                }
+
+                                onClick={() =>
+                                    toggleSelect(diary.d_id)
+                                }
                             >
-                                <p style={{ fontWeight: 700, color: "#5D5046", margin: "0 0 4px" }}>
-                                    {diary.d_title}
-                                </p>
-                                <p style={{ fontSize: 12, color: "#A3968C", margin: 0 }}>
-                                    {diary.d_date?.substring(0, 10)}
-                                </p>
+
+                                <div className="ebook-diary-info">
+
+                                    <p className="ebook-diary-title">
+                                        {diary.d_title}
+                                    </p>
+
+                                    <p className="ebook-diary-date">
+                                        {diary.d_date?.substring(0, 10)}
+                                    </p>
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    className="ebook-diary-detail-btn"
+
+                                    onClick={(e) =>
+                                        handleDetail(e, diary)
+                                    }
+                                >
+                                    자세히 보기
+                                </button>
+
                             </li>
+
                         ))}
+
                     </ul>
+
                 )}
 
-                <p style={{ fontSize: 13, color: "#A3968C", marginBottom: 16 }}>
+
+                <p className="ebook-selected-count">
                     선택한 일기: {selectedIds.length}개
                 </p>
+
 
                 <button
                     className="create-submit"
                     onClick={handleCreate}
                     disabled={loading}
                 >
-                    {loading ? "생성 중..." : "📖 디지털북 생성하기"}
+                    {
+                        loading
+                            ? "생성 중..."
+                            : "📖 디지털북 생성하기"
+                    }
                 </button>
+
             </div>
 
+
+            {/* 일기 상세 모달 */}
+
+            {detailDiary && (
+
+                <div
+                    className="ebook-diary-modal-overlay"
+
+                    onClick={() =>
+                        setDetailDiary(null)
+                    }
+                >
+
+                    <div
+                        className="ebook-diary-modal"
+
+                        onClick={(e) =>
+                            e.stopPropagation()
+                        }
+                    >
+
+                        <button
+                            type="button"
+                            className="ebook-diary-modal-close"
+
+                            onClick={() =>
+                                setDetailDiary(null)
+                            }
+                        >
+                            ×
+                        </button>
+
+
+                        <p className="ebook-diary-modal-date">
+                            {
+                                detailDiary.d_date
+                                    ?.substring(0, 10)
+                            }
+                        </p>
+
+
+                        <h3 className="ebook-diary-modal-title">
+                            {detailDiary.d_title}
+                        </h3>
+
+
+                        {detailDiary.d_image && (
+
+                            <img
+                                className="ebook-diary-modal-image"
+
+                                src={
+                                    getDiaryImageUrl(
+                                        detailDiary.d_image
+                                    )
+                                }
+
+                                alt={detailDiary.d_title}
+                            />
+
+                        )}
+
+
+                        <div className="ebook-diary-modal-content">
+                            {
+                                detailDiary.d_content ||
+                                "작성된 일기 내용이 없습니다."
+                            }
+                        </div>
+
+
+                        <button
+                            type="button"
+                            className="ebook-diary-modal-confirm"
+
+                            onClick={() =>
+                                setDetailDiary(null)
+                            }
+                        >
+                            확인
+                        </button>
+
+                    </div>
+
+                </div>
+
+            )}
+
+
             <NaviBar />
+
         </div>
     );
 }
