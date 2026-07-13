@@ -33,7 +33,7 @@ function Diary_write() {
             }
         };
         fetchBaby();
-    }, []);
+    }, [navigate]);
 
     const startTipRotation = () => {
         const pool = getTipPool(getAgeInMonths(babyBirth));
@@ -75,14 +75,20 @@ function Diary_write() {
                 b_id: bId,
             });
 
+            let uploadedImageUrl = null;
+
             if (image) {
-                await uploadBabyImage(bId, image);
+                const response = await uploadBabyImage(bId, image);
+                if (response && response.i_image) {
+                    uploadedImageUrl = response.i_image.replace(/\.\.\//g, '').replace(/^\/+/, '');
+                }
             }
 
             const today = new Date().toISOString().split("T")[0];
             await createDiary({
                 b_id: bId,
                 d_date: today,
+                d_image: uploadedImageUrl
             });
 
             setRecord("");
