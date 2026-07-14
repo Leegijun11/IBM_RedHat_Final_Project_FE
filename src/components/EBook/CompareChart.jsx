@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Radar } from "react-chartjs-2";
 import { getBabyStandard } from "../../services/compare_api";
 import { getDiaryList } from "../../services/diary_api";
-
+import { getCurrentBaby } from "../../services/partner_api";
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend, } from "chart.js";
 import "../../styles/CompareChart.css";
 
