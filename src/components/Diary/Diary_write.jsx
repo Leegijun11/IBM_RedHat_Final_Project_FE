@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { createOrUpdateLog } from "../../services/logs_api";
 import { uploadBabyImage } from "../../services/babyimage_api";
 import { createDiary } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
@@ -70,11 +69,7 @@ function Diary_write() {
         startTipRotation();
 
         try {
-            await createOrUpdateLog({
-                l_content: record,
-                b_id: bId,
-            });
-
+            
             let uploadedImageUrl = null;
 
             if (image) {
@@ -84,11 +79,14 @@ function Diary_write() {
                 }
             }
 
-            const today = new Date().toISOString().split("T")[0];
+            const offset = new Date().getTimezoneOffset() * 60000;
+            const today = new Date(Date.now() - offset).toISOString().split("T")[0];
+            
             await createDiary({
                 b_id: bId,
                 d_date: today,
-                d_image: uploadedImageUrl
+                d_image: uploadedImageUrl,
+                original_text: record 
             });
 
             setRecord("");
