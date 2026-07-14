@@ -1,17 +1,18 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { createOrUpdateLog } from "../../services/logs_api";
 import { getBabies } from "../../services/baby_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import { getAgeInMonths, getTipPool } from "../../services/milestoneTips";
 
-
 function Record_card() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [content, setContent] = useState("");
+    const navigate = useNavigate();
     const [bId, setBId] = useState(null);
     const [babyBirth, setBabyBirth] = useState(null);
+    const [showMenu, setShowMenu] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [content, setContent] = useState("");
 
-    // 로딩 + 팁 상태
     const [isLoading, setIsLoading] = useState(false);
     const [tipPool, setTipPool] = useState([]);
     const [tipIndex, setTipIndex] = useState(0);
@@ -20,7 +21,6 @@ function Record_card() {
     useEffect(() => {
         const fetchBaby = async () => {
             try {
-                // getCurrentBaby로 b_birth까지 가져오기
                 const baby = await getCurrentBaby();
                 if (baby) {
                     setBId(baby.b_id);
@@ -51,12 +51,25 @@ function Record_card() {
         }
     };
 
-    const handleOpen = () => { setIsOpen(true); };
+    const toggleMenu = () => {
+        setShowMenu(!showMenu);
+    };
+
+    const handleOpen = (e) => {
+        e.stopPropagation();
+        setIsOpen(true);
+    };
+
     const handleClose = () => {
         setIsOpen(false);
         setContent("");
         stopTipRotation();
         setIsLoading(false);
+    };
+
+    const handleViewOpen = (e) => {
+        e.stopPropagation();
+        navigate("/record-calendar");
     };
 
     const handleSave = async (e) => {
@@ -71,6 +84,7 @@ function Record_card() {
             await createOrUpdateLog({ l_content: content, b_id: bId });
             setContent("");
             handleClose();
+            setShowMenu(false);
         } catch (error) {
             console.log(error);
             alert("기록 저장에 실패했습니다.");
@@ -82,11 +96,26 @@ function Record_card() {
 
     return (
         <>
-            <div className="action-click-card record-bg" onClick={handleOpen}>
+            <div className="action-click-card record-bg" onClick={toggleMenu}>
                 <div className="action-icon-circle">✏️</div>
-                <h2>오늘의 기록</h2>
-                <p>수유·수면·기저귀</p>
-                <span className="action-card-btn">기록하기</span>
+                
+                {/* 조건부 렌더링 영역에 기존 Photo_card CSS 클래스를 적용하여 디자인 통일 */}
+                {!showMenu ? (
+                    <div className="photo-card-default">
+                        <h2>오늘의 기록</h2>
+                        <p>수유·수면·기저귀</p>
+                        <span className="action-card-btn">탭하여 선택</span>
+                    </div>
+                ) : (
+                    <div className="photo-card-menu">
+                        <button className="photo-menu-btn" onClick={handleOpen}>
+                            ✏️ 기록 작성
+                        </button>
+                        <button className="photo-menu-btn" onClick={handleViewOpen}>
+                            📖 기록 조회
+                        </button>
+                    </div>
+                )}
             </div>
 
             {isOpen && (
@@ -107,7 +136,6 @@ function Record_card() {
                 </div>
             )}
 
-            {/* 로딩 오버레이 — 모달 밖에서 전체 화면 덮기 */}
             {isLoading && tipPool.length > 0 && (
                 <div className="diary-loading-overlay">
                     <div className="diary-loading-card">
