@@ -9,7 +9,7 @@
   gap: 12px;
 }
 
-/* ---- 상단: + 기록 추가 버튼 ---- */
+/* ---- 상단: + 기록 추가 버튼 (타이틀은 페이지 레벨에서 이미 표시하므로 중복 방지) ---- */
 .growth-chart-header {
   display: flex;
   justify-content: flex-end;
@@ -25,6 +25,7 @@
   font-weight: 800;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
 }
 
 .record-add-btn:active {
@@ -60,6 +61,31 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
+/* ---- 최근1개월 / 최근6개월 / 전체추이 탭 ---- */
+.viewmode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.viewmode-toggle button {
+  border: 1px solid #EAE2DB;
+  background-color: #FFFFFF;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #A3968C;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.viewmode-toggle button.active {
+  background-color: #F07C60;
+  border-color: #F07C60;
+  color: #FFFFFF;
+}
+
 /* ---- 차트 박스 ---- */
 .growth-chart-box {
   background-color: #FFFFFF;
@@ -77,7 +103,7 @@
   margin: 0;
 }
 
-/* 가로 스크롤 (기록이 많아 chartW가 넓어질 때) */
+/* 가로 스크롤 ('전체 추이' 모드에서 chartW가 넓어질 때) */
 .growth-chart-scroll {
   overflow-x: auto;
   overflow-y: hidden;
@@ -102,6 +128,32 @@
 .growth-x-label {
   font-size: 10px;
   fill: #B5AFA4;
+}
+
+/* 점 클릭/탭 히트 영역 */
+.growth-point-hit {
+  cursor: pointer;
+}
+
+/* ---- 점 탭/호버 시 뜨는 툴팁(날짜·시간·수치) ---- */
+.growth-tooltip-group {
+  pointer-events: none;
+}
+
+.growth-tooltip-bg {
+  fill: #3A332D;
+  opacity: 0.92;
+}
+
+.growth-tooltip-text {
+  font-size: 11px;
+  font-weight: 800;
+  fill: #FFFFFF;
+}
+
+.growth-tooltip-date {
+  font-size: 9px;
+  fill: #EAE2DB;
 }
 
 /* ---- 범례 ---- */
@@ -170,4 +222,33 @@
   color: #B5AFA4;
   margin: 0;
   line-height: 1.5;
+}
+
+.growth-chart-scroll {
+  cursor: grab;
+  touch-action: pan-x;
+}
+
+.growth-std-label {
+  font-size: 9px;
+  font-weight: 700;
+  fill: #A3968C;
+}
+
+.growth-tooltip-diff-up {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #FFB199; /* 어두운 배경 위에서 잘 보이는 밝은 코랄 */
+}
+
+.growth-tooltip-diff-down {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #9FD8C6; /* 아래쪽(작음)은 민트 계열로 시각적으로 구분 */
+}
+
+.growth-tooltip-diff-flat {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #C9C0B8;
 }
