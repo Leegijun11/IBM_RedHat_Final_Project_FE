@@ -3,12 +3,13 @@ import { Radar } from "react-chartjs-2";
 import { getBabyStandard } from "../../services/compare_api";
 import { getDiaryList } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
+import { getRecord } from "../../services/record_api";
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend, } from "chart.js";
 import "../../styles/CompareChart.css";
 
 ChartJS.register( RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend );
 
-function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데이터를 재사용
+function CompareChart({ baby, babyAge }) {
     const [standardData, setStandardData] = useState(null);
 
     const [babyInfo, setBabyInfo] = useState({
@@ -31,17 +32,44 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
     useEffect(() => {
         const fetchAllData = async () => {
             if (!baby) return;
+
             try {
                 setLoading(true);
 
-                const baby = await getCurrentBaby();
+                const currentBaby = await getCurrentBaby();
 
-                if (!baby) return;
+                if (!currentBaby) return;
 
-                const bHeight = baby.b_height || 0;
-                const bWeight = baby.b_weight || 0;
+               
+                // 최신 신체 성장 기록 조회
+
+                const records = await getRecord(currentBaby.b_id);
+
+                let bHeight = currentBaby.b_height || 0;
+                let bWeight = currentBaby.b_weight || 0;
+
+                if (
+                    Array.isArray(records) &&
+                    records.length > 0
+                ) {
+                    const sortedRecords = [...records].sort(
+                        (a, b) =>
+                            new Date(a.r_date) -
+                            new Date(b.r_date)
+                    );
+
+                    const latestRecord =
+                        sortedRecords[sortedRecords.length - 1];
+
+                    bHeight = latestRecord.r_height;
+                    bWeight = latestRecord.r_weight;
+                }
+
+            
+                // BMI 계산
 
                 let bBmi = 0;
+
                 if (bHeight > 0 && bWeight > 0) {
                     const heightInMeters = bHeight / 100;
 
@@ -53,41 +81,55 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
                     );
                 }
 
+                // 오늘 날짜 생성
+
                 const today = new Date();
 
                 const year = today.getFullYear();
 
-                const month = String(
-                    today.getMonth() + 1
-                ).padStart(2, "0");
+                const month = String( today.getMonth() + 1 ).padStart(2, "0");
 
-                const day = String(
-                    today.getDate()
-                ).padStart(2, "0");
+                const day = String( today.getDate()).padStart(2, "0");
 
-                const todayStr = `${year}-${month}-${day}`;
+                const todayStr =`${year}-${month}-${day}`;
+
+                // 수면 / 배변 데이터 계산
 
                 let totalSleep = 0;
                 let totalToilet = 0;
 
                 try {
-                    const diaryList = await getDiaryList(
-                        baby.b_id,
-                        todayStr
-                    );
+                    const diaryList =
+                        await getDiaryList(
+                            currentBaby.b_id,
+                            todayStr
+                        );
 
                     if (
                         diaryList &&
                         Array.isArray(diaryList)
                     ) {
                         diaryList.forEach((diary) => {
-                            const sleepStr = diary.d_sleep;
-                            if (sleepStr && sleepStr !== "없음") {
-                                const sleepMatch = sleepStr.match(/[\d.]+/);
-                                if (sleepMatch) totalSleep += parseFloat(sleepMatch[0]);
+                            const sleepStr =
+                                diary.d_sleep;
+
+                            if (
+                                sleepStr &&
+                                sleepStr !== "없음"
+                            ) {
+                                const sleepMatch =
+                                    sleepStr.match(/[\d.]+/);
+
+                                if (sleepMatch) {
+                                    totalSleep +=
+                                        parseFloat(
+                                            sleepMatch[0]
+                                        );
+                                }
                             }
 
-                            const toiletStr = diary.d_toilet;
+                            const toiletStr =
+                                diary.d_toilet;
 
                             if (
                                 toiletStr &&
@@ -97,72 +139,75 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
                                     toiletStr.match(/[\d.]+/);
 
                                 if (toiletMatch) {
-                                    totalToilet += parseInt(
-                                        toiletMatch[0],
-                                        10
-                                    );
+                                    totalToilet +=
+                                        parseInt(
+                                            toiletMatch[0],
+                                            10
+                                        );
                                 }
                             }
                         });
                     }
                 } catch (diaryError) {
-                    console.error(
-                        "수면 및 배변 데이터 로드 실패:",
-                        diaryError
-                    );
+                    console.error( "수면 및 배변 데이터 로드 실패:", diaryError );
                 }
 
-                setMyStats({ height: bHeight, weight: bWeight, bmi: bBmi, sleep: totalSleep, toilet: totalToilet, });
+                setMyStats({
+                    height: bHeight,
+                    weight: bWeight,
+                    bmi: bBmi,
+                    sleep: totalSleep,
+                    toilet: totalToilet,
+                });
 
-                const mappedGender =
-                    baby.b_gender === "여"
+
+                // 성별 계산
+
+
+                const currentMappedGender =
+                    currentBaby.b_gender === "여"
                         ? "F"
                         : "M";
 
-                const birthDate = new Date(baby.b_birth);
+
+                // 개월 수 계산
+
+                const birthDate =
+                    new Date(currentBaby.b_birth);
 
                 let months =
-                    (
-                        today.getFullYear() -
-                        birthDate.getFullYear()
-                    ) * 12 +
-                    (
-                        today.getMonth() -
-                        birthDate.getMonth()
-                    );
+                    ( today.getFullYear() - birthDate.getFullYear() ) * 12 +
+                    ( today.getMonth() - birthDate.getMonth() );
 
-                if (
-                    today.getDate() <
-                    birthDate.getDate()
-                ) {
+                if ( today.getDate() < birthDate.getDate() ) 
+                    
+                    {
+
                     months -= 1;
                 }
 
-                const finalAge = Math.max(0, months);
+                const finalAge =
+                    Math.max(0, months);
 
-                setBabyInfo({
-                    age: finalAge,
-                    gender: mappedGender,
-                });
+                setBabyInfo({ age: finalAge, gender: currentMappedGender, });
 
-                const standard = await getBabyStandard(
-                    mappedGender,
-                    finalAge
-                );
+
+                // 또래 표준 데이터 조회
+
+                const standard =
+                    await getBabyStandard( currentMappedGender, finalAge );
 
                 setStandardData(standard);
 
             } catch (error) {
-                console.error(
-                    "데이터 로드 실패:",
-                    error
-                );
+                console.error( "데이터 로드 실패:", error );
             } finally {
                 setLoading(false);
             }
         };
 
         fetchAllData();
+
     }, [baby, babyAge, mappedGender]);
 
 
@@ -184,9 +229,8 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
     }
 
 
-    // ==============================
+  
     // 기존 그래프 계산 로직
-    // ==============================
 
     const normalize = (myVal, peerVal) => {
         if (!peerVal || peerVal === 0) {
@@ -213,7 +257,13 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
         ) / 2;
 
 
-    const peerData = [ 100, 100, 100, 100, 100, ];
+    const peerData = [
+        100,
+        100,
+        100,
+        100,
+        100,
+    ];
 
 
     const myChartData = [
@@ -261,11 +311,13 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
                 backgroundColor:
                     "rgba(240, 124, 96, 0.25)",
 
-                borderColor: "#F07C60",
+                borderColor:
+                    "#F07C60",
 
                 borderWidth: 2,
 
-                pointBackgroundColor: "#F07C60",
+                pointBackgroundColor:
+                    "#F07C60",
             },
 
             {
@@ -275,11 +327,13 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
                 backgroundColor:
                     "rgba(163, 150, 140, 0.12)",
 
-                borderColor: "#A3968C",
+                borderColor:
+                    "#A3968C",
 
                 borderWidth: 2,
 
-                pointBackgroundColor: "#A3968C",
+                pointBackgroundColor:
+                    "#A3968C",
             },
         ],
     };
@@ -311,9 +365,12 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
                         const label =
                             context.dataset.label || "";
 
-                        const value = context.raw;
+                        const value =
+                            context.raw;
 
-                        if (label === "또래 평균") {
+                        if (
+                            label === "또래 평균"
+                        ) {
                             return `${label}: 100% (기준)`;
                         }
 
@@ -353,16 +410,17 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
     };
 
 
-    // ==============================
+
     // 상세 비교 문구
-    // ==============================
 
     const getHeightDifferenceText = () => {
         const difference =
             myStats.height -
             standardData.height;
 
-        if (Math.abs(difference) < 0.01) {
+        if (
+            Math.abs(difference) < 0.01
+        ) {
             return "또래 평균과 비슷해요";
         }
 
@@ -374,21 +432,19 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
     };
 
 
-    // 체중 차이 숫자의 불필요한 0 제거
-    // 1.00 -> 1
-    // 1.50 -> 1.5
-    // 1.27 -> 1.27
-
     const getWeightDifferenceText = () => {
         const difference =
             myStats.weight -
             standardData.weight;
 
-        const formattedDifference = Number(
-            Math.abs(difference).toFixed(2)
-        );
+        const formattedDifference =
+            Number(
+                Math.abs(difference).toFixed(2)
+            );
 
-        if (Math.abs(difference) < 0.01) {
+        if (
+            Math.abs(difference) < 0.01
+        ) {
             return "또래 평균과 비슷해요";
         }
 
@@ -405,7 +461,9 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
             myStats.bmi -
             standardData.bmi;
 
-        if (Math.abs(difference) < 0.01) {
+        if (
+            Math.abs(difference) < 0.01
+        ) {
             return "또래 평균과 비슷해요";
         }
 
@@ -459,12 +517,18 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
             return "배변 기록이 없어요";
         }
 
-        if (myStats.toilet < toiletMin) {
-            return `또래 기준보다 ${ toiletMin - myStats.toilet }회 적어요`;
+        if (
+            myStats.toilet <
+            toiletMin
+        ) {
+            return `또래 기준보다 ${toiletMin - myStats.toilet}회 적어요`;
         }
 
-        if (myStats.toilet > toiletMax) {
-            return `또래 기준보다 ${ myStats.toilet - toiletMax }회 많아요`;
+        if (
+            myStats.toilet >
+            toiletMax
+        ) {
+            return `또래 기준보다 ${myStats.toilet - toiletMax}회 많아요`;
         }
 
         return "또래 기준 범위에 있어요";
@@ -481,7 +545,6 @@ function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데�
                     ? "여아"
                     : "남아"})
             </h3>
-
 
 
             <div className="radar-box">
