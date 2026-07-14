@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { getCurrentBaby } from "../../services/partner_api";
 import { getRecord } from "../../services/record_api";
+import { getBabyLogs } from "../../services/logs_api"; // 1. logs_api에서 getBabyLogs 추가 import
 
-// 오늘 날짜부터 거꾸로 훑으면서 기록이 있는 날이 며칠 연속되는지 계산합니다.
-function calcStreak(records) {
-    if (!records || records.length === 0) return 0;
+
+function calcStreak(logs) {
+    if (!logs || logs.length === 0) return 0;
 
     const dateSet = new Set(
-        records.map((r) => new Date(r.r_date).toISOString().slice(0, 10))
+        logs.map((log) => new Date(log.l_date).toISOString().slice(0, 10))
     );
 
     let streak = 0;
@@ -19,6 +20,7 @@ function calcStreak(records) {
             streak++;
             cursor.setDate(cursor.getDate() - 1);
         } else {
+            // 어제 혹은 그 전날 기록이 없으면 루프를 멈춥니다.
             break;
         }
     }
@@ -35,24 +37,34 @@ function Growth_card() {
         const fetchData = async () => {
             try {
                 const baby = await getCurrentBaby();
+                
+                // 3. 두 가지 API를 개별적으로 호출합니다.
                 const records = await getRecord(baby.b_id);
+                const logs = await getBabyLogs(baby.b_id); // b_id에 해당하는 일상 로그 목록 조회
 
+                // 4. 최근 키 / 최근 몸무게 반영 (records 테이블 기준)
                 if (Array.isArray(records) && records.length > 0) {
-                    const sorted = [...records].sort(
+                    const sortedRecords = [...records].sort(
                         (a, b) => new Date(a.r_date) - new Date(b.r_date)
                     );
-                    const latest = sorted[sorted.length - 1];
+                    const latestRecord = sortedRecords[sortedRecords.length - 1];
 
-                    setHeight(latest.r_height);
-                    setWeight(latest.r_weight);
-                    setStreak(calcStreak(sorted));
+                    setHeight(latestRecord.r_height);
+                    setWeight(latestRecord.r_weight);
                 } else {
                     setHeight(null);
                     setWeight(null);
+                }
+
+                // 5. 연속 기록 일수 계산 (logs 테이블 기준)
+                if (Array.isArray(logs) && logs.length > 0) {
+                    setStreak(calcStreak(logs));
+                } else {
                     setStreak(0);
                 }
+
             } catch (error) {
-                console.error("가져오기 실패:", error);
+                console.error("데이터 가져오기 실패:", error);
             }
         };
         fetchData();
@@ -72,7 +84,9 @@ function Growth_card() {
 
             <div className="growth-item-box bg-purple">
                 <h3 className="text-purple">기록 상태</h3>
-                <h2 className="text-purple">{streak > 0 ? `${streak}일 연속` : "오늘의 기록을 담아주세요"}</h2>
+                <h2 className="text-purple"style={streak > 0 ? {} : { fontSize: "14px", letterSpacing: "-0.5px", wordBreak: "keep-all" }}>
+                    {streak > 0 ? `${streak}일 연속` : "오늘의 기록을 담아주세요"}
+                </h2>
             </div>
         </div>
     );
