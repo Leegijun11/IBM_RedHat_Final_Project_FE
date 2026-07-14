@@ -1,77 +1,261 @@
-/* src/styles/Growth_chart.css */
+/* ==========================================================================
+   Growth_chart — 신체 성장 추이 (우리 아이 vs 또래 평균 듀얼 라인 차트)
+   RecordQuickAdd.css / Diary.css 와 동일한 코랄 팔레트로 통일
+   ========================================================================== */
 
-.growth-chart-wrapper { width: 100%; }
-
-/* 그래프 컨테이너 */
-.bar-graph-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-end;
-    height: 150px;
-    padding: 20px 10px;
-    background: #FFF9F7;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    gap: 10px;
+.growth-chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.graph-item { display: flex; flex-direction: column; align-items: center; flex: 1; }
-
-.bar-wrapper { display: flex; gap: 4px; height: 100px; align-items: flex-end; }
-
-.bar { width: 12px; border-radius: 6px 6px 0 0; transition: height 0.8s ease; }
-.height-bar { background-color: #F07C60; }
-.weight-bar { background-color: #F5B079; }
-
-.graph-date { margin-top: 8px; font-size: 11px; color: #A3968C; font-weight: 700; }
-
-/* 기존 표 스타일 */
-.growth-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.growth-table th { color: #A3968C; padding: 10px; border-bottom: 1px solid #EAE2DB; }
-.growth-table td { padding: 12px; text-align: center; color: #5D5046; border-bottom: 1px solid #FDF9F5; }
-.data-val { font-weight: 700; color: #333; }
-
-
-/* 기존 스타일 아래에 추가 */
-
-/* 툴팁 디자인 */
-.chart-tooltip {
-    position: fixed;
-    background: white;
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    font-size: 12px;
-    font-weight: 700;
-    color: #5D5046;
-    pointer-events: none; /* 마우스가 툴팁을 방해하지 않게 */
-    z-index: 100;
-    border: 1px solid #EAE2DB;
+/* ---- 상단: + 기록 추가 버튼 (타이틀은 페이지 레벨에서 이미 표시하므로 중복 방지) ---- */
+.growth-chart-header {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.tt-date { margin: 0 0 4px 0; color: #A3968C; }
-.tt-height { color: #F07C60; margin: 0; }
-.tt-weight { color: #F5B079; margin: 0; }
-
-/* 막대에 호버 효과 추가 */
-.bar-wrapper {
-    cursor: pointer;
-    transition: opacity 0.2s;
+.record-add-btn {
+  background-color: #FFFFFF;
+  color: #F07C60;
+  border: 1px solid #EAE2DB;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
 }
 
-.bar-wrapper:hover {
-    opacity: 0.7;
+.record-add-btn:active {
+  background-color: #FFEFE8;
+  transform: scale(0.97);
 }
 
-/* (이전 스타일 유지) */
-.bar-graph-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-end;
-    height: 150px;
-    padding: 20px 10px;
-    background: #FFF9F7;
-    border-radius: 20px;
-    margin-bottom: 20px;
+/* ---- 키 / 몸무게 토글 ---- */
+.metric-toggle {
+  display: flex;
+  gap: 6px;
+  background-color: #FAF4EF;
+  border-radius: 16px;
+  padding: 4px;
 }
 
+.metric-toggle button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  border-radius: 12px;
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #A3968C;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.metric-toggle button.active {
+  background-color: #FFFFFF;
+  color: #F07C60;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* ---- 최근1개월 / 최근6개월 / 전체추이 탭 ---- */
+.viewmode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.viewmode-toggle button {
+  border: 1px solid #EAE2DB;
+  background-color: #FFFFFF;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #A3968C;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.viewmode-toggle button.active {
+  background-color: #F07C60;
+  border-color: #F07C60;
+  color: #FFFFFF;
+}
+
+/* ---- 차트 박스 ---- */
+.growth-chart-box {
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  padding: 12px 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+.growth-chart-empty {
+  text-align: center;
+  font-size: 13px;
+  color: #A3968C;
+  padding: 40px 0;
+  margin: 0;
+}
+
+/* 가로 스크롤 ('전체 추이' 모드에서 chartW가 넓어질 때) */
+.growth-chart-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.growth-chart-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.growth-line-svg {
+  display: block;
+}
+
+/* SVG 내부 텍스트 */
+.growth-point-label {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #3A332D;
+}
+
+.growth-x-label {
+  font-size: 10px;
+  fill: #B5AFA4;
+}
+
+/* 점 클릭/탭 히트 영역 */
+.growth-point-hit {
+  cursor: pointer;
+}
+
+/* ---- 점 탭/호버 시 뜨는 툴팁(날짜·시간·수치) ---- */
+.growth-tooltip-group {
+  pointer-events: none;
+}
+
+.growth-tooltip-bg {
+  fill: #3A332D;
+  opacity: 0.92;
+}
+
+.growth-tooltip-text {
+  font-size: 11px;
+  font-weight: 800;
+  fill: #FFFFFF;
+}
+
+.growth-tooltip-date {
+  font-size: 9px;
+  fill: #EAE2DB;
+}
+
+/* ---- 범례 ---- */
+.growth-legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #A3968C;
+  font-weight: 700;
+  padding: 0 8px;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.legend-dot.baby {
+  background-color: #F07C60;
+}
+
+.legend-dot.standard {
+  width: 12px;
+  height: 2px;
+  border-radius: 0;
+  background-color: #C9C0B8;
+}
+
+/* ---- 성장 속도 카드 ---- */
+.growth-speed-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+.speed-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #3A332D;
+  margin: 0 0 6px;
+}
+
+.speed-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #A3968C;
+  margin: 0 0 4px;
+}
+
+.speed-message {
+  font-size: 13px;
+  font-weight: 700;
+  color: #F57E5C;
+  margin: 0;
+}
+
+.speed-empty {
+  font-size: 12px;
+  color: #B5AFA4;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.growth-chart-scroll {
+  cursor: grab;
+  touch-action: pan-x;
+}
+
+.growth-std-label {
+  font-size: 9px;
+  font-weight: 700;
+  fill: #A3968C;
+}
+
+.growth-tooltip-diff-up {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #FFB199; /* 어두운 배경 위에서 잘 보이는 밝은 코랄 */
+}
+
+.growth-tooltip-diff-down {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #9FD8C6; /* 아래쪽(작음)은 민트 계열로 시각적으로 구분 */
+}
+
+.growth-tooltip-diff-flat {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #C9C0B8;
+}
+
+.growth-edit-hint {
+  font-size: 11px;
+  color: #B5AFA4;
+  text-align: center;
+  margin: 0;
+}

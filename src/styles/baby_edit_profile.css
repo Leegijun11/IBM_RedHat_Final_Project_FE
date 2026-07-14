@@ -32,30 +32,19 @@
 }
 
 /* 입력 필드 그룹 */
-.input-group {
+.baby-edit-input-group {
   display: flex;
   flex-direction: column;
 }
 
-.double-input {
-  flex-direction: row;
-  gap: 12px;
-}
-
-.input-half {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.input-label {
+.baby-edit-input-label {
   font-size: 13px;
   font-weight: 700;
   color: #A3968C;
   margin-bottom: 4px;
 }
 
-.input-field {
+.baby-edit-input-field {
   width: 100%;
   padding: 14px;
   border-radius: 12px;
@@ -66,23 +55,23 @@
   background-color: white;
 }
 
-.input-field:focus {
+.baby-edit-input-field:focus {
   border-color: #F07C60;
 }
 
 /* 파일 업로드 영역 */
-.file-upload-group {
+.baby-edit-file-upload-group {
   display: flex;
   flex-direction: column;
   padding: 10px 0;
 }
 
-.file-input-field {
+.baby-edit-file-input-field {
   font-size: 13px;
   color: #5D5046;
 }
 
-.file-input-field::file-selector-button {
+.baby-edit-file-input-field::file-selector-button {
   background-color: #F2E8E0;
   color: #5D5046;
   border: none;
@@ -93,7 +82,7 @@
   margin-right: 10px;
 }
 
-.file-name-text {
+.baby-edit-file-name-text {
   font-size: 12px;
   color: #F07C60;
   margin-top: 6px;
@@ -102,16 +91,16 @@
 }
 
 /* 하단 버튼 그룹 */
-.btn-group {
+.baby-edit-btn-group {
   display: flex;
   gap: 10px;
   margin-top: 10px;
 }
 
-.submit-btn {
+.baby-edit-submit-btn {
   flex: 1;
   padding: 14px;
-  background: #F07C60;
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -119,7 +108,7 @@
   cursor: pointer;
 }
 
-.cancel-btn {
+.baby-edit-cancel-btn {
   flex: 1;
   padding: 14px;
   background: #EAE2DB;

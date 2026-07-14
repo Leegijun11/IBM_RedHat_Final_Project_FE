@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Radar } from "react-chartjs-2";
-import { getCurrentBaby } from "../../services/partner_api";
 import { getBabyStandard } from "../../services/compare_api";
 import { getDiaryList } from "../../services/diary_api";
 
@@ -9,7 +8,7 @@ import "../../styles/CompareChart.css";
 
 ChartJS.register( RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend );
 
-function CompareChart() {
+function CompareChart({ baby, babyAge }) {  // ✅ 부모가 이미 가진 데이터를 재사용
     const [standardData, setStandardData] = useState(null);
 
     const [babyInfo, setBabyInfo] = useState({
@@ -27,8 +26,11 @@ function CompareChart() {
 
     const [loading, setLoading] = useState(true);
 
+    const mappedGender = baby?.b_gender === "여" ? "F" : "M";
+
     useEffect(() => {
         const fetchAllData = async () => {
+            if (!baby) return;
             try {
                 setLoading(true);
 
@@ -40,7 +42,6 @@ function CompareChart() {
                 const bWeight = baby.b_weight || 0;
 
                 let bBmi = 0;
-
                 if (bHeight > 0 && bWeight > 0) {
                     const heightInMeters = bHeight / 100;
 
@@ -81,19 +82,9 @@ function CompareChart() {
                     ) {
                         diaryList.forEach((diary) => {
                             const sleepStr = diary.d_sleep;
-
-                            if (
-                                sleepStr &&
-                                sleepStr !== "없음"
-                            ) {
-                                const sleepMatch =
-                                    sleepStr.match(/[\d.]+/);
-
-                                if (sleepMatch) {
-                                    totalSleep += parseFloat(
-                                        sleepMatch[0]
-                                    );
-                                }
+                            if (sleepStr && sleepStr !== "없음") {
+                                const sleepMatch = sleepStr.match(/[\d.]+/);
+                                if (sleepMatch) totalSleep += parseFloat(sleepMatch[0]);
                             }
 
                             const toiletStr = diary.d_toilet;
@@ -172,7 +163,7 @@ function CompareChart() {
         };
 
         fetchAllData();
-    }, []);
+    }, [baby, babyAge, mappedGender]);
 
 
     if (loading) {

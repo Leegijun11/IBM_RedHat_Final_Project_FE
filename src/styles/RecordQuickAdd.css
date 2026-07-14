@@ -1,0 +1,143 @@
+/* ==========================================================================
+   RecordQuickAdd — 성장 기록 빠른 추가 모달
+   Diary.css의 .diary-loading-overlay / .diary-write-card 톤을 그대로 재사용
+   ========================================================================== */
+
+.record-quickadd-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(58, 51, 45, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.record-quickadd-card {
+  width: 100%;
+  max-width: 340px;
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  padding: 24px 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.record-quickadd-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #3A332D;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.record-quickadd-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.record-quickadd-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #A3968C;
+}
+
+.record-quickadd-label input {
+  width: 100%;
+  border: 1px solid #EAE2DB;
+  border-radius: 16px;
+  padding: 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #3A332D;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+  -moz-appearance: textfield;
+}
+
+.record-quickadd-label input::-webkit-outer-spin-button,
+.record-quickadd-label input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.record-quickadd-label input::placeholder {
+  color: #B5AFA4;
+}
+
+.record-quickadd-label input:focus {
+  border-color: #F07C60;
+}
+
+.record-quickadd-label input:disabled {
+  background-color: #FAF4EF;
+  color: #B5AFA4;
+}
+
+.record-quickadd-error {
+  font-size: 12px;
+  font-weight: 700;
+  color: #E24B4A;
+  margin: 0;
+  text-align: center;
+}
+
+.record-quickadd-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.record-quickadd-btn-row button {
+  flex: 1;
+  padding: 14px 0;
+  border: none;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.record-quickadd-btn-row button:active {
+  transform: scale(0.97);
+}
+
+.record-quickadd-btn-row button:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.record-quickadd-save-btn {
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+}
+
+.record-quickadd-cancel-btn {
+  background-color: #FAF4EF;
+  color: #A3968C;
+}
+
+.record-quickadd-delete-btn {
+  background-color: #FFFFFF;
+  color: #E05A4A;
+  border: 1px solid #F3D9D4;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.record-quickadd-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
