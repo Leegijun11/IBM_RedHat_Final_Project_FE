@@ -46,3 +46,13 @@ export const getCurrentBaby = async () => {
     const response = await api.get("/parents/current_baby");
     return response.data;
 };
+
+
+
+
+export const updatePartnerState = async (p_state) => {
+    const response = await api.put("/parents/state", null, {
+        params: { p_state },
+    });
+    return response.data;
+};

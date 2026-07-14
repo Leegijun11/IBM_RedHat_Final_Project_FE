@@ -138,3 +138,56 @@ ul.milestone-list > li {
     display: block !important;
     width: 100% !important;
 }
+
+
+/* 상단 화살표 컨테이너 */
+.milestone-nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* 화살표 버튼 디자인 */
+.nav-arrow-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 12px; /* 둥근 모서리 */
+    border: 1px solid #EAE2DB;
+    background-color: #FFFFFF;
+    
+    color: #F07C60; /* 포인트 코랄 컬러 */
+    font-size: 20px;
+    font-weight: 700;
+    
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+/* 마우스를 누를 때 살짝 눌리는 느낌 */
+.nav-arrow-btn:active:not(:disabled) {
+    transform: scale(0.92);
+    background-color: #FDF9F5;
+}
+
+/* 비활성화 시 스타일 (처음이나 끝에 도달했을 때) */
+.nav-arrow-btn:disabled {
+    border-color: #F1ECE8;
+    background-color: #F1ECE8;
+    color: #C0B5AC;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* 제목 가운데 정렬 유지 */
+.milestone-title {
+    flex: 1;
+    text-align: center;
+    margin: 0 10px; /* 양옆 버튼과 간격 확보 */
+    font-size: 15px; /* 조금 더 아담하게 조정 */
+}

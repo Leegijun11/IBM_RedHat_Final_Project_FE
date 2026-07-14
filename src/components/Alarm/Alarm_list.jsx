@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getAlarm, deleteAlarm } from "../../services/alarm_api";
 import { createPartner } from "../../services/partner_api";
 import "../../styles/Alarm_list.css";
-
+import { updatePartnerState } from "../../services/partner_api";
 function Alarm_list({ onAccept }) {
     const [isOpen, setIsOpen] = useState(false);
     const [alarms, setAlarms] = useState([]);
@@ -40,10 +40,14 @@ function Alarm_list({ onAccept }) {
         }
     };
 
-    const handleDelete = async (a_id) => {
+    const handleDelete = async (a_id, alarm) => {
         try {
+            // 초대 알람이면 상태를 거절됨으로 변경
+            if (alarm?.a_type === "invite") {
+                await updatePartnerState("거절됨");
+            }
             await deleteAlarm(a_id);
-            setAlarms((prev) => prev.filter((alarm) => alarm.a_id !== a_id));
+            setAlarms((prev) => prev.filter((a) => a.a_id !== a_id));
         } catch (error) {
             console.error(error);
             alert("알람 삭제에 실패하였습니다.");
@@ -102,7 +106,7 @@ function Alarm_list({ onAccept }) {
                                             </button>
                                             <button
                                                 className="reject-btn"
-                                                onClick={() => handleDelete(alarm.a_id)}
+                                                onClick={() => handleDelete(alarm.a_id, alarm)}
                                             >
                                                 거절
                                             </button>

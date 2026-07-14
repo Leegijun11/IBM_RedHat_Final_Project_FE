@@ -148,3 +148,9 @@
 .invite-btn:active {
   transform: scale(0.98);
 }
+
+.status-badge.rejected {
+    background: #FFE8E8;
+    color: #E74C3C;
+    font-weight: 700;
+}
