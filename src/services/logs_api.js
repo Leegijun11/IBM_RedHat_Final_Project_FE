@@ -19,3 +19,14 @@ export const getLogStreak = async (b_id) => {
     const response = await api.get("/logs/streak", { params: { b_id } });
     return response.data;
 };
+
+
+
+
+
+export const getBabyLogs =async (b_id)=>{
+    const response = await api.get("/logs/list", { 
+        params:{ b_id } 
+    });
+    return response.data;
+};
