@@ -11,12 +11,14 @@ export const getRecord = async (b_id) => {
     return response.data;
 }
 
-//export const editRecord = async (r_id) => {
-//  쓸지 모르겠음    
-//}
-
-export const deleteRecord = async (r_id) => {
-    const response = await api.delete("/records/del", {data : {r_id}});
+// 백엔드 라우트: PUT /records/{r_id}  (r_id는 경로 파라미터, body엔 r_height/r_weight만)
+export const updateRecord = async (r_id, recordData) => {
+    const response = await api.put(`/records/${r_id}`, recordData);
     return response.data;
 }
 
+// 백엔드 라우트: DELETE /records/del  (r_id는 body가 아니라 쿼리 파라미터)
+export const deleteRecord = async (r_id) => {
+    const response = await api.delete("/records/del", { params: { r_id } });
+    return response.data;
+}

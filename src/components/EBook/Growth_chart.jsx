@@ -76,7 +76,7 @@ function filterByViewMode(points, viewMode) {
 // ---------------------------------------------------------------------------
 // 차트 본체
 // ---------------------------------------------------------------------------
-function DualLineChart({ babyPoints, stdMatched, viewMode, unit }) {
+function DualLineChart({ babyPoints, stdMatched, viewMode, onEditPoint }) {
   const scrollRef = useRef(null);
   const dragRef = useRef({ isDown: false, startX: 0, startScroll: 0, moved: false });
   const suppressClickRef = useRef(false);
@@ -110,15 +110,23 @@ function DualLineChart({ babyPoints, stdMatched, viewMode, unit }) {
     setActiveIdx(null);
   }, [viewMode]);
 
-  // ---- 마우스 드래그로 좌우 스크롤 (트랙패드/터치 스와이프는 원래 되던 것과 별개로 추가) ----
+  // ---- 마우스 드래그로 좌우 스크롤 ----
+  // 주의: pointerdown 시점에 곧바로 setPointerCapture를 걸면, 이후의 모든
+  // 마우스/클릭 이벤트가 (점이 아니라) 이 컨테이너로 재라우팅되어서
+  // 그냥 클릭한 것도 점의 onClick까지 도달하지 못하는 문제가 생긴다.
+  // 그래서 "실제로 DRAG_THRESHOLD 이상 움직였을 때"만 캡처를 건다.
   const handlePointerDown = useCallback((e) => {
-    if (e.pointerType === "touch") return; // 터치는 브라우저 기본 스와이프에 맡김
+    if (e.pointerType === "touch") return;
     const el = scrollRef.current;
     if (!el) return;
-    dragRef.current = { isDown: true, startX: e.clientX, startScroll: el.scrollLeft, moved: false };
-    el.setPointerCapture(e.pointerId);
-    el.style.cursor = "grabbing";
-    document.body.style.userSelect = "none";
+    dragRef.current = {
+      isDown: true,
+      startX: e.clientX,
+      startScroll: el.scrollLeft,
+      moved: false,
+      pointerId: e.pointerId,
+      captured: false,
+    };
   }, []);
 
   const handlePointerMove = useCallback((e) => {
@@ -126,19 +134,29 @@ function DualLineChart({ babyPoints, stdMatched, viewMode, unit }) {
     const drag = dragRef.current;
     if (!drag.isDown || !el) return;
     const dx = e.clientX - drag.startX;
-    if (Math.abs(dx) > DRAG_THRESHOLD) drag.moved = true;
-    el.scrollLeft = drag.startScroll - dx;
+    if (Math.abs(dx) > DRAG_THRESHOLD) {
+      drag.moved = true;
+      if (!drag.captured) {
+        el.setPointerCapture(drag.pointerId);
+        el.style.cursor = "grabbing";
+        document.body.style.userSelect = "none";
+        drag.captured = true;
+      }
+    }
+    if (drag.moved) el.scrollLeft = drag.startScroll - dx;
   }, []);
 
   const handlePointerUp = useCallback((e) => {
     const el = scrollRef.current;
     const drag = dragRef.current;
     if (!el) return;
-    if (drag.moved) suppressClickRef.current = true; // 드래그였으면 뒤이어 오는 클릭(툴팁 토글)을 무시
+    if (drag.moved) suppressClickRef.current = true; // 드래그였으면 뒤이어 오는 클릭(점 선택)을 무시
+    if (drag.captured) {
+      el.style.cursor = "grab";
+      document.body.style.userSelect = "";
+      try { el.releasePointerCapture(drag.pointerId ?? e.pointerId); } catch (_) {}
+    }
     dragRef.current.isDown = false;
-    el.style.cursor = "grab";
-    document.body.style.userSelect = "";
-    try { el.releasePointerCapture(e.pointerId); } catch (_) {}
   }, []);
 
   const handleSvgClick = useCallback(() => {
@@ -183,7 +201,6 @@ function DualLineChart({ babyPoints, stdMatched, viewMode, unit }) {
             <path d={stdPath} fill="none" stroke="#C9C0B8" strokeWidth="2" strokeDasharray="4 4" />
           )}
 
-          {/* 또래 평균 점 + 수치 라벨 */}
           {visibleStd.map((p, i) =>
             p.value != null ? (
               <g key={`s-${i}`}>
@@ -199,7 +216,7 @@ function DualLineChart({ babyPoints, stdMatched, viewMode, unit }) {
 
           {visibleBaby.map((p, i) => (
             <g
-              key={`b-${i}`}
+              key={`b-${p.r_id ?? i}`}
               className="growth-point-hit"
               onMouseEnter={() => setActiveIdx(i)}
               onMouseLeave={() => setActiveIdx((cur) => (cur === i ? null : cur))}
@@ -209,7 +226,8 @@ function DualLineChart({ babyPoints, stdMatched, viewMode, unit }) {
                   suppressClickRef.current = false;
                   return;
                 }
-                setActiveIdx((cur) => (cur === i ? null : i));
+                setActiveIdx(null);
+                onEditPoint?.(p); // 클릭 = 이 기록을 수정 모드로 열기
               }}
             >
               <circle cx={toX(i)} cy={toY(p.value)} r="14" fill="transparent" />
@@ -235,6 +253,8 @@ function DualLineChart({ babyPoints, stdMatched, viewMode, unit }) {
             </>
           )}
 
+          {/* 호버(마우스)일 때만 정보 미리보기 — 클릭은 위에서 바로 수정 모드로 이동하므로
+              여기서는 "보기 전용" 툴팁만 담당 */}
           {activeIdx != null && visibleBaby[activeIdx] && (
             <ChartTooltip
               x={toX(activeIdx)}
@@ -250,6 +270,7 @@ function DualLineChart({ babyPoints, stdMatched, viewMode, unit }) {
         <span className="legend-dot baby" />우리 아이
         <span className="legend-dot standard" />또래 평균
       </div>
+      <p className="growth-edit-hint">점을 탭하면 그 기록을 수정하거나 삭제할 수 있어요</p>
     </>
   );
 }
@@ -291,12 +312,12 @@ function ChartTooltip({ x, y, point, stdValue, chartW }) {
   );
 }
 
-function GrowthSpeedCard({ babyPoints, stdMatched, label, unit }) {
+function GrowthSpeedCard({ babyPoints, label, unit }) {
   if (babyPoints.length < 2) {
     return (
       <div className="growth-speed-card">
         <p className="speed-title">{label} 성장 속도</p>
-        <p className="speed-empty">기록이 2개 이상 쌓이면 또래와의 성장 속도를 비교해드려요</p>
+        <p className="speed-empty">기록이 2개 이상 쌓이면 지난 기록과 비교해드려요</p>
       </div>
     );
   }
@@ -305,19 +326,7 @@ function GrowthSpeedCard({ babyPoints, stdMatched, label, unit }) {
   const latest = babyPoints[babyPoints.length - 1];
   const babyDelta = latest.value - prev.value;
 
-  const stdPrev = stdMatched[stdMatched.length - 2]?.value ?? null;
-  const stdLatest = stdMatched[stdMatched.length - 1]?.value ?? null;
-  const stdDelta = stdPrev != null && stdLatest != null ? stdLatest - stdPrev : null;
-
-  let message;
-  if (stdDelta == null || Math.abs(stdDelta) < 0.01) {
-    message = `지난 기록보다 ${babyDelta > 0 ? "+" : ""}${babyDelta.toFixed(1)}${unit} 변화했어요`;
-  } else {
-    const ratio = Math.round((babyDelta / stdDelta) * 100);
-    if (ratio > 115) message = `또래 평균보다 빠르게 자라고 있어요 (평균 대비 ${ratio}%)`;
-    else if (ratio < 85) message = `또래 평균보다 조금 느리게 자라고 있어요 (평균 대비 ${ratio}%)`;
-    else message = `또래 평균과 비슷한 속도로 자라고 있어요 (평균 대비 ${ratio}%)`;
-  }
+  const message = `지난 기록보다 ${babyDelta > 0 ? "+" : ""}${babyDelta.toFixed(1)}${unit} 변화했어요`;
 
   return (
     <div className="growth-speed-card">
@@ -338,6 +347,7 @@ function Growth_chart({ baby }) {
   const [metric, setMetric] = useState("height");
   const [viewMode, setViewMode] = useState("1m");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingRecord, setEditingRecord] = useState(null); // 수정 중인 원본 record (r_id 포함) 또는 null
 
   const fetchRecords = useCallback(async () => {
     if (!baby?.b_id) return;
@@ -358,6 +368,7 @@ function Growth_chart({ baby }) {
       baby
         ? records
             .map((r) => ({
+              r_id: r.r_id,
               month: ageInMonths(baby.b_birth, r.r_date),
               value: Number(r[key]),
               date: r.r_date,
@@ -417,6 +428,21 @@ function Growth_chart({ baby }) {
   const activeStdMatched = metric === "height" ? heightStdMatched : weightStdMatched;
   const unit = metric === "height" ? "cm" : "kg";
 
+  // 차트의 점(r_id만 갖고 있음)을 클릭하면, 원본 records에서 height/weight를 모두 찾아
+  // 수정 모달에 그대로 넘김 (어느 탭(키/몸무게)에서 클릭했든 두 값 다 보여주기 위함)
+  const handleEditPoint = useCallback(
+    (point) => {
+      const full = records.find((r) => r.r_id === point.r_id);
+      if (full) setEditingRecord(full);
+    },
+    [records]
+  );
+
+  const closeModal = () => {
+    setShowAddModal(false);
+    setEditingRecord(null);
+  };
+
   return (
     <div className="growth-chart-wrapper">
       <div className="growth-chart-header">
@@ -452,18 +478,24 @@ function Growth_chart({ baby }) {
       </div>
 
       <div className="growth-chart-box">
-        <DualLineChart babyPoints={activePoints} stdMatched={activeStdMatched} viewMode={viewMode} unit={unit} />
+        <DualLineChart
+          babyPoints={activePoints}
+          stdMatched={activeStdMatched}
+          viewMode={viewMode}
+          onEditPoint={handleEditPoint}
+        />
       </div>
 
-      <GrowthSpeedCard
-        babyPoints={activePoints}
-        stdMatched={activeStdMatched}
-        label={metric === "height" ? "키" : "몸무게"}
-        unit={unit}
-      />
+      <GrowthSpeedCard babyPoints={activePoints} label={metric === "height" ? "키" : "몸무게"} unit={unit} />
 
-      {showAddModal && (
-        <RecordQuickAdd b_id={baby?.b_id} onClose={() => setShowAddModal(false)} onSuccess={fetchRecords} />
+      {(showAddModal || editingRecord) && (
+        <RecordQuickAdd
+          b_id={baby?.b_id}
+          editRecord={editingRecord}
+          onClose={closeModal}
+          onSuccess={fetchRecords}
+          onDeleted={fetchRecords}
+        />
       )}
     </div>
   );

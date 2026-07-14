@@ -252,3 +252,10 @@
   font-weight: 700;
   fill: #C9C0B8;
 }
+
+.growth-edit-hint {
+  font-size: 11px;
+  color: #B5AFA4;
+  text-align: center;
+  margin: 0;
+}

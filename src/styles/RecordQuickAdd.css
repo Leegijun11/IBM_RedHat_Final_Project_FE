@@ -125,3 +125,19 @@
   background-color: #FAF4EF;
   color: #A3968C;
 }
+
+.record-quickadd-delete-btn {
+  background-color: #FFFFFF;
+  color: #E05A4A;
+  border: 1px solid #F3D9D4;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.record-quickadd-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

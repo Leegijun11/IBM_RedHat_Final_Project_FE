@@ -1,18 +1,56 @@
 import { useState, useEffect } from "react";
 import { getCurrentBaby } from "../../services/partner_api";
+import { getRecord } from "../../services/record_api";
+
+// 오늘 날짜부터 거꾸로 훑으면서 기록이 있는 날이 며칠 연속되는지 계산합니다.
+function calcStreak(records) {
+    if (!records || records.length === 0) return 0;
+
+    const dateSet = new Set(
+        records.map((r) => new Date(r.r_date).toISOString().slice(0, 10))
+    );
+
+    let streak = 0;
+    const cursor = new Date();
+
+    while (true) {
+        const key = cursor.toISOString().slice(0, 10);
+        if (dateSet.has(key)) {
+            streak++;
+            cursor.setDate(cursor.getDate() - 1);
+        } else {
+            break;
+        }
+    }
+
+    return streak;
+}
 
 function Growth_card() {
     const [height, setHeight] = useState(null);
     const [weight, setWeight] = useState(null);
-    const [streak, setStreak] = useState(0); // 추후 기록 수나 연속 일수를 백엔드 연동 가능
+    const [streak, setStreak] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const baby = await getCurrentBaby();
-                setHeight(baby.b_height);
-                setWeight(baby.b_weight);
-                // 만약 백엔드에서 streak 일수를 제공한다면 이곳에서 setStreak(baby.streak) 등으로 설정 가능합니다.
+                const records = await getRecord(baby.b_id);
+
+                if (Array.isArray(records) && records.length > 0) {
+                    const sorted = [...records].sort(
+                        (a, b) => new Date(a.r_date) - new Date(b.r_date)
+                    );
+                    const latest = sorted[sorted.length - 1];
+
+                    setHeight(latest.r_height);
+                    setWeight(latest.r_weight);
+                    setStreak(calcStreak(sorted));
+                } else {
+                    setHeight(null);
+                    setWeight(null);
+                    setStreak(0);
+                }
             } catch (error) {
                 console.error("가져오기 실패:", error);
             }
@@ -34,8 +72,7 @@ function Growth_card() {
 
             <div className="growth-item-box bg-purple">
                 <h3 className="text-purple">기록 상태</h3>
-                <h2 className="text-purple">{streak > 0 ? `${streak}일 연속` : "오늘도 기록완료!"}</h2>
-                <p className="text-sub-purple">성장 메이트 🎉</p>
+                <h2 className="text-purple">{streak > 0 ? `${streak}일 연속` : "오늘의 기록을 담아주세요"}</h2>
             </div>
         </div>
     );
