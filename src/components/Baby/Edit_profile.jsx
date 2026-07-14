@@ -5,8 +5,6 @@ import "../../styles/baby_edit_profile.css"; // 🔥 스타일 파일 연결
 function Edit_profile({ baby, onClose, onSuccess }) {
   const [b_name, setB_name] = useState(baby?.b_name || "");
   const [b_birth, setB_birth] = useState(baby?.b_birth || "");
-  const [b_height, setB_height] = useState(baby?.b_height || "");
-  const [b_weight, setB_weight] = useState(baby?.b_weight || "");
   const [imageFile, setImageFile] = useState(null);
 
   const handleImageChange = (e) => {
@@ -31,8 +29,6 @@ function Edit_profile({ baby, onClose, onSuccess }) {
       const babyData = {
         b_name,
         b_birth,
-        b_height: Number(b_height),
-        b_weight: Number(b_weight),
         b_image: imagePath,
       };
 
@@ -53,10 +49,10 @@ function Edit_profile({ baby, onClose, onSuccess }) {
       <h2 className="baby-edit-title">아이 정보 수정</h2>
 
       <form onSubmit={handleUpdateBaby} className="baby-edit-form">
-        <div className="input-group">
-          <label className="input-label">아이 이름</label>
+        <div className="baby-edit-input-group">
+          <label className="baby-edit-input-label">아이 이름</label>
           <input
-            className="input-field"
+            className="baby-edit-input-field"
             type="text"
             placeholder="아이 이름"
             value={b_name}
@@ -64,53 +60,30 @@ function Edit_profile({ baby, onClose, onSuccess }) {
           />
         </div>
 
-        <div className="input-group">
-          <label className="input-label">생년월일</label>
+        <div className="baby-edit-input-group">
+          <label className="baby-edit-input-label">생년월일</label>
           <input
-            className="input-field"
+            className="baby-edit-input-field"
             type="date"
             value={b_birth}
             onChange={(e) => setB_birth(e.target.value)}
           />
         </div>
 
-        <div className="input-group double-input">
-          <div className="input-half">
-            <label className="input-label">키 (cm)</label>
-            <input
-              className="input-field"
-              type="number"
-              placeholder="예: 65.0"
-              value={b_height}
-              onChange={(e) => setB_height(e.target.value)}
-            />
-          </div>
-          <div className="input-half">
-            <label className="input-label">몸무게 (kg)</label>
-            <input
-              className="input-field"
-              type="number"
-              placeholder="예: 7.2"
-              value={b_weight}
-              onChange={(e) => setB_weight(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="file-upload-group">
-          <label className="input-label">아이 사진 변경</label>
-          <input 
-            className="file-input-field" 
-            type="file" 
-            accept="image/*" 
-            onChange={handleImageChange} 
+        <div className="baby-edit-file-upload-group">
+          <label className="baby-edit-input-label">아이 사진 변경</label>
+          <input
+            className="baby-edit-file-input-field"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
           />
-          {imageFile && <p className="file-name-text">첨부됨: {imageFile.name}</p>}
+          {imageFile && <p className="baby-edit-file-name-text">첨부됨: {imageFile.name}</p>}
         </div>
 
-        <div className="btn-group">
-          <button type="submit" className="submit-btn">수정하기</button>
-          <button type="button" className="cancel-btn" onClick={onClose}>취소</button>
+        <div className="baby-edit-btn-group">
+          <button type="submit" className="baby-edit-submit-btn">수정하기</button>
+          <button type="button" className="baby-edit-cancel-btn" onClick={onClose}>취소</button>
         </div>
       </form>
     </div>

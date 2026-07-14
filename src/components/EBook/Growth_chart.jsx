@@ -10,6 +10,7 @@ const PAD = { top: 30, right: 24, bottom: 28, left: 24 };
 const MIN_CHART_W = 300;
 const POINT_SPACING_BY_MODE = { "1m": 64, "6m": 35, all: 20 };
 const Y_PADDING = 2;
+const TOOLTIP_W = 90;
 const TOOLTIP_W_DIFF = 122;
 const TOOLTIP_H = 40;
 const DRAG_THRESHOLD = 4; // 이 픽셀 이상 움직여야 "드래그"로 인정 (짧은 클릭과 구분)
