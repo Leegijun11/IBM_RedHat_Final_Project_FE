@@ -271,7 +271,7 @@ function Diary_list() {
                                 }}
                                 style={{ margin: 0 }} 
                             >
-                                삭제
+                                X
                             </button>
                         </div>
                     </div>

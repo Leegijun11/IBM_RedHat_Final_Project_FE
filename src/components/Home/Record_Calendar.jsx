@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css'; // 리액트 캘린더 기본 CSS (필수)
-import { useNavigate } from "react-router-dom"; // 뒤로가기 버튼용
-import { getBabyLogs } from "../../services/logs_api";
+import 'react-calendar/dist/Calendar.css'; 
+import { useNavigate } from "react-router-dom"; 
+import { getBabyLogs, editLog, deleteLog } from "../../services/logs_api"; 
 import { getCurrentBaby } from "../../services/partner_api";
-import "../../styles/record_calendar.css"; // 커스텀 CSS 연결
+import "../../styles/record_calendar.css"; 
 
 function Record_Calendar() {
     const navigate = useNavigate();
@@ -12,6 +12,8 @@ function Record_Calendar() {
     const [logs, setLogs] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [markedDates, setMarkedDates] = useState(new Set());
+    const [editingLogId, setEditingLogId] = useState(null);
+    const [editContent, setEditContent] = useState("");  
 
     useEffect(() => {
         const init = async () => {
@@ -37,10 +39,61 @@ function Record_Calendar() {
         if (view === 'month') {
             const dateStr = formatDate(date);
             if (markedDates.has(dateStr)) {
-                return <div className="marked-dot">●</div> // 점 디자인을 위한 클래스 추가
+                return <div className="marked-dot">●</div> 
             }
         }
         return null;
+    };
+
+    const handleDelete = async (l_id) => {
+        if (window.confirm("이 기록을 정말 삭제하시겠습니까?")) {
+            try {
+                await deleteLog(l_id);
+                alert("삭제되었습니다.");
+                
+                setLogs(prevLogs => {
+                    const newLogs = prevLogs.filter(log => log.l_id !== l_id);
+                    const newDateStrings = newLogs.map(log => log.l_date.split("T")[0]);
+                    setMarkedDates(new Set(newDateStrings));
+                    return newLogs;
+                });
+            } catch (error) {
+                console.error("삭제 실패:", error);
+                alert("삭제에 실패했습니다.");
+            }
+        }
+    };
+
+    const handleEditClick = (log) => {
+        setEditingLogId(log.l_id);
+        setEditContent(log.l_content);  
+    };
+
+    const handleEditCancel = () => {
+        setEditingLogId(null);
+        setEditContent("");
+    };
+
+    const handleEditSave = async (l_id) => {
+        if (!editContent.trim()) {
+            alert("내용을 입력해주세요.");
+            return;
+        }
+
+        try {
+            await editLog(l_id, { l_content: editContent });
+            alert("수정되었습니다.");
+
+            setLogs(prevLogs => prevLogs.map(log => 
+                log.l_id === l_id ? { ...log, l_content: editContent } : log
+            ));
+            
+            setEditingLogId(null);
+            setEditContent("");
+        } catch (error) {
+            console.error("수정 실패:", error);
+            alert("수정에 실패했습니다.");
+        }
     };
 
     const selectedDateStr = formatDate(selectedDate);
@@ -48,25 +101,22 @@ function Record_Calendar() {
 
     return (
         <div className="record-calendar-container">
-            {/* 1. 커스텀 헤더 */}
             <div className="calendar-page-header">
                 <button className="back-btn" onClick={() => navigate(-1)}>← 뒤로</button>
                 <h2>기록 조회 📖</h2>
             </div>
             
-            {/* 2. 캘린더 영역 (카드 형태) */}
             <div className="calendar-wrapper">
                 <Calendar 
                     onChange={setSelectedDate}
                     value={selectedDate}
                     tileContent={tileContent}
-                    formatDay={(locale, date) => date.getDate()} // '1일', '2일'에서 '일' 글자 제거
-                    next2Label={null} // '>>' 버튼 숨김 (깔끔한 UI)
-                    prev2Label={null} // '<<' 버튼 숨김
+                    formatDay={(locale, date) => date.getDate()} 
+                    next2Label={null} 
+                    prev2Label={null} 
                 />
             </div>
 
-            {/* 3. 선택된 날짜의 기록 리스트 */}
             <div className="record-list-container">
                 <h3 className="record-list-title">
                     {new Date(selectedDate).getMonth() + 1}월 {new Date(selectedDate).getDate()}일의 기록
@@ -76,7 +126,29 @@ function Record_Calendar() {
                     {logsForSelectedDate.length > 0 ? (
                         logsForSelectedDate.map(log => (
                             <div key={log.l_id} className="record-card">
-                                <p>{log.l_content}</p>
+                                {editingLogId === log.l_id ? (
+                                    <div className="record-edit-mode">
+                                        <textarea 
+                                            className="record-edit-textarea"
+                                            value={editContent} 
+                                            onChange={(e) => setEditContent(e.target.value)} 
+                                            rows="3"
+                                            placeholder="수정할 내용을 입력해주세요"
+                                        />
+                                        <div className="edit-action-group">
+                                            <button className="edit-action-btn edit-cancel-btn" onClick={handleEditCancel}>취소</button>
+                                            <button className="edit-action-btn edit-submit-btn" onClick={() => handleEditSave(log.l_id)}>저장</button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <p>{log.l_content}</p>
+                                        <div className="record-card-actions">
+                                            <button className="record-action-btn edit-btn" onClick={() => handleEditClick(log)}>수정</button>
+                                            <button className="record-action-btn delete-btn" onClick={() => handleDelete(log.l_id)}>삭제</button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         ))
                     ) : (
