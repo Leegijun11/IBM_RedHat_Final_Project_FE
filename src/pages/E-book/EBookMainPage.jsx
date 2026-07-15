@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getEBook } from "../../services/ebook_api";
-import { getMilestones } from "../../services/milestone_api";
+import { getEBook, deleteEBook } from "../../services/ebook_api"; 
+import { getAchievedCount } from "../../services/milestone_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import GrowthChart from "../../components/EBook/Growth_chart";
 import BookCard from "../../components/EBook/Book_card";
@@ -16,24 +16,12 @@ function EBookMainPage() {
 
     const [books, setBooks] = useState([]);
     const [selectedBook, setSelectedBook] = useState(null);
-    const [baby, setBaby] = useState(null);          // ✅ 추가: 아이 전체 정보를 여기서만 보관
+    const [baby, setBaby] = useState(null);
     const [babyAge, setBabyAge] = useState(0);
     const [tab, setTab] = useState("growth");
 
-    const [totalMilestones, setTotalMilestones] = useState(0);
+    const [totalMilestones, setTotalMilestones] = useState(61);
     const [achievedMilestones, setAchievedMilestones] = useState(0);
-
-    const getTargetAge = (months) => {
-        if (months < 2) return 2;
-        if (months < 4) return 4;
-        if (months < 6) return 6;
-        if (months < 9) return 9;
-        if (months < 12) return 12;
-        if (months < 24) return 24;
-        if (months < 36) return 36;
-        if (months < 48) return 48;
-        return 60;
-    };
 
     useEffect(() => {
         const fetchInitData = async () => {
@@ -45,7 +33,7 @@ function EBookMainPage() {
                     return;
                 }
 
-                setBaby(babyData);   // ✅ id뿐 아니라 전체 객체 저장
+                setBaby(babyData);
 
                 const birthDate = new Date(babyData.b_birth);
                 const today = new Date();
@@ -60,13 +48,10 @@ function EBookMainPage() {
                     setBooks(Array.isArray(result) ? result : []);
                 } catch { setBooks([]); }
 
+                // 전체 달성 마일스톤 수 조회
                 try {
-                    const targetAge = getTargetAge(finalAge);
-                    const milestoneData = await getMilestones(babyData.b_id, targetAge, "");
-                    if (Array.isArray(milestoneData)) {
-                        setTotalMilestones(milestoneData.length);
-                        setAchievedMilestones(milestoneData.filter(m => m.is_achieved).length);
-                    }
+                    const { count } = await getAchievedCount(babyData.b_id);
+                    setAchievedMilestones(count);
                 } catch { }
 
             } catch (error) {
@@ -76,6 +61,22 @@ function EBookMainPage() {
         };
         fetchInitData();
     }, [navigate]);
+
+    const handleDeleteBook = async (s_id) => {
+        if (window.confirm("이 디지털북을 정말 삭제하시겠습니까?")) {
+            try {
+                await deleteEBook(s_id);
+                alert("디지털 북 삭제되었습니다.");
+                setBooks(books.filter(book => book.s_id !== s_id));
+                if (selectedBook && selectedBook.s_id === s_id) {
+                    setSelectedBook(null);
+                }
+            } catch (error) {
+                console.error(error);
+                alert("삭제에 실패했습니다.");
+            }
+        }
+    };
 
     const achievedPct = Math.min(Math.round((achievedMilestones / 8) * 100), 100);
     const canCreateBook = achievedMilestones >= 8 && achievedMilestones <= 16;
@@ -113,13 +114,22 @@ function EBookMainPage() {
                     <p className="empty-book">생성된 디지털북이 없습니다.</p>
                 ) : (
                     books.map((book) => (
-                        <BookCard key={book.s_id} book={book} onDetailClick={() => setSelectedBook(book)} />
+                        <BookCard
+                            key={book.s_id}
+                            book={book}
+                            onDetailClick={() => setSelectedBook(book)}
+                            onDeleteClick={() => handleDeleteBook(book.s_id)}
+                        />
                     ))
                 )}
             </div>
 
             {selectedBook && (
-                <BookDetail book={selectedBook} onClose={() => setSelectedBook(null)} />
+                <BookDetail
+                    book={selectedBook}
+                    onClose={() => setSelectedBook(null)}
+                    onDeleteClick={() => handleDeleteBook(selectedBook.s_id)}
+                />
             )}
 
             <div className="ebook-tab">

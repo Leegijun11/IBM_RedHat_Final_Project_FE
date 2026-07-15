@@ -1,10 +1,23 @@
 import "../../styles/Book_card.css";
 
-function Book_card({ book, onDetailClick }) {
+function Book_card({ book, onDetailClick, onDeleteClick }) {
     return (
         <div className="book-card-container">
+            <button 
+                className="book-delete-btn" 
+                onClick={(e) => {
+                    e.stopPropagation(); 
+                    onDeleteClick();
+                }}
+            >
+                삭제
+            </button>
+
             {/* 우측 상단 디테일 보기 버튼 (디자인을 해치지 않는 반투명 스타일) */}
-            <button className="detail-link-btn" onClick={onDetailClick}>
+            <button className="detail-link-btn" onClick={(e) => {
+                e.stopPropagation();
+                onDetailClick();
+            }}>
                 책 디테일 보기 〉
             </button>
 
@@ -19,7 +32,7 @@ function Book_card({ book, onDetailClick }) {
             </div>
 
             {/* 메인 코랄색 주문 버튼 */}
-            <button className="order-floating-btn">
+            <button className="order-floating-btn" onClick={(e) => e.stopPropagation()}>
                 <span className="btn-icon">📖</span> 실물 책 주문
             </button>
         </div>

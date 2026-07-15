@@ -206,3 +206,116 @@
     font-weight: 600 !important;
     color: #A3968C !important;
 }
+
+/* ==========================================================================
+   5. 수정/삭제 모드 및 버튼 UI (버튼 크기 작게, 완벽한 1:1 비율 고정)
+   ========================================================================== */
+.record-card-actions {
+    display: flex !important;
+    justify-content: flex-end !important; /* 우측으로 깔끔하게 밀착 */
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 16px !important;
+    width: 100% !important;
+}
+
+.record-action-btn {
+    flex: 0 0 64px !important; /* 버튼이 맘대로 늘어나지 못하게 64px로 강제 고정 */
+    width: 64px !important;
+    height: 36px !important;   /* 높이도 작고 아담하게 고정 */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #FAF4EF !important;
+    color: #A3968C !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.record-action-btn:active {
+    background-color: #EAE2DB !important;
+    transform: scale(0.95) !important;
+}
+
+/* 삭제 버튼은 조금 더 경고성 있게 연한 빨강 톤 */
+.record-action-btn.delete-btn {
+    color: #F57E5C !important;
+    background-color: #FFF5F2 !important;
+}
+
+/* 수정 모드 영역 (Textarea + 저장/취소 버튼) */
+.record-edit-mode {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.record-edit-textarea {
+    width: 100% !important;
+    padding: 14px 16px !important;
+    border-radius: 12px !important;
+    border: 1px solid #EAE2DB !important;
+    background-color: #FDF9F5 !important;
+    font-size: 15px !important;
+    color: #5D5046 !important;
+    box-sizing: border-box !important;
+    font-family: inherit !important;
+    resize: none !important;
+    outline: none !important;
+    transition: border-color 0.2s ease !important;
+}
+
+.record-edit-textarea:focus {
+    border-color: #F07C60 !important;
+    background-color: #FFFFFF !important;
+}
+
+/* 앱 규칙인 50:50 대칭 취소/저장 버튼 그룹 (수정 모드일 때 뜨는 큰 버튼) */
+.edit-action-group {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    width: 100% !important;
+}
+
+.edit-action-btn {
+    flex: 1 1 0% !important; /* 강제 50:50 비율 */
+    height: 48px !important; 
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    outline: none !important;
+    border: none !important;
+    transition: transform 0.1s ease !important;
+}
+
+.edit-action-btn:active {
+    transform: scale(0.97) !important;
+}
+
+.edit-cancel-btn {
+    background-color: #FFFFFF !important;
+    border: 1px solid #EAE2DB !important;
+    color: #A3968C !important;
+}
+
+.edit-submit-btn {
+    background-color: #F07C60 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(240, 124, 96, 0.25) !important;
+}

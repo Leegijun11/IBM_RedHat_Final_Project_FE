@@ -141,3 +141,32 @@
 .btn-icon {
   font-size: 16px;
 }
+
+/* ==========================================================================
+   추가된 삭제 버튼 (좌측 하단 배치, 반투명 유리 질감)
+   ========================================================================== */
+.book-delete-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.2); /* 배경에 스며드는 반투명 */
+  border: 1px solid rgba(255, 255, 255, 0.4); /* 얇고 은은한 테두리 */
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(4px); /* 뒤쪽 코랄색이 살짝 번져보이는 효과 */
+  transition: all 0.2s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 터치/클릭 시 피드백 (모바일 앱 감성) */
+.book-delete-btn:active {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0.95);
+}

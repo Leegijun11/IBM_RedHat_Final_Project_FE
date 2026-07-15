@@ -15,6 +15,12 @@ export const deleteLog = async (l_id) => {
     return response.data;
 };
 
+export const editLog=async (l_id, logData)=>{
+    const response=await api.post("/logs/edit", logData, {
+        params: {l_id}})
+    return response.data;
+}
+
 export const getLogStreak = async (b_id) => {
     const response = await api.get("/logs/streak", { params: { b_id } });
     return response.data;
