@@ -13,6 +13,13 @@ export const getMilestones = async (b_id, months, category, target_age) => {
   return response.data;
 };
 
+export const getAchievedCount = async (b_id) => {
+    const response = await api.get("/milestones/achieved/count", {
+        params: { b_id }
+    });
+    return response.data;
+};
+
 // 사용자가 마일스톤 달성 체크
 export const checkMilestone = async (b_id, milestone_id, is_achieved) => {
   const response = await api.post("/milestones/check", {
