@@ -213,12 +213,33 @@ function Diary_list() {
                         className="diary-card"
                         onClick={() => navigate(`/diary/${diary.d_id}`)}
                     >
-                        {/* 1. 상단 감정 라벨 배치 */}
-                        {diary.d_label && (
-                            <div style={{ marginBottom: "6px" }}>
-                                <span className="diary-label-chip">✨ {diary.d_label}</span>
+                        {/* 1. 상단 영역: 감정 라벨과 삭제 버튼을 양끝으로 배치 (수정됨) */}
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "6px" }}>
+                            <div>
+                                {diary.d_label && (
+                                    <span className="diary-label-chip">✨ {diary.d_label}</span>
+                                )}
                             </div>
-                        )}
+                            
+                            {/* 삭제 버튼을 우측 상단으로 이동 */}
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation(); // 카드 상세 이동 클릭 이벤트 전파 차단
+                                    handleDeleteDiary(diary.d_id);
+                                }}
+                                style={{ 
+                                    margin: 0, 
+                                    padding: "4px 8px", 
+                                    background: "transparent", 
+                                    border: "none", 
+                                    color: "var(--text-hint, #999)", 
+                                    cursor: "pointer",
+                                    fontSize: "14px"
+                                }}
+                            >
+                                ✕
+                            </button>
+                        </div>
 
                         {/* 텍스트 내용과 이미지를 가로(Flex)로 배치하여 레이아웃을 최적화 */}
                         <div style={{ display: "flex", gap: "14px", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
@@ -259,20 +280,11 @@ function Diary_list() {
                             )}
                         </div>
 
-                        {/* 3. 하단 정보 영역 (작성일 및 삭제 버튼 정돈) */}
+                        {/*  3. 하단 정보 영역: 삭제 버튼이 제거되고 작성일만 남음 (수정됨) */}
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px" }}>
                             <span style={{ fontSize: "12px", color: "var(--text-hint)", fontWeight: "600" }}>
                                 {diary.d_date ? diary.d_date.split("T")[0] : ""}
                             </span>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation(); // 카드 상세 이동 클릭 이벤트 전파 차단
-                                    handleDeleteDiary(diary.d_id);
-                                }}
-                                style={{ margin: 0 }} 
-                            >
-                                X
-                            </button>
                         </div>
                     </div>
                 ))
