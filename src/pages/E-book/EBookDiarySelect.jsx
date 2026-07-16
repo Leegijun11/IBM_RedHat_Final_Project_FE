@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { createEBook } from "../../services/ebook_api";
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/EBookCreate.css";
+import "../../styles/Diary.css";
 
 import api from "../../hooks/api";
 
@@ -62,11 +63,37 @@ function EBookDiarySelect() {
         end_date
     } = state || {};
 
+    //디지털북 생성 로딩창
     const [diaries, setDiaries] = useState([]);
     const [selectedIds, setSelectedIds] = useState([]);
     const [loading, setLoading] = useState(false);
     const [detailDiary, setDetailDiary] = useState(null);
 
+    const [tipIndex, setTipIndex] = useState(0);
+    const tipTimerRef = useRef(null);
+
+    const EBOOK_LOADING_MESSAGES = [
+        "아이의 이야기가\n한 장 한 장 엮이고 있어요",
+        "사진 속 순간이\n동화 속 장면으로 바뀌는 중이에요",
+        "흩어진 하루하루가\n하나의 이야기가 되는 중이에요",
+        "완성까지 조금만 기다려주세요,\n곧 첫 페이지가 열려요",
+    ];
+
+    const startTipRotation = () => {
+        setTipIndex(0);
+        let i = 0;
+        tipTimerRef.current = setInterval(() => {
+            i = (i + 1) % EBOOK_LOADING_MESSAGES.length;
+            setTipIndex(i);
+        }, 3500);
+    };
+
+    const stopTipRotation = () => {
+        if (tipTimerRef.current) {
+            clearInterval(tipTimerRef.current);
+            tipTimerRef.current = null;
+        }
+    };
 
     useEffect(() => {
         if (!b_id) {
@@ -123,6 +150,7 @@ function EBookDiarySelect() {
 
     const handleCreate = async () => {
         setLoading(true);
+        startTipRotation();
 
         try {
             await createEBook(
@@ -152,6 +180,7 @@ function EBookDiarySelect() {
             alert(msg);
 
         } finally {
+            stopTipRotation();
             setLoading(false);
         }
     };
@@ -348,6 +377,17 @@ function EBookDiarySelect() {
 
             )}
 
+            {loading && (
+                <div className="diary-loading-overlay">
+                    <div className="diary-loading-card">
+                        <div className="diary-loading-spinner" />
+                        <p className="diary-loading-header">디지털북 제작 중</p>
+                        <p key={tipIndex} className="diary-loading-tip">
+                            {EBOOK_LOADING_MESSAGES[tipIndex % EBOOK_LOADING_MESSAGES.length]}
+                        </p>
+                    </div>
+                </div>
+            )}
 
             <NaviBar />
 
