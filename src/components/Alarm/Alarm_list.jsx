@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getAlarm, deleteAlarm } from "../../services/alarm_api";
 import { createPartner } from "../../services/partner_api";
 import "../../styles/Alarm_list.css";
@@ -17,9 +17,12 @@ function Alarm_list({ onAccept }) {
         }
     };
 
+    useEffect(() => {
+        fetchAlarms();
+    }, [])
+
     const handleOpen = () => {
-        if (!isOpen) fetchAlarms();
-        setIsOpen((prev) => !prev);
+        setIsOpen((prev)=>!prev)
     };
 
     const handleAccept = async (alarm) => {
