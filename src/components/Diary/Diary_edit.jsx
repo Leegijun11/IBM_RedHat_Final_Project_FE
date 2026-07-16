@@ -4,7 +4,7 @@ import { getDiaryDetail, editDiary } from "../../services/diary_api";
 import { uploadBabyImage } from "../../services/babyimage_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import NaviBar from "../../components/common/NaviBar"; 
-import "../../styles/diary_edit.css"; // CSS 경로
+import "../../styles/Diary_edit.css"; // CSS 경로
 
 const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 

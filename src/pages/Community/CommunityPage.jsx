@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from "../../hooks/useAuth"; 
 import { getCommunity, toggleCommunityLike } from "../../services/community_api";
 import { getBabies } from "../../services/baby_api";
-import CommunityCard from "../../components/Community/community_card"; 
+import CommunityCard from "../../components/community/community_card"; 
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/CommunityPage.css"; // 지정하신 styles 폴더 경로 유지
 
