@@ -41,8 +41,9 @@ function Diary_list() {
     const [diaryList, setDiaryList] = useState([]);
     const [bId, setBId] = useState(null);
 
+        // new Date().toISOString().split("T")[0]
     const [selectedDate, setSelectedDate] = useState(
-        new Date().toISOString().split("T")[0]
+        toDateStr(new Date())
     );
 
     const [isFabOpen, setIsFabOpen] = useState(false)
@@ -67,7 +68,7 @@ function Diary_list() {
         }
     };
 
-    // ★ 추가: 한 주(월~일) 동안 일기가 있는 날짜만 모아서 Set으로 저장
+    // 추가: 한 주(월~일) 동안 일기가 있는 날짜만 모아서 Set으로 저장
     const fetchWeekDiaryDates = async (b_id, weekDates) => {
         try {
             const results = await Promise.allSettled(
@@ -119,7 +120,7 @@ function Diary_list() {
             await deleteDiary(d_id);
             alert("일기가 삭제되었습니다.");
             handleCreateDiaryList(bId);
-            fetchWeekDiaryDates(bId, getWeekDates(selectedDate)); // ★ 추가: 삭제 후 점 표시도 갱신
+            fetchWeekDiaryDates(bId, getWeekDates(selectedDate));
         } catch (error) {
             console.log(error);
             alert("일기 삭제에 실패하였습니다.");
