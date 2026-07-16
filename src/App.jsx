@@ -20,7 +20,7 @@ import Tip from "./pages/Tip/Tip";
 import Partner from "./pages/Partner/Partner";
 import { AuthProvider } from './contexts/AuthContext';
 import Diary_detail from './components/Diary/Diary_detail';
-import EBookDiarySelect from './pages/E-book/EBookDiarySelecy';
+import EBookDiarySelect from './pages/E-book/EBookDiarySelect';
 
 const App = () => {
   return (
