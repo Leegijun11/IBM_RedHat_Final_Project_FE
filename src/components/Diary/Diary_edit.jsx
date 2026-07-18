@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getDiaryDetail, editDiary } from "../../services/diary_api";
 import { uploadBabyImage } from "../../services/babyimage_api";
 import { getCurrentBaby } from "../../services/partner_api";
+import { useModal } from "../../hooks/useModal";
 import NaviBar from "../../components/common/NaviBar"; 
 import "../../styles/diary_edit.css"; // CSS 경로
 
@@ -11,6 +12,7 @@ const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"
 const Diary_edit = () => {
     const navigate = useNavigate();
     const { d_id } = useParams(); 
+    const { showAlert } = useModal(); 
     
     const [babyID, setBabyID] = useState(null);
     const [diaryDate, setDiaryDate] = useState("");
@@ -77,7 +79,7 @@ const Diary_edit = () => {
 
             } catch (error) {
                 console.error("일기 불러오기 실패:", error);
-                alert("일기를 불러올 수 없습니다.");
+                showAlert("일기를 불러올 수 없습니다.");
                 navigate(-1);
             }
         };
@@ -113,8 +115,8 @@ const Diary_edit = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!diaryLabel) return alert("오늘 아이의 감정을 선택해주세요.");
-        if (!diaryTitle.trim() || !diaryContent.trim()) return alert("제목과 내용을 모두 입력해주세요.");
+        if (!diaryLabel) return showAlert("오늘 아이의 감정을 선택해주세요.");
+        if (!diaryTitle.trim() || !diaryContent.trim()) return showAlert("제목과 내용을 모두 입력해주세요.");
 
         let editedImageUrl = existingImageUrl;
 
@@ -126,7 +128,7 @@ const Diary_edit = () => {
                     editedImageUrl = path;
                 }
             } catch (error) {
-                alert("이미지 업로드에 실패했습니다.");
+                showAlert("이미지 업로드에 실패했습니다.");
                 return;
             }
         }
@@ -147,11 +149,11 @@ const Diary_edit = () => {
 
         try {
             await editDiary(d_id, updateData);
-            alert("일기가 성공적으로 수정되었습니다!");
+            showAlert("일기가 성공적으로 수정되었습니다!");
             navigate(`/diary/${d_id}`);
         } catch (error) {
             console.error("일기 수정 오류:", error);
-            alert("일기 수정에 실패했습니다.");
+            showAlert("일기 수정에 실패했습니다.");
         }
     };
 
