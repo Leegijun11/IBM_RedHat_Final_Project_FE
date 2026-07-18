@@ -6,7 +6,7 @@ export const ModalContext = createContext();
 export function ModalProvider({ children }) {
   const [modal, setModal] = useState(null);
 
-  const showAlert = (message) => {
+  const showAlert = (message, type = "sucess") => {
     return new Promise((resolve) => {
       setModal({
         message,
@@ -23,6 +23,7 @@ export function ModalProvider({ children }) {
     return new Promise((resolve) => {
       setModal({
         message,
+        type: "confirm",
         showCancel: true,
         onConfirm: () => {
           setModal(null);
