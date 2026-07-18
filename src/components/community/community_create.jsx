@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createCommunity, uploadForumImage } from "../../services/community_api";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/community_create.css"; 
 
 const CommunityCreate = () => {
     const navigate = useNavigate();
+    const { showAlert } = useModal(); 
 
     const [title, setTitle] = useState("");
     const [context, setContext] = useState("");
@@ -42,7 +44,7 @@ const CommunityCreate = () => {
         e.preventDefault();
 
         if (!title.trim() || !context.trim()) {
-            alert("제목과 내용을 모두 입력해주세요.");
+            showAlert("제목과 내용을 모두 입력해주세요.");
             return;
         }
 
@@ -53,7 +55,7 @@ const CommunityCreate = () => {
                 uploadedImageUrl = response.image_url;
             } catch(error){
                 console.error("이미지 업로드 실패:", error);
-                alert("이미지 업로드에 실패했습니다.");
+                showAlert("이미지 업로드에 실패했습니다.");
                 return;
             }
         }
@@ -74,10 +76,10 @@ const CommunityCreate = () => {
 
         try {
             await createCommunity(postData);
-            alert("새 게시물이 성공적으로 등록되었습니다!");
+            showAlert("새 게시물이 성공적으로 등록되었습니다!");
             navigate('/community');
         } catch (error) {
-            alert("게시물 작성에 실패했습니다.");
+            showAlert("게시물 작성에 실패했습니다.");
         }
     };
 
