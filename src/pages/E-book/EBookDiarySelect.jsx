@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { createEBook } from "../../services/ebook_api";
+import { useModal } from "../../hooks/useModal";
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/EBookCreate.css";
 import "../../styles/Diary.css";
@@ -56,6 +57,7 @@ const getDiaryImageUrl = (image) => {
 function EBookDiarySelect() {
     const navigate = useNavigate();
     const { state } = useLocation();
+    const { showAlert } = useModal(); 
 
     const {
         b_id,
@@ -166,7 +168,7 @@ function EBookDiarySelect() {
                 selectedIds
             );
 
-            alert("디지털북이 생성되었습니다!");
+            showAlert("디지털북이 생성되었습니다!");
 
             navigate("/ebook");
 
@@ -177,7 +179,7 @@ function EBookDiarySelect() {
                 error.response?.data?.detail ||
                 "생성에 실패했습니다.";
 
-            alert(msg);
+            showAlert(msg);
 
         } finally {
             stopTipRotation();
