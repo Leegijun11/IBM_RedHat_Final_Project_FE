@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getEBook, deleteEBook } from "../../services/ebook_api"; 
 import { getAchievedCount } from "../../services/milestone_api";
 import { getCurrentBaby } from "../../services/partner_api";
+import { useModal } from "../../hooks/useModal";
 import GrowthChart from "../../components/EBook/Growth_chart";
 import BookCard from "../../components/EBook/Book_card";
 import BookDetail from "../../components/EBook/Book_detail";
@@ -13,7 +14,7 @@ import "../../styles/EBookMainPage.css";
 
 function EBookMainPage() {
     const navigate = useNavigate();
-
+    const { showAlert, showConfirm } = useModal(); 
     const [books, setBooks] = useState([]);
     const [selectedBook, setSelectedBook] = useState(null);
     const [baby, setBaby] = useState(null);
@@ -28,7 +29,7 @@ function EBookMainPage() {
             try {
                 const babyData = await getCurrentBaby();
                 if (!babyData) {
-                    alert("등록된 아기 정보가 없습니다.");
+                    showAlert("등록된 아기 정보가 없습니다.");
                     navigate("/babyinfo");
                     return;
                 }
@@ -56,25 +57,26 @@ function EBookMainPage() {
 
             } catch (error) {
                 console.error(error);
-                alert("정보를 불러오는 중 오류가 발생했습니다.");
+                showAlert("정보를 불러오는 중 오류가 발생했습니다.");
             }
         };
         fetchInitData();
     }, [navigate]);
 
     const handleDeleteBook = async (s_id) => {
-        if (window.confirm("이 디지털북을 정말 삭제하시겠습니까?")) {
-            try {
-                await deleteEBook(s_id);
-                alert("디지털 북 삭제되었습니다.");
-                setBooks(books.filter(book => book.s_id !== s_id));
-                if (selectedBook && selectedBook.s_id === s_id) {
-                    setSelectedBook(null);
-                }
-            } catch (error) {
-                console.error(error);
-                alert("삭제에 실패했습니다.");
+        const confirmed = await showConfirm("이 디지털북을 정말 삭제하시겠습니까?");
+        if (!confirmed) return;
+
+        try {
+            await deleteEBook(s_id);
+            showAlert("디지털 북 삭제되었습니다.");
+            setBooks(books.filter(book => book.s_id !== s_id));
+            if (selectedBook && selectedBook.s_id === s_id) {
+                setSelectedBook(null);
             }
+        } catch (error) {
+            console.error(error);
+            showAlert("삭제에 실패했습니다.");
         }
     };
 
