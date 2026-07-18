@@ -19,7 +19,7 @@ export function ModalProvider({ children }) {
       });
     });
   };
-
+ 
   const showConfirm = (message) => {
     return new Promise((resolve) => {
       setModal({
