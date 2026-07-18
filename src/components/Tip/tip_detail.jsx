@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { getTipDetail } from "../../services/tip_api";
+import { useModal } from "../../hooks/useModal";
 
 function Tip_detail() {
     const [t_id, setT_id] = useState("");
     const [tip, setTip] = useState(null);
+    const { showAlert } = useModal();
 
     // 팁 상세 조회
     const handleGetTipDetail = async () => {
@@ -17,7 +19,7 @@ function Tip_detail() {
         } catch (error) {
             console.log(error);
 
-            alert("Tip 정보를 불러오는데 실패하였습니다.");
+            showAlert("Tip 정보를 불러오는데 실패하였습니다.");
         }
     };
 
