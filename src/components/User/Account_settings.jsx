@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { logoutUser, deleteUser } from "../../services/user_api";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/Account_settings.css"; // 🔥 스타일 파일 연결
 
 function Account_settings() {
   const navigate = useNavigate();
+  const { showAlert, showConfirm } = useModal();
 
   // 로그아웃
   const handleLogout = async () => {
@@ -11,17 +13,17 @@ function Account_settings() {
       const result = await logoutUser();
       console.log(result);
 
-      alert("정상적으로 로그아웃 되었습니다.");
+      showAlert("정상적으로 로그아웃 되었습니다.");
       navigate("/");
     } catch (error) {
       console.log(error);
-      alert("로그아웃 실패.");
+      showAlert("로그아웃 실패");
     }
   };
 
   // 회원탈퇴
   const handleDeleteAccount = async () => {
-    const check = window.confirm(
+    const check = await showConfirm(
       "정말 탈퇴하시겠습니까? 탈퇴 시 모든 정보가 삭제되며 복구할 수 없습니다."
     );
 
@@ -29,12 +31,12 @@ function Account_settings() {
 
     try {
       await deleteUser();
-      alert("회원 탈퇴가 완료되었습니다.");
+      showAlert("회원 탈퇴가 완료되었습니다.");
       navigate("/");
     } catch (error) {
       console.log(error);
       const message = error.response?.data?.detail || "회원 탈퇴에 실패하였습니다.";
-      alert(message);
+      showAlert(message);
     }
   };
 
