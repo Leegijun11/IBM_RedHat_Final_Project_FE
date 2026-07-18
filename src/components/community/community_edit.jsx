@@ -3,12 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getCommunityDetail, updateCommunity } from "../../services/community_api";
 import { uploadForumImage } from "../../services/community_api";
 import { getImageUrl } from "../../hooks/imageUrl";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/community_edit.css"; // 소문자 파일명 경로 규칙 적용 완료
 
 const CommunityEdit = () => {
     const navigate = useNavigate();
     const { f_id } = useParams(); 
-
+    const { showAlert } = useModal(); 
     const [title, setTitle] = useState("");
     const [context, setContext] = useState("");
     const [imageFile, setImageFile] = useState(null);
@@ -37,7 +38,7 @@ const CommunityEdit = () => {
                 });
             } catch (error) {
                 console.error("게시글 불러오기 실패:", error);
-                alert("게시글을 불러올 수 없습니다.");
+                showAlert("게시글을 불러올 수 없습니다.");
             }
         };
         fetchPost();
@@ -71,13 +72,13 @@ const CommunityEdit = () => {
                 const response=await uploadForumImage(imageFile)
                 editedImageUrl = response.image_url
             }catch(error){
-                alert("이미지 업로드에 실패")
+                showAlert("이미지 업로드 실패")
                 return
             }
         }
 
         if (!title.trim() || !context.trim()) {
-            alert("제목과 내용을 모두 입력해주세요.");
+            showAlert("제목과 내용을 모두 입력해주세요.");
             return;
         }
 
@@ -90,11 +91,11 @@ const CommunityEdit = () => {
 
         try {
             await updateCommunity(f_id, updateData);
-            alert("게시물이 성공적으로 수정되었습니다!");
+            showAlert("게시물이 성공적으로 수정되었습니다!");
             navigate(`/community/${f_id}`);
         } catch (error) {
             console.error("게시물 수정 오류:", error);
-            alert("게시물 수정에 실패했습니다.");
+            showAlert("게시물 수정에 실패했습니다.");
         }
     };
 
