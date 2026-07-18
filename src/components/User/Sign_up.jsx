@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { signupUser, uploadUserImage, checkAccount } from "../../services/user_api";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/Sign_up.css";
 
 function Sign_up({ setPage }) {
@@ -14,6 +15,7 @@ function Sign_up({ setPage }) {
     const [imageFile, setImageFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [agreed, setAgreed] = useState(false);
+    const { showAlert } = useModal(); 
 
     const [errors, setErrors] = useState({
         u_account: "", u_name: "", u_nickname: "", u_email: "",
@@ -124,15 +126,15 @@ function Sign_up({ setPage }) {
         if (!u_address.trim()) finalErrors.u_address = "주소를 입력해주세요.";
         if (!confirm_pw.trim()) finalErrors.confirm_pw = "비밀번호를 입력해주세요.";
         if (accountStatus === "unavailable") finalErrors.u_account = "이미 사용중인 아이디입니다.";
-        if (accountStatus === "checking") { alert("아이디 확인 중입니다. 잠시만 기다려주세요."); return; }
+        if (accountStatus === "checking") { showAlert("아이디 확인 중입니다. 잠시만 기다려주세요."); return; }
 
         if (!u_pw.trim()) {
-            alert("비밀번호를 입력해주세요.");
+            showAlert("비밀번호를 입력해주세요.");
             return;
         }
 
         if (!isPasswordValid) {
-            alert("비밀번호 필수 조건을 만족하지 못했습니다. (8자 이상, 숫자 및 특수문자 조합)");
+            showAlert("비밀번호 필수 조건을 만족하지 못했습니다. (8자 이상, 숫자 및 특수문자 조합)");
             return;
         }
 
@@ -141,12 +143,12 @@ function Sign_up({ setPage }) {
 
         if (hasFinalErrors || hasLiveErrors) {
             setErrors(prev => ({ ...prev, ...finalErrors }));
-            alert("미기입 항목 또는 입력 형식을 다시 확인해 주세요.");
+            showAlert("미기입 항목 또는 입력 형식을 다시 확인해 주세요.");
             return;
         }
 
         if (!agreed) {
-            alert("이용약관 및 개인정보 처리방침에 동의해주세요.");
+            showAlert("이용약관 및 개인정보 처리방침에 동의해주세요.");
             return;
         }
 
@@ -161,7 +163,7 @@ function Sign_up({ setPage }) {
                 u_account, u_pw, u_name, u_nickname, u_email, u_phone, u_address, u_image: imagePath,
             });
 
-            alert(`${u_nickname}님 회원가입을 환영합니다.`);
+            showAlert(`${u_nickname}님 회원가입을 환영합니다.`);
             setPage("login");
         } catch (error) {
             console.log(error);
@@ -171,7 +173,7 @@ function Sign_up({ setPage }) {
             } else if (typeof detail === "string") {
                 alert(detail);
             } else {
-                alert("회원가입에 실패하였습니다. 잠시 후 다시 시도해주세요.");
+                showAlert("회원가입에 실패하였습니다. 잠시 후 다시 시도해주세요.");
             }
         }
 
