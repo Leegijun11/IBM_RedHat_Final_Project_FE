@@ -3,12 +3,14 @@ import { loginUser } from "../../services/user_api";
 import { getBabies } from "../../services/baby_api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/Login_form.css"; // 🔥 CSS 연결
 
 function Login_form({ setPage }) {
   const [u_account, setU_account] = useState("");
   const [u_pw, setU_pw] = useState("");
   const { login } = useAuth();
+  const { showAlert } = useModal();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -36,7 +38,7 @@ function Login_form({ setPage }) {
       }
     } catch (error) {
       console.log(error);
-      alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+      showAlert("아이디 또는 비밀번호가 일치하지 않습니다.");
     }
   };
 
