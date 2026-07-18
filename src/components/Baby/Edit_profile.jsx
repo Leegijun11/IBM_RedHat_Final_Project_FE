@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { updateBaby, uploadBabyImage } from "../../services/baby_api";
-import "../../styles/baby_edit_profile.css"; // 🔥 스타일 파일 연결
+import { useModal } from '../../hooks/useModal'; 
+import "../../styles/baby_edit_profile.css"; // 스타일 파일 연결
 
 function Edit_profile({ baby, onClose, onSuccess }) {
   const [b_name, setB_name] = useState(baby?.b_name || "");
   const [b_birth, setB_birth] = useState(baby?.b_birth || "");
   const [imageFile, setImageFile] = useState(null);
+  const {showAlert} = useModal();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -35,7 +37,7 @@ function Edit_profile({ baby, onClose, onSuccess }) {
       const result = await updateBaby(baby.b_id, babyData);
       console.log(result);
 
-      alert("아이 정보를 수정하였습니다.");
+      showAlert("아이 정보를 수정하였습니다.");
       if (onSuccess) onSuccess();
       if (onClose) onClose();
     } catch (error) {
