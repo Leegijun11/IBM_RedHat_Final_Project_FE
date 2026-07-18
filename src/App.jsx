@@ -19,35 +19,38 @@ import EBookMainPage from './pages/E-book/EBookMainPage';
 import Tip from "./pages/Tip/Tip";
 import Partner from "./pages/Partner/Partner";
 import { AuthProvider } from './contexts/AuthContext';
+import { ModalProvider } from './contexts/ModalContext';
 import Diary_detail from './components/Diary/Diary_detail';
 import EBookDiarySelect from './pages/E-book/EBookDiarySelect';
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Routes>
-        <Route path='/' element={<Login/>}/>
-        <Route path='mypage' element={<MyPage/>}/>
-        <Route path='home' element={<Home/>}/>
-        <Route path="/home/gallery" element={<Photo_Gallery />} />
-        <Route path="/record-calendar" element={<Record_Calendar />} />
-        <Route path='community' element={<CommunityPage/>}/>
-        <Route path='community/create' element={<CommunityCreate/>}/>
-        <Route path='community/:f_id' element={<CommunityDetail/>}/>
-        <Route path="/community/edit/:f_id" element={<CommunityEdit />} />
-        <Route path='babyinfo' element={<BabyInfoPage/>}/>
-        <Route path='diary' element={<Diary/>}/>
-        <Route path="/diary/write" element={<Diary_write />} />
-        <Route path="/diary/write/direct" element={<Direct_Diary_write />} />
-        <Route path="/diary/edit/:d_id" element={<Diary_edit />} />
-        <Route path='ebook' element={<EBookMainPage/>}/>
-        <Route path='/ebook/create' element={<EBookCreate/>}/>
-        <Route path="tips" element={<Tip />} />
-        <Route path="partner" element={<Partner />} />
-        <Route path='/diary/:d_id' element={<Diary_detail/>}/>
-        <Route path='/ebook/select' element={<EBookDiarySelect/>}/>
-      </Routes>
-    </AuthProvider>
+    <ModalProvider>
+      <AuthProvider>
+        <Routes>
+          <Route path='/' element={<Login/>}/>
+          <Route path='mypage' element={<MyPage/>}/>
+          <Route path='home' element={<Home/>}/>
+          <Route path="/home/gallery" element={<Photo_Gallery />} />
+          <Route path="/record-calendar" element={<Record_Calendar />} />
+          <Route path='community' element={<CommunityPage/>}/>
+          <Route path='community/create' element={<CommunityCreate/>}/>
+          <Route path='community/:f_id' element={<CommunityDetail/>}/>
+          <Route path="/community/edit/:f_id" element={<CommunityEdit />} />
+          <Route path='babyinfo' element={<BabyInfoPage/>}/>
+          <Route path='diary' element={<Diary/>}/>
+          <Route path="/diary/write" element={<Diary_write />} />
+          <Route path="/diary/write/direct" element={<Direct_Diary_write />} />
+          <Route path="/diary/edit/:d_id" element={<Diary_edit />} />
+          <Route path='ebook' element={<EBookMainPage/>}/>
+          <Route path='/ebook/create' element={<EBookCreate/>}/>
+          <Route path="tips" element={<Tip />} />
+          <Route path="partner" element={<Partner />} />
+          <Route path='/diary/:d_id' element={<Diary_detail/>}/>
+          <Route path='/ebook/select' element={<EBookDiarySelect/>}/>
+        </Routes>
+      </AuthProvider>
+    </ModalProvider>
   );
 };
 
