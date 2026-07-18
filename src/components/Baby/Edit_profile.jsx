@@ -42,7 +42,7 @@ function Edit_profile({ baby, onClose, onSuccess }) {
       if (onClose) onClose();
     } catch (error) {
       console.log(error);
-      alert("아이 정보 수정에 실패하였습니다.");
+      showAlert("아이 정보 수정에 실패하였습니다.");
     }
   };
 
