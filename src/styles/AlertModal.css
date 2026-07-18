@@ -53,9 +53,13 @@
 
 .alert-modal-message {
   font-size: 14.5px;
-  font-weight: 600; /* 700 → 600 */
+  font-weight: 600;
   color: #3A332D;
-  margin-bottom: 4px; /* 리듬: 텍스트-버튼 넓게 */
+  text-align: center;
+  line-height: 1.55;
+  white-space: pre-line;
+  letter-spacing: -0.01em;
+  word-break: keep-all; 
 }
 
 .alert-modal-btn-row {
