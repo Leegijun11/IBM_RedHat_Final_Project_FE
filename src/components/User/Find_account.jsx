@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { findAccount } from "../../services/user_api";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/Find_account.css";
 
 function Find_account({ setPage }) {
@@ -7,15 +8,16 @@ function Find_account({ setPage }) {
   const [u_email, setU_email] = useState("");
   const [u_phone, setU_phone] = useState("");
   const [u_account, setU_account] = useState("");
+  const { showAlert } = useModal();
 
   const handleFindAccount = async (e) => {
     e.preventDefault();
     try {
       const result = await findAccount({ u_name, u_email, u_phone });
       setU_account(result.u_account);
-      alert("아이디를 찾았습니다.");
+      showAlert("아이디를 찾았습니다.");
     } catch (error) {
-      alert("입력하신 정보와 일치하는 회원 정보를 찾을 수 없습니다.");
+      showAlert("입력하신 정보와 일치하는 회원 정보를 찾을 수 없습니다.");
     }
   };
 
