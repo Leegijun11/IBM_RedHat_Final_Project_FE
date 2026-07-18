@@ -17,7 +17,7 @@ function Account_settings() {
       navigate("/");
     } catch (error) {
       console.log(error);
-      showAlert("로그아웃 실패");
+      showAlert("로그아웃 실패", "error");
     }
   };
 
@@ -36,7 +36,7 @@ function Account_settings() {
     } catch (error) {
       console.log(error);
       const message = error.response?.data?.detail || "회원 탈퇴에 실패하였습니다.";
-      showAlert(message);
+      showAlert(message, "error");
     }
   };
 

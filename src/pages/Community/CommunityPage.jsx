@@ -51,7 +51,7 @@ function CommunityPage() {
             } catch (error) {
                 if(error.response && error.response.status === 400){
                     const errorMessage = error.response.data.detail;
-                    showAlert(errorMessage);
+                    showAlert(errorMessage, "error");
 
                     setBabyCharacter(""); 
                 }
@@ -82,11 +82,11 @@ function CommunityPage() {
                         localStorage.setItem("activeBabyId", firstBabyId);
                         setBabyCharacter("my_baby");
                     } else {
-                        showAlert("등록된 아기 정보가 없습니다. 마이페이지에서 아기를 먼저 등록해주세요.");
+                        showAlert("등록된 아기 정보가 없습니다. 마이페이지에서 아기를 먼저 등록해주세요.", "error");
                     }
                 } catch (error) {
                     console.error("아기 정보 조회 실패", error);
-                    showAlert("아기 정보를 불러오는데 실패했습니다.");
+                    showAlert("아기 정보를 불러오는데 실패했습니다.", "error");
                 }
             } else {
                 setBabyCharacter("my_baby");
@@ -119,7 +119,7 @@ function CommunityPage() {
                 return; 
             }
             
-            showAlert("좋아요 처리 실패: " + error.response?.data?.detail);
+            showAlert("좋아요 처리 실패: " + error.response?.data?.detail, "error");
         }
     };
 

@@ -19,7 +19,7 @@ function Home() {
         } catch (error) {
             console.log(error);
 
-            showAlert("Tip 정보들을 불러오는데 실패하였습니다.");
+            showAlert("Tip 정보들을 불러오는데 실패하였습니다.", "error");
         }
     };
 

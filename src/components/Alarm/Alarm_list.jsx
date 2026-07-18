@@ -42,7 +42,7 @@ function Alarm_list({ onAccept }) {
             if (onAccept) onAccept();
         } catch (error) {
             console.error(error);
-            showAlert("초대 수락에 실패하였습니다.");
+            showAlert("초대 수락에 실패하였습니다.", "error");
         }
     };
 
@@ -56,7 +56,7 @@ function Alarm_list({ onAccept }) {
             setAlarms((prev) => prev.filter((a) => a.a_id !== a_id));
         } catch (error) {
             console.error(error);
-            showAlert("알람 삭제에 실패하였습니다.");
+            showAlert("알람 삭제에 실패하였습니다.", "error");
         }
     };
 

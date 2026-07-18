@@ -29,7 +29,7 @@ function EBookMainPage() {
             try {
                 const babyData = await getCurrentBaby();
                 if (!babyData) {
-                    showAlert("등록된 아기 정보가 없습니다.");
+                    showAlert("등록된 아기 정보가 없습니다.", "error");
                     navigate("/babyinfo");
                     return;
                 }
@@ -57,7 +57,7 @@ function EBookMainPage() {
 
             } catch (error) {
                 console.error(error);
-                showAlert("정보를 불러오는 중 오류가 발생했습니다.");
+                showAlert("정보를 불러오는 중 오류가 발생했습니다.", "error");
             }
         };
         fetchInitData();
@@ -69,14 +69,14 @@ function EBookMainPage() {
 
         try {
             await deleteEBook(s_id);
-            showAlert("디지털 북 삭제되었습니다.");
+            showAlert("디지털북이 삭제되었습니다.");
             setBooks(books.filter(book => book.s_id !== s_id));
             if (selectedBook && selectedBook.s_id === s_id) {
                 setSelectedBook(null);
             }
         } catch (error) {
             console.error(error);
-            showAlert("삭제에 실패했습니다.");
+            showAlert("삭제에 실패했습니다.", "error");
         }
     };
 

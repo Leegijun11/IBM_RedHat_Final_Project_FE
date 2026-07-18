@@ -32,7 +32,7 @@ function Edit_profile({ user, onClose, onSuccess }) {
 
     // 비밀번호를 입력한 경우에만 검증 (빈 값이면 "변경 안 함"으로 간주)
     if (u_pw && !isPasswordValid) {
-      showAlert("비밀번호는 8자 이상, 숫자와 특수문자를 포함해야 합니다.");
+      showAlert("비밀번호는 8자 이상, 숫자와 특수문자를 포함해야 합니다.", "error");
       return;
     }
 
@@ -54,11 +54,11 @@ function Edit_profile({ user, onClose, onSuccess }) {
     } catch (error) {
       const detail = error.response?.data?.detail;
       if (Array.isArray(detail)) {
-        showAlert(detail.map((d) => d.msg.replace(/^Value error,\s*/, "")).join("\n"));
+        showAlert(detail.map((d) => d.msg.replace(/^Value error,\s*/, "")).join("\n"), "error");
       } else if (typeof detail === "string") {
-        showAlert(detail);
+        showAlert(detail, "error");
       } else {
-        showAlert("정보 수정에 실패하였습니다.");
+        showAlert("정보 수정에 실패하였습니다.", "error");
       }
     }
   };

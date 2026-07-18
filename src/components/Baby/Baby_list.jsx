@@ -33,7 +33,7 @@ function Baby_list({ babies, selectedBabyId, onSelect, onEdit }) {
       navigate("/home");
     } catch (error) {
       console.log(error);
-      showAlert("아이 선택에 실패했습니다.");
+      showAlert("아이 선택에 실패했습니다.", "error");
     }
   };
 

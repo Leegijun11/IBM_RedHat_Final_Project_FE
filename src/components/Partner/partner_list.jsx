@@ -32,7 +32,7 @@ function PartnerList({ currentUserId }) {
       handleGetPartnerList();
     } catch (error) {
       console.error(error);
-      showAlert("공동 양육자 삭제에 실패하였습니다.");
+      showAlert("공동 양육자 삭제에 실패하였습니다.", "error");
     }
   };
 

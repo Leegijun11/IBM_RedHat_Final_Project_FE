@@ -98,7 +98,7 @@ function Diary_list() {
                 setBId(baby.b_id);
             } catch (error) {
                 console.log(error);
-                showAlert("등록된 아기 정보가 없습니다.");
+                showAlert("등록된 아기 정보가 없습니다.", "error");
                 navigate("/babyinfo");
             }
         };
@@ -125,7 +125,7 @@ function Diary_list() {
             fetchWeekDiaryDates(bId, getWeekDates(selectedDate));
         } catch (error) {
             console.log(error);
-            showAlert("일기 삭제에 실패하였습니다.");
+            showAlert("일기 삭제에 실패하였습니다.", "error");
         }
     };
 

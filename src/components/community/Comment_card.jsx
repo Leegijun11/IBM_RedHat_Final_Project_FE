@@ -21,7 +21,7 @@ const CommentCard = ({ comment, currentUser, postuserId, onUpdate, onDelete }) =
             onDelete(comment.fc_id); 
         } catch (error) {
             console.error("댓글 삭제 실패:", error);
-            showAlert("댓글 삭제에 실패했습니다.");
+            showAlert("댓글 삭제에 실패했습니다.", "error");
         }
     };
 
@@ -37,7 +37,7 @@ const CommentCard = ({ comment, currentUser, postuserId, onUpdate, onDelete }) =
             setIsEditing(false); 
         } catch (error) {
             console.error("댓글 수정 실패:", error);
-            showAlert("댓글 수정에 실패했습니다.");
+            showAlert("댓글 수정에 실패했습니다.", "error");
         }
     };
 
@@ -55,7 +55,7 @@ const CommentCard = ({ comment, currentUser, postuserId, onUpdate, onDelete }) =
             };
             onUpdate(comment.fc_id, updatedComment);
         } catch (error) {
-            showAlert("좋아요 처리 실패");
+            showAlert("좋아요 처리 실패", "error");
         }
     };
     

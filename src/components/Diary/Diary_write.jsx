@@ -29,7 +29,7 @@ function Diary_write() {
                 setBabyBirth(baby.b_birth || null);
             } catch (error) {
                 console.log(error);
-                showAlert("등록된 아기 정보가 없습니다.");
+                showAlert("등록된 아기 정보가 없습니다.", "error");
                 navigate("/babyinfo");
             }
         };
@@ -58,12 +58,12 @@ function Diary_write() {
         e.preventDefault();
 
         if (!record.trim()) {
-            showAlert("내용을 입력해주세요.");
+            showAlert("내용을 입력해주세요.", "error");
             return;
         }
 
         if (!bId) {
-            showAlert("아기 정보를 불러오지 못했습니다.");
+            showAlert("아기 정보를 불러오지 못했습니다.", "error");
             return;
         }
 
@@ -98,7 +98,7 @@ function Diary_write() {
 
         } catch (error) {
             console.log(error);
-            showAlert("기록 저장에 실패하였습니다.");
+            showAlert("기록 저장에 실패하였습니다.", "error");
         } finally {
             stopTipRotation();
             setIsLoading(false);

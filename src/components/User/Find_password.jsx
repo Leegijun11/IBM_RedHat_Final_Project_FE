@@ -29,7 +29,7 @@ function Find_password({ setPage }) {
         } catch (error) {
             console.log(error);
             const message = error.response?.data?.detail || "비밀번호 찾기에 실패하였습니다.";
-            showAlert(message);
+            showAlert(message, "error");
         } finally {
             setLoading(false);
         }

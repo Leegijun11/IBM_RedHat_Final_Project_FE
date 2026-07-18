@@ -20,7 +20,7 @@ function Diary_detail() {
                 setDiary(result);
             } catch (error) {
                 console.log(error);
-                showAlert("일기 조회에 실패하였습니다.");
+                showAlert("일기 조회에 실패하였습니다.", "error");
                 navigate("/diary");
             }
         };

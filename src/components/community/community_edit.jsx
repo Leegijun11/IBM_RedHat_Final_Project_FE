@@ -38,7 +38,7 @@ const CommunityEdit = () => {
                 });
             } catch (error) {
                 console.error("게시글 불러오기 실패:", error);
-                showAlert("게시글을 불러올 수 없습니다.");
+                showAlert("게시글을 불러올 수 없습니다.", "error");
             }
         };
         fetchPost();
@@ -72,13 +72,13 @@ const CommunityEdit = () => {
                 const response=await uploadForumImage(imageFile)
                 editedImageUrl = response.image_url
             }catch(error){
-                showAlert("이미지 업로드 실패")
+                showAlert("이미지 업로드 실패", "error")
                 return
             }
         }
 
         if (!title.trim() || !context.trim()) {
-            showAlert("제목과 내용을 모두 입력해주세요.");
+            showAlert("제목과 내용을 모두 입력해주세요.", "error");
             return;
         }
 
@@ -95,7 +95,7 @@ const CommunityEdit = () => {
             navigate(`/community/${f_id}`);
         } catch (error) {
             console.error("게시물 수정 오류:", error);
-            showAlert("게시물 수정에 실패했습니다.");
+            showAlert("게시물 수정에 실패했습니다.", "error");
         }
     };
 

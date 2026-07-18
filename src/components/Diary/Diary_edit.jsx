@@ -79,7 +79,7 @@ const Diary_edit = () => {
 
             } catch (error) {
                 console.error("일기 불러오기 실패:", error);
-                showAlert("일기를 불러올 수 없습니다.");
+                showAlert("일기를 불러올 수 없습니다.", "error");
                 navigate(-1);
             }
         };
@@ -115,8 +115,8 @@ const Diary_edit = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!diaryLabel) return showAlert("오늘 아이의 감정을 선택해주세요.");
-        if (!diaryTitle.trim() || !diaryContent.trim()) return showAlert("제목과 내용을 모두 입력해주세요.");
+        if (!diaryLabel) return showAlert("오늘 아이의 감정을 선택해주세요.", "error");
+        if (!diaryTitle.trim() || !diaryContent.trim()) return showAlert("제목과 내용을 모두 입력해주세요.", "error");
 
         let editedImageUrl = existingImageUrl;
 
@@ -128,7 +128,7 @@ const Diary_edit = () => {
                     editedImageUrl = path;
                 }
             } catch (error) {
-                showAlert("이미지 업로드에 실패했습니다.");
+                showAlert("이미지 업로드에 실패했습니다.", "error");
                 return;
             }
         }
@@ -153,7 +153,7 @@ const Diary_edit = () => {
             navigate(`/diary/${d_id}`);
         } catch (error) {
             console.error("일기 수정 오류:", error);
-            showAlert("일기 수정에 실패했습니다.");
+            showAlert("일기 수정에 실패했습니다.", "error");
         }
     };
 

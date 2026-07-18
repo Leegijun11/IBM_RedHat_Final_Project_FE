@@ -44,7 +44,7 @@ const CommunityCreate = () => {
         e.preventDefault();
 
         if (!title.trim() || !context.trim()) {
-            showAlert("제목과 내용을 모두 입력해주세요.");
+            showAlert("제목과 내용을 모두 입력해주세요.", "error");
             return;
         }
 
@@ -55,7 +55,7 @@ const CommunityCreate = () => {
                 uploadedImageUrl = response.image_url;
             } catch(error){
                 console.error("이미지 업로드 실패:", error);
-                showAlert("이미지 업로드에 실패했습니다.");
+                showAlert("이미지 업로드에 실패했습니다.", "error");
                 return;
             }
         }
@@ -79,7 +79,7 @@ const CommunityCreate = () => {
             showAlert("새 게시물이 성공적으로 등록되었습니다!");
             navigate('/community');
         } catch (error) {
-            showAlert("게시물 작성에 실패했습니다.");
+            showAlert("게시물 작성에 실패했습니다.", "error");
         }
     };
 

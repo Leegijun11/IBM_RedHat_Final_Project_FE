@@ -39,7 +39,7 @@ function MyPage() {
       }
       setPartnerRefreshKey((prev)=> prev + 1);
     } catch (error) {
-      showAlert("데이터 로드에 실패했습니다.");
+      showAlert("데이터 로드에 실패했습니다.", "error");
     }
   };
 

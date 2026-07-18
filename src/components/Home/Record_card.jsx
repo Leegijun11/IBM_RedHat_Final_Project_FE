@@ -75,8 +75,8 @@ function Record_card() {
 
     const handleSave = async (e) => {
         e.stopPropagation();
-        if (!content.trim()) { showAlert("내용을 입력해주세요"); return; }
-        if (!bId) { showAlert("아기 정보를 불러오지 못했습니다."); return; }
+        if (!content.trim()) { showAlert("내용을 입력해주세요", "error"); return; }
+        if (!bId) { showAlert("아기 정보를 불러오지 못했습니다.", "error"); return; }
 
         setIsLoading(true);
         startTipRotation();
@@ -88,7 +88,7 @@ function Record_card() {
             setShowMenu(false);
         } catch (error) {
             console.log(error);
-            showAlert("기록 저장에 실패했습니다.");
+            showAlert("기록 저장에 실패했습니다.", "error");
         } finally {
             stopTipRotation();
             setIsLoading(false);

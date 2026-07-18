@@ -16,14 +16,14 @@ function EBookCreate() {
             try {
                 const baby = await getCurrentBaby();
                 if (!baby) {
-                    showAlert("등록된 아기 정보가 없습니다.");
+                    showAlert("등록된 아기 정보가 없습니다.", "error");
                     navigate("/babyinfo");
                     return;
                 }
                 setBId(baby.b_id);
             } catch (error) {
                 console.error(error);
-                showAlert("로그인이 필요합니다.");
+                showAlert("로그인이 필요합니다.", "error");
                 navigate("/");
             }
         };
@@ -32,11 +32,11 @@ function EBookCreate() {
 
     const handleNext = () => {
         if (!period.start || !period.end) {
-            showAlert("기간을 선택해주세요.");
+            showAlert("기간을 선택해주세요.", "error");
             return;
         }
         if (new Date(period.start) > new Date(period.end)) {
-            showAlert("시작 날짜가 종료 날짜보다 늦을 수 없습니다.");
+            showAlert("시작 날짜가 종료 날짜보다 늦을 수 없습니다.", "error");
             return;
         }
 

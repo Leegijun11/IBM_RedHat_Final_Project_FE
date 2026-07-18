@@ -179,7 +179,7 @@ function EBookDiarySelect() {
                 error.response?.data?.detail ||
                 "생성에 실패했습니다.";
 
-            showAlert(msg);
+            showAlert(msg, "error");
 
         } finally {
             stopTipRotation();

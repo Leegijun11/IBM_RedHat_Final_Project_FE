@@ -70,7 +70,7 @@ const Direct_Diary_write = () => {
                 setBabyID(baby.b_id);
             } catch (error) {
                 console.log(error);
-                showAlert("등록된 아기 정보가 없습니다.");
+                showAlert("등록된 아기 정보가 없습니다.", "error");
                 navigate("/babyinfo");
             }
         };
@@ -80,10 +80,10 @@ const Direct_Diary_write = () => {
     const handleSaveRecord = async (e) => {
         e.preventDefault();
 
-        if (!diaryLabel) return showAlert("오늘 아이의 감정을 선택해주세요");
-        if (!diaryTitle.trim()) return showAlert("제목을 입력해주세요");
-        if (!diaryContent.trim()) return showAlert("내용을 입력해주세요");
-        if (!babyID) return showAlert("아기 정보를 불러오지 못했습니다");
+        if (!diaryLabel) return showAlert("오늘 아이의 감정을 선택해주세요", "error");
+        if (!diaryTitle.trim()) return showAlert("제목을 입력해주세요", "error");
+        if (!diaryContent.trim()) return showAlert("내용을 입력해주세요", "error");
+        if (!babyID) return showAlert("아기 정보를 불러오지 못했습니다", "error");
 
         try {
             let uploadedImageUrl = null;
@@ -113,7 +113,7 @@ const Direct_Diary_write = () => {
             navigate("/diary");
         } catch (error) {
             console.log(error);
-            showAlert("성장 일기 등록을 실패했습니다");
+            showAlert("성장 일기 등록을 실패했습니다", "error");
         }
     };
 

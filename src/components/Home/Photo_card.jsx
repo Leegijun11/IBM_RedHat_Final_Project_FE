@@ -22,14 +22,14 @@ function Photo_card() {
 
     const handleImmediateUpload = async (selectedFile) => {
         if (!selectedFile) return;
-        if (!bId) { showAlert("아기 정보를 불러오지 못했습니다."); return; }
+        if (!bId) { showAlert("아기 정보를 불러오지 못했습니다.", "error"); return; }
         try {
             await uploadBabyImage(bId, selectedFile);
             showAlert("사진이 성공적으로 업로드 되었습니다.");
             setShowMenu(false); 
         } catch (error) {
             console.log(error);
-            showAlert("사진 업로드에 실패했습니다.");
+            showAlert("사진 업로드에 실패했습니다.", "error");
         }
     };
 

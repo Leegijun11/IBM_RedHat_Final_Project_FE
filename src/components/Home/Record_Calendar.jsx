@@ -62,7 +62,7 @@ function Record_Calendar() {
             });
         } catch (error) {
             console.error("삭제 실패:", error);
-            showAlert("삭제에 실패했습니다.");
+            showAlert("삭제에 실패했습니다.", "error");
         }
     };
     
@@ -79,7 +79,7 @@ function Record_Calendar() {
 
     const handleEditSave = async (l_id) => {
         if (!editContent.trim()) {
-            showAlert("내용을 입력해주세요.");
+            showAlert("내용을 입력해주세요.", "error");
             return;
         }
 
@@ -95,7 +95,7 @@ function Record_Calendar() {
             setEditContent("");
         } catch (error) {
             console.error("수정 실패:", error);
-            showAlert("수정에 실패했습니다.");
+            showAlert("수정에 실패했습니다.", "error");
         }
     };
 

@@ -17,7 +17,7 @@ function Find_account({ setPage }) {
       setU_account(result.u_account);
       showAlert("아이디를 찾았습니다.");
     } catch (error) {
-      showAlert("입력하신 정보와 일치하는 회원 정보를 찾을 수 없습니다.");
+      showAlert("입력하신 정보와 일치하는 회원 정보를 찾을 수 없습니다.", "error");
     }
   };
 

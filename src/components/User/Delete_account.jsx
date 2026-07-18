@@ -17,7 +17,7 @@ function Delete_account () {
       showAlert("회원 탈퇴가 완료되었습니다.");
     } catch (error) {
       console.log(error);
-      showAlert("회원 탈퇴에 실패하였습니다.")
+      showAlert("회원 탈퇴에 실패하였습니다.", "error")
     }
   };
 

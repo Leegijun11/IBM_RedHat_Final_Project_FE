@@ -19,7 +19,7 @@ function Tip_detail() {
         } catch (error) {
             console.log(error);
 
-            showAlert("Tip 정보를 불러오는데 실패하였습니다.");
+            showAlert("Tip 정보를 불러오는데 실패하였습니다.", "error");
         }
     };
 
