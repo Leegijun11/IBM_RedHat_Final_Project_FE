@@ -1,0 +1,56 @@
+.alert-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(58, 51, 45, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.alert-modal-card {
+  width: 280px;
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  padding: 28px 24px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.alert-modal-message {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3A332D;
+  text-align: center;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.alert-modal-btn-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.alert-modal-btn-row button {
+  flex: 1;
+  padding: 14px 0;
+  border: none;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.alert-modal-confirm-btn {
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: white;
+}
+
+.alert-modal-cancel-btn {
+  background-color: #FAF4EF;
+  color: #A3968C;
+}
