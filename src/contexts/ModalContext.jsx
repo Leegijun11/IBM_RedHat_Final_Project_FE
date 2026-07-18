@@ -10,6 +10,7 @@ export function ModalProvider({ children }) {
     return new Promise((resolve) => {
       setModal({
         message,
+        type,
         showCancel: false,
         onConfirm: () => {
           setModal(null);
