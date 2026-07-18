@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { getImageUrl } from "../../hooks/imageUrl";
 import { setCurrentBaby } from "../../services/partner_api";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/Baby_list.css";
 
 function calculateAgeInMonths(birthDateStr) {
@@ -22,6 +23,7 @@ function calculateAgeInMonths(birthDateStr) {
 }
 
 function Baby_list({ babies, selectedBabyId, onSelect, onEdit }) {
+  const { showAlert } = useModal();
   const navigate = useNavigate();
 
   const handleSelectAndGoHome = async (b_id) => {
@@ -31,7 +33,7 @@ function Baby_list({ babies, selectedBabyId, onSelect, onEdit }) {
       navigate("/home");
     } catch (error) {
       console.log(error);
-      alert("아이 선택에 실패했습니다.");
+      showAlert("아이 선택에 실패했습니다.");
     }
   };
 
