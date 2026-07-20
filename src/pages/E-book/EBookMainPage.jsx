@@ -20,6 +20,8 @@ function EBookMainPage() {
     const [baby, setBaby] = useState(null);
     const [babyAge, setBabyAge] = useState(0);
     const [tab, setTab] = useState("growth");
+    const [currentPage, setCurrentPage] = useState(1);
+    const BOOKS_PER_PAGE = 3;
 
     const [totalMilestones, setTotalMilestones] = useState(61);
     const [achievedMilestones, setAchievedMilestones] = useState(0);
@@ -70,7 +72,10 @@ function EBookMainPage() {
         try {
             await deleteEBook(s_id);
             showAlert("디지털북이 삭제되었습니다.");
-            setBooks(books.filter(book => book.s_id !== s_id));
+            const nextBooks = books.filter(book => book.s_id !== s_id);
+            setBooks(nextBooks);
+            const nextTotalPages = Math.max(1, Math.ceil(nextBooks.length / BOOKS_PER_PAGE));
+            if (currentPage > nextTotalPages) setCurrentPage(nextTotalPages);
             if (selectedBook && selectedBook.s_id === s_id) {
                 setSelectedBook(null);
             }
@@ -83,6 +88,12 @@ function EBookMainPage() {
     const achievedPct = Math.min(Math.round((achievedMilestones / 8) * 100), 100);
     const canCreateBook = achievedMilestones >= 8 && achievedMilestones <= 16;
 
+    const totalPages = Math.max(1, Math.ceil(books.length / BOOKS_PER_PAGE));
+    const pagedBooks = books.slice(
+        (currentPage - 1) * BOOKS_PER_PAGE,
+        currentPage * BOOKS_PER_PAGE
+    );
+    
     return (
         <div className="ebook-page">
             <div className="ebook-header">
@@ -115,14 +126,43 @@ function EBookMainPage() {
                 {books.length === 0 ? (
                     <p className="empty-book">생성된 디지털북이 없습니다.</p>
                 ) : (
-                    books.map((book) => (
-                        <BookCard
-                            key={book.s_id}
-                            book={book}
-                            onDetailClick={() => setSelectedBook(book)}
-                            onDeleteClick={() => handleDeleteBook(book.s_id)}
-                        />
-                    ))
+                    <>
+                        {pagedBooks.map((book) => (
+                            <BookCard
+                                key={book.s_id}
+                                book={book}
+                                onDetailClick={() => setSelectedBook(book)}
+                                onDeleteClick={() => handleDeleteBook(book.s_id)}
+                            />
+                        ))}
+                        {totalPages > 1 && (
+                            <div className="book-pagination">
+                                <button
+                                    className="page-nav-btn"
+                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    ‹
+                                </button>
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+                                    <button
+                                        key={num}
+                                        className={`page-num-btn ${currentPage === num ? "active" : ""}`}
+                                        onClick={() => setCurrentPage(num)}
+                                    >
+                                        {num}
+                                    </button>
+                                ))}
+                                <button
+                                    className="page-nav-btn"
+                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    ›
+                                </button>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
 

@@ -205,3 +205,36 @@
 .gauge-create-btn:active {
     transform: scale(0.98);
 }
+
+
+.book-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.page-nav-btn,
+.page-num-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border, #EAE2DB);
+  border-radius: 50%;
+  background: var(--color-surface, #fff);
+  color: var(--color-text-muted, #A3968C);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.page-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.page-num-btn.active {
+  background: var(--gradient-accent, linear-gradient(135deg, #F57E5C 0%, #F5B079 100%));
+  color: #fff;
+  border: none;
+}
