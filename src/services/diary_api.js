@@ -13,7 +13,9 @@ export const getDiaryList = async (b_id, d_date) => {
 
 // 일기 상세 조회 ( R )
 export const getDiaryDetail = async (d_id) => {
-    const response = await api.get(`/diaries/${d_id}`);
+    const response = await api.get("/diaries/detail", {   // ← "/diaries" 에서 "/diaries/detail" 로 수정
+        params: { d_id }
+    });
     return response.data;
 };
 

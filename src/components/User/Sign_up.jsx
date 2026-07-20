@@ -197,6 +197,7 @@ function Sign_up({ setPage }) {
     return () => clearTimeout(timer);
 }, [u_account, errors.u_account]);
 
+
     return (
         <div className="signup-container">
             <div className="bg-circle circle-left"></div>

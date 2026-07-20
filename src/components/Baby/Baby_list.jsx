@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { getImageUrl } from "../../hooks/imageUrl";
 import { setCurrentBaby } from "../../services/partner_api";
+import SecureBabyImage from "../common/Securebabyimage";
 import "../../styles/Baby_list.css";
 
 function calculateAgeInMonths(birthDateStr) {
@@ -58,7 +58,7 @@ function Baby_list({ babies, selectedBabyId, onSelect, onEdit }) {
             {/* 프로필 이미지 & 체크 배지 래퍼 */}
             <div className="baby-avatar-wrapper">
               {baby.b_image && (
-                <img src={getImageUrl(baby.b_image)} alt={baby.b_name} className="baby-avatar" />
+                <SecureBabyImage b_id={baby.b_id} alt={baby.b_name} className="baby-avatar" />
               )}
               {isSelected && <div className="selected-check">✔️</div>}
             </div>

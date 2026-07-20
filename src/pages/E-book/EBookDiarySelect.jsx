@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { createEBook } from "../../services/ebook_api";
 import NaviBar from "../../components/common/NaviBar";
+import SecureImage from "../../components/common/SecureImage";
 import "../../styles/EBookCreate.css";
 import "../../styles/Diary.css";
 
@@ -13,43 +14,6 @@ const getSelectableDiaries = async (b_id) => {
     });
 
     return response.data;
-};
-
-
-// 이미지 URL 생성
-const getDiaryImageUrl = (image) => {
-    if (!image) return null;
-
-    const normalized = image.replace(/\\/g, "/");
-
-    // 이미 완전한 URL인 경우
-    if (
-        normalized.startsWith("http://") ||
-        normalized.startsWith("https://")
-    ) {
-        return normalized;
-    }
-
-    // uploads/images/14/날짜/파일명
-    // → http://localhost:8000/images/14/날짜/파일명
-    if (normalized.includes("uploads/images/")) {
-        const path = normalized.split("uploads/images/")[1];
-
-        return `http://localhost:8000/images/${path}`;
-    }
-
-    // ../images/14/날짜/파일명
-    // images/14/날짜/파일명
-    // /images/14/날짜/파일명
-    // → http://localhost:8000/images/14/날짜/파일명
-    if (normalized.includes("images/")) {
-        const path = normalized.split("images/")[1];
-
-        return `http://localhost:8000/images/${path}`;
-    }
-
-    // 파일명만 저장된 경우
-    return `http://localhost:8000/images/${normalized.replace(/^\/+/, "")}`;
 };
 
 
@@ -138,11 +102,6 @@ function EBookDiarySelect() {
         e.stopPropagation();
 
         console.log("선택한 일기:", diary);
-        console.log("d_image 값:", diary.d_image);
-        console.log(
-            "최종 이미지 URL:",
-            getDiaryImageUrl(diary.d_image)
-        );
 
         setDetailDiary(diary);
     };
@@ -335,18 +294,13 @@ function EBookDiarySelect() {
                         </h3>
 
 
+                        {/* ★ 변경 포인트: 하드코딩된 localhost URL 조합 대신 SecureImage 사용 */}
                         {detailDiary.d_image && (
 
-                            <img
-                                className="ebook-diary-modal-image"
-
-                                src={
-                                    getDiaryImageUrl(
-                                        detailDiary.d_image
-                                    )
-                                }
-
+                            <SecureImage
+                                path={detailDiary.d_image}
                                 alt={detailDiary.d_title}
+                                className="ebook-diary-modal-image"
                             />
 
                         )}

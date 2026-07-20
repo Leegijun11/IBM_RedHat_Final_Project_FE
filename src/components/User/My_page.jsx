@@ -1,4 +1,4 @@
-import { getImageUrl } from "../../hooks/imageUrl";
+import SecureMyProfileImage from "../common/SecureMyProfileImage";
 import "../../styles/My_page.css";
 
 function My_page({ user, onEditClick }) {
@@ -11,7 +11,11 @@ function My_page({ user, onEditClick }) {
           <div className="profile-top-area">
             <div className="profile-img-wrapper">
               {user.u_image && (
-                <img src={getImageUrl(user.u_image)} alt="프로필" className="profile-img" />
+                <SecureMyProfileImage
+                  hasImage={!!user.u_image}
+                  alt="프로필"
+                  className="profile-img"
+                />
               )}
               <div className="camera-badge">📷</div>
             </div>

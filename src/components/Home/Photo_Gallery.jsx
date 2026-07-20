@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMonthlyBabyImages } from "../../services/babyimage_api"; 
 import { getCurrentBaby } from "../../services/partner_api";
+import SecureGrowthImage from "../common/SecureGrowthImage";
 import "../../styles/Photo_Gallery.css"; // CSS 파일 경로 연결 완료
-
-const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 function Photo_Gallery() {
     const navigate = useNavigate();
@@ -60,12 +59,6 @@ function Photo_Gallery() {
         }
     };
 
-    const getCleanImageUrl = (rawPath) => {
-        if (!rawPath) return "";
-        const cleanPath = rawPath.replace(/\.\.\//g, '').replace(/^\/+/, '');
-        return cleanPath.startsWith("http") ? cleanPath : `${BACKEND_URL}/${cleanPath}`;
-    };
-
     const formatDateString = (dateStr) => {
         if (dateStr === "날짜 없음") return dateStr;
         const dateObj = new Date(dateStr);
@@ -111,10 +104,11 @@ function Photo_Gallery() {
                                     <div className="photo-grid">
                                         {groupedPhotos[date].map((photo) => (
                                             <div className="photo-item" key={photo.i_id || photo.id}>
-                                                <img 
+                                                {/* ★ 변경 포인트: i_id 기반 인증된 요청으로 사진 표시 */}
+                                                <SecureGrowthImage
+                                                    i_id={photo.i_id}
+                                                    alt="아기 사진"
                                                     className="photo-img"
-                                                    src={getCleanImageUrl(photo.i_image)} 
-                                                    alt="아기 사진" 
                                                 />
                                             </div>
                                         ))}

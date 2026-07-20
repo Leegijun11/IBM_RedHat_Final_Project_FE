@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDiaryDetail } from "../../services/diary_api";
-
-// ★ 백엔드 주소 설정 (환경변수 로드, 로컬 테스트용 기본값 지정)
-const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+import SecureImage from "../common/SecureImage";
 
 function Diary_detail() {
     const navigate = useNavigate();
@@ -43,16 +41,15 @@ function Diary_detail() {
 
                     {/* 2. 제목 */}
                     <h3>{diary.d_title}</h3>
-                    {console.log("최종 요청 주소:", `${BACKEND_URL}/${diary.d_image}`)}
 
                     {/* 3. 아기 컴포넌트 성장 사진이 업로드 되어있을 경우 이미지 뷰어 바인딩 */}
-                    {/* ★ 변경 포인트: BACKEND_URL 주소를 결합하여 이미지 절대 주소 완성 */}
+                    {/* ★ 변경 포인트: 인증된 요청(SecureImage)으로 사진을 가져와 표시 */}
                     {diary.d_image && (
                         <div style={{ width: "100%", maxHeight: "280px", overflow: "hidden", borderRadius: "var(--radius-md)", margin: "14px 0", border: "1px solid var(--color-border)" }}>
-                            <img 
-                                src={diary.d_image.startsWith("http") ? diary.d_image : `${BACKEND_URL}/${diary.d_image}`}
-                                alt="아기 일기 성장 스냅샷" 
-                                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
+                            <SecureImage
+                                path={diary.d_image}
+                                alt="아기 일기 성장 스냅샷"
+                                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                             />
                         </div>
                     )}
