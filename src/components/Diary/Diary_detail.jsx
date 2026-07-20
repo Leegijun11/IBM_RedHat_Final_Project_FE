@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDiaryDetail } from "../../services/diary_api";
 import SecureImage from "../common/SecureImage";
-
+import { useModal } from "../../hooks/useModal";
 function Diary_detail() {
     const navigate = useNavigate();
     const { d_id } = useParams();   

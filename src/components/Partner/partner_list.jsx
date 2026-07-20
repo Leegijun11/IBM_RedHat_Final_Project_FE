@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getPartnerList, deletePartner } from "../../services/partner_api";
 import SecurePartnerImage from "../common/SecurePartnerImage";
 import "../../styles/partner_list.css"; 
-
+import { useModal } from "../../hooks/useModal";
 function PartnerList({ currentUserId }) {
   const [partnerList, setPartnerList] = useState([]);
   const { showAlert, showConfirm } = useModal();
