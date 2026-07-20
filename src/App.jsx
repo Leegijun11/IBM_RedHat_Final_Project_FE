@@ -7,7 +7,7 @@ import Photo_Gallery from './components/Home/Photo_Gallery';
 import Record_Calendar from './components/Home/Record_Calendar';
 import CommunityPage from './pages/Community/CommunityPage';
 import CommunityCreate from './components/community/community_create';
-import CommunityDetail from './components/Community/community_detail';
+import CommunityDetail from './components/community/community_detail';
 import CommunityEdit from './components/community/community_edit';
 import BabyInfoPage from './pages/BabyInfo/BabyInfoPage';
 import Diary_write from "./components/Diary/Diary_write";

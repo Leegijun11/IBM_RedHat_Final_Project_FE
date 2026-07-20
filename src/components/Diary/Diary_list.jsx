@@ -4,9 +4,7 @@ import { getDiaryList, deleteDiary } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import { useModal } from "../../hooks/useModal";
 import NaviBar from "../common/NaviBar";
-
-// ★ 백엔드 주소 설정 (환경변수 로드, 로컬 테스트용 기본값 지정)
-const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+import SecureImage from "../common/SecureImage";
 
 // 요일 라벨 (월요일 시작)
 const WEEK_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
@@ -129,20 +127,6 @@ function Diary_list() {
         }
     };
 
-
-    const getImageUrl = (path) => {
-        if (!path) return null;
-        if (path.startsWith("http")) return path; // AI 생성 이미지 (절대 경로)
-        
-        // 직접 업로드 이미지 (상대 경로)
-        // 1. ../ 가 있다면 제거
-        let cleanPath = path.replace(/\.\.\//g, '');
-        // 2. 만약 앞의 /가 중복되면 하나만 남김
-        if (cleanPath.startsWith('/')) cleanPath = cleanPath.slice(1);
-        
-        return `${BACKEND_URL}/${cleanPath}`;
-    };
-
     const weekDates = getWeekDates(selectedDate);
     const selectedMonthLabel = `${new Date(selectedDate).getFullYear()}년 ${new Date(selectedDate).getMonth() + 1}월`;
 
@@ -253,13 +237,13 @@ function Diary_list() {
                                 </p>
                             </div>
                             
-                            {/* BACKEND_URL 주소를 결합하여 이미지 절대 주소 완성 */}
+                            {/* ★ 변경 포인트: 인증된 요청(SecureImage)으로 썸네일 표시 */}
                             {diary.d_image && (
                                 <div style={{ width: "64px", height: "64px", flexShrink: 0, borderRadius: "var(--radius-sm)", overflow: "hidden", border: "1px solid var(--color-border)" }}>
-                                    <img 
-                                        src={diary.d_image.startsWith("http") ? diary.d_image : `${BACKEND_URL}/${diary.d_image}`}
-                                        alt="아기 스냅샷" 
-                                        style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                                    <SecureImage
+                                        path={diary.d_image}
+                                        alt="아기 스냅샷"
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                     />
                                 </div>
                             )}

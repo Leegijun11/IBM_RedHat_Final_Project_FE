@@ -3,11 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getDiaryDetail, editDiary } from "../../services/diary_api";
 import { uploadBabyImage } from "../../services/babyimage_api";
 import { getCurrentBaby } from "../../services/partner_api";
-import { useModal } from "../../hooks/useModal";
+import { fetchImageByPathBlob } from "../../services/secureimages_api";
 import NaviBar from "../../components/common/NaviBar"; 
-import "../../styles/diary_edit.css"; // CSS 경로
-
-const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+import "../../styles/Diary_edit.css"; // CSS 경로
 
 const Diary_edit = () => {
     const navigate = useNavigate();
@@ -53,9 +51,20 @@ const Diary_edit = () => {
                 
                 setExistingImageUrl(data.d_image);
                 
+                // ★ 변경 포인트: BACKEND_URL을 그냥 이어붙이던 방식 대신
+                //   인증된 요청(fetchImageByPathBlob)으로 기존 사진을 가져온다.
                 if (data.d_image) {
-                    const cleanPath = data.d_image.replace(/\.\.\//g, '').replace(/^\/+/, '');
-                    setImageView(cleanPath.startsWith("http") ? cleanPath : `${BACKEND_URL}/${cleanPath}`);
+                    if (data.d_image.startsWith("http")) {
+                        setImageView(data.d_image);
+                    } else {
+                        try {
+                            const cleanPath = data.d_image.replace(/\.\.\//g, '').replace(/^\/+/, '');
+                            const blobUrl = await fetchImageByPathBlob(cleanPath);
+                            setImageView(blobUrl);
+                        } catch (imgError) {
+                            console.log(imgError);
+                        }
+                    }
                 }
 
                 // 기존 문자열에서 숫자와 소수점만 추출하는 함수 (예: "3.5도" -> "3.5")
@@ -79,7 +88,7 @@ const Diary_edit = () => {
 
             } catch (error) {
                 console.error("일기 불러오기 실패:", error);
-                showAlert("일기를 불러올 수 없습니다.", "error");
+                await showAlert("일기를 불러올 수 없습니다.", "error");
                 navigate(-1);
             }
         };

@@ -34,7 +34,7 @@ export const getCurrentUser = async () => {
 
 // 다른 사용자 정보 조회
 export const getUserById = async (u_id) => {
-    const response = await api.get(`/users/${u_id}`);
+    const response = await api.get("/users");
     return response.data;
 };
 

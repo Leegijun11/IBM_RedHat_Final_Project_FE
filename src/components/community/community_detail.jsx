@@ -3,8 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { getCommunityDetail,toggleCommunityLike,deleteCommunity, getComments, createComments,createCommentLike,deleteCommentLike } from "../../services/community_api";
 import { getImageUrl } from "../../hooks/imageUrl";
-import { useModal } from "../../hooks/useModal";
-import CommentCard from "../../components/Community/Comment_card"; 
+import CommentCard from "../../components/community/Comment_card"; 
 import "../../styles/community_detail.css"; 
 
 const CommunityDetail = () => {

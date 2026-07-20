@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPartnerList, deletePartner } from "../../services/partner_api";
-import { getImageUrl } from "../../hooks/imageUrl";
-import { useModal } from "../../hooks/useModal";
+import SecurePartnerImage from "../common/SecurePartnerImage";
 import "../../styles/partner_list.css"; 
 
 function PartnerList({ currentUserId }) {
@@ -57,8 +56,8 @@ function PartnerList({ currentUserId }) {
             
             <div className="partner-avatar-wrapper">
               {partner.u_image ? (
-                <img
-                  src={getImageUrl(partner.u_image)}
+                <SecurePartnerImage
+                  u_id={partner.u_id}
                   alt={partner.u_name}
                   className="partner-avatar"
                 />

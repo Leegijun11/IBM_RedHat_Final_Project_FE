@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getCurrentUser } from "../../services/user_api";
-import { getImageUrl } from "../../hooks/imageUrl";
 import { getCurrentBaby } from "../../services/partner_api";
+import SecureBabyImage from "../common/Securebabyimage";
 
 function calculateAge(birthDateStr) {
     const birth = new Date(birthDateStr);
@@ -51,8 +51,8 @@ function Baby_header() {
     return (
         <div className="baby-header-wrap">
             {baby.b_image && (
-                <img
-                    src={getImageUrl(baby.b_image)}
+                <SecureBabyImage
+                    b_id={baby.b_id}
                     alt={baby.b_name}
                     className="baby-header-img"
                 />

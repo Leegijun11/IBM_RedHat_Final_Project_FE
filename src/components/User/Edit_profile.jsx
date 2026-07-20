@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateUser, uploadUserImage } from "../../services/user_api";
-import { useModal } from "../../hooks/useModal";
+import { fetchMyProfilePhotoBlob } from "../../services/secureimages_api";
 import "../../styles/Edit_profile.css";
 
 function Edit_profile({ user, onClose, onSuccess }) {
@@ -11,7 +11,33 @@ function Edit_profile({ user, onClose, onSuccess }) {
   const [u_email, setU_email] = useState(user?.u_email || "");
   const [u_phone, setU_phone] = useState(user?.u_phone || "");
   const [imageFile, setImageFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(user?.u_image || null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  // ★ 변경 포인트: user.u_image 값을 그대로 background-image에 박아 넣던 방식 대신,
+  //   인증된 요청(fetchMyProfilePhotoBlob)으로 기존 사진을 가져와 미리보기로 사용
+  useEffect(() => {
+    let objectUrl;
+    let cancelled = false;
+
+    const loadExistingImage = async () => {
+      if (!user?.u_image) return;
+      try {
+        const url = await fetchMyProfilePhotoBlob();
+        if (!cancelled) {
+          objectUrl = url;
+          setPreviewUrl(url);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    loadExistingImage();
+
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [user]);
 
   // 회원가입 로직 그대로
   const isLengthValid = u_pw.length >= 8;
