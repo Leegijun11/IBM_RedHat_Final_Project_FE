@@ -13,7 +13,7 @@ export const getBabies = async () => {
 }
 
 export const getBabyDetail = async (b_id) => {
-    const response = await api.get(`/babies/${b_id}`);
+    const response = await api.get(`/babies`, {params : {b_id}});
     return response.data;
 }
 
