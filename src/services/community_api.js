@@ -43,6 +43,12 @@ export const getCommunityDetail=async (f_id)=>{
     return response.data
 }
 
+// 게시글 본인 글 확인
+export const getCommunityEditDetail = async (f_id) => {
+    const response = await api.get(`/forums/edit/${f_id}`);
+    return response.data;
+};
+
 // 게시글 작성
 export const createCommunity=async (formData)=>{
     const response=await api.post(`/forums/create`, formData)

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getCommunityDetail, updateCommunity } from "../../services/community_api";
 import { uploadForumImage } from "../../services/community_api";
 import { getImageUrl } from "../../hooks/imageUrl";
 import { useModal } from "../../hooks/useModal";
-import "../../styles/community_edit.css"; // 소문자 파일명 경로 규칙 적용 완료
+import { getCommunityEditDetail, updateCommunity } from "../../services/community_api";
+import "../../styles/community_edit.css";
 
 const CommunityEdit = () => {
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const CommunityEdit = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const data = await getCommunityDetail(f_id);
+                const data = await getCommunityEditDetail(f_id)
                 setTitle(data.f_title);
                 setContext(data.f_content);
                 setExistingImageUrl(data.f_image)
