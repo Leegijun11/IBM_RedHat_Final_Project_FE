@@ -1,13 +1,14 @@
 import api from "../hooks/api"
 
 // 일기 작성 ( C )
-export const createDiary = async (data, isAi = true) => { 
-    const response = await api.post(`/diaries/create?ai_create=${isAi}`, data);
+export const createDiary = async (data, isAi = true) => {
+    const response = await api.post(`/diaries/?ai_create=${isAi}`, data);
     return response.data;
 };
+
 // 날짜별 일기 목록 조회 ( R )
 export const getDiaryList = async (b_id, d_date) => {
-    const response = await api.get("/diaries/list", { params: { b_id, d_date } });
+    const response = await api.get("/diaries/", { params: { b_id, d_date } });
     return response.data;
 };
 
@@ -21,17 +22,12 @@ export const getDiaryDetail = async (d_id) => {
 
 // 일기 수정 ( U )
 export const editDiary = async (d_id, data) => {
-    const response = await api.put(`/diaries/edit/${d_id}?b_id=${data.b_id}`, data);
+    const response = await api.put(`/diaries/${d_id}`, data);
     return response.data;
 };
 
 // 일기 삭제 ( D )
 export const deleteDiary = async (d_id) => {
-    console.log("삭제할 d_id :", d_id);
-
-    const response = await api.delete("/diaries/del", {
-        params: { d_id }
-    });
-
+    const response = await api.delete(`/diaries/${d_id}`);
     return response.data;
 };

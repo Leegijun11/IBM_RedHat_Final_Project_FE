@@ -4,10 +4,12 @@ import { uploadBabyImage } from "../../services/babyimage_api";
 import { createDiary } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import { getAgeInMonths, getTipPool } from "../../services/milestoneTips";
+import { useModal } from "../../hooks/useModal";
 import NaviBar from "../common/NaviBar";
 
 function Diary_write() {
     const navigate = useNavigate();
+    const { showAlert } = useModal(); 
 
     const [record, setRecord] = useState("");
     const [image, setImage] = useState(null);
@@ -27,7 +29,7 @@ function Diary_write() {
                 setBabyBirth(baby.b_birth || null);
             } catch (error) {
                 console.log(error);
-                alert("등록된 아기 정보가 없습니다.");
+                showAlert("등록된 아기 정보가 없습니다.", "error");
                 navigate("/babyinfo");
             }
         };
@@ -56,12 +58,12 @@ function Diary_write() {
         e.preventDefault();
 
         if (!record.trim()) {
-            alert("내용을 입력해주세요.");
+            showAlert("내용을 입력해주세요.", "error");
             return;
         }
 
         if (!bId) {
-            alert("아기 정보를 불러오지 못했습니다.");
+            showAlert("아기 정보를 불러오지 못했습니다.", "error");
             return;
         }
 
@@ -96,7 +98,7 @@ function Diary_write() {
 
         } catch (error) {
             console.log(error);
-            alert("기록 저장에 실패하였습니다.");
+            showAlert("기록 저장에 실패하였습니다.", "error");
         } finally {
             stopTipRotation();
             setIsLoading(false);

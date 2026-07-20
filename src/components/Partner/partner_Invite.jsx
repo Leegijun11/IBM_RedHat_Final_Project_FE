@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { createAlarm } from "../../services/alarm_api";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/partner_invite.css"; 
 
 function PartnerInvite({ onClose, onRefresh }) {
   const [u_account, setU_account] = useState("");
   const [p_category, setP_category] = useState(""); 
+  const { showAlert } = useModal(); 
 
   const handleCreatePartner = async (e) => {
     e.preventDefault();
@@ -14,7 +16,7 @@ function PartnerInvite({ onClose, onRefresh }) {
         p_category: p_category 
       });
       
-      alert("공동 양육자 초대를 보냈습니다.");
+      showAlert("공동 양육자 초대를 보냈습니다.");
       setU_account("");
       setP_category("");
       
@@ -24,7 +26,7 @@ function PartnerInvite({ onClose, onRefresh }) {
     } catch (error) {
       console.error(error);
       const message = error.response?.data?.detail || "공동 양육자 초대에 실패하였습니다.";
-      alert(message);
+      showAlert(message, "error");
     }
   };
 

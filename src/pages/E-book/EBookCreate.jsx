@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCurrentBaby } from "../../services/partner_api";
+import { useModal } from "../../hooks/useModal";
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/EBookCreate.css";
 
@@ -8,20 +9,21 @@ function EBookCreate() {
     const navigate = useNavigate();
     const [bId, setBId] = useState(null);
     const [period, setPeriod] = useState({ start: "", end: "" });
+    const { showAlert } = useModal(); 
 
     useEffect(() => {
         const fetchBaby = async () => {
             try {
                 const baby = await getCurrentBaby();
                 if (!baby) {
-                    alert("등록된 아기 정보가 없습니다.");
+                    showAlert("등록된 아기 정보가 없습니다.", "error");
                     navigate("/babyinfo");
                     return;
                 }
                 setBId(baby.b_id);
             } catch (error) {
                 console.error(error);
-                alert("로그인이 필요합니다.");
+                showAlert("로그인이 필요합니다.", "error");
                 navigate("/");
             }
         };
@@ -30,11 +32,11 @@ function EBookCreate() {
 
     const handleNext = () => {
         if (!period.start || !period.end) {
-            alert("기간을 선택해주세요.");
+            showAlert("기간을 선택해주세요.", "error");
             return;
         }
         if (new Date(period.start) > new Date(period.end)) {
-            alert("시작 날짜가 종료 날짜보다 늦을 수 없습니다.");
+            showAlert("시작 날짜가 종료 날짜보다 늦을 수 없습니다.", "error");
             return;
         }
 

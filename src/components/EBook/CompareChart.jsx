@@ -694,7 +694,7 @@ function CompareChart({ baby, babyAge }) {
 
 
             <p className="compare-footnote">
-                ※ WHO 소아 발달 표준 마스터 가이드를 준수한 수치입니다.
+                ※ WHO 소아 발달 표준 가이드를 반영한 수치입니다.
             </p>
 
         </div>

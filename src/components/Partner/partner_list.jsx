@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { getPartnerList, deletePartner } from "../../services/partner_api";
+<<<<<<< HEAD
 import SecurePartnerImage from "../common/SecurePartnerImage";
+=======
+import { getImageUrl } from "../../hooks/imageUrl";
+import { useModal } from "../../hooks/useModal";
+>>>>>>> origin/chicken
 import "../../styles/partner_list.css"; 
 
 function PartnerList({ currentUserId }) {
   const [partnerList, setPartnerList] = useState([]);
+  const { showAlert, showConfirm } = useModal();
   
   const handleGetPartnerList = async () => {
     try {
@@ -21,13 +27,16 @@ function PartnerList({ currentUserId }) {
   }, []);
 
   const handleDeletePartner = async (p_id) => {
+    const confirmed = await showConfirm("공동 양육자 지정을 취소하시겠습니까?")
+    if (!confirmed) return;
+
     try {
       await deletePartner(p_id);
-      alert("공동 양육자 지정이 취소되었습니다.");
+      showAlert("공동 양육자 지정이 취소되었습니다.");
       handleGetPartnerList();
     } catch (error) {
       console.error(error);
-      alert("공동 양육자 삭제에 실패하였습니다.");
+      showAlert("공동 양육자 삭제에 실패하였습니다.", "error");
     }
   };
 

@@ -4,6 +4,7 @@ import { createOrUpdateLog } from "../../services/logs_api";
 import { getBabies } from "../../services/baby_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import { getAgeInMonths, getTipPool } from "../../services/milestoneTips";
+import { useModal } from "../../hooks/useModal";
 
 function Record_card() {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ function Record_card() {
     const [showMenu, setShowMenu] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [content, setContent] = useState("");
-
+    const { showAlert } = useModal(); 
     const [isLoading, setIsLoading] = useState(false);
     const [tipPool, setTipPool] = useState([]);
     const [tipIndex, setTipIndex] = useState(0);
@@ -74,8 +75,8 @@ function Record_card() {
 
     const handleSave = async (e) => {
         e.stopPropagation();
-        if (!content.trim()) { alert("내용을 입력해주세요"); return; }
-        if (!bId) { alert("아기 정보를 불러오지 못했습니다."); return; }
+        if (!content.trim()) { showAlert("내용을 입력해주세요", "error"); return; }
+        if (!bId) { showAlert("아기 정보를 불러오지 못했습니다.", "error"); return; }
 
         setIsLoading(true);
         startTipRotation();
@@ -87,7 +88,7 @@ function Record_card() {
             setShowMenu(false);
         } catch (error) {
             console.log(error);
-            alert("기록 저장에 실패했습니다.");
+            showAlert("기록 저장에 실패했습니다.", "error");
         } finally {
             stopTipRotation();
             setIsLoading(false);

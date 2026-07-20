@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useAuth from "../../hooks/useAuth"; 
+import { useNavigate } from 'react-router-dom';
 import { getCommunity, toggleCommunityLike } from "../../services/community_api";
 import { getBabies } from "../../services/baby_api";
 import CommunityCard from "../../components/community/community_card"; 
@@ -10,7 +10,7 @@ import "../../styles/CommunityPage.css"; // 지정하신 styles 폴더 경로 �
 function CommunityPage() {
     const navigate = useNavigate();
     const { user, isLoggedIn } = useAuth();
-
+    const { showAlert } = useModal(); 
     const [posts, setPosts] = useState([]);
     const [sort, setSort] = useState("latest");
     const [activeTag, setActiveTag] = useState("");
@@ -50,7 +50,7 @@ function CommunityPage() {
             } catch (error) {
                 if(error.response && error.response.status === 400){
                     const errorMessage = error.response.data.detail;
-                    alert(errorMessage);
+                    showAlert(errorMessage, "error");
 
                     setBabyCharacter(""); 
                 }
@@ -81,11 +81,11 @@ function CommunityPage() {
                         localStorage.setItem("activeBabyId", firstBabyId);
                         setBabyCharacter("my_baby");
                     } else {
-                        alert("등록된 아기 정보가 없습니다. 마이페이지에서 아기를 먼저 등록해주세요.");
+                        showAlert("등록된 아기 정보가 없습니다. 마이페이지에서 아기를 먼저 등록해주세요.", "error");
                     }
                 } catch (error) {
                     console.error("아기 정보 조회 실패", error);
-                    alert("아기 정보를 불러오는데 실패했습니다.");
+                    showAlert("아기 정보를 불러오는데 실패했습니다.", "error");
                 }
             } else {
                 setBabyCharacter("my_baby");
@@ -118,7 +118,7 @@ function CommunityPage() {
                 return; 
             }
             
-            alert("좋아요 처리 실패: " + error.response?.data?.detail);
+            showAlert("좋아요 처리 실패: " + error.response?.data?.detail, "error");
         }
     };
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { updateComments, deleteComments,createCommentLike, deleteCommentLike } from "../../services/community_api";
+import { useModal } from "../../hooks/useModal";
 import "../../styles/Comment_card.css"; 
 
 const CommentCard = ({ comment, currentUser, postuserId, onUpdate, onDelete }) => {
@@ -10,15 +11,17 @@ const CommentCard = ({ comment, currentUser, postuserId, onUpdate, onDelete }) =
 
     const [isEditing, setIsEditing] = useState(false);
     const [editInput, setEditInput] = useState(comment.fc_content);
+    const { showAlert, showConfirm } = useModal(); 
 
     const handleDelete = async () => {
-        if (!window.confirm("정말 이 댓글을 삭제하시겠습니까?")) return;
+        const confirmed = await showConfirm("정말 이 댓글을 삭제하시겠습니까?");
+        if (!confirmed) return;
         try {
             await deleteComments(comment.fc_id);
             onDelete(comment.fc_id); 
         } catch (error) {
             console.error("댓글 삭제 실패:", error);
-            alert("댓글 삭제에 실패했습니다.");
+            showAlert("댓글 삭제에 실패했습니다.", "error");
         }
     };
 
@@ -34,7 +37,7 @@ const CommentCard = ({ comment, currentUser, postuserId, onUpdate, onDelete }) =
             setIsEditing(false); 
         } catch (error) {
             console.error("댓글 수정 실패:", error);
-            alert("댓글 수정에 실패했습니다.");
+            showAlert("댓글 수정에 실패했습니다.", "error");
         }
     };
 
@@ -52,7 +55,7 @@ const CommentCard = ({ comment, currentUser, postuserId, onUpdate, onDelete }) =
             };
             onUpdate(comment.fc_id, updatedComment);
         } catch (error) {
-            alert("좋아요 처리 실패");
+            showAlert("좋아요 처리 실패", "error");
         }
     };
     

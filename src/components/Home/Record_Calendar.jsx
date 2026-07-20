@@ -4,7 +4,12 @@ import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from "react-router-dom"; 
 import { getBabyLogs, editLog, deleteLog } from "../../services/logs_api"; 
 import { getCurrentBaby } from "../../services/partner_api";
+<<<<<<< HEAD
 import "../../styles/Record_Calendar.css"; 
+=======
+import { useModal } from "../../hooks/useModal";
+import "../../styles/record_calendar.css"; 
+>>>>>>> origin/chicken
 
 function Record_Calendar() {
     const navigate = useNavigate();
@@ -14,6 +19,7 @@ function Record_Calendar() {
     const [markedDates, setMarkedDates] = useState(new Set());
     const [editingLogId, setEditingLogId] = useState(null);
     const [editContent, setEditContent] = useState("");  
+    const { showAlert, showConfirm } = useModal(); 
 
     useEffect(() => {
         const init = async () => {
@@ -46,23 +52,24 @@ function Record_Calendar() {
     };
 
     const handleDelete = async (l_id) => {
-        if (window.confirm("이 기록을 정말 삭제하시겠습니까?")) {
-            try {
-                await deleteLog(l_id);
-                alert("삭제되었습니다.");
+        const confirmed = await showConfirm("이 기록을 정말 삭제하시겠습니까?");
+        if (!confirmed) return;
+        try {
+            await deleteLog(l_id);
+            showAlert("삭제되었습니다.");
                 
-                setLogs(prevLogs => {
-                    const newLogs = prevLogs.filter(log => log.l_id !== l_id);
-                    const newDateStrings = newLogs.map(log => log.l_date.split("T")[0]);
-                    setMarkedDates(new Set(newDateStrings));
-                    return newLogs;
-                });
-            } catch (error) {
-                console.error("삭제 실패:", error);
-                alert("삭제에 실패했습니다.");
-            }
+            setLogs(prevLogs => {
+                const newLogs = prevLogs.filter(log => log.l_id !== l_id);
+                const newDateStrings = newLogs.map(log => log.l_date.split("T")[0]);
+                setMarkedDates(new Set(newDateStrings));
+                return newLogs;
+            });
+        } catch (error) {
+            console.error("삭제 실패:", error);
+            showAlert("삭제에 실패했습니다.", "error");
         }
     };
+    
 
     const handleEditClick = (log) => {
         setEditingLogId(log.l_id);
@@ -76,13 +83,13 @@ function Record_Calendar() {
 
     const handleEditSave = async (l_id) => {
         if (!editContent.trim()) {
-            alert("내용을 입력해주세요.");
+            showAlert("내용을 입력해주세요.", "error");
             return;
         }
 
         try {
             await editLog(l_id, { l_content: editContent });
-            alert("수정되었습니다.");
+            showAlert("수정되었습니다.");
 
             setLogs(prevLogs => prevLogs.map(log => 
                 log.l_id === l_id ? { ...log, l_content: editContent } : log
@@ -92,7 +99,7 @@ function Record_Calendar() {
             setEditContent("");
         } catch (error) {
             console.error("수정 실패:", error);
-            alert("수정에 실패했습니다.");
+            showAlert("수정에 실패했습니다.", "error");
         }
     };
 

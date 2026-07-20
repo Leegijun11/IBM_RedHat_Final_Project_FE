@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDiaryDetail } from "../../services/diary_api";
+<<<<<<< HEAD
 import SecureImage from "../common/SecureImage";
+=======
+import { useModal } from "../../hooks/useModal";
+
+// ★ 백엔드 주소 설정 (환경변수 로드, 로컬 테스트용 기본값 지정)
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+>>>>>>> origin/chicken
 
 function Diary_detail() {
     const navigate = useNavigate();
     const { d_id } = useParams();   
+    const { showAlert } = useModal();
     const [diary, setDiary] = useState(null);
 
     useEffect(() => {
@@ -16,7 +24,7 @@ function Diary_detail() {
                 setDiary(result);
             } catch (error) {
                 console.log(error);
-                alert("일기 조회에 실패하였습니다.");
+                showAlert("일기 조회에 실패하였습니다.", "error");
                 navigate("/diary");
             }
         };

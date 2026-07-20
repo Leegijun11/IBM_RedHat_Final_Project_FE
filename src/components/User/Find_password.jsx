@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { findPassword } from "../../services/user_api";
+import { useModal } from "../../hooks/useModal";
 
 function Find_password({ setPage }) {
     const [u_account, setU_account] = useState("");
@@ -7,6 +8,7 @@ function Find_password({ setPage }) {
     const [u_email, setU_email] = useState("");
     const [u_phone, setU_phone] = useState("");
     const [loading, setLoading] = useState(false);
+    const { showAlert } = useModal();
 
     // 비밀번호 찾기
     const handleFindPassword = async (e) => {
@@ -22,12 +24,12 @@ function Find_password({ setPage }) {
             });
 
             console.log(result);
-            alert(result.message || "임시 비밀번호가 이메일로 전송되었습니다.");
+            showAlert(result.message || "임시 비밀번호가 이메일로 전송되었습니다.");
             setPage("login");
         } catch (error) {
             console.log(error);
             const message = error.response?.data?.detail || "비밀번호 찾기에 실패하였습니다.";
-            alert(message);
+            showAlert(message, "error");
         } finally {
             setLoading(false);
         }

@@ -3,7 +3,10 @@ import { getAlarm, deleteAlarm } from "../../services/alarm_api";
 import { createPartner } from "../../services/partner_api";
 import "../../styles/Alarm_list.css";
 import { updatePartnerState } from "../../services/partner_api";
+import { useModal } from "../../hooks/useModal";
+
 function Alarm_list({ onAccept }) {
+    const { showAlert } = useModal();
     const [isOpen, setIsOpen] = useState(false);
     const [alarms, setAlarms] = useState([]);
 
@@ -39,7 +42,7 @@ function Alarm_list({ onAccept }) {
             if (onAccept) onAccept();
         } catch (error) {
             console.error(error);
-            alert("초대 수락에 실패하였습니다.");
+            showAlert("초대 수락에 실패하였습니다.", "error");
         }
     };
 
@@ -53,7 +56,7 @@ function Alarm_list({ onAccept }) {
             setAlarms((prev) => prev.filter((a) => a.a_id !== a_id));
         } catch (error) {
             console.error(error);
-            alert("알람 삭제에 실패하였습니다.");
+            showAlert("알람 삭제에 실패하였습니다.", "error");
         }
     };
 

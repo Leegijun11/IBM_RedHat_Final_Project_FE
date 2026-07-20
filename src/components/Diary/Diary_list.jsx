@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDiaryList, deleteDiary } from "../../services/diary_api";
 import { getCurrentBaby } from "../../services/partner_api";
+import { useModal } from "../../hooks/useModal";
 import NaviBar from "../common/NaviBar";
 import SecureImage from "../common/SecureImage";
 
@@ -35,6 +36,7 @@ function toDateStr(d) {
 
 function Diary_list() {
     const navigate = useNavigate();
+    const { showAlert, showConfirm } = useModal(); 
 
     const [diaryList, setDiaryList] = useState([]);
     const [bId, setBId] = useState(null);
@@ -94,7 +96,7 @@ function Diary_list() {
                 setBId(baby.b_id);
             } catch (error) {
                 console.log(error);
-                alert("등록된 아기 정보가 없습니다.");
+                showAlert("등록된 아기 정보가 없습니다.", "error");
                 navigate("/babyinfo");
             }
         };
@@ -111,17 +113,17 @@ function Diary_list() {
 
     // 삭제
     const handleDeleteDiary = async (d_id) => {
-        const check = window.confirm("정말 삭제하시겠습니까?");
+        const check = showConfirm("정말 삭제하시겠습니까?");
         if (!check) return;
 
         try {
             await deleteDiary(d_id);
-            alert("일기가 삭제되었습니다.");
+            showAlert("일기가 삭제되었습니다.");
             handleCreateDiaryList(bId);
             fetchWeekDiaryDates(bId, getWeekDates(selectedDate));
         } catch (error) {
             console.log(error);
-            alert("일기 삭제에 실패하였습니다.");
+            showAlert("일기 삭제에 실패하였습니다.", "error");
         }
     };
 

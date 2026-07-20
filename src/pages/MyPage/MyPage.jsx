@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getMe } from "../../services/user_api";
 import { getBabies } from "../../services/baby_api";
 import { getCurrentBaby } from "../../services/partner_api";
+import { useModal } from "../../hooks/useModal";
 import Partner_invite from "../../components/Partner/partner_Invite"
 import Alarm_list from "../../components/Alarm/Alarm_list";
 import Partner_list from "../../components/Partner/partner_list";
@@ -22,6 +23,7 @@ function MyPage() {
   const [showUserEdit, setShowUserEdit] = useState(false);
   const [editingBaby, setEditingBaby] = useState(null);
   const [partnerRefreshKey, setPartnerRefreshKey] = useState(0);
+  const { showAlert } = useModal();
 
   const fetchCurrentUser = async () => {
     try {
@@ -37,7 +39,7 @@ function MyPage() {
       }
       setPartnerRefreshKey((prev)=> prev + 1);
     } catch (error) {
-      alert("데이터 로드에 실패했습니다.");
+      showAlert("데이터 로드에 실패했습니다.", "error");
     }
   };
 

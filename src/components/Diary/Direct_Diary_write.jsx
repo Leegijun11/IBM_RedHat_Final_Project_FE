@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getCurrentBaby } from "../../services/partner_api";
 import { uploadBabyImage } from "../../services/babyimage_api";
 import { createDiary } from "../../services/diary_api";
+import { useModal } from "../../hooks/useModal";
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/Direct_Diary_write.css"; 
 
@@ -10,6 +11,7 @@ const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"
 
 const Direct_Diary_write = () => {
     const navigate = useNavigate();
+    const { showAlert } = useModal(); 
 
     const [babyID, setBabyID] = useState(null);
     const [diaryDate, setDiaryDate] = useState(new Date().toISOString().split("T")[0]);
@@ -68,7 +70,7 @@ const Direct_Diary_write = () => {
                 setBabyID(baby.b_id);
             } catch (error) {
                 console.log(error);
-                alert("등록된 아기 정보가 없습니다.");
+                showAlert("등록된 아기 정보가 없습니다.", "error");
                 navigate("/babyinfo");
             }
         };
@@ -78,10 +80,10 @@ const Direct_Diary_write = () => {
     const handleSaveRecord = async (e) => {
         e.preventDefault();
 
-        if (!diaryLabel) return alert("오늘 아이의 감정을 선택해주세요");
-        if (!diaryTitle.trim()) return alert("제목을 입력해주세요");
-        if (!diaryContent.trim()) return alert("내용을 입력해주세요");
-        if (!babyID) return alert("아기 정보를 불러오지 못했습니다");
+        if (!diaryLabel) return showAlert("오늘 아이의 감정을 선택해주세요", "error");
+        if (!diaryTitle.trim()) return showAlert("제목을 입력해주세요", "error");
+        if (!diaryContent.trim()) return showAlert("내용을 입력해주세요", "error");
+        if (!babyID) return showAlert("아기 정보를 불러오지 못했습니다", "error");
 
         try {
             let uploadedImageUrl = null;
@@ -107,11 +109,11 @@ const Direct_Diary_write = () => {
                 d_temp: (tags.d_temp && tagValues.d_temp) ? `${tagValues.d_temp}도` : ""
             }, false);
 
-            alert("성장 일기를 등록했습니다");
+            showAlert("성장 일기를 등록했습니다");
             navigate("/diary");
         } catch (error) {
             console.log(error);
-            alert("성장 일기 등록을 실패했습니다");
+            showAlert("성장 일기 등록을 실패했습니다", "error");
         }
     };
 

@@ -3,7 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { getCommunityDetail,toggleCommunityLike,deleteCommunity, getComments, createComments,createCommentLike,deleteCommentLike } from "../../services/community_api";
 import { getImageUrl } from "../../hooks/imageUrl";
+<<<<<<< HEAD
 import CommentCard from "../../components/community/Comment_card"; 
+=======
+import { useModal } from "../../hooks/useModal";
+import CommentCard from "../../components/Community/Comment_card"; 
+>>>>>>> origin/chicken
 import "../../styles/community_detail.css"; 
 
 const CommunityDetail = () => {
@@ -11,6 +16,7 @@ const CommunityDetail = () => {
     const {f_id}=useParams()
     const navigate=useNavigate()
     const { user } = useAuth();
+    const { showAlert, showConfirm } = useModal(); 
     const [comments, setComments] = useState([])
     const [commentInput, setCommentInput] = useState("")
     const [post, setPost]=useState(null)
@@ -27,7 +33,7 @@ const CommunityDetail = () => {
                 setComments(commentData)
             } catch(error){
                 console.error("게시글 불러오기 실패:", error)
-                alert("게시글을 불러올 수 없습니다.")
+                showAlert("게시글을 불러올 수 없습니다.", "error")
                 navigate("/community")
             }
         }
@@ -50,21 +56,22 @@ const CommunityDetail = () => {
             }
             
             console.error("좋아요 처리 실패:", error);
-            alert("좋아요 처리 실패");
+            showAlert("좋아요 처리 실패", "error");
         }
     };
 
 
     const handleDeleteClick = async () => {
-        if (!window.confirm("정말 이 게시글을 삭제하시겠습니까?")) return;
+        const confirmed = await showConfirm("정말 이 게시글을 삭제하시겠습니까?");
+        if (!confirmed) return;
         
         try {
             await deleteCommunity(f_id);
-            alert("게시글이 삭제되었습니다.");
+            showAlert("게시글이 삭제되었습니다.");
             navigate("/community"); 
         } catch (error) {
             console.error("게시글 삭제 실패:", error);
-            alert("삭제 권한이 없거나 실패했습니다.");
+            showAlert("삭제 권한이 없거나 실패했습니다.", "error");
         }
     };
 
@@ -83,7 +90,7 @@ const CommunityDetail = () => {
             setIsInputOpen(false)
         } catch (error) {
             console.error("댓글 생성 실패:", error)
-            alert("댓글 등록에 실패했습니다.")
+            showAlert("댓글 등록에 실패했습니다.", "error")
         }
     }
 
