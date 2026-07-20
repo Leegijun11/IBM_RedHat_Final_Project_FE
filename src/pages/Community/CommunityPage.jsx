@@ -7,7 +7,6 @@ import { useModal } from "../../hooks/useModal";
 import CommunityCard from "../../components/community/community_card"; 
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/CommunityPage.css"; // 지정하신 styles 폴더 경로 유지
-import { useModal } from "../../hooks/useModal";
 function CommunityPage() {
     const navigate = useNavigate();
     const { user, isLoggedIn } = useAuth();
