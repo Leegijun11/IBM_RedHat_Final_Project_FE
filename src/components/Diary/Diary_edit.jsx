@@ -4,6 +4,7 @@ import { getDiaryDetail, editDiary } from "../../services/diary_api";
 import { uploadBabyImage } from "../../services/babyimage_api";
 import { getCurrentBaby } from "../../services/partner_api";
 import { fetchImageByPathBlob } from "../../services/secureimages_api";
+import { useModal } from "../../hooks/useModal";
 import NaviBar from "../../components/common/NaviBar"; 
 import "../../styles/Diary_edit.css"; // CSS 경로
 
