@@ -1,10 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { setCurrentBaby } from "../../services/partner_api";
-<<<<<<< HEAD
 import SecureBabyImage from "../common/Securebabyimage";
-=======
-import { useModal } from "../../hooks/useModal";
->>>>>>> origin/chicken
 import "../../styles/Baby_list.css";
 
 function calculateAgeInMonths(birthDateStr) {

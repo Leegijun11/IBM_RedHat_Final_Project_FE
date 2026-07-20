@@ -3,11 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getDiaryDetail, editDiary } from "../../services/diary_api";
 import { uploadBabyImage } from "../../services/babyimage_api";
 import { getCurrentBaby } from "../../services/partner_api";
-<<<<<<< HEAD
 import { fetchImageByPathBlob } from "../../services/secureimages_api";
-=======
-import { useModal } from "../../hooks/useModal";
->>>>>>> origin/chicken
 import NaviBar from "../../components/common/NaviBar"; 
 import "../../styles/Diary_edit.css"; // CSS 경로
 

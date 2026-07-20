@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPartnerList, deletePartner } from "../../services/partner_api";
-<<<<<<< HEAD
 import SecurePartnerImage from "../common/SecurePartnerImage";
-=======
-import { getImageUrl } from "../../hooks/imageUrl";
-import { useModal } from "../../hooks/useModal";
->>>>>>> origin/chicken
 import "../../styles/partner_list.css"; 
 
 function PartnerList({ currentUserId }) {

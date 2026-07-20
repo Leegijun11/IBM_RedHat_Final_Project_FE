@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import { updateUser, uploadUserImage } from "../../services/user_api";
-<<<<<<< HEAD
 import { fetchMyProfilePhotoBlob } from "../../services/secureimages_api";
-=======
-import { useModal } from "../../hooks/useModal";
->>>>>>> origin/chicken
 import "../../styles/Edit_profile.css";
 
 function Edit_profile({ user, onClose, onSuccess }) {

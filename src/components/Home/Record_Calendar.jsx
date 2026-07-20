@@ -4,12 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from "react-router-dom"; 
 import { getBabyLogs, editLog, deleteLog } from "../../services/logs_api"; 
 import { getCurrentBaby } from "../../services/partner_api";
-<<<<<<< HEAD
 import "../../styles/Record_Calendar.css"; 
-=======
-import { useModal } from "../../hooks/useModal";
-import "../../styles/record_calendar.css"; 
->>>>>>> origin/chicken
 
 function Record_Calendar() {
     const navigate = useNavigate();
