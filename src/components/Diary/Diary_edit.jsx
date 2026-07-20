@@ -79,7 +79,7 @@ const Diary_edit = () => {
 
             } catch (error) {
                 console.error("일기 불러오기 실패:", error);
-                showAlert("일기를 불러올 수 없습니다.", "error");
+                await showAlert("일기를 불러올 수 없습니다.", "error");
                 navigate(-1);
             }
         };

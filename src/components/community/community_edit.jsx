@@ -38,7 +38,8 @@ const CommunityEdit = () => {
                 });
             } catch (error) {
                 console.error("게시글 불러오기 실패:", error);
-                showAlert("게시글을 불러올 수 없습니다.", "error");
+                await showAlert("게시글을 불러올 수 없습니다.", "error");
+                navigate(-1)
             }
         };
         fetchPost();
