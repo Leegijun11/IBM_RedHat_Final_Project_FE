@@ -48,3 +48,11 @@ export const deleteEBookPage = async (sp_id) => {
     });
     return response.data;
 };
+
+// 선택 가능한 일기 목록 조회
+export const getSelectableDiaries = async (b_id, start_date, end_date) => {
+    const response = await api.get("/stories/select_diaries", {
+        params: { b_id, start_date, end_date }
+    });
+    return response.data;
+};

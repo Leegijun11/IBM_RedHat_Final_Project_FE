@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { createEBook } from "../../services/ebook_api";
+import { createEBook, getSelectableDiaries } from "../../services/ebook_api";
 import { useModal } from "../../hooks/useModal";
 import NaviBar from "../../components/common/NaviBar";
 import SecureImage from "../../components/common/SecureImage";
@@ -9,13 +9,6 @@ import "../../styles/Diary.css";
 
 import api from "../../hooks/api";
 
-const getSelectableDiaries = async (b_id) => {
-    const response = await api.get("/stories/select_diaries", {
-        params: { b_id }
-    });
-
-    return response.data;
-};
 
 
 function EBookDiarySelect() {
@@ -69,7 +62,7 @@ function EBookDiarySelect() {
 
         const fetchDiaries = async () => {
             try {
-                const result = await getSelectableDiaries(b_id);
+                const result = await getSelectableDiaries(b_id, start_date, end_date);
 
                 console.log("추가 가능한 일기 목록:", result);
 

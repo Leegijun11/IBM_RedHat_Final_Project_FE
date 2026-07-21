@@ -40,7 +40,6 @@ function EBookCreate() {
             return;
         }
 
-        // 기간 정보와 b_id를 가지고 일기 선택 페이지로 이동
         navigate("/ebook/select", {
             state: {
                 b_id: bId,
