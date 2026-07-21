@@ -25,7 +25,7 @@ function Tip_detail() {
 
     return (
         <div>
-            <h2>AI 발달 팁 상세</h2>
+            <h2>발달 팁 상세</h2>
 
             <input type="number" placeholder="팁 ID" value={t_id} onChange={(e) => setT_id(e.target.value)} />
 

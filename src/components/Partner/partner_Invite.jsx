@@ -16,7 +16,7 @@ function PartnerInvite({ onClose, onRefresh }) {
         p_category: p_category 
       });
       
-      showAlert("공동 양육자 초대를 보냈습니다.");
+      showAlert("양육자 초대를 보냈습니다.");
       setU_account("");
       setP_category("");
       
@@ -25,14 +25,14 @@ function PartnerInvite({ onClose, onRefresh }) {
       if (onClose) onClose();
     } catch (error) {
       console.error(error);
-      const message = error.response?.data?.detail || "공동 양육자 초대에 실패하였습니다.";
+      const message = error.response?.data?.detail || "양육자 초대에 실패하였습니다.";
       showAlert(message, "error");
     }
   };
 
   return (
     <div className="invite-dropdown">
-      <h3 className="invite-title">공동 양육자 초대</h3>
+      <h3 className="invite-title">양육자 초대</h3>
 
       <form onSubmit={handleCreatePartner} className="invite-form">
         <input

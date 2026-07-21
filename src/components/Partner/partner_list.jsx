@@ -22,16 +22,16 @@ function PartnerList({ currentUserId }) {
   }, []);
 
   const handleDeletePartner = async (p_id) => {
-    const confirmed = await showConfirm("공동 양육자 지정을 취소하시겠습니까?")
+    const confirmed = await showConfirm("양육자 지정을 취소하시겠습니까?")
     if (!confirmed) return;
 
     try {
       await deletePartner(p_id);
-      showAlert("공동 양육자 지정이 취소되었습니다.");
+      showAlert("양육자 지정이 취소되었습니다.");
       handleGetPartnerList();
     } catch (error) {
       console.error(error);
-      showAlert("공동 양육자 삭제에 실패하였습니다.", "error");
+      showAlert("양육자 삭제에 실패하였습니다.", "error");
     }
   };
 
@@ -49,7 +49,7 @@ function PartnerList({ currentUserId }) {
   return (
     <div className="partner-list-container">
       {partnerList.length === 0 ? (
-        <p className="empty-message">등록된 공동 양육자가 없습니다.</p>
+        <p className="empty-message">등록된 양육자가 없습니다.</p>
       ) : (
         partnerList.map((partner) => (
           <div key={partner.p_id} className="partner-card">

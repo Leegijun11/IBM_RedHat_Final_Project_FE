@@ -43,7 +43,7 @@ function Tip_card() {
         <div className="home-card-base">
             <div className="tip-card-header-wrap">
                 <div className="tip-icon-badge">✨</div>
-                <h2 className="tip-card-title">AI 발달 팁 · 오늘</h2>
+                <h2 className="tip-card-title">발달 팁 · 오늘</h2>
                 <span className="tip-card-month-badge">
                     {babyMonth !== null ? `${babyMonth}개월` : ""}
                 </span>

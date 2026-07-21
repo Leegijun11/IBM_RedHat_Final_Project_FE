@@ -33,8 +33,8 @@ function Day_card() {
     return (
         <div className="home-card-base">
             <div className="day-card-header">
-                <h3 className="day-card-title">다음 디지털 북까지</h3>
-                <span className="day-card-subinfo">12개월 달성 시 자동 생성</span>
+                <h3 className="day-card-title">다음 생일까지</h3>
+                <span className="day-card-subinfo"></span>
             </div>
             
             <h1 className="day-card-value">D-{aDay}</h1>
