@@ -159,7 +159,6 @@
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 420px;
     z-index: 100;
     background-color: #FFFFFF;
     border-top: 1px solid #EAE2DB;

@@ -3,7 +3,6 @@
    ========================================================================== */
 .record-calendar-container {
     width: 100% !important;
-    max-width: 420px !important;
     margin: 0 auto !important;
     background-color: #FAF4EF !important;
     min-height: 100vh !important;

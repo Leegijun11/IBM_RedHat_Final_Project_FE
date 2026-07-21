@@ -625,26 +625,6 @@
   color: var(--color-text-sub);
 }
 
-/* ==========================================================================
-   10. NaviBar.jsx (하단 고정 탭바)
-   ========================================================================== */
-.navibar-wrap {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 420px;
-  background-color: var(--color-card-bg);
-  border-top: 1px solid var(--color-border);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
-  box-sizing: border-box;
-  z-index: 40;
-}
-
 .navibar-item {
   display: flex;
   flex-direction: column;

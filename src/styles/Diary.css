@@ -247,13 +247,6 @@
   .diary-write-fab { right: calc(50% - 480px + 24px); }
 }
 
-/* 420px보다 넓은 화면(웹 뷰)에서는 가운데 정렬된 페이지 컨테이너 우측 기준으로 보정 */
-@media (min-width: 461px) {
-  .diary-write-fab {
-    right: calc(50% - 210px + 24px);
-  }
-}
-
 /* ==========================================================================
    6. 일기 상세 페이지 (Diary_detail.jsx)
    ========================================================================== */
@@ -615,21 +608,24 @@
    ========================================================================== */
 .diary-fab-menu {
   position: fixed;
-  bottom: 164px; /* 기존 FAB 높이(56px) + 여유 여백(12px)을 고려해 위로 띄움 */
+  bottom: 164px;
   right: 24px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: flex-end; /* 우측 정렬 */
+  align-items: flex-end;
   z-index: 60;
-  animation: fadeUp 0.2s ease-out forwards; /* 나타날 때 부드럽게 올라오는 효과 */
+  animation: fadeUp 0.2s ease-out forwards;
 }
 
-/* PC/태블릿 뷰(461px 이상) 화면 중앙 정렬 보정 (기존 FAB 버튼과 동일한 축) */
-@media (min-width: 461px) {
-  .diary-fab-menu {
-    right: calc(50% - 210px + 24px);
-  }
+@media (min-width: 461px) and (max-width: 767px) {
+  .diary-fab-menu { right: calc(50% - 210px + 24px); }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .diary-fab-menu { right: calc(50% - 340px + 24px); }
+}
+@media (min-width: 1200px) {
+  .diary-fab-menu { right: calc(50% - 480px + 24px); }
 }
 
 /* 팝업 메뉴 안의 버튼 공통 스타일 */
