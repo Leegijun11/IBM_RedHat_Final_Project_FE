@@ -277,3 +277,757 @@
 
     cursor: pointer;
 }
+
+.ebook-create-page {
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 20px 100px;
+    box-sizing: border-box;
+    background: #FCF8F5;
+    min-height: 100vh;
+}
+
+/* 제목 */
+.create-header {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.create-header h2 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #2E241E;
+    margin-bottom: 6px;
+}
+
+.create-header p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #8F8177;
+    text-align: center;
+}
+
+/* 카드 */
+.create-card {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 28px;
+    padding: 32px 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+}
+
+/* 소제목 */
+.create-card h3 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 28px;
+    color: #2E241E;
+}
+
+/* label */
+.create-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* 날짜 입력 */
+.date-input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 52px;
+    border: 1px solid #F2D8C5;
+    border-radius: 16px;
+    padding: 0 14px;
+    font-size: 16px;
+    margin-bottom: 28px;
+    background: #fff;
+}
+
+/* 생성 버튼 */
+.create-submit {
+    width: 100%;
+    margin: 0;
+    height: 56px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #F17C48, #F59A58);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.create-submit:hover {
+    transform: translateY(-2px);
+}
+
+
+/* ===========================
+   추가 일기 선택 목록
+=========================== */
+
+.ebook-diary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ebook-diary-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 14px 16px;
+    margin-bottom: 10px;
+
+    border: 1px solid #EAE2DB;
+    border-radius: 14px;
+    background: #FAF4EF;
+
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: .2s;
+}
+
+.ebook-diary-item.selected {
+    border: 2px solid #F07C60;
+    background: #FFF5F0;
+}
+
+.ebook-diary-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ebook-diary-title {
+    margin: 0 0 5px;
+    color: #5D5046;
+    font-size: 15px;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ebook-diary-date {
+    margin: 0;
+    color: #A3968C;
+    font-size: 12px;
+}
+
+.ebook-diary-detail-btn {
+    flex-shrink: 0;
+    padding: 7px 11px;
+
+    border: 1px solid #F2D8C5;
+    border-radius: 16px;
+    background: #FFFFFF;
+
+    color: #F07C60;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.ebook-diary-detail-btn:hover {
+    background: #FFF5F0;
+}
+
+.ebook-selected-count {
+    margin: 16px 0;
+    color: #A3968C;
+    font-size: 13px;
+}
+
+
+/* ===========================
+   일기 상세 모달
+=========================== */
+
+.ebook-diary-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    box-sizing: border-box;
+
+    background: rgba(46, 36, 30, 0.45);
+}
+
+.ebook-diary-modal {
+    position: relative;
+
+    width: 100%;
+    max-width: 380px;
+    max-height: 75vh;
+
+    padding: 28px 22px 22px;
+    box-sizing: border-box;
+
+    overflow-y: auto;
+
+    background: #FFFFFF;
+    border-radius: 24px;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+.ebook-diary-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+
+    border: none;
+    background: transparent;
+
+    color: #8F8177;
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.ebook-diary-modal-date {
+    margin: 0 0 6px;
+    color: #A3968C;
+    font-size: 12px;
+}
+
+.ebook-diary-modal-title {
+    margin: 0 32px 18px 0;
+
+    color: #2E241E;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.ebook-diary-modal-image {
+    display: block;
+
+    width: 100%;
+    max-height: 240px;
+    margin-bottom: 18px;
+
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.ebook-diary-modal-content {
+    color: #5D5046;
+    font-size: 14px;
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.ebook-diary-modal-confirm {
+    width: 100%;
+    height: 48px;
+    margin-top: 24px;
+
+    border: none;
+    border-radius: 24px;
+
+    background: linear-gradient(
+        90deg,
+        #F17C48,
+        #F59A58
+    );
+
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+/* ===========================
+   표지 테마 선택 영역 (새로 추가)
+=========================== */
+
+.cover-select-title,
+.diary-select-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #5D5046;
+    margin-bottom: 16px;
+}
+
+.create-divider {
+    border: 0;
+    border-top: 1px solid #F1ECE8;
+    margin: 24px 0;
+}
+
+.cover-options-container {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto; /* 나중에 7~8개 들어올 때 가로 스크롤 허용 */
+    padding-bottom: 12px; /* 스크롤바 공간 확보 */
+    margin-bottom: 8px;
+}
+
+/* 스크롤바 숨김 처리 (깔끔한 UI용) */
+.cover-options-container::-webkit-scrollbar {
+    display: none;
+}
+.cover-options-container {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+
+.cover-option-item {
+    flex-shrink: 0; /* 가로 스크롤 시 아이템 찌그러짐 방지 */
+    border: 1px solid #EAE2DB;
+    border-radius: 14px;
+    padding: 12px;
+    cursor: pointer;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+}
+
+/* ★ 선택되었을 때 활성화 UI */
+.cover-option-item.active {
+    border: 2px solid #F07C60; /* 포인트 컬러(주황색) 테두리 */
+    background: #FDF9F5; /* 옅은 베이지 배경 */
+}
+
+.cover-option-name {
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 12px 0;
+    color: #5D5046;
+}
+
+/* 앞표지, 뒷표지 가로 정렬 */
+.cover-thumbnails {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+/* 이미지 크기 아담하게 조절 */
+.cover-thumbnail {
+    width: 64px;
+    height: 90px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #F1ECE8;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.cover-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ebook-create-page {
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 20px 100px;
+    box-sizing: border-box;
+    background: #FCF8F5;
+    min-height: 100vh;
+}
+
+/* 제목 */
+.create-header {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.create-header h2 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #2E241E;
+    margin-bottom: 6px;
+}
+
+.create-header p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #8F8177;
+    text-align: center;
+}
+
+/* 카드 */
+.create-card {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 28px;
+    padding: 32px 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+}
+
+/* 소제목 */
+.create-card h3 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 28px;
+    color: #2E241E;
+}
+
+/* label */
+.create-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* 날짜 입력 */
+.date-input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 52px;
+    border: 1px solid #F2D8C5;
+    border-radius: 16px;
+    padding: 0 14px;
+    font-size: 16px;
+    margin-bottom: 28px;
+    background: #fff;
+}
+
+/* 생성 버튼 */
+.create-submit {
+    width: 100%;
+    margin: 0;
+    height: 56px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #F17C48, #F59A58);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.create-submit:hover {
+    transform: translateY(-2px);
+}
+
+
+/* ===========================
+   추가 일기 선택 목록
+=========================== */
+
+.ebook-diary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ebook-diary-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 14px 16px;
+    margin-bottom: 10px;
+
+    border: 1px solid #EAE2DB;
+    border-radius: 14px;
+    background: #FAF4EF;
+
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: .2s;
+}
+
+.ebook-diary-item.selected {
+    border: 2px solid #F07C60;
+    background: #FFF5F0;
+}
+
+.ebook-diary-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ebook-diary-title {
+    margin: 0 0 5px;
+    color: #5D5046;
+    font-size: 15px;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ebook-diary-date {
+    margin: 0;
+    color: #A3968C;
+    font-size: 12px;
+}
+
+.ebook-diary-detail-btn {
+    flex-shrink: 0;
+    padding: 7px 11px;
+
+    border: 1px solid #F2D8C5;
+    border-radius: 16px;
+    background: #FFFFFF;
+
+    color: #F07C60;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.ebook-diary-detail-btn:hover {
+    background: #FFF5F0;
+}
+
+.ebook-selected-count {
+    margin: 16px 0;
+    color: #A3968C;
+    font-size: 13px;
+}
+
+
+/* ===========================
+   일기 상세 모달
+=========================== */
+
+.ebook-diary-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    box-sizing: border-box;
+
+    background: rgba(46, 36, 30, 0.45);
+}
+
+.ebook-diary-modal {
+    position: relative;
+
+    width: 100%;
+    max-width: 380px;
+    max-height: 75vh;
+
+    padding: 28px 22px 22px;
+    box-sizing: border-box;
+
+    overflow-y: auto;
+
+    background: #FFFFFF;
+    border-radius: 24px;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+.ebook-diary-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+
+    border: none;
+    background: transparent;
+
+    color: #8F8177;
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.ebook-diary-modal-date {
+    margin: 0 0 6px;
+    color: #A3968C;
+    font-size: 12px;
+}
+
+.ebook-diary-modal-title {
+    margin: 0 32px 18px 0;
+
+    color: #2E241E;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.ebook-diary-modal-image {
+    display: block;
+
+    width: 100%;
+    max-height: 240px;
+    margin-bottom: 18px;
+
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.ebook-diary-modal-content {
+    color: #5D5046;
+    font-size: 14px;
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.ebook-diary-modal-confirm {
+    width: 100%;
+    height: 48px;
+    margin-top: 24px;
+
+    border: none;
+    border-radius: 24px;
+
+    background: linear-gradient(
+        90deg,
+        #F17C48,
+        #F59A58
+    );
+
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+/* ===========================
+   표지 테마 선택 영역
+=========================== */
+
+.cover-select-title,
+.diary-select-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #5D5046;
+    margin-bottom: 16px;
+}
+
+.create-divider {
+    border: 0;
+    border-top: 1px solid #F1ECE8;
+    margin: 24px 0;
+}
+
+.cover-options-container {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto; 
+    padding-bottom: 12px; 
+    margin-bottom: 8px;
+}
+
+.cover-options-container::-webkit-scrollbar {
+    display: none;
+}
+.cover-options-container {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+
+.cover-option-item {
+    flex-shrink: 0;
+    border: 1px solid #EAE2DB;
+    border-radius: 14px;
+    padding: 12px;
+    cursor: pointer;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+}
+
+.cover-option-item.active {
+    border: 2px solid #F07C60; 
+    background: #FDF9F5; 
+}
+
+/* 🌟 선택(체크) 버튼과 제목을 가로로 묶는 헤더 */
+.cover-option-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+/* 🌟 새로 추가된 동그란 체크 버튼 UI */
+.cover-check-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #C0B5AC;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: transparent; /* 평소엔 체크(✓)가 안 보임 */
+    transition: all 0.2s ease;
+}
+
+.cover-check-circle.checked {
+    border-color: #F07C60;
+    background-color: #F07C60;
+    color: #FFFFFF; /* 체크하면 흰색(✓)이 보임 */
+}
+
+.cover-option-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #5D5046;
+    margin: 0; /* 여백은 부모(header)가 처리 */
+}
+
+.cover-thumbnails {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.cover-thumbnail {
+    width: 64px;
+    height: 90px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #F1ECE8;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.cover-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}

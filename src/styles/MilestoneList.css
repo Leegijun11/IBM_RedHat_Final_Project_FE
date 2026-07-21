@@ -1,193 +1,403 @@
-/* src/styles/MilestoneList.css */
-
-/* ===========================
-   마일스톤 전체 영역
-=========================== */
 .milestone-container {
     width: 100%;
-    padding: 10px 0;
+    padding: 4px 0;
     box-sizing: border-box;
-}
-
-/* 제목 */
-.milestone-title {
-    font-size: 16px;
-    font-weight: 800;
-    color: #5D5046;
-    margin-bottom: 16px;
+    font-family: 'Pretendard', -apple-system, sans-serif;
 }
 
 /* ===========================
-   드롭다운
+   상단 타이틀 & 네비게이션 (수정된 영역)
 =========================== */
-.milestone-select {
+.milestone-page-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #5D5046;
+    margin: 0 0 24px 0;
+}
+
+.milestone-age-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
     width: 100%;
-    padding: 12px;
-    border-radius: 12px;
+}
+
+.nav-arrow-btn {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
     border: 1px solid #EAE2DB;
-    background: #FFFFFF;
-    font-size: 14px;
-    margin-bottom: 20px;
+    background-color: #FFFFFF;
+    color: #F07C60;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+    box-shadow: 0 4px 16px rgba(93, 80, 70, 0.04);
+}
+
+.nav-arrow-btn:hover:not(:disabled) {
+    border-color: #F5B079;
+    background-color: #FDF9F5;
+}
+
+.nav-arrow-btn:active:not(:disabled) {
+    transform: scale(0.92);
+    background-color: #FFF5F2;
+}
+
+.nav-arrow-btn:disabled {
+    border-color: #F1ECE8;
+    background-color: #FAF4EF;
+    color: #D3C7BE;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* 셀렉트 래퍼 및 스타일 */
+.milestone-select-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.milestone-age-select {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    border-radius: 16px;
+    border: 1px solid #EAE2DB;
+    background-color: #FFFFFF;
+    color: #5D5046;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    appearance: none; /* 기본 화살표 숨김 */
     outline: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(93, 80, 70, 0.04);
+    transition: border-color 0.15s ease;
+}
+
+.milestone-age-select:focus {
+    border-color: #F07C60;
+}
+
+/* 커스텀 드롭다운 화살표 표시 */
+.milestone-select-wrapper::after {
+    content: "⌄";
+    position: absolute;
+    right: 16px;
+    top: 45%;
+    transform: translateY(-50%);
+    color: #A3968C;
+    font-size: 18px;
+    pointer-events: none;
+}
+
+/* ===========================
+   요약 배너 (달성률 원형 그래프)
+=========================== */
+.milestone-summary-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #FFF6F1 0%, #FFEEE4 100%);
+    border: 1px solid #FBDFCB;
+}
+
+.summary-banner-ring {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+}
+
+.summary-ring-svg {
+    width: 56px;
+    height: 56px;
+    transform: rotate(-90deg);
+}
+
+.summary-ring-bg {
+    fill: none;
+    stroke: #FBDFCB;
+    stroke-width: 6;
+}
+
+.summary-ring-fill {
+    fill: none;
+    stroke: url(#none);
+    stroke: #F07C60;
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.4s ease;
+}
+
+.summary-ring-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    font-weight: 800;
+    color: #F07C60;
+}
+
+.summary-banner-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-banner-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #C48A6E;
+}
+
+.summary-banner-value {
+    font-size: 15px;
+    font-weight: 800;
+    color: #2E241E;
+}
+
+/* ===========================
+   카테고리 탭 버튼
+=========================== */
+.milestone-category-tabs {
+    display: flex;
+    gap: 4px;
+    background: #F4EEE8;
+    padding: 4px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.milestone-category-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.category-tab-btn {
+    flex: 1;
+    white-space: nowrap;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #A3968C;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    letter-spacing: -0.2px;
+}
+
+.category-tab-btn:hover {
+    color: #7A6D63;
+}
+
+.category-tab-btn.active {
+    background: #FFFFFF;
+    color: #F07C60;
+    box-shadow: 0 2px 6px rgba(240, 124, 96, 0.15);
+}
+
+/* ===========================
+   카테고리 그룹 카드
+=========================== */
+.milestone-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.milestone-group {
+    background: #FFFFFF;
+    border: 1px solid #F1ECE8;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(46, 36, 30, 0.04);
+    transition: box-shadow 0.2s ease;
+}
+
+.milestone-group:hover {
+    box-shadow: 0 4px 16px rgba(46, 36, 30, 0.07);
+}
+
+.milestone-group-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    border: none;
+    background: transparent;
     cursor: pointer;
     box-sizing: border-box;
 }
 
+.milestone-group-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+/* 카테고리 색상 점 */
+.milestone-group-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: #F07C60;
+}
+
+.dot-신체·발달 { background: #F07C60; }
+.dot-사회·정서 { background: #E893C2; }
+.dot-감각·모방 { background: #7FB8E0; }
+.dot-언어·소통 { background: #8FCB8B; }
+.dot-구강·위생 { background: #E0B65A; }
+.dot-인지·학습 { background: #A995E0; }
+.dot-전체 { background: #F07C60; }
+
+.milestone-group-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #2E241E;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+}
+
+.milestone-group-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: #F07C60;
+    white-space: nowrap;
+}
+
+.milestone-group-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.milestone-progress-track {
+    width: 56px;
+    height: 6px;
+    border-radius: 999px;
+    background: #F1ECE8;
+    overflow: hidden;
+}
+
+.milestone-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #F57E5C 0%, #F5B079 100%);
+    transition: width 0.3s ease;
+}
+
+.milestone-group-chevron {
+    font-size: 13px;
+    color: #C0B5AC;
+    transition: transform 0.2s ease;
+}
+
+.milestone-group-chevron.collapsed {
+    transform: rotate(180deg);
+}
+
 /* ===========================
-   리스트 (세로 정렬)
+   리스트
 =========================== */
 .milestone-list {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 20px 18px;
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 2px;
 
     width: 100%;
-}
-
-/* 한 줄 */
-.milestone-item {
-    width: 100%;
-    display: block;
-    border-bottom: 1px solid #F1ECE8;
-    padding-bottom: 10px;
-}
-
-/* ===========================
-   체크박스
-=========================== */
-
-/* 기본 체크박스 숨김 */
-.checkbox-wrapper input {
-    display: none;
-}
-
-/* 한 줄 배치 */
-.checkbox-wrapper {
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-
-    cursor: pointer;
-    padding: 8px 0;
     box-sizing: border-box;
 }
 
-/* 원 */
-.custom-circle {
-    width: 24px;
-    height: 24px;
+.milestone-item {
+    width: 100%;
+    display: block;
+    border-top: 1px solid #F6F1EC;
+}
 
+.milestone-item:first-child {
+    border-top: none;
+}
+
+.checkbox-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+.custom-check {
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    border: 2px dashed #C0B5AC;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     margin-right: 12px;
-
     flex-shrink: 0;
 
-    transition: all .2s ease;
+    background: #F4EEE8;
+    color: transparent;
+    font-size: 11px;
+    font-weight: 900;
+    transition: all 0.2s ease;
 }
 
-/* 체크 시 */
-.checkbox-wrapper input:checked + .custom-circle {
-    background: #F07C60;
-    border: 2px solid #F07C60;
+.custom-check.checked {
+    background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+    color: #FFFFFF;
+    box-shadow: 0 2px 6px rgba(240, 124, 96, 0.3);
 }
 
-/* 체크 아이콘 */
-.checkbox-wrapper input:checked + .custom-circle::after {
-    content: "✔";
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-/* 텍스트 */
 .checkbox-text {
     flex: 1;
     font-size: 14px;
     line-height: 1.5;
-    color: #5D5046;
+    color: #6B5D51;
+    font-weight: 500;
     word-break: keep-all;
+    letter-spacing: -0.1px;
 }
 
-/* 완료된 항목 */
 .milestone-item.achieved .checkbox-text {
-    color: #A3968C;
+    color: #2E241E;
+    font-weight: 600;
 }
 
-/* ===========================
-   다른 CSS가 덮어써도 세로 유지
-=========================== */
-
-ul.milestone-list {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-}
-
-ul.milestone-list > li {
-    display: block !important;
-    width: 100% !important;
-}
-
-
-/* 상단 화살표 컨테이너 */
-.milestone-nav-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-/* 화살표 버튼 디자인 */
-.nav-arrow-btn {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    border-radius: 12px; /* 둥근 모서리 */
-    border: 1px solid #EAE2DB;
-    background-color: #FFFFFF;
-    
-    color: #F07C60; /* 포인트 코랄 컬러 */
-    font-size: 20px;
-    font-weight: 700;
-    
-    cursor: pointer;
-    transition: all 0.2s ease;
-    padding: 0;
-}
-
-/* 마우스를 누를 때 살짝 눌리는 느낌 */
-.nav-arrow-btn:active:not(:disabled) {
-    transform: scale(0.92);
-    background-color: #FDF9F5;
-}
-
-/* 비활성화 시 스타일 (처음이나 끝에 도달했을 때) */
-.nav-arrow-btn:disabled {
-    border-color: #F1ECE8;
-    background-color: #F1ECE8;
-    color: #C0B5AC;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* 제목 가운데 정렬 유지 */
-.milestone-title {
-    flex: 1;
+.milestone-empty {
     text-align: center;
-    margin: 0 10px; /* 양옆 버튼과 간격 확보 */
-    font-size: 15px; /* 조금 더 아담하게 조정 */
+    color: #A3968C;
+    font-size: 14px;
+    padding: 40px 0;
 }

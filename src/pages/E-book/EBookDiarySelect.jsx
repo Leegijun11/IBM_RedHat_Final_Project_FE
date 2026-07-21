@@ -6,10 +6,30 @@ import NaviBar from "../../components/common/NaviBar";
 import SecureImage from "../../components/common/SecureImage";
 import "../../styles/EBookCreate.css";
 import "../../styles/Diary.css";
-
 import api from "../../hooks/api";
 
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const COVER_OPTIONS = [
+    {
+        id: 1,
+        name: "빨간색 테마 (테스트)",
+        front: "cover/red_fcover.png",
+        back: "cover/red_bcover.png"
+    },
+    {
+        id: 2,
+        name: "파란색 테마 (테스트)",
+        front: "cover/blue_fcover.png",
+        back: "cover/blue_bcover.png"
+    },
+    {
+        id: 3,
+        name: "노란색 테마 (테스트)",
+        front: "cover/yellow_fcover.png",
+        back: "cover/yellow_bcover.png"
+    }
+];
 
 function EBookDiarySelect() {
     const navigate = useNavigate();
@@ -22,11 +42,12 @@ function EBookDiarySelect() {
         end_date
     } = state || {};
 
-    //디지털북 생성 로딩창
     const [diaries, setDiaries] = useState([]);
     const [selectedIds, setSelectedIds] = useState([]);
     const [loading, setLoading] = useState(false);
     const [detailDiary, setDetailDiary] = useState(null);
+
+    const [selectedCoverId, setSelectedCoverId] = useState(null);
 
     const [tipIndex, setTipIndex] = useState(0);
     const tipTimerRef = useRef(null);
@@ -93,27 +114,31 @@ function EBookDiarySelect() {
 
 
     const handleDetail = (e, diary) => {
-        // 자세히 보기 클릭 시 일기 선택 방지
         e.stopPropagation();
-
         console.log("선택한 일기:", diary);
-
         setDetailDiary(diary);
     };
 
 
     const handleCreate = async () => {
+        if (!selectedCoverId) {
+            showAlert("표지 테마를 선택해주세요.", "error");
+            return;
+        }
+
         setLoading(true);
         startTipRotation();
 
         try {
+            const selectedCover = COVER_OPTIONS.find(c => c.id === selectedCoverId);
+
             await createEBook(
                 {
                     b_id,
                     start_date,
                     end_date,
-                    s_fcover: "",
-                    s_bcover: "",
+                    s_fcover: selectedCover ? selectedCover.front : "없음",
+                    s_bcover: selectedCover ? selectedCover.back : "없음",
                     s_creator: "",
                     s_comment: "",
                 },
@@ -148,9 +173,7 @@ function EBookDiarySelect() {
                 <h2>📖 일기 추가 선택</h2>
 
                 <p>
-                    마일스톤 미달성 일기 중 책에 포함할 일기를 선택하세요.
-                    <br />
-                    (선택 안 해도 됩니다)
+                    책에 포함할 표지 테마와 일기를 선택하세요.
                 </p>
 
             </div>
@@ -158,14 +181,42 @@ function EBookDiarySelect() {
 
             <div className="create-card">
 
+                <h4 className="cover-select-title">표지 테마 선택</h4>
+                <div className="cover-options-container">
+                    {COVER_OPTIONS.map((cover) => (
+                        <div 
+                            key={cover.id}
+                            onClick={() => setSelectedCoverId(prev => prev === cover.id ? null : cover.id)}
+                            className={`cover-option-item ${selectedCoverId === cover.id ? "active" : ""}`}
+                        >
+                            <div className="cover-option-header">
+                                <div className={`cover-check-circle ${selectedCoverId === cover.id ? "checked" : ""}`}>
+                                    {selectedCoverId === cover.id ? "✓" : ""}
+                                </div>
+                                <p className="cover-option-name">
+                                    {cover.name}
+                                </p>
+                            </div>
+
+                            <div className="cover-thumbnails">
+                                <div className="cover-thumbnail">
+                                    <img src={`${BACKEND_URL}/${cover.front}`} alt="앞표지" />
+                                </div>
+                                <div className="cover-thumbnail">
+                                    <img src={`${BACKEND_URL}/${cover.back}`} alt="뒷표지" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <hr className="create-divider" />
+
+                <h4 className="diary-select-title">일기 선택</h4>
+
                 {diaries.length === 0 ? (
 
-                    <p
-                        style={{
-                            color: "#A3968C",
-                            textAlign: "center"
-                        }}
-                    >
+                    <p className="empty-diary-msg">
                         추가 가능한 일기가 없습니다.
                     </p>
 
@@ -289,7 +340,6 @@ function EBookDiarySelect() {
                         </h3>
 
 
-                        {/* ★ 변경 포인트: 하드코딩된 localhost URL 조합 대신 SecureImage 사용 */}
                         {detailDiary.d_image && (
 
                             <SecureImage

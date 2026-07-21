@@ -25,9 +25,9 @@ import EBookDiarySelect from './pages/E-book/EBookDiarySelect';
 import "./styles/theme.css";
 
 const App = () => {
-  return (
+  return (    
+  <AuthProvider>
     <ModalProvider>
-      <AuthProvider>
         <Routes>
           <Route path='/' element={<Login/>}/>
           <Route path='mypage' element={<MyPage/>}/>
@@ -50,8 +50,8 @@ const App = () => {
           <Route path='/diary/:d_id' element={<Diary_detail/>}/>
           <Route path='/ebook/select' element={<EBookDiarySelect/>}/>
         </Routes>
-      </AuthProvider>
     </ModalProvider>
+  </AuthProvider>      
   );
 };
 
