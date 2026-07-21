@@ -43,7 +43,7 @@ function Login_form({ setPage }) {
   };
 
   return (
-    <div className="signup-container">
+    <div className="signup-container page-container">
       {/* 배경 장식 원형 */}
       <div className="bg-circle circle-left"></div>
       <div className="bg-circle circle-right"></div>

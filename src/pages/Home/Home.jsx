@@ -13,7 +13,7 @@ function Home() {
     const navigate = useNavigate();
 
     return (
-        <div className="home-main-view">
+        <div className="home-main-view page-container">
 
             {/* 상단 헤더: 아이 정보 + 알림 */}
             <div className="home-header-bar">

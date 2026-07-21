@@ -1,6 +1,6 @@
 /* 공통 레이아웃 (모바일 420px 최적화) */
 .community-page-container {
-    max-width: 420px;
+    width: 100%;
     margin: 0 auto;
     background-color: #FAF4EF;
     min-height: 100vh;
@@ -164,3 +164,5 @@
     background-color: #FFFFFF;
     border-top: 1px solid #EAE2DB;
 }
+@media (min-width: 768px) { .bottom-nav-container { max-width: 680px; } }
+@media (min-width: 1200px) { .bottom-nav-container { max-width: 960px; } }

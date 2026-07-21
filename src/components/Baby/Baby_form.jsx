@@ -74,7 +74,7 @@ function Baby_form() {
   };
 
   return (
-    <div className="baby-container">
+    <div className="baby-container page-container">
       <div className="baby-header-section">
         <p className="baby-sub-title">우리 아기를 소개해주세요</p>
         <h1 className="baby-title">아기 정보<br/>입력하기</h1>

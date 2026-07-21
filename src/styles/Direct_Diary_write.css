@@ -3,8 +3,7 @@
    ========================================================================== */
 .direct-diary-container {
     width: 100% !important;
-    max-width: 420px !important; /* 화면이 무한정 늘어나는 현상 방지 */
-    margin: 0 auto !important;   /* 화면 중앙 정렬 */
+    margin: 0 auto !important;
     background-color: #FAF4EF !important;
     min-height: 100vh !important;
     padding: 24px 20px 100px 20px !important; 
@@ -228,13 +227,8 @@
     color: #FFFFFF !important;
 }
 
-
-/* ==========================================================================
-   1. 최상위 레이아웃 (420px 모바일 강제 고정)
-   ========================================================================== */
 .direct-diary-container {
     width: 100% !important;
-    max-width: 420px !important; /* 화면이 무한정 늘어나는 현상 방지 */
     margin: 0 auto !important;   /* 화면 중앙 정렬 */
     background-color: #FAF4EF !important;
     min-height: 100vh !important;

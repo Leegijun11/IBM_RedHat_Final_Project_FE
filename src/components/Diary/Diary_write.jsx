@@ -106,7 +106,7 @@ function Diary_write() {
     };
 
     return (
-        <div className="diary-write-wrap">
+        <div className="diary-write-wrap page-container">
             <div className="diary-write-card">
                 <h2>오늘의 기록</h2>
 

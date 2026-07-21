@@ -1,10 +1,9 @@
 /* src/styles/MyPage.css */
 .mypage-container {
   width: 100%;
-  max-width: 420px; /* 핸드폰 사이즈 고정 */
-  margin: 0 auto;   /* 중앙 정렬 */
+  margin: 0 auto;
   min-height: 100vh;
-  background-color: #FAF4EF; /* 로그인 페이지와 동일한 톤 */
+  background-color: #FAF4EF;
   padding-bottom: 80px;
   box-sizing: border-box;
 }

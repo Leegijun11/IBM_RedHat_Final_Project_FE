@@ -96,7 +96,7 @@ const CommunityDetail = () => {
     }
 
     if (!post) {
-        return <div className="loading-container">게시글을 불러오는 중입니다... </div>
+        return <div className="loading-container page-container">게시글을 불러오는 중입니다... </div>
     }
 
     const isAuthor = user && post && user.u_id === post.u_id;

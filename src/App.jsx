@@ -22,6 +22,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ModalProvider } from './contexts/ModalContext';
 import Diary_detail from './components/Diary/Diary_detail';
 import EBookDiarySelect from './pages/E-book/EBookDiarySelect';
+import "./styles/theme.css";
 
 const App = () => {
   return (

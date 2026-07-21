@@ -1,7 +1,6 @@
 /* 전체 레이아웃 (모바일 화면 맞춤) */
 .community-detail-container {
     width: 100%;
-    max-width: 420px;
     margin: 0 auto;
     background-color: #FAF4EF;
     min-height: 100vh;
@@ -13,7 +12,6 @@
 
 .loading-container {
     width: 100%;
-    max-width: 420px;
     margin: 0 auto;
     text-align: center;
     padding: 60px 20px;

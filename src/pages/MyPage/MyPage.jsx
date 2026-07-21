@@ -15,6 +15,7 @@ import Account_settings from "../../components/User/Account_settings";
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/MyPage.css";
 
+
 function MyPage() {
   const [user, setUser] = useState(null);
   const [babies, setBabies] = useState([]);
@@ -51,7 +52,7 @@ function MyPage() {
   useEffect(() => { fetchCurrentUser(); }, []);
 
   return (
-    <div className="mypage-container">
+    <div className="mypage-container page-container">
       <div className="mypage-header">
         <Alarm_list onAccept={fetchCurrentUser} />
       </div>

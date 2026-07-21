@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getTipList } from './../../services/tip_api';
 import { useModal } from "../../hooks/useModal";
+import "../../styles/Tip.css";
 
 function Home() {
     const [TipList, setTipList] = useState ([]);
@@ -28,11 +29,11 @@ function Home() {
     }, []);
 
     return (
-        <div>
+        <div className="tip-page page-container">
             <h2>AI 발달 팁</h2>
 
             {TipList.map((tip) =>(
-                <div key={tip.t_id}>
+                <div key={tip.t_id} className="tip-card">
                     <p>{tip.t_title}</p>
                     <p>{tip.t_age}개월</p>
                 </div>

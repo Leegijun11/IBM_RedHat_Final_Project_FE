@@ -2,19 +2,16 @@
    Base Layout & Background (핸드폰 프레임)
    ========================================================================== */
 .signup-container {
-  width: 390px;
-  height: 844px;
-  margin: 40px auto; 
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
   background: linear-gradient(145deg, #F57E5C 0%, #F5B079 100%);
   display: flex;
   flex-direction: column;
   font-family: 'Pretendard', sans-serif;
-  
-  /* 테두리와 그림자 제거 */
-  border-radius: 48px; 
-  border: none; 
-  box-shadow: none; 
-    
+  border-radius: 48px;
+  border: none;
+  box-shadow: none;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;

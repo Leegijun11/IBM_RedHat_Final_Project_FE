@@ -33,7 +33,6 @@
    ========================================================================== */
 .diary-page-wrap {
   width: 100%;
-  max-width: 420px;
   min-height: 100vh;
   margin: 0 auto;
   background-color: var(--main-bg);
@@ -219,7 +218,7 @@
 
 .diary-write-fab {
   position: fixed;
-  bottom: 96px; /* NaviBar 높이(약 80px) 위로 여유 확보 */
+  bottom: 96px;
   right: 24px;
   width: 56px;
   height: 56px;
@@ -238,6 +237,16 @@
   transition: transform 0.3s ease, background 0.3s;
 }
 
+@media (min-width: 461px) and (max-width: 767px) {
+  .diary-write-fab { right: calc(50% - 210px + 24px); }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .diary-write-fab { right: calc(50% - 340px + 24px); }
+}
+@media (min-width: 1200px) {
+  .diary-write-fab { right: calc(50% - 480px + 24px); }
+}
+
 /* 420px보다 넓은 화면(웹 뷰)에서는 가운데 정렬된 페이지 컨테이너 우측 기준으로 보정 */
 @media (min-width: 461px) {
   .diary-write-fab {
@@ -250,7 +259,6 @@
    ========================================================================== */
 .diary-detail-wrap {
   width: 100%;
-  max-width: 420px;
   min-height: 100vh;
   margin: 0 auto;
   background-color: var(--main-bg);
@@ -307,7 +315,6 @@
    ========================================================================== */
 .diary-edit-wrap {
   width: 100%;
-  max-width: 420px;
   min-height: 100vh;
   margin: 0 auto;
   background-color: var(--main-bg);
@@ -381,11 +388,10 @@
    ========================================================================== */
 .diary-write-wrap {
   width: 100%;
-  max-width: 420px;
   min-height: 100vh;
   margin: 0 auto;
   background-color: var(--main-bg);
-  padding: 20px 20px 100px; /* 하단 NaviBar 여유 */
+  padding: 20px 20px 100px;
   box-sizing: border-box;
   font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
   display: flex;

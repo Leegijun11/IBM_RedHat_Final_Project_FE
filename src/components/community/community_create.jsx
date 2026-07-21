@@ -84,7 +84,7 @@ const CommunityCreate = () => {
     };
 
     return (
-        <div className="community-create-container">
+        <div className="community-create-container page-container">
             <div className="create-header">
                 <h2>새 게시물 작성 ✍️</h2>
             </div>

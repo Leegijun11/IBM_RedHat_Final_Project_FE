@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getTipDetail } from "../../services/tip_api";
 import { useModal } from "../../hooks/useModal";
+import "../../styles/Tip.css";
 
 function Tip_detail() {
     const [t_id, setT_id] = useState("");
@@ -24,7 +25,7 @@ function Tip_detail() {
     };
 
     return (
-        <div>
+        <div className="tip-detail-page page-container">
             <h2>발달 팁 상세</h2>
 
             <input type="number" placeholder="팁 ID" value={t_id} onChange={(e) => setT_id(e.target.value)} />
@@ -32,11 +33,9 @@ function Tip_detail() {
             <button onClick={handleGetTipDetail}>조회</button>
 
             {tip && (
-                <div>
+                <div className="tip-detail-card">
                     <h3>{tip.t_title}</h3>
-
                     <p>{tip.t_age}개월</p>
-
                     <p>{tip.t_content}</p>
                 </div>
             )}

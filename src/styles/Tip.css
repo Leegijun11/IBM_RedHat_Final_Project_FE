@@ -1,0 +1,43 @@
+/* src/styles/Tip.css */
+.tip-page {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-bg, #FAF4EF);
+  padding: 24px 20px 100px;
+  box-sizing: border-box;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.tip-page h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text-primary, #2E241E);
+  margin-bottom: 20px;
+}
+
+.tip-card {
+  background-color: var(--color-surface, #FFFFFF);
+  border: 1px solid var(--color-border, #EAE2DB);
+  border-radius: var(--radius-lg, 24px);
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+
+.tip-detail-page {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-bg, #FAF4EF);
+  padding: 24px 20px 100px;
+  box-sizing: border-box;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.tip-detail-card {
+  background-color: var(--color-surface, #FFFFFF);
+  border: 1px solid var(--color-border, #EAE2DB);
+  border-radius: var(--radius-lg, 24px);
+  padding: 20px;
+  margin-top: 16px;
+}

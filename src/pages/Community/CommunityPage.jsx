@@ -123,7 +123,7 @@ function CommunityPage() {
     };
 
     return (
-        <div className="community-page-container">
+        <div className="community-page-container page-container">
             {/* 1. 페이지 타이틀 */}
             <div className="community-title-area">
                 <h2>육아 포럼 💬</h2>

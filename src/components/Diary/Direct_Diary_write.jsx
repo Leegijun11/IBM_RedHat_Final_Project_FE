@@ -118,7 +118,7 @@ const Direct_Diary_write = () => {
     };
 
     return (
-        <div className="direct-diary-container">
+        <div className="direct-diary-container page-container">
             <div className="direct-diary-card">
                 <div className="direct-diary-header">
                     <h2>오늘의 기록 ✍️</h2>

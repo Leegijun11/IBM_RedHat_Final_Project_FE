@@ -131,7 +131,7 @@ function Diary_list() {
     const selectedMonthLabel = `${new Date(selectedDate).getFullYear()}년 ${new Date(selectedDate).getMonth() + 1}월`;
 
     return (
-        <div className="diary-page-wrap">
+        <div className="diary-page-wrap page-container">
             <div className="diary-page-header">
                 <h2>성장 일기 📝</h2>
             </div>

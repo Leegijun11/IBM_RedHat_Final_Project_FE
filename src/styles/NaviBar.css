@@ -1,17 +1,25 @@
 /* 하단 고정 네비게이션바 */
 .navibar-wrap {
-    width: 390px;
+    width: 100%;
+    max-width: 420px;
     height: 80px;
     background-color: white;
     position: fixed;
     bottom: 0;
-    left: 50%; /* 화면 중앙 정렬 */
+    left: 50%;
     transform: translateX(-50%);
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-top: 1px solid #EAE2DB;
     z-index: 1000;
+}
+
+@media (min-width: 768px) {
+    .navibar-wrap { max-width: 680px; }
+}
+@media (min-width: 1200px) {
+    .navibar-wrap { max-width: 960px; }
 }
 
 .navibar-item {

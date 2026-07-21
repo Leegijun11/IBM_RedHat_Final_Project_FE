@@ -201,7 +201,7 @@ function Sign_up({ setPage }) {
 
 
     return (
-        <div className="signup-container">
+        <div className="signup-container page-container">
             <div className="bg-circle circle-left"></div>
             <div className="bg-circle circle-right"></div>
 

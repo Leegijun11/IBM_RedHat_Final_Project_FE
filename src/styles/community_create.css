@@ -1,6 +1,5 @@
 /* 전체 폼 컨테이너 (모바일 최적화) */
 .community-create-container {
-    max-width: 420px;
     margin: 0 auto;
     background-color: #FAF4EF;
     min-height: 100vh;
