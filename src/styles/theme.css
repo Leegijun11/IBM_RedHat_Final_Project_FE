@@ -1,0 +1,28 @@
+:root {
+  --color-bg: #FAF4EF;
+  --color-surface: #FFFFFF;
+  --color-border: #EAE2DB;
+  --color-border-strong: #F2D8C5;
+
+  --color-text-primary: #2E241E;
+  --color-text-secondary: #5D5046;
+  --color-text-muted: #A3968C;
+
+  --color-accent: #F07C60;
+  --color-accent-light: #FFF5F0;
+  --gradient-accent: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+}
+
+.page-container {
+    max-width: 420px;
+}
+@media (min-width: 768px) {
+    .page-container { max-width: 680px; }
+}
+@media (min-width: 1200px) {
+    .page-container { max-width: 960px; }
+}

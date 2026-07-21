@@ -3,7 +3,6 @@
 /* 전체 페이지 레이아웃 (마이페이지와 동일) */
 .ebook-page {
   width: 100%;
-  max-width: 420px;
   margin: 0 auto;
   min-height: 100vh;
   background-color: #FAF4EF; /* 따뜻한 베이지 배경 */
@@ -49,6 +48,21 @@
 .book-list {
   padding: 0 20px;
   margin-bottom: 24px;
+}
+
+
+@media (min-width: 768px) {
+    .book-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .book-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .empty-book {
@@ -213,6 +227,7 @@
   align-items: center;
   gap: 6px;
   margin-top: 16px;
+  grid-column: 1 / -1;
 }
 
 .page-nav-btn,

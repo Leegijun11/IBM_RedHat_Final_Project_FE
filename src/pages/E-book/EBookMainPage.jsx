@@ -95,7 +95,7 @@ function EBookMainPage() {
     );
     
     return (
-        <div className="ebook-page">
+        <div className="ebook-page page-container">
             <div className="ebook-header">
                 <h2 className="ebook-title">성장 디지털 북 📖</h2>
             </div>
