@@ -7,7 +7,6 @@ function Book_card({ book, onDetailClick, onDeleteClick }) {
         ? `${BACKEND_URL}/${book.s_fcover}` 
         : null;
 
-    // 🌟 안전하게 테마 번호(1~8)를 추출하는 함수
     const getThemeNum = (coverString) => {
         if (!coverString || coverString === "없음") return "1";
         const match = coverString.match(/fcover(\d+)/);

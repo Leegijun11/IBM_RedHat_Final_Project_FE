@@ -10,7 +10,6 @@ function Book_detail({ book, onClose }) {
     const [loading, setLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    // 🌟 상세 모달에도 완벽하게 테마 번호(1~8)를 추출해서 주입
     const getThemeNum = (coverString) => {
         if (!coverString || coverString === "없음") return "1";
         const match = coverString.match(/fcover(\d+)/);
@@ -61,7 +60,6 @@ function Book_detail({ book, onClose }) {
 
     return (
         <div className="book-detail-overlay">
-            {/* 🌟 껍데기에 theme-1 ~ theme-8 부여 */}
             <div className={`book-detail-container theme-${themeNum}`}>
                 <h2 className="detail-title">{book.s_name}</h2>
                 <hr className="detail-divider" />
