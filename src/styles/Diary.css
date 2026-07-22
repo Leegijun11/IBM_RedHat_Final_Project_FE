@@ -675,7 +675,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 200;
+  /* 🌟 네비바(NaviBar)를 덮기 위해 200이었던 z-index를 9999로 대폭 상향했습니다 */
+  z-index: 9999; 
 }
 
 .diary-loading-card {
