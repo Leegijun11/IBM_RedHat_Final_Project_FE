@@ -1,197 +1,209 @@
 /* src/styles/Book_card.css */
 
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap');
+
+/* ==========================================================================
+   1. 카드 컨테이너
+   ========================================================================== */
 .book-card-container {
   position: relative;
   width: 100%;
   height: 220px;
-  border-radius: 24px;
-  
-  /* 🔥 화사하고 밝은 코랄/주황색 그라데이션 적용 */
-  background: linear-gradient(100deg, #F8AD8D 0%, #F07C60 100%);
+  border-radius: 18px;
+
+  background: #FFFDF9;
+
+  box-shadow:
+    inset 0 0 0 1px #FFF7F0,
+    inset 0 0 0 5px #FFFFFF,
+    inset 0 0 0 6px #F2D8C5,
+    inset 0 0 0 7px #FFFFFF,
+    0 14px 28px rgba(196, 138, 110, 0.14),
+    0 2px 6px rgba(196, 138, 110, 0.08);
+
   margin-bottom: 24px;
-  padding: 24px;
   box-sizing: border-box;
-  
-  /* 그림자도 주황톤으로 맞춰서 자연스럽게 */
-  box-shadow: 0 8px 16px rgba(240, 124, 96, 0.2); 
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* 우측 상단 디테일 보기 버튼 */
-.detail-link-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.25); /* 밝은 배경에 맞춰 살짝 진하게 */
-  border: none;
-  color: #FFFFFF;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: background 0.2s;
-  z-index: 10;
-}
-
-.detail-link-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
-}
-
-/* 카드 내부 텍스트 콘텐츠 영역 */
-.book-card-content {
-  color: #FFFFFF;
-  z-index: 1;
-}
-
-.book-meta-top {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.book-icon {
-  font-size: 14px;
-  color: #FFFFFF; /* 통일감을 위해 하얀색으로 변경 */
-}
-
-.book-vol {
-  font-size: 12px;
-  font-weight: 800;
-  color: #FFFFFF; /* 텍스트 하얀색 */
-  letter-spacing: 0.5px;
-}
-
-.book-title {
-  font-size: 24px;
-  font-weight: 800;
-  margin: 0 0 8px 0;
-  line-height: 1.3;
-  /* 밝은 배경에서 글씨가 더 또렷하게 보이도록 아주 옅은 그림자 추가 */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-}
-
-.book-desc {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.95);
-  margin: 0 0 20px 0;
-}
-
-/* 통계 배지(동그라미) 디자인 */
-.book-badges {
-  display: flex;
-  gap: 12px;
-}
-
-.badge-circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-}
-
-.badge-num {
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.badge-text {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* 우측 하단 메인 주문 버튼 (플로팅 스타일) */
-.order-floating-btn {
-  position: absolute;
-  bottom: 20px;
-  right: -10px;
-  
-  /* 🔥 배경이 주황색이므로, 버튼을 하얀색으로 만들어 확 눈에 띄게 포인트 줌 */
-  background: #FFFFFF; 
-  color: #F07C60; /* 글자는 코랄 주황색 */
-  
-  border: none;
-  padding: 16px 28px 16px 20px; 
-  border-radius: 30px 0 0 30px; 
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: -4px 4px 16px rgba(240, 124, 96, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: transform 0.1s;
-  z-index: 10;
-}
-
-.order-floating-btn:active {
-  transform: translateX(4px); 
-}
-
-.btn-icon {
-  font-size: 16px;
+.book-card-container:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px #FFF7F0,
+    inset 0 0 0 5px #FFFFFF,
+    inset 0 0 0 6px #F5C8A9,
+    inset 0 0 0 7px #FFFFFF,
+    0 18px 34px rgba(196, 138, 110, 0.18),
+    0 3px 8px rgba(196, 138, 110, 0.1);
 }
 
 /* ==========================================================================
-   추가된 삭제 버튼 (좌측 하단 배치, 반투명 유리 질감)
+   2. 배경 표지 이미지 - 카드 전체를 채우는 삽화
    ========================================================================== */
-.book-delete-btn {
+.book-card-bg-wrap {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background: rgba(255, 255, 255, 0.2); /* 배경에 스며드는 반투명 */
-  border: 1px solid rgba(255, 255, 255, 0.4); /* 얇고 은은한 테두리 */
-  color: #FFFFFF;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 12px;
-  cursor: pointer;
-  backdrop-filter: blur(4px); /* 뒤쪽 코랄색이 살짝 번져보이는 효과 */
-  transition: all 0.2s ease;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
 }
 
-/* 터치/클릭 시 피드백 (모바일 앱 감성) */
-.book-delete-btn:active {
-  background: rgba(255, 255, 255, 0.4);
-  transform: scale(0.95);
-}
-
-/* ==========================================================================
-   🌟 새로 추가된 표지 배경 이미지(그라데이션 스며듦 효과)
-   ========================================================================== */
 .book-card-bg {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 65%; /* 카드의 우측을 어느 정도 덮을지 설정 (원하시면 50%나 70%로 조절 가능) */
-  height: 100%;
-  
+  inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  
-  /* 🔥 마스크 핵심: 왼쪽은 완전 투명(transparent), 오른쪽으로 갈수록 선명해지게(black) 만듦 */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 60%);
-  mask-image: linear-gradient(to right, transparent 0%, black 60%);
-  
-  /* 배경 사진의 진한 정도 조절. 글씨가 잘 보이도록 투명도(opacity)를 낮춤 */
-  opacity: 0.55; 
-  
-  /* 기존 내용(z-index: 1)보다 뒤에 깔리도록 0으로 설정 */
-  z-index: 0; 
+}
+
+.book-card-bg-tone {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #FCE0C4 0%, #F3B27E 45%, #E8896A 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+}
+
+.book-card-bg-light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 20%, rgba(255, 250, 240, 0.5), transparent 55%);
+  mix-blend-mode: soft-light;
+}
+
+.book-card-bg-vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 30px 8px rgba(120, 78, 55, 0.25);
+}
+
+/* ==========================================================================
+   3. 상단 버튼 (책 디테일 보기)
+   ========================================================================== */
+.detail-link-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+
+  background: rgba(255, 253, 249, 0.92);
+  border: 1px solid #EFE0D3;
+  color: #8F8177;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(196, 138, 110, 0.1);
+  font-family: 'Gowun Batang', serif;
+}
+
+.detail-link-btn:hover {
+  background: #FFF5F0;
+  color: #F07C60;
+  border-color: #F5C8A9;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   4. 🔥 제목 뱃지 - 상세보기 버튼과 같은 톤의 독립 박스
+   ========================================================================== */
+.book-title-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 100px;
+  z-index: 3;
+
+  background: rgba(255, 253, 249, 0.92);
+  border: 1px solid #EFE0D3;
+  border-radius: 12px;
+  padding: 10px 14px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 5px rgba(196, 138, 110, 0.1);
+}
+
+.book-vol {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  font-weight: 700;
+  font-style: italic;
+  color: #F07C60;
+  letter-spacing: 0.6px;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.book-title {
+  font-family: 'Gowun Batang', 'Nanum Myeongjo', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3A332D;
+  margin: 0;
+  line-height: 1.35;
+  word-break: keep-all;
+  letter-spacing: -0.2px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   5. 삭제 / 주문 버튼 - 하단 배치 (각각 독립 뱃지)
+   ========================================================================== */
+.book-delete-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 3;
+
+  background: rgba(255, 253, 249, 0.92);
+  border: 1px solid #EAE2DB;
+  color: #8F8177;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(196, 138, 110, 0.1);
+}
+
+.book-delete-btn:active {
+  background: #FFF5F0;
+  color: #F07C60;
+  border-color: #F07C60;
+}
+
+.order-floating-btn {
+  position: absolute;
+  bottom: 16px;
+  right: -10px;
+  z-index: 3;
+
+  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 24px 12px 18px;
+  border-radius: 20px 0 0 20px;
+  font-family: 'Gowun Batang', serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: -4px 6px 16px rgba(240, 124, 96, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.15s ease;
+}
+
+.order-floating-btn:active {
+  transform: translateX(4px);
+}
+
+.btn-icon {
+  font-size: 14px;
 }

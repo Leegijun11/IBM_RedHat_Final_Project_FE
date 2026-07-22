@@ -37,7 +37,7 @@ function Book_card({ book, onDetailClick, onDeleteClick }) {
             <div className="book-card-content">
                 <div className="book-meta-top">
                     <span className="book-icon">📔</span>
-                    <span className="book-vol"></span>
+                    <span></span>
                 </div>
                 
                 <h3 className="book-title">{book.s_name}</h3>
