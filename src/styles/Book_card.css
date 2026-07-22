@@ -170,3 +170,28 @@
   background: rgba(255, 255, 255, 0.4);
   transform: scale(0.95);
 }
+
+/* ==========================================================================
+   🌟 새로 추가된 표지 배경 이미지(그라데이션 스며듦 효과)
+   ========================================================================== */
+.book-card-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%; /* 카드의 우측을 어느 정도 덮을지 설정 (원하시면 50%나 70%로 조절 가능) */
+  height: 100%;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* 🔥 마스크 핵심: 왼쪽은 완전 투명(transparent), 오른쪽으로 갈수록 선명해지게(black) 만듦 */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 60%);
+  mask-image: linear-gradient(to right, transparent 0%, black 60%);
+  
+  /* 배경 사진의 진한 정도 조절. 글씨가 잘 보이도록 투명도(opacity)를 낮춤 */
+  opacity: 0.55; 
+  
+  /* 기존 내용(z-index: 1)보다 뒤에 깔리도록 0으로 설정 */
+  z-index: 0; 
+}

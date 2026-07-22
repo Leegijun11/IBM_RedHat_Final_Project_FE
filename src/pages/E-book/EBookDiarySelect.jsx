@@ -13,22 +13,52 @@ const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"
 const COVER_OPTIONS = [
     {
         id: 1,
-        name: "빨간색 테마 (테스트)",
-        front: "cover/red_fcover.png",
-        back: "cover/red_bcover.png"
+        name: "테마1",
+        front: "cover/fcover1.png",
+        back: "cover/bcover1.png"
     },
     {
         id: 2,
-        name: "파란색 테마 (테스트)",
-        front: "cover/blue_fcover.png",
-        back: "cover/blue_bcover.png"
+        name: "테마2",
+        front: "cover/fcover2.png",
+        back: "cover/bcover2.png"
     },
     {
         id: 3,
-        name: "노란색 테마 (테스트)",
-        front: "cover/yellow_fcover.png",
-        back: "cover/yellow_bcover.png"
-    }
+        name: "테마3",
+        front: "cover/fcover3.png",
+        back: "cover/bcover3.png"
+    },
+        {
+        id: 4,
+        name: "테마4",
+        front: "cover/fcover4.png",
+        back: "cover/bcover4.png"
+    },
+        {
+        id: 5,
+        name: "테마5",
+        front: "cover/fcover5.png",
+        back: "cover/bcover5.png"
+    },
+        {
+        id: 6,
+        name: "테마6",
+        front: "cover/fcover6.png",
+        back: "cover/bcover6.png"
+    },
+        {
+        id: 7,
+        name: "테마7",
+        front: "cover/fcover7.png",
+        back: "cover/bcover7.png"
+    },
+        {
+        id: 8,
+        name: "테마8",
+        front: "cover/fcover8.png",
+        back: "cover/bcover8.png"
+    },
 ];
 
 function EBookDiarySelect() {

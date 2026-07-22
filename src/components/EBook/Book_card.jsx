@@ -1,8 +1,22 @@
 import "../../styles/Book_card.css";
 
+const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
 function Book_card({ book, onDetailClick, onDeleteClick }) {
+  
+    const coverUrl = book.s_fcover && book.s_fcover !== "없음" 
+        ? `${BACKEND_URL}/${book.s_fcover}` 
+        : null;
+
     return (
         <div className="book-card-container">
+            {coverUrl && (
+                <div 
+                    className="book-card-bg"
+                    style={{ backgroundImage: `url(${coverUrl})` }}
+                />
+            )}
+
             <button 
                 className="book-delete-btn" 
                 onClick={(e) => {
@@ -13,7 +27,6 @@ function Book_card({ book, onDetailClick, onDeleteClick }) {
                 삭제
             </button>
 
-            {/* 우측 상단 디테일 보기 버튼 (디자인을 해치지 않는 반투명 스타일) */}
             <button className="detail-link-btn" onClick={(e) => {
                 e.stopPropagation();
                 onDetailClick();
@@ -24,7 +37,7 @@ function Book_card({ book, onDetailClick, onDeleteClick }) {
             <div className="book-card-content">
                 <div className="book-meta-top">
                     <span className="book-icon">📔</span>
-                    <span className="book-vol">VOL. 1</span>
+                    <span className="book-vol"></span>
                 </div>
                 
                 <h3 className="book-title">{book.s_name}</h3>
