@@ -11,25 +11,56 @@ import api from "../../hooks/api";
 const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 const COVER_OPTIONS = [
-    {
-        id: 1,
-        name: "빨간색 테마 (테스트)",
-        front: "cover/red_fcover.png",
-        back: "cover/red_bcover.png"
-    },
-    {
-        id: 2,
-        name: "파란색 테마 (테스트)",
-        front: "cover/blue_fcover.png",
-        back: "cover/blue_bcover.png"
-    },
-    {
-        id: 3,
-        name: "노란색 테마 (테스트)",
-        front: "cover/yellow_fcover.png",
-        back: "cover/yellow_bcover.png"
-    }
+  {
+    id: 1,
+    name: "오리 연못",
+    front: "cover/dearbaby_duck_pond_front.png",
+    back: "cover/dearbaby_duck_pond_back.png",
+  },
+  {
+    id: 2,
+    name: "꽃길",
+    front: "cover/dearbaby_flower_path_front.png",
+    back: "cover/dearbaby_flower_path_back.png",
+  },
+  {
+    id: 3,
+    name: "숲속 요정",
+    front: "cover/dearbaby_forest_fairy_front.png",
+    back: "cover/dearbaby_forest_fairy_back.png",
+  },
+  {
+    id: 4,
+    name: "개구리 정원",
+    front: "cover/dearbaby_frog_garden_front.png",
+    back: "cover/dearbaby_frog_garden_back.png",
+  },
+  {
+    id: 5,
+    name: "열기구",
+    front: "cover/dearbaby_hot_air_balloon_front.png",
+    back: "cover/dearbaby_hot_air_balloon_back.png",
+  },
+  {
+    id: 6,
+    name: "작은 오두막",
+    front: "cover/dearbaby_little_cottage_front.png",
+    back: "cover/dearbaby_little_cottage_back.png",
+  },
+  {
+    id: 7,
+    name: "무지개 꿈",
+    front: "cover/dearbaby_rainbow_dream_front.png",
+    back: "cover/dearbaby_rainbow_dream_back.png",
+  },
+  {
+    id: 8,
+    name: "별고래",
+    front: "cover/dearbaby_star_whale_front.png",
+    back: "cover/dearbaby_star_whale_back.png",
+  },
 ];
+
 
 function EBookDiarySelect() {
     const navigate = useNavigate();
@@ -199,11 +230,8 @@ function EBookDiarySelect() {
                             </div>
 
                             <div className="cover-thumbnails">
-                                <div className="cover-thumbnail">
-                                    <img src={`${BACKEND_URL}/${cover.front}`} alt="앞표지" />
-                                </div>
-                                <div className="cover-thumbnail">
-                                    <img src={`${BACKEND_URL}/${cover.back}`} alt="뒷표지" />
+                                <div className="cover-thumbnail cover-thumbnail-front">
+                                    <img src={`${BACKEND_URL}/${cover.front}`} alt="표지" />
                                 </div>
                             </div>
                         </div>
