@@ -13,49 +13,49 @@ const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"
 const COVER_OPTIONS = [
     {
         id: 1,
-        name: "테마1",
+        name: "오리 연못",
         front: "cover/fcover1.png",
         back: "cover/bcover1.png"
     },
     {
         id: 2,
-        name: "테마2",
+        name: "꽃길",
         front: "cover/fcover2.png",
         back: "cover/bcover2.png"
     },
     {
         id: 3,
-        name: "테마3",
+        name: "숲속 요정",
         front: "cover/fcover3.png",
         back: "cover/bcover3.png"
     },
         {
         id: 4,
-        name: "테마4",
+        name: "개구리 정원",
         front: "cover/fcover4.png",
         back: "cover/bcover4.png"
     },
         {
         id: 5,
-        name: "테마5",
+        name: "열기구",
         front: "cover/fcover5.png",
         back: "cover/bcover5.png"
     },
         {
         id: 6,
-        name: "테마6",
+        name: "작은 오두막",
         front: "cover/fcover6.png",
         back: "cover/bcover6.png"
     },
         {
         id: 7,
-        name: "테마7",
+        name: "무지개 꿈",
         front: "cover/fcover7.png",
         back: "cover/bcover7.png"
     },
         {
         id: 8,
-        name: "테마8",
+        name: "별고래",
         front: "cover/fcover8.png",
         back: "cover/bcover8.png"
     },
