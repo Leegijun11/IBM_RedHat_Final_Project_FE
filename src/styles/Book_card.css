@@ -1,209 +1,75 @@
 /* src/styles/Book_card.css */
-
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
 
 /* ==========================================================================
-   1. 카드 컨테이너
+   🎨 8가지 표지 테마 색상 팔레트 (카드 전용) - 텍스트 가독성 극대화!
+   ========================================================================== */
+.theme-1 { --c-bg: #F4F7F2; --c-text: #2C3825; --c-btn: #7A9E71; --c-btn-txt: #FFFFFF; --c-shadow: rgba(122, 158, 113, 0.4); --c-tone: linear-gradient(160deg, #D4E0CD 0%, #A9C2A0 100%); }
+.theme-2 { --c-bg: #FFF5F7; --c-text: #4A3038; --c-btn: #E87A9A; --c-btn-txt: #FFFFFF; --c-shadow: rgba(232, 122, 154, 0.4); --c-tone: linear-gradient(160deg, #FAD0C4 0%, #FFD1FF 100%); }
+.theme-3 { --c-bg: #EAF0EB; --c-text: #1E2E25; --c-btn: #4B6B56; --c-btn-txt: #FFFFFF; --c-shadow: rgba(75, 107, 86, 0.4); --c-tone: linear-gradient(160deg, #B5C9BC 0%, #7D9C88 100%); }
+.theme-4 { --c-bg: #F9F9EC; --c-text: #38381C; --c-btn: #9FA854; --c-btn-txt: #FFFFFF; --c-shadow: rgba(159, 168, 84, 0.4); --c-tone: linear-gradient(160deg, #E2E8C1 0%, #C8D485 100%); }
+.theme-5 { --c-bg: #FFF3EB; --c-text: #40261C; --c-btn: #D98863; --c-btn-txt: #FFFFFF; --c-shadow: rgba(217, 136, 99, 0.4); --c-tone: linear-gradient(160deg, #F5D3C1 0%, #E8AC8E 100%); }
+.theme-6 { --c-bg: #F7F3EE; --c-text: #362920; --c-btn: #9E7960; --c-btn-txt: #FFFFFF; --c-shadow: rgba(158, 121, 96, 0.4); --c-tone: linear-gradient(160deg, #E3D4C8 0%, #C2A590 100%); }
+.theme-7 { --c-bg: #F0F7FB; --c-text: #1C3040; --c-btn: #629CC2; --c-btn-txt: #FFFFFF; --c-shadow: rgba(98, 156, 194, 0.4); --c-tone: linear-gradient(160deg, #CDE2F0 0%, #9BC4E3 100%); }
+/* 🌟 8번(별고래) 가독성 패치: 배지가 흰색이므로 텍스트를 아주 진한 네이비로 고정 */
+.theme-8 { --c-bg: #1A2235; --c-text: #152238; --c-btn: #4A6382; --c-btn-txt: #FFFFFF; --c-shadow: rgba(74, 99, 130, 0.6); --c-tone: linear-gradient(160deg, #243B53 0%, #486581 100%); }
+
+
+/* ==========================================================================
+   카드 구조 및 스타일 
    ========================================================================== */
 .book-card-container {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  border-radius: 18px;
-
-  background: #FFFDF9;
-
-  box-shadow:
-    inset 0 0 0 1px #FFF7F0,
-    inset 0 0 0 5px #FFFFFF,
-    inset 0 0 0 6px #F2D8C5,
-    inset 0 0 0 7px #FFFFFF,
-    0 14px 28px rgba(196, 138, 110, 0.14),
-    0 2px 6px rgba(196, 138, 110, 0.08);
-
-  margin-bottom: 24px;
-  box-sizing: border-box;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative; width: 100%; height: 220px; border-radius: 18px;
+  background: var(--c-bg); box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px; box-sizing: border-box; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+.book-card-container:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.06); }
 
-.book-card-container:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    inset 0 0 0 1px #FFF7F0,
-    inset 0 0 0 5px #FFFFFF,
-    inset 0 0 0 6px #F5C8A9,
-    inset 0 0 0 7px #FFFFFF,
-    0 18px 34px rgba(196, 138, 110, 0.18),
-    0 3px 8px rgba(196, 138, 110, 0.1);
-}
+.book-card-bg-wrap { position: absolute; inset: 0; }
+.book-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 5%, black 70%); mask-image: linear-gradient(to right, transparent 0%, transparent 5%, black 70%); opacity: 0.9; }
+.book-card-bg-tone { position: absolute; inset: 0; background: var(--c-tone); mix-blend-mode: multiply; opacity: 0.5; }
+.book-card-bg-light { position: absolute; inset: 0; background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.3), transparent 55%); mix-blend-mode: soft-light; }
+.book-card-bg-vignette { position: absolute; inset: 0; box-shadow: inset 0 0 30px 8px rgba(0, 0, 0, 0.15); }
 
-/* ==========================================================================
-   2. 배경 표지 이미지 - 카드 전체를 채우는 삽화
-   ========================================================================== */
-.book-card-bg-wrap {
-  position: absolute;
-  inset: 0;
-}
-
-.book-card-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.book-card-bg-tone {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(160deg, #FCE0C4 0%, #F3B27E 45%, #E8896A 100%);
-  mix-blend-mode: multiply;
-  opacity: 0.4;
-}
-
-.book-card-bg-light {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 75% 20%, rgba(255, 250, 240, 0.5), transparent 55%);
-  mix-blend-mode: soft-light;
-}
-
-.book-card-bg-vignette {
-  position: absolute;
-  inset: 0;
-  box-shadow: inset 0 0 30px 8px rgba(120, 78, 55, 0.25);
-}
-
-/* ==========================================================================
-   3. 상단 버튼 (책 디테일 보기)
-   ========================================================================== */
-.detail-link-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 3;
-
-  background: rgba(255, 253, 249, 0.92);
-  border: 1px solid #EFE0D3;
-  color: #8F8177;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(196, 138, 110, 0.1);
-  font-family: 'Gowun Batang', serif;
-}
-
-.detail-link-btn:hover {
-  background: #FFF5F0;
-  color: #F07C60;
-  border-color: #F5C8A9;
-  transform: translateY(-1px);
-}
-
-/* ==========================================================================
-   4. 🔥 제목 뱃지 - 상세보기 버튼과 같은 톤의 독립 박스
-   ========================================================================== */
+/* 제목 뱃지 */
 .book-title-badge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 100px;
-  z-index: 3;
-
-  background: rgba(255, 253, 249, 0.92);
-  border: 1px solid #EFE0D3;
-  border-radius: 12px;
-  padding: 10px 14px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 2px 5px rgba(196, 138, 110, 0.1);
-}
-
-.book-vol {
-  font-family: 'Playfair Display', serif;
-  font-size: 10px;
-  font-weight: 700;
-  font-style: italic;
-  color: #F07C60;
-  letter-spacing: 0.6px;
-  display: block;
-  margin-bottom: 3px;
+  position: absolute; top: 16px; left: 16px; box-sizing: border-box; width: fit-content; max-width: calc(100% - 150px); z-index: 3;
+  /* 🌟 불투명도를 높여서 뒤의 그림이 글씨를 방해하지 못하게 막음 (0.95) */
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 12px; padding: 10px 14px; backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .book-title {
-  font-family: 'Gowun Batang', 'Nanum Myeongjo', serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: #3A332D;
-  margin: 0;
-  line-height: 1.35;
-  word-break: keep-all;
-  letter-spacing: -0.2px;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  /* 🌟 굵기를 800으로 올려서 더 진하고 선명하게 */
+  font-family: 'Gowun Batang', 'Nanum Myeongjo', serif; font-size: 15px; font-weight: 800; 
+  color: var(--c-text); margin: 0; line-height: 1.35; text-align: left;
+  word-break: keep-all; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-/* ==========================================================================
-   5. 삭제 / 주문 버튼 - 하단 배치 (각각 독립 뱃지)
-   ========================================================================== */
-.book-delete-btn {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  z-index: 3;
+/* 상하단 보조 버튼 */
+.detail-link-btn, .book-delete-btn {
+  /* 🌟 버튼 불투명도 동일하게 상향 */
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0,0,0,0.08); color: var(--c-text);
+  font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 10px; cursor: pointer;
+  backdrop-filter: blur(8px); transition: all 0.2s ease; z-index: 3; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.detail-link-btn { position: absolute; top: 16px; right: 16px; font-family: 'Gowun Batang', serif; }
+.book-delete-btn { position: absolute; bottom: 16px; left: 16px; }
 
-  background: rgba(255, 253, 249, 0.92);
-  border: 1px solid #EAE2DB;
-  color: #8F8177;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 8px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(196, 138, 110, 0.1);
+/* 🌟 호버 시 텍스트가 안 보이지 않도록 테마 메인 컬러로 반전시킴 */
+.detail-link-btn:hover, .book-delete-btn:active {
+  background: var(--c-btn); color: var(--c-btn-txt); border-color: var(--c-btn); transform: translateY(-1px);
 }
 
-.book-delete-btn:active {
-  background: #FFF5F0;
-  color: #F07C60;
-  border-color: #F07C60;
-}
-
+/* 메인 주문 버튼 */
 .order-floating-btn {
-  position: absolute;
-  bottom: 16px;
-  right: -10px;
-  z-index: 3;
-
-  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
-  color: #FFFFFF;
-  border: none;
-  padding: 12px 24px 12px 18px;
-  border-radius: 20px 0 0 20px;
-  font-family: 'Gowun Batang', serif;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: -4px 6px 16px rgba(240, 124, 96, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: transform 0.15s ease;
+  position: absolute; bottom: 16px; right: -10px; z-index: 3;
+  background: var(--c-btn); color: var(--c-btn-txt); border: none;
+  padding: 12px 24px 12px 18px; border-radius: 20px 0 0 20px;
+  font-family: 'Gowun Batang', serif; font-size: 13px; font-weight: 800; cursor: pointer;
+  box-shadow: -4px 6px 16px var(--c-shadow); display: flex; align-items: center; gap: 6px; transition: transform 0.15s ease;
 }
-
-.order-floating-btn:active {
-  transform: translateX(4px);
-}
-
-.btn-icon {
-  font-size: 14px;
-}
+.order-floating-btn:active { transform: translateX(4px); }
+.btn-icon { font-size: 14px; }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getEBookPagesList } from "../../services/ebook_api"; 
 import SecureImage from "../common/SecureImage";
-import "../../styles/Book_detail.css"; // 스타일 파일 연결
+import "../../styles/Book_detail.css"; 
 
 const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
@@ -9,6 +9,15 @@ function Book_detail({ book, onClose }) {
     const [pages, setPages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    // 🌟 상세 모달에도 완벽하게 테마 번호(1~8)를 추출해서 주입
+    const getThemeNum = (coverString) => {
+        if (!coverString || coverString === "없음") return "1";
+        const match = coverString.match(/fcover(\d+)/);
+        return match ? match[1] : "1";
+    };
+    
+    const themeNum = getThemeNum(book?.s_fcover);
 
     useEffect(() => {
         const fetchBookPages = async () => {
@@ -23,19 +32,13 @@ function Book_detail({ book, onClose }) {
                 const combinedPages = [];
 
                 if (book.s_fcover && book.s_fcover !== "없음") {
-                    combinedPages.push({
-                        isCover: true,
-                        sp_image: book.s_fcover,
-                    });
+                    combinedPages.push({ isCover: true, sp_image: book.s_fcover });
                 }
 
                 combinedPages.push(...sortedPages);
 
                 if (book.s_bcover && book.s_bcover !== "없음") {
-                    combinedPages.push({
-                        isCover: true,
-                        sp_image: book.s_bcover,
-                    });
+                    combinedPages.push({ isCover: true, sp_image: book.s_bcover });
                 }
 
                 setPages(combinedPages);
@@ -48,24 +51,18 @@ function Book_detail({ book, onClose }) {
             }
         };
 
-        if (book?.s_id) {
-            fetchBookPages();
-        }
+        if (book?.s_id) fetchBookPages();
     }, [book]);
 
-    const handlePrevPage = () => {
-        setCurrentIndex((prev) => Math.max(0, prev - 1));
-    };
-
-    const handleNextPage = () => {
-        setCurrentIndex((prev) => Math.min(pages.length - 1, prev + 1));
-    };
+    const handlePrevPage = () => setCurrentIndex((prev) => Math.max(0, prev - 1));
+    const handleNextPage = () => setCurrentIndex((prev) => Math.min(pages.length - 1, prev + 1));
 
     const currentPage = pages[currentIndex];
 
     return (
         <div className="book-detail-overlay">
-            <div className="book-detail-container">
+            {/* 🌟 껍데기에 theme-1 ~ theme-8 부여 */}
+            <div className={`book-detail-container theme-${themeNum}`}>
                 <h2 className="detail-title">{book.s_name}</h2>
                 <hr className="detail-divider" />
 
@@ -76,7 +73,6 @@ function Book_detail({ book, onClose }) {
                         <p className="empty-text">생성된 동화책 페이지가 없습니다.</p>
                     ) : (
                         <div className="book-page-viewer">
-                            {/* 좌측 화살표 */}
                             <button
                                 type="button"
                                 className="page-nav-arrow left"
@@ -117,7 +113,6 @@ function Book_detail({ book, onClose }) {
                                 </div>
                             </div>
 
-                            {/* 우측 화살표 */}
                             <button
                                 type="button"
                                 className="page-nav-arrow right"

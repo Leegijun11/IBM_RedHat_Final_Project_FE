@@ -1,161 +1,72 @@
 /* src/styles/Book_detail.css */
 
-/* 전체 화면을 감싸는 오버레이 */
+/* ==========================================================================
+   🎨 8가지 모달 전용 동적 테마 팔레트 (배경, 글씨, 버튼 모두 변경)
+   ========================================================================== */
+.theme-1 { --m-bg: #FDF9F5; --m-text: #3A332D; --m-border: #EAE2DB; --m-arrow: #8EB285; }
+.theme-2 { --m-bg: #FFF5F7; --m-text: #5C4149; --m-border: #F7D4DD; --m-arrow: #F29BB4; }
+.theme-3 { --m-bg: #F0F4F1; --m-text: #2C3E33; --m-border: #C2D1C8; --m-arrow: #5B7A66; }
+.theme-4 { --m-bg: #F9F9EC; --m-text: #4A4A28; --m-border: #E3E3C5; --m-arrow: #B8C46E; }
+.theme-5 { --m-bg: #FFF3EB; --m-text: #523428; --m-border: #F7D5C1; --m-arrow: #E89E78; }
+.theme-6 { --m-bg: #F7F3EE; --m-text: #45372B; --m-border: #DFD3C8; --m-arrow: #B08D73; }
+.theme-7 { --m-bg: #F0F7FB; --m-text: #2A4354; --m-border: #C8E1F2; --m-arrow: #7FB3D4; }
+/* 8번 별고래 테마: 완벽한 어두운 남색 다크 모드 */
+.theme-8 { --m-bg: #1A2235; --m-text: #E8EEF2; --m-border: #2C3E5B; --m-arrow: #6A8BB0; }
+
+/* ==========================================================================
+   구조 스타일
+   ========================================================================== */
 .book-detail-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  padding: 20px;
-  box-sizing: border-box;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.65); display: flex; justify-content: center; align-items: center;
+  z-index: 2000; padding: 20px; box-sizing: border-box;
 }
 
-/* 디테일 카드 본체 (책처럼 넉넉한 크기) */
 .book-detail-container {
-  width: 100%;
-  max-width: 640px;
-  max-height: 85vh;
-  background-color: #FDF9F5;
-  border-radius: 24px;
-  padding: 36px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  overflow: hidden;
+  width: 100%; max-width: 640px; max-height: 85vh;
+  /* 테마 컬러 적용 */
+  background-color: var(--m-bg);
+  border-radius: 24px; padding: 36px; box-sizing: border-box;
+  display: flex; flex-direction: column; align-items: stretch;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.25); overflow: hidden;
+  transition: background-color 0.3s ease;
 }
 
 .detail-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #333;
-  margin: 0 0 15px 0;
-  text-align: center;
+  font-size: 20px; font-weight: 800; color: var(--m-text);
+  margin: 0 0 15px 0; text-align: center;
 }
 
 .detail-divider {
-  border: none;
-  border-top: 1px solid #EAE2DB;
-  margin-bottom: 20px;
+  border: none; border-top: 1px solid var(--m-border); margin-bottom: 20px;
 }
 
-/* 스크롤이 가능한 본문 영역 */
-.detail-content-wrapper {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 20px;
-  scrollbar-width: thin;
-}
+.detail-content-wrapper { flex: 1; overflow-y: auto; margin-bottom: 20px; scrollbar-width: thin; }
+.book-page-viewer { display: flex; align-items: center; gap: 16px; height: 100%; }
+.book-page-item { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: stretch; text-align: left; }
 
-/* ===========================
-   페이지 뷰어 (한 장씩 넘기기)
-=========================== */
-.book-page-viewer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  height: 100%;
-}
-
-.book-page-item {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  text-align: left;
-}
-
-/* ★ 수정: 틀(Wrapper)의 크기 제한을 넉넉하게 풀고 테두리 제거 */
-.page-img-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-height: 500px; /* 세로 크기 대폭 확대 (320px -> 500px) */
-  flex-shrink: 0;
-  margin-bottom: 12px;
-}
-
-/* ★ 수정: 사진이 무조건 다 나오고, 테두리가 사진 크기에 맞춰지도록 변경 */
-.page-image {
-  max-width: 100%;
-  max-height: 500px;
-  object-fit: contain; /* cover -> contain (사진 잘림 방지, 원본 비율 유지) */
-  display: block;
-  border-radius: 10px;
-  border: 1px solid #EAE2DB;
-  background-color: #FFFFFF; /* 투명 배경인 사진일 경우를 대비해 흰색 배경 추가 */
-}
+.page-img-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; max-height: 500px; flex-shrink: 0; margin-bottom: 12px; }
+.page-image { max-width: 100%; max-height: 500px; object-fit: contain; display: block; border-radius: 10px; border: 1px solid var(--m-border); background-color: var(--m-bg); }
 
 .detail-content {
-  font-size: 15px;
-  line-height: 1.9;
-  color: #5D5046;
-  white-space: pre-wrap;
-  margin: 10px 0 0 0;
-  text-align: left;
-  text-indent: 1em;
+  font-size: 15px; line-height: 1.9; color: var(--m-text);
+  white-space: pre-wrap; margin: 10px 0 0 0; text-align: left; text-indent: 1em;
 }
 
-.page-number {
-  text-align: center;
-  color: #888;
-  font-size: 14px;
-  margin-top: 12px;
-  font-weight: 600;
-}
+.page-number { text-align: center; color: var(--m-text); opacity: 0.7; font-size: 14px; margin-top: 12px; font-weight: 600; }
 
-/* 페이지 이동 화살표 */
 .page-nav-arrow {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid #EAE2DB;
-  background-color: #FFFFFF;
-  color: #F07C60;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+  flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--m-border); background-color: transparent;
+  color: var(--m-arrow); font-size: 20px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
 }
 
-.page-nav-arrow:active:not(:disabled) {
-  transform: scale(0.92);
-  background-color: #FDF9F5;
-}
+.page-nav-arrow:active:not(:disabled) { transform: scale(0.92); background-color: var(--m-border); }
+.page-nav-arrow:disabled { border-color: var(--m-border); color: var(--m-border); cursor: not-allowed; opacity: 0.4; }
 
-.page-nav-arrow:disabled {
-  border-color: #F1ECE8;
-  background-color: #F1ECE8;
-  color: #C0B5AC;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* 닫기 버튼 */
 .close-btn {
-  padding: 14px;
-  background-color: #EAE2DB;
-  color: #5D5046;
-  border: none;
-  border-radius: 12px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: background 0.2s;
+  padding: 14px; background-color: var(--m-border); color: var(--m-text);
+  border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: opacity 0.2s;
 }
-
-.close-btn:hover {
-  background-color: #D6CCC4;
-}
+.close-btn:hover { opacity: 0.8; }

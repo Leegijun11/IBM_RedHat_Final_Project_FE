@@ -118,19 +118,19 @@ function Login_form({ setPage }) {
           </button>
         </form>
 
-        {/* '또는' 구분선 */}
+        {/* '또는' 구분선
         <div className="divider-row">
           <div className="divider-line"></div>
           <span className="divider-text">또는</span>
           <div className="divider-line"></div>
         </div>
 
-        {/* 소셜 로그인 버튼들 */}
+        {/* 소셜 로그인 버튼들 
         <div className="social-login-row">
           <button type="button" className="social-btn kakao">카카오</button>
           <button type="button" className="social-btn google">구글</button>
           <button type="button" className="social-btn apple">애플</button>
-        </div>
+        </div> */}
 
       </div>
     </div>
