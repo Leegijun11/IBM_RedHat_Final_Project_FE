@@ -1,212 +1,420 @@
-/* src/styles/EBookCreate.css */
-
-/* ==========================================================================
-   1. 전체 페이지 레이아웃 (메인 페이지와 동일한 베이지 배경)
-   ========================================================================== */
 .ebook-create-page {
-  width: 100%;
-  margin: 0 auto;
-  min-height: 100vh;
-  background-color: #FAF4EF;
-  padding-bottom: 90px;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  position: relative;
-  
-  /* 🌟 핵심: 메인 페이지와 동일하게 넓은 화면에서도 중앙에 모바일 크기로 예쁘게 모이도록 정렬 */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 20px 100px;
+    box-sizing: border-box;
+    background: #FCF8F5;
+    min-height: 100vh;
 }
 
-/* ==========================================================================
-   2. 헤더 영역 (중앙 정렬 및 너비 고정)
-   ========================================================================== */
+/* 제목 */
 .create-header {
-  width: 100%;
-  max-width: 768px; /* 메인 페이지의 본문 최대 폭과 일치시킴 */
-  padding: 24px 20px;
-  box-sizing: border-box;
-  text-align: center;
+    text-align: center;
+    margin-bottom: 22px;
 }
 
 .create-header h2 {
-  font-size: 22px;
-  font-weight: 800;
-  color: #333333;
-  margin: 0 0 8px 0;
+    font-size: 34px;
+    font-weight: 700;
+    color: #2E241E;
+    margin-bottom: 6px;
 }
 
 .create-header p {
-  font-size: 14px;
-  color: #A3968C;
-  margin: 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #8F8177;
+    text-align: center;
 }
 
-/* ==========================================================================
-   3. 하얀색 콘텐츠 카드 뼈대 (메인 페이지 .content-card와 완벽히 동일한 폭/비율)
-   ========================================================================== */
+/* 카드 */
 .create-card {
-  width: 100%;
-  max-width: 768px; /* 🌟 카드가 화면 끝까지 늘어나지 않고 메인 페이지와 똑같은 크기로 고정됨 */
-  background-color: #FFFFFF;
-  border-radius: 24px;
-  padding: 24px;
-  margin: 0 20px 24px 20px;
-  border: 1px solid #EAE2DB;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 28px;
+    padding: 32px 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
 }
 
-.create-card h3,
+/* 소제목 */
+.create-card h3 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 28px;
+    color: #2E241E;
+}
+
+/* label */
+.create-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* 날짜 입력 */
+.date-input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 52px;
+    border: 1px solid #F2D8C5;
+    border-radius: 16px;
+    padding: 0 14px;
+    font-size: 16px;
+    margin-bottom: 28px;
+    background: #fff;
+}
+
+/* 생성 버튼 */
+.create-submit {
+    width: 100%;
+    margin: 0;
+    height: 56px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #F17C48, #F59A58);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.create-submit:hover {
+    transform: translateY(-2px);
+}
+
+/* ★ 추가: EBookMainPage와 동일한 브레이크포인트로 RWD 스케일업 */
+@media (min-width: 768px) {
+    .create-card {
+        padding: 40px 32px;
+    }
+
+    .create-header h2 {
+        font-size: 38px;
+    }
+
+    .create-card h3 {
+        font-size: 24px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .create-card {
+        padding: 48px 40px;
+    }
+
+    .create-header h2 {
+        font-size: 42px;
+    }
+}
+
+
+/* ===========================
+   추가 일기 선택 목록
+=========================== */
+
+.ebook-diary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ebook-diary-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 14px 16px;
+    margin-bottom: 10px;
+
+    border: 1px solid #EAE2DB;
+    border-radius: 14px;
+    background: #FAF4EF;
+
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: .2s;
+}
+
+.ebook-diary-item.selected {
+    border: 2px solid #F07C60;
+    background: #FFF5F0;
+}
+
+.ebook-diary-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ebook-diary-title {
+    margin: 0 0 5px;
+    color: #5D5046;
+    font-size: 15px;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ebook-diary-date {
+    margin: 0;
+    color: #A3968C;
+    font-size: 12px;
+}
+
+.ebook-diary-detail-btn {
+    flex-shrink: 0;
+    padding: 7px 11px;
+
+    border: 1px solid #F2D8C5;
+    border-radius: 16px;
+    background: #FFFFFF;
+
+    color: #F07C60;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.ebook-diary-detail-btn:hover {
+    background: #FFF5F0;
+}
+
+.ebook-selected-count {
+    margin: 16px 0;
+    color: #A3968C;
+    font-size: 13px;
+}
+
+
+/* ===========================
+   일기 상세 모달
+=========================== */
+
+.ebook-diary-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    box-sizing: border-box;
+
+    background: rgba(46, 36, 30, 0.45);
+}
+
+.ebook-diary-modal {
+    position: relative;
+
+    width: 100%;
+    max-width: 380px;
+    max-height: 75vh;
+
+    padding: 28px 22px 22px;
+    box-sizing: border-box;
+
+    overflow-y: auto;
+
+    background: #FFFFFF;
+    border-radius: 24px;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+.ebook-diary-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+
+    border: none;
+    background: transparent;
+
+    color: #8F8177;
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.ebook-diary-modal-date {
+    margin: 0 0 6px;
+    color: #A3968C;
+    font-size: 12px;
+}
+
+.ebook-diary-modal-title {
+    margin: 0 32px 18px 0;
+
+    color: #2E241E;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.ebook-diary-modal-image {
+    display: block;
+
+    width: 100%;
+    max-height: 240px;
+    margin-bottom: 18px;
+
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.ebook-diary-modal-content {
+    color: #5D5046;
+    font-size: 14px;
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.ebook-diary-modal-confirm {
+    width: 100%;
+    height: 48px;
+    margin-top: 24px;
+
+    border: none;
+    border-radius: 24px;
+
+    background: linear-gradient(
+        90deg,
+        #F17C48,
+        #F59A58
+    );
+
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+/* ===========================
+   표지 테마 선택 영역
+=========================== */
+
 .cover-select-title,
 .diary-select-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #333333;
-  margin-top: 0;
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-/* ==========================================================================
-   4. 입력 폼 및 버튼
-   ========================================================================== */
-.create-label {
-  display: block;
-  color: #5D5046;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.date-input {
-  width: 100%;
-  padding: 16px;
-  border-radius: 16px;
-  border: 1px solid #EAE2DB;
-  background-color: #FFFFFF;
-  font-size: 15px;
-  color: #333333;
-  box-sizing: border-box;
-  margin-bottom: 24px;
-  font-family: inherit;
-  transition: border-color 0.2s ease;
-}
-
-.date-input:focus {
-  outline: none;
-  border-color: #F07C60;
-}
-
-.date-input::-webkit-calendar-picker-indicator {
-  filter: invert(0.55) sepia(1) saturate(3) hue-rotate(330deg);
-  cursor: pointer;
-  padding: 4px;
-}
-
-.create-submit {
-  display: block;
-  width: 100%;
-  margin-top: 14px;
-  background: linear-gradient(135deg, #F57E5C 0%, #F5B079 100%);
-  color: white;
-  padding: 14px 0;
-  border: none;
-  border-radius: 20px;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(245, 126, 92, 0.2);
-  transition: transform 0.1s;
-}
-
-.create-submit:active {
-  transform: scale(0.98);
-}
-
-.create-submit:disabled {
-  background: #EAE2DB;
-  box-shadow: none;
-  cursor: not-allowed;
-  color: #A3968C;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #5D5046;
+    margin-bottom: 16px;
 }
 
 .create-divider {
-  border: none;
-  border-top: 1px solid #EAE2DB;
-  margin: 24px 0;
+    border: 0;
+    border-top: 1px solid #F1ECE8;
+    margin: 24px 0;
 }
 
-/* ==========================================================================
-   5. 📱💻 RWD (반응형) 그리드 시스템
-   ========================================================================== */
-.cover-options-container,
-.ebook-diary-list {
-  padding: 0;
-  margin-bottom: 24px;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 16px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-@media (min-width: 768px) {
-  .cover-options-container,
-  .ebook-diary-list {
+.cover-options-container {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
-  }
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
-/* ==========================================================================
-   6. 리스트 아이템 디자인 세부 설정
-   ========================================================================== */
-.cover-option-item { border: 2px solid #EAE2DB; border-radius: 16px; padding: 16px; cursor: pointer; background-color: #FFFFFF; transition: all 0.2s ease; box-sizing: border-box; }
-.cover-option-item.active { border-color: #F07C60; background-color: #FFF5F0; }
-.cover-option-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
-.cover-check-circle { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #EAE2DB; display: flex; align-items: center; justify-content: center; color: transparent; font-size: 12px; font-weight: bold; }
-.cover-check-circle.checked { background-color: #F07C60; border-color: #F07C60; color: #FFFFFF; }
-.cover-option-name { font-size: 15px; font-weight: 700; color: #333333; margin: 0; }
-.cover-thumbnails { display: flex; gap: 10px; }
-.cover-thumbnail { flex: 1; border-radius: 8px; overflow: hidden; border: 1px solid #EAE2DB; }
-.cover-thumbnail img { width: 100%; height: auto; display: block; }
-
-.ebook-diary-item {
-  display: flex; align-items: center; justify-content: space-between; padding: 16px;
-  border: 1px solid #EAE2DB; border-radius: 16px; background-color: #FFFFFF; cursor: pointer; transition: all 0.2s ease; box-sizing: border-box;
+@media (min-width: 480px) {
+    .cover-options-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
-.ebook-diary-item.selected { border-color: #F07C60; background-color: #FFF5F0; }
-.ebook-diary-info { display: flex; flex-direction: column; gap: 4px; }
-.ebook-diary-title { margin: 0; font-size: 15px; font-weight: 700; color: #333333; }
-.ebook-diary-date { margin: 0; font-size: 13px; color: #A3968C; }
-.ebook-diary-detail-btn { background: #FFFFFF; border: 1px solid #EAE2DB; color: #5D5046; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
-.ebook-diary-item.selected .ebook-diary-detail-btn { border-color: #F5B079; color: #F07C60; }
-
-.empty-diary-msg { text-align: center; color: #A3968C; padding: 40px 0; font-size: 14px; }
-.ebook-selected-count { text-align: right; color: #F07C60; font-size: 14px; font-weight: 700; margin: 0 0 16px 0; }
-
-/* ==========================================================================
-   7. 모달 및 로딩 오버레이
-   ========================================================================== */
-.ebook-diary-modal-overlay, .diary-loading-overlay {
-  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.4);
-  display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+@media (min-width: 768px) {
+    .cover-options-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
-.diary-loading-overlay { z-index: 2000; }
 
-.ebook-diary-modal { width: 100%; max-width: 400px; background-color: #FFFFFF; border-radius: 24px; padding: 24px; position: relative; box-sizing: border-box; }
-.ebook-diary-modal-close { position: absolute; top: 16px; right: 16px; background: transparent; border: none; font-size: 24px; color: #A3968C; cursor: pointer; }
-.ebook-diary-modal-date { font-size: 13px; color: #A3968C; margin: 0 0 8px 0; }
-.ebook-diary-modal-title { font-size: 18px; font-weight: 800; color: #333333; margin: 0 0 16px 0; }
-.ebook-diary-modal-image { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 16px; }
-.ebook-diary-modal-content { font-size: 14px; color: #5D5046; line-height: 1.6; margin-bottom: 24px; max-height: 200px; overflow-y: auto; }
-.ebook-diary-modal-confirm { width: 100%; background-color: #F2E8E0; color: #333333; padding: 14px 0; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; }
+.cover-option-item {
+    border: 1px solid #EAE2DB;
+    border-radius: 14px;
+    padding: 12px;
+    cursor: pointer;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-.diary-loading-card { background-color: #FFFFFF; border-radius: 20px; padding: 32px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
-.diary-loading-spinner { width: 40px; height: 40px; border: 4px solid #F2E8E0; border-top-color: #F07C60; border-radius: 50%; animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.diary-loading-header { font-size: 16px; font-weight: 800; color: #333333; margin: 0; }
-.diary-loading-tip { font-size: 14px; color: #F07C60; margin: 0; white-space: pre-line; line-height: 1.5; }
+.cover-option-item.active {
+    border: 2px solid #F07C60; 
+    background: #FDF9F5; 
+}
+
+.cover-option-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.cover-check-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #C0B5AC;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: transparent; 
+    transition: all 0.2s ease;
+}
+
+.cover-check-circle.checked {
+    border-color: #F07C60;
+    background-color: #F07C60;
+    color: #FFFFFF; 
+}
+
+.cover-option-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #5D5046;
+    margin: 0; 
+}
+
+.cover-thumbnails {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.cover-thumbnail {
+    width: 100%; 
+    max-width: 140px;
+    aspect-ratio: 1 / 1.4;
+    height: auto; 
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #F1ECE8;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.cover-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}

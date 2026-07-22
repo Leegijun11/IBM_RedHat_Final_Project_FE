@@ -50,7 +50,7 @@ function EBookCreate() {
     };
 
     return (
-        <div className="ebook-create-page">
+        <div className="ebook-create-page page-container">
             <div className="create-header">
                 <h2>📖 디지털 북 만들기</h2>
                 <p>원하는 기간을 선택하여 성장 디지털 북을 생성하세요.</p>
