@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMonthlyBabyImages } from "../../services/babyimage_api"; 
 import { getCurrentBaby } from "../../services/partner_api";
-import SecureGrowthImage from "../common/SecureGrowthImage";
+import SecureGrowthImage from "../common/Securegrowthimage"
 import "../../styles/Photo_Gallery.css"; // CSS 파일 경로 연결 완료
 
 function Photo_Gallery() {

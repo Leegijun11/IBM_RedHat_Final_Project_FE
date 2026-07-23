@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPartnerList, deletePartner } from "../../services/partner_api";
 import { useModal } from "../../hooks/useModal";
-import SecurePartnerImage from "../common/SecurePartnerImage";
+import SecurePartnerImage from "../common/Securepartnerimage"
 import "../../styles/partner_list.css"; 
 function PartnerList({ currentUserId }) {
   const [partnerList, setPartnerList] = useState([]);

@@ -1,4 +1,4 @@
-import SecureMyProfileImage from "../common/SecureMyProfileImage";
+import SecureMyProfileImage from "../common/Securemyprofileimage";
 import "../../styles/My_page.css";
 
 function My_page({ user, onEditClick }) {
