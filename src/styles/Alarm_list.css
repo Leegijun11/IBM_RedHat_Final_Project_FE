@@ -20,8 +20,10 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+/* 🌟 하드코딩 되어있던 fill/stroke 색상을 지우고 크기만 유지 */
 .bell-icon {
-  font-size: 20px;
+  width: 22px;
+  height: 22px;
 }
 
 /* 새 알림 표시 점 (선택적) */

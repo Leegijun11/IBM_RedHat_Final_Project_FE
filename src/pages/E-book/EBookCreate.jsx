@@ -116,7 +116,13 @@ function EBookCreate() {
     return (
         <div className="ebook-create-page page-container">
             <div className="create-header">
-                <h2>📖 디지털 북 만들기</h2>
+                <h2>
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#F07C60" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-8px", marginRight: "8px" }}>
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                    </svg>
+                    디지털 북 만들기
+                </h2>
                 <p>원하는 기간을 선택하여 성장 디지털 북을 생성하세요.</p>
             </div>
 

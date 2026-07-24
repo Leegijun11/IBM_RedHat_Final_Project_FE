@@ -121,7 +121,14 @@ const Direct_Diary_write = () => {
         <div className="direct-diary-container page-container">
             <div className="direct-diary-card">
                 <div className="direct-diary-header">
-                    <h2>오늘의 기록 ✍️</h2>
+                    {/* 🌟 텍스트 이모지 ✍️ 대체 (펜 SVG) */}
+                    <h2 style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
+                        오늘의 기록
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
+                            <path d="M12 20h9"/>
+                            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                        </svg>
+                    </h2>
                 </div>
 
                 <form onSubmit={handleSaveRecord} className="direct-diary-form">
@@ -156,17 +163,58 @@ const Direct_Diary_write = () => {
                         
                         {/* 1. 가로로 정렬된 태그 버튼 그룹 */}
                         <div className="direct-tags-group">
-                            <button type="button" className={`tag-btn ${tags.d_eat ? "active" : ""}`} onClick={() => handleTagToggle("d_eat")}>
-                                🍼 식사 {tags.d_eat ? "✅" : ""}
+                            <button type="button" className={`tag-btn ${tags.d_eat ? "active" : ""}`} onClick={() => handleTagToggle("d_eat")} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+                                {/* 🌟 🍼 대체 (수저 SVG) */}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M8 2c-1.7 0-3 1.8-3 4 0 2 1.3 3.5 2.5 3.9V22"/>
+                                    <path d="M8 2c1.7 0 3 1.8 3 4 0 2-1.3 3.5-2.5 3.9"/>
+                                    <line x1="15" y1="2" x2="15" y2="22"/>
+                                    <line x1="19" y1="2" x2="19" y2="22"/>
+                                </svg>
+                                식사
+                                {/* 🌟 ✅ 대체 (체크 SVG) */}
+                                {tags.d_eat && (
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                )}
                             </button>
-                            <button type="button" className={`tag-btn ${tags.d_sleep ? "active" : ""}`} onClick={() => handleTagToggle("d_sleep")}>
-                                💤 수면 {tags.d_sleep ? "✅" : ""}
+                            <button type="button" className={`tag-btn ${tags.d_sleep ? "active" : ""}`} onClick={() => handleTagToggle("d_sleep")} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+                                {/* 🌟 💤 대체 (달 SVG) */}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                                </svg>
+                                수면
+                                {tags.d_sleep && (
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                )}
                             </button>
-                            <button type="button" className={`tag-btn ${tags.d_toilet ? "active" : ""}`} onClick={() => handleTagToggle("d_toilet")}>
-                                💩 배변 {tags.d_toilet ? "✅" : ""}
+                            <button type="button" className={`tag-btn ${tags.d_toilet ? "active" : ""}`} onClick={() => handleTagToggle("d_toilet")} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+                                {/* 🌟 💩 대체 (똥 SVG) */}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M12 2C8 2 8 7 8 7c-2 0-3 1.5-3 3 0 1.3 1 2.5 2 3-1.5.5-3 2-3 4 0 2.5 3 4 8 4s8-1.5 8-4c0-2-1.5-3.5-3-4 1-.5 2-1.7 2-3 0-1.5-1-3-3-3 0 0 0-5-4-5z"/>
+                                </svg>
+                                배변
+                                {tags.d_toilet && (
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                )}
                             </button>
-                            <button type="button" className={`tag-btn ${tags.d_temp ? "active" : ""}`} onClick={() => handleTagToggle("d_temp")}>
-                                🌡️ 체온 {tags.d_temp ? "✅" : ""}
+                            <button type="button" className={`tag-btn ${tags.d_temp ? "active" : ""}`} onClick={() => handleTagToggle("d_temp")} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+                                {/* 🌟 🌡️ 대체 (온도계 SVG) */}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                                    <path d="M12 12v3"/>
+                                </svg>
+                                체온
+                                {tags.d_temp && (
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                )}
                             </button>
                         </div>
 
@@ -175,28 +223,52 @@ const Direct_Diary_write = () => {
                             <div className="tag-inputs-container">
                                 {tags.d_eat && (
                                     <div className="tag-input-row">
-                                        <span className="tag-input-label">🍼 식사</span>
+                                        <span className="tag-input-label" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M8 2c-1.7 0-3 1.8-3 4 0 2 1.3 3.5 2.5 3.9V22"/>
+                                                <path d="M8 2c1.7 0 3 1.8 3 4 0 2-1.3 3.5-2.5 3.9"/>
+                                                <line x1="15" y1="2" x2="15" y2="22"/>
+                                                <line x1="19" y1="2" x2="19" y2="22"/>
+                                            </svg>
+                                            식사
+                                        </span>
                                         <input type="number" min="0" className="custom-input small-input" placeholder="예) 3" value={tagValues.d_eat} onChange={(e) => handleTagValueChange("d_eat", e.target.value)} />
                                         <span className="tag-input-unit">회</span>
                                     </div>
                                 )}
                                 {tags.d_sleep && (
                                     <div className="tag-input-row">
-                                        <span className="tag-input-label">💤 수면</span>
+                                        <span className="tag-input-label" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                                            </svg>
+                                            수면
+                                        </span>
                                         <input type="number" min="0" className="custom-input small-input" placeholder="예) 8" value={tagValues.d_sleep} onChange={(e) => handleTagValueChange("d_sleep", e.target.value)} />
                                         <span className="tag-input-unit">시간</span>
                                     </div>
                                 )}
                                 {tags.d_toilet && (
                                     <div className="tag-input-row">
-                                        <span className="tag-input-label">💩 배변</span>
+                                        <span className="tag-input-label" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M12 2C8 2 8 7 8 7c-2 0-3 1.5-3 3 0 1.3 1 2.5 2 3-1.5.5-3 2-3 4 0 2.5 3 4 8 4s8-1.5 8-4c0-2-1.5-3.5-3-4 1-.5 2-1.7 2-3 0-1.5-1-3-3-3 0 0 0-5-4-5z"/>
+                                            </svg>
+                                            배변
+                                        </span>
                                         <input type="number" min="0" className="custom-input small-input" placeholder="예: 2" value={tagValues.d_toilet} onChange={(e) => handleTagValueChange("d_toilet", e.target.value)} />
                                         <span className="tag-input-unit">회</span>
                                     </div>
                                 )}
                                 {tags.d_temp && (
                                     <div className="tag-input-row">
-                                        <span className="tag-input-label">🌡️ 체온</span>
+                                        <span className="tag-input-label" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                                                <path d="M12 12v3"/>
+                                            </svg>
+                                            체온
+                                        </span>
                                         <input type="number" step="0.1" className="custom-input small-input" placeholder="예: 36.5" value={tagValues.d_temp} onChange={(e) => handleTagValueChange("d_temp", e.target.value)} />
                                         <span className="tag-input-unit">도</span>
                                     </div>
@@ -208,7 +280,14 @@ const Direct_Diary_write = () => {
                     <div className="form-group">
                         <label className="form-label">사진 첨부</label>
                         <label className="file-upload-label">
-                            <span className="file-upload-text">📸 탭하여 사진 선택하기</span>
+                            <span className="file-upload-text" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                                {/* 🌟 📸 대체 (카메라 SVG) */}
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
+                                    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                                    <circle cx="12" cy="13" r="3"/>
+                                </svg>
+                                탭하여 사진 선택하기
+                            </span>
                             <input className="hidden-file-input" type="file" accept="image/*" onChange={handleImageChange} />
                         </label>
                         {imageView && (

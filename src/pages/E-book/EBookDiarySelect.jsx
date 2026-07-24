@@ -213,7 +213,13 @@ function EBookDiarySelect() {
 
             <div className="create-header">
 
-                <h2>📖 일기 추가 선택</h2>
+                <h2>
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#F07C60" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-8px", marginRight: "8px" }}>
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                    </svg>
+                    일기 추가 선택
+                </h2>
 
                 <p>
                     책에 포함할 표지 테마와 일기를 선택하세요.
@@ -339,7 +345,15 @@ function EBookDiarySelect() {
                     {
                         loading
                             ? "생성 중..."
-                            : "📖 디지털북 생성하기"
+                            : (
+                                <>
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-5px", marginRight: "8px" }}>
+                                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                                    </svg>
+                                    디지털북 생성하기
+                                </>
+                            )
                     }
                 </button>
 

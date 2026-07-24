@@ -4,6 +4,13 @@ import { createCommunity, uploadForumImage } from "../../services/community_api"
 import { useModal } from "../../hooks/useModal";
 import "../../styles/community_create.css"; 
 
+// 체크 아이콘 (활성화된 태그 표시용)
+const CheckIcon = () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-2px", marginLeft: "2px" }}>
+        <polyline points="20 6 9 17 4 12" />
+    </svg>
+);
+
 const CommunityCreate = () => {
     const navigate = useNavigate();
     const { showAlert } = useModal(); 
@@ -86,7 +93,13 @@ const CommunityCreate = () => {
     return (
         <div className="community-create-container page-container">
             <div className="create-header">
-                <h2>새 게시물 작성 ✍️</h2>
+                <h2>
+                    새 게시물 작성
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F07C60" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-5px", marginLeft: "8px" }}>
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z" />
+                    </svg>
+                </h2>
             </div>
 
             <form onSubmit={handleSubmit} className="create-form">
@@ -108,16 +121,16 @@ const CommunityCreate = () => {
                     <label className="form-label">주제 태그 (여러 개 선택 가능)</label>
                     <div className="create-tags-group">
                         <button type="button" className={`tag-btn ${tags.ft_sleep ? "active" : ""}`} onClick={() => handleTagToggle("ft_sleep")}>
-                            수면 {tags.ft_sleep ? "✅" : ""}
+                            수면 {tags.ft_sleep && <CheckIcon />}
                         </button>
                         <button type="button" className={`tag-btn ${tags.ft_food ? "active" : ""}`} onClick={() => handleTagToggle("ft_food")}>
-                            이유식 {tags.ft_food ? "✅" : ""}
+                            이유식 {tags.ft_food && <CheckIcon />}
                         </button>
                         <button type="button" className={`tag-btn ${tags.ft_health ? "active" : ""}`} onClick={() => handleTagToggle("ft_health")}>
-                            건강 {tags.ft_health ? "✅" : ""}
+                            건강 {tags.ft_health && <CheckIcon />}
                         </button>
                         <button type="button" className={`tag-btn ${tags.ft_play ? "active" : ""}`} onClick={() => handleTagToggle("ft_play")}>
-                            놀이 {tags.ft_play ? "✅" : ""}
+                            놀이 {tags.ft_play && <CheckIcon />}
                         </button>
                     </div>
                 </div>
@@ -127,7 +140,13 @@ const CommunityCreate = () => {
                     <label className="form-label">사진 첨부</label>
                     
                     <label className="file-upload-label">
-                        <span className="file-upload-text">📸 탭하여 사진 선택하기</span>
+                        <span className="file-upload-text">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-3px", marginRight: "6px" }}>
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                                <circle cx="12" cy="13" r="4" />
+                            </svg>
+                            탭하여 사진 선택하기
+                        </span>
                         <input 
                             className="hidden-file-input"
                             type="file" 

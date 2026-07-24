@@ -27,16 +27,16 @@
 .profile-image-section {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-/* 1. 라벨을 사진 크기(80px)만큼 딱 맞춰서 고정합니다 */
+/* 1. 사진 라벨 - 사진이 메인이 되도록 충분히 크게 */
 .image-label {
   cursor: pointer;
-  position: relative; /* 이게 있어야 내부 절대 위치(absolute)가 작동합니다 */
+  position: relative;
   display: inline-block;
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   margin: 0 auto;
 }
 
@@ -49,34 +49,47 @@
   background-position: center;
   border: 1px solid #EAE2DB;
   background-color: #f9f9f9;
+  position: relative;
+  z-index: 1;
 }
 
-/* 2. 카메라 아이콘 */
+/* 2. 카메라 아이콘 - 오른쪽 아래에 작은 뱃지로만 */
 .camera-icon {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  
-  /* 주황색 원의 크기를 작고 일정하게 강제 고정합니다! */
-  width: 28px;  
-  height: 28px; 
-  padding: 0; 
-  
+  bottom: -2px;
+  right: -2px;
+  z-index: 2;
+
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+  flex-shrink: 0;
+  padding: 0;
+  box-sizing: border-box;
+
   background-color: #F07C60;
   border-radius: 50%;
-  font-size: 12px;
-  
-  /* 테두리와 그림자로 디테일 살리기 */
   border: 2px solid white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-  
-  /* 아이콘 정중앙 정렬 */
+
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* 사진 영역 밖으로 살짝만 빼주기 */
-  transform: translate(10%, 10%); 
+  overflow: hidden;
+}
+
+.camera-icon svg {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+}
+
+.camera-icon svg {
+  width: 9px;
+  height: 9px;
 }
 
 /* 입력 필드 스타일 */

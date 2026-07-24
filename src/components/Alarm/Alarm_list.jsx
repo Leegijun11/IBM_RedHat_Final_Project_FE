@@ -64,7 +64,10 @@ function Alarm_list({ onAccept }) {
     return (
         <div className="alarm-container">
             <button className="alarm-bell-btn" onClick={handleOpen}>
-                <span className="bell-icon">🔔</span>
+                <svg className="bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
                 {alarms.length > 0 && <span className="alarm-dot"></span>}
             </button>
 
@@ -75,7 +78,6 @@ function Alarm_list({ onAccept }) {
                     ) : (
                         alarms.map((alarm) => (
                             <div key={alarm.a_id} className="alarm-item">
-
                                 {/* ★ a_type 기반 분기 렌더링 */}
                                 {alarm.a_type === "diary" ? (
                                     // 자동 일기 생성 알림
@@ -120,7 +122,6 @@ function Alarm_list({ onAccept }) {
                                         </div>
                                     </>
                                 )}
-
                             </div>
                         ))
                     )}

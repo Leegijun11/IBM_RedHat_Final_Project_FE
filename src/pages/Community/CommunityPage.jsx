@@ -7,6 +7,14 @@ import { useModal } from "../../hooks/useModal";
 import CommunityCard from "../../components/community/community_card"; 
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/CommunityPage.css"; // 지정하신 styles 폴더 경로 유지
+
+// 체크 아이콘 (활성화된 태그/필터 표시용)
+const CheckIcon = () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-2px", marginLeft: "2px" }}>
+        <polyline points="20 6 9 17 4 12" />
+    </svg>
+);
+
 function CommunityPage() {
     const navigate = useNavigate();
     const { user, isLoggedIn } = useAuth();
@@ -126,25 +134,30 @@ function CommunityPage() {
         <div className="community-page-container page-container">
             {/* 1. 페이지 타이틀 */}
             <div className="community-title-area">
-                <h2>육아 포럼 💬</h2>
+                <h2>
+                    육아 포럼
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F07C60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-4px", marginLeft: "8px" }}>
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                </h2>
             </div>
             {/* 2. 태그 및 기질 분류 (상단 배치 & 가로 스크롤 통합) */}
             <div className="community-tags-scroll">
                 <button className={`tag-btn ${activeTag === "sleep" ? "active" : ""}`} onClick={() => handleTagToggle("sleep")}>
-                    수면 {activeTag === "sleep" ? "✅" : ""}
+                    수면 {activeTag === "sleep" && <CheckIcon />}
                 </button>
                 <button className={`tag-btn ${activeTag === "food" ? "active" : ""}`} onClick={() => handleTagToggle("food")}>
-                    이유식 {activeTag === "food" ? "✅" : ""}
+                    이유식 {activeTag === "food" && <CheckIcon />}
                 </button>
                 <button className={`tag-btn ${activeTag === "health" ? "active" : ""}`} onClick={() => handleTagToggle("health")}>
-                    건강 {activeTag === "health" ? "✅" : ""}
+                    건강 {activeTag === "health" && <CheckIcon />}
                 </button>
                 <button className={`tag-btn ${activeTag === "play" ? "active" : ""}`} onClick={() => handleTagToggle("play")}>
-                    놀이 {activeTag === "play" ? "✅" : ""}
+                    놀이 {activeTag === "play" && <CheckIcon />}
                 </button>
                 {/* 네가 수정한 기질 버튼 부분 적용 완료 */}
                 <button className={`filter-btn ${babyCharacter ? "active" : ""}`} onClick={handleBabyCharacterToggle}>
-                    {babyCharacter ? "비슷한 기질 ✅" : "비슷한 기질"}
+                    비슷한 기질 {babyCharacter && <CheckIcon />}
                 </button>
             </div>
 

@@ -61,7 +61,13 @@ function Baby_list({ babies, selectedBabyId, onSelect, onEdit }) {
               {baby.b_image && (
                 <SecureBabyImage b_id={baby.b_id} alt={baby.b_name} className="baby-avatar" />
               )}
-              {isSelected && <div className="selected-check">✔️</div>}
+              {isSelected && (
+                <div className="selected-check">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+              )}
             </div>
 
             <div className="baby-info">

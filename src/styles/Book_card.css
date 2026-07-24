@@ -1,89 +1,219 @@
 /* src/styles/Book_card.css */
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap');
 
 /* ==========================================================================
-   🎨 8가지 표지 테마 색상 팔레트 (카드 전용) - 텍스트 가독성 극대화!
+   🎨 8가지 표지 테마 색상 팔레트
    ========================================================================== */
-.theme-1 { --c-bg: #F4F7F2; --c-text: #2C3825; --c-btn: #7A9E71; --c-btn-txt: #FFFFFF; --c-shadow: rgba(122, 158, 113, 0.4); --c-tone: linear-gradient(160deg, #D4E0CD 0%, #A9C2A0 100%); }
-.theme-2 { --c-bg: #FFF5F7; --c-text: #4A3038; --c-btn: #E87A9A; --c-btn-txt: #FFFFFF; --c-shadow: rgba(232, 122, 154, 0.4); --c-tone: linear-gradient(160deg, #FAD0C4 0%, #FFD1FF 100%); }
-.theme-3 { --c-bg: #EAF0EB; --c-text: #1E2E25; --c-btn: #4B6B56; --c-btn-txt: #FFFFFF; --c-shadow: rgba(75, 107, 86, 0.4); --c-tone: linear-gradient(160deg, #B5C9BC 0%, #7D9C88 100%); }
-.theme-4 { --c-bg: #F9F9EC; --c-text: #38381C; --c-btn: #9FA854; --c-btn-txt: #FFFFFF; --c-shadow: rgba(159, 168, 84, 0.4); --c-tone: linear-gradient(160deg, #E2E8C1 0%, #C8D485 100%); }
-.theme-5 { --c-bg: #FFF3EB; --c-text: #40261C; --c-btn: #D98863; --c-btn-txt: #FFFFFF; --c-shadow: rgba(217, 136, 99, 0.4); --c-tone: linear-gradient(160deg, #F5D3C1 0%, #E8AC8E 100%); }
-.theme-6 { --c-bg: #F7F3EE; --c-text: #362920; --c-btn: #9E7960; --c-btn-txt: #FFFFFF; --c-shadow: rgba(158, 121, 96, 0.4); --c-tone: linear-gradient(160deg, #E3D4C8 0%, #C2A590 100%); }
-.theme-7 { --c-bg: #F0F7FB; --c-text: #1C3040; --c-btn: #629CC2; --c-btn-txt: #FFFFFF; --c-shadow: rgba(98, 156, 194, 0.4); --c-tone: linear-gradient(160deg, #CDE2F0 0%, #9BC4E3 100%); }
-/* 🌟 8번(별고래) 가독성 패치: 배지가 흰색이므로 텍스트를 아주 진한 네이비로 고정 */
-.theme-8 { --c-bg: #1A2235; --c-text: #152238; --c-btn: #4A6382; --c-btn-txt: #FFFFFF; --c-shadow: rgba(74, 99, 130, 0.6); --c-tone: linear-gradient(160deg, #243B53 0%, #486581 100%); }
+.theme-1 { --c-bg: #F4F7F2; --c-text: #FFFFFF; --c-btn: #7A9E71; --c-btn-txt: #FFFFFF; --c-shadow: rgba(122, 158, 113, 0.4); --c-tone: linear-gradient(160deg, #D4E0CD 0%, #A9C2A0 100%); }
+.theme-2 { --c-bg: #FFF5F7; --c-text: #FFFFFF; --c-btn: #E87A9A; --c-btn-txt: #FFFFFF; --c-shadow: rgba(232, 122, 154, 0.4); --c-tone: linear-gradient(160deg, #FAD0C4 0%, #FFD1FF 100%); }
+.theme-3 { --c-bg: #EAF0EB; --c-text: #FFFFFF; --c-btn: #4B6B56; --c-btn-txt: #FFFFFF; --c-shadow: rgba(75, 107, 86, 0.4); --c-tone: linear-gradient(160deg, #B5C9BC 0%, #7D9C88 100%); }
+.theme-4 { --c-bg: #F9F9EC; --c-text: #FFFFFF; --c-btn: #9FA854; --c-btn-txt: #FFFFFF; --c-shadow: rgba(159, 168, 84, 0.4); --c-tone: linear-gradient(160deg, #E2E8C1 0%, #C8D485 100%); }
+.theme-5 { --c-bg: #FFF3EB; --c-text: #FFFFFF; --c-btn: #D98863; --c-btn-txt: #FFFFFF; --c-shadow: rgba(217, 136, 99, 0.4); --c-tone: linear-gradient(160deg, #F5D3C1 0%, #E8AC8E 100%); }
+.theme-6 { --c-bg: #F7F3EE; --c-text: #FFFFFF; --c-btn: #9E7960; --c-btn-txt: #FFFFFF; --c-shadow: rgba(158, 121, 96, 0.4); --c-tone: linear-gradient(160deg, #E3D4C8 0%, #C2A590 100%); }
+.theme-7 { --c-bg: #F0F7FB; --c-text: #FFFFFF; --c-btn: #629CC2; --c-btn-txt: #FFFFFF; --c-shadow: rgba(98, 156, 194, 0.4); --c-tone: linear-gradient(160deg, #CDE2F0 0%, #9BC4E3 100%); }
+.theme-8 { --c-bg: #1A2235; --c-text: #FFFFFF; --c-btn: #4A6382; --c-btn-txt: #FFFFFF; --c-shadow: rgba(74, 99, 130, 0.6); --c-tone: linear-gradient(160deg, #243B53 0%, #486581 100%); }
 
 
 /* ==========================================================================
-   카드 구조 및 스타일 
+   카드 구조 - 실제 책처럼 세로로 긴 비율
    ========================================================================== */
 .book-card-container {
-  position: relative; width: 100%; height: 220px; border-radius: 18px;
-  background: var(--c-bg); box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-  margin-bottom: 24px; box-sizing: border-box; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  background: var(--c-bg);
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.15),
+    0 18px 34px rgba(0, 0, 0, 0.16),
+    0 3px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.book-card-container:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.06); }
 
+.book-card-container:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.15),
+    0 24px 44px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 책등(spine) 느낌의 왼쪽 그림자 */
+.book-card-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.25), transparent);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   배경 이미지 - 카드 전체를 채우는 표지
+   ========================================================================== */
 .book-card-bg-wrap { position: absolute; inset: 0; }
-.book-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 5%, black 70%); mask-image: linear-gradient(to right, transparent 0%, transparent 5%, black 70%); opacity: 0.9; }
-.book-card-bg-tone { position: absolute; inset: 0; background: var(--c-tone); mix-blend-mode: multiply; opacity: 0.5; }
-.book-card-bg-light { position: absolute; inset: 0; background: radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.3), transparent 55%); mix-blend-mode: soft-light; }
-.book-card-bg-vignette { position: absolute; inset: 0; box-shadow: inset 0 0 30px 8px rgba(0, 0, 0, 0.15); }
-
-/* 제목 뱃지 */
-.book-title-badge {
-  position: absolute; top: 16px; left: 16px; box-sizing: border-box; width: fit-content; max-width: calc(100% - 150px); z-index: 3;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 12px; padding: 10px 14px; backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+.book-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.book-card-bg-tone {
+  position: absolute; inset: 0;
+  background: var(--c-tone);
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+}
+.book-card-bg-light {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.25), transparent 55%);
+  mix-blend-mode: soft-light;
+}
+/* 위쪽은 어둡게 눌러서 제목 가독성 확보, 아래쪽도 살짝 어둡게 눌러 버튼 가독성 확보 */
+.book-card-bg-vignette {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.05) 28%,
+    rgba(0, 0, 0, 0.05) 65%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
 }
 
-/* 제목 뱃지 */
-.book-title-badge {
-  position: absolute; top: 16px; left: 16px; box-sizing: border-box; width: fit-content; max-width: calc(100% - 150px); z-index: 3;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 12px; padding: 10px 14px; backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
-/* 🌟 중복된 거 싹 지우고 이거 딱 하나만 남기세요! (자르기 코드 완전 제거됨) */
-.book-title {
-  font-family: 'Gowun Batang', 'Nanum Myeongjo', serif; 
-  font-size: 15px; 
-  font-weight: 800; 
-  color: var(--c-text); 
-  margin: 0; 
-  line-height: 1.35; 
+/* ==========================================================================
+   제목 - 표지 위에 직접, 왼쪽 정렬, 진짜 책 제목처럼
+   ========================================================================== */
+.book-title-wrap {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 90px;   /* ★ 수정: 20px → 90px, 상세보기 버튼 영역 침범 안 하도록 폭 좁힘 */
+  z-index: 2;    /* ★ 수정: 3 → 2로 낮춤 */
   text-align: left;
-  word-break: keep-all; 
-  overflow-wrap: break-word; 
+  pointer-events: none;   /* ★ 추가: 제목 영역은 클릭 이벤트를 아예 통과시킴 */
 }
 
-
-/* 상하단 보조 버튼 */
-.detail-link-btn, .book-delete-btn {
-  /* 🌟 버튼 불투명도 동일하게 상향 */
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0,0,0,0.08); color: var(--c-text);
-  font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 10px; cursor: pointer;
-  backdrop-filter: blur(8px); transition: all 0.2s ease; z-index: 3; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-}
-.detail-link-btn { position: absolute; top: 16px; right: 16px; font-family: 'Gowun Batang', serif; }
-.book-delete-btn { position: absolute; bottom: 16px; left: 16px; }
-
-/* 🌟 호버 시 텍스트가 안 보이지 않도록 테마 메인 컬러로 반전시킴 */
-.detail-link-btn:hover, .book-delete-btn:active {
-  background: var(--c-btn); color: var(--c-btn-txt); border-color: var(--c-btn); transform: translateY(-1px);
+.book-title-eyebrow {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
 }
 
-/* 메인 주문 버튼 */
+.book-title {
+  font-family: 'Gowun Batang', 'Nanum Myeongjo', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.4;
+  text-align: left;
+  word-break: keep-all;
+  letter-spacing: -0.2px;
+
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.55),
+    0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   상단 우측 - 책 디테일 보기 버튼
+   ========================================================================== */
+.detail-link-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  color: #3A322C;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: 'Gowun Batang', serif;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.detail-link-btn:hover {
+  background: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   하단 좌측 - 삭제 버튼
+   ========================================================================== */
+.book-delete-btn {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  z-index: 3;
+
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  color: #3A322C;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 8px 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.book-delete-btn:active {
+  background: var(--c-btn);
+  color: var(--c-btn-txt);
+}
+
+/* ==========================================================================
+   하단 우측 - 메인 주문 버튼
+   ========================================================================== */
 .order-floating-btn {
-  position: absolute; bottom: 16px; right: -10px; z-index: 3;
-  background: var(--c-btn); color: var(--c-btn-txt); border: none;
-  padding: 12px 24px 12px 18px; border-radius: 20px 0 0 20px;
-  font-family: 'Gowun Batang', serif; font-size: 13px; font-weight: 800; cursor: pointer;
-  box-shadow: -4px 6px 16px var(--c-shadow); display: flex; align-items: center; gap: 6px; transition: transform 0.15s ease;
+  position: absolute;
+  bottom: 18px;
+  right: -10px;
+  z-index: 3;
+
+  background: var(--c-btn);
+  color: var(--c-btn-txt);
+  border: none;
+  padding: 10px 20px 10px 16px;
+  border-radius: 18px 0 0 18px;
+  font-family: 'Gowun Batang', serif;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+
+  box-shadow: -4px 6px 16px var(--c-shadow);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.15s ease;
 }
-.order-floating-btn:active { transform: translateX(4px); }
-.btn-icon { font-size: 14px; }
+
+.order-floating-btn:active {
+  transform: translateX(4px);
+}
+
+.btn-icon {
+  flex-shrink: 0;
+}
