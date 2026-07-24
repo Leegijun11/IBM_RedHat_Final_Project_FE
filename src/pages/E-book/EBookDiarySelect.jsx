@@ -10,6 +10,8 @@ import api from "../../hooks/api";
 
 const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
+const MIN_ACHIEVED_MILESTONE_COUNT = 3;
+
 const COVER_OPTIONS = [
     {
         id: 1,
@@ -155,6 +157,14 @@ function EBookDiarySelect() {
     const handleCreate = async () => {
         if (!selectedCoverId) {
             showAlert("표지 테마를 선택해주세요.", "error");
+            return;
+        }
+
+        if (milestone_diary_ids.length < MIN_ACHIEVED_MILESTONE_COUNT) {
+            showAlert(
+                `마일스톤을 달성한 일기는 최소 ${MIN_ACHIEVED_MILESTONE_COUNT}개 이상이어야 합니다. (현재: ${milestone_diary_ids.length}개)`,
+                "error"
+            );
             return;
         }
 
