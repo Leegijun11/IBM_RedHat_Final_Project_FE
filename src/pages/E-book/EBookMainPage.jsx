@@ -85,8 +85,9 @@ function EBookMainPage() {
         }
     };
 
-    const achievedPct = Math.min(Math.round((achievedMilestones / 8) * 100), 100);
-    const canCreateBook = achievedMilestones >= 8 && achievedMilestones <= 16;
+    const REQUIRED_MILESTONE_COUNT = 4;
+    const achievedPct = Math.min(Math.round((achievedMilestones / REQUIRED_MILESTONE_COUNT) * 100), 100);
+    const canCreateBook = achievedMilestones >= REQUIRED_MILESTONE_COUNT;
 
     const totalPages = Math.max(1, Math.ceil(books.length / BOOKS_PER_PAGE));
     const pagedBooks = books.slice(
@@ -133,21 +134,13 @@ function EBookMainPage() {
                             </svg>
                             디지털북을 만들 수 있어요!
                         </span>
-                    ) : achievedMilestones < 8 ? (
+                    ) : (
                         <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
                                 <line x1="12" y1="17" x2="12" y2="22"></line>
                                 <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.67V6h-6v4.67a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"></path>
                             </svg>
-                            {`책 만들기까지 ${8 - achievedMilestones}개 더 달성해보세요`}
-                        </span>
-                    ) : (
-                        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#5EA37B" }}>
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                                <polyline points="22 4 12 14.01 9 11.01"/>
-                            </svg>
-                            마일스톤을 충분히 달성했어요!
+                            {`책 만들기까지 ${REQUIRED_MILESTONE_COUNT - achievedMilestones}개 더 달성해보세요`}
                         </span>
                     )}
                 </p>
