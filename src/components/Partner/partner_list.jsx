@@ -62,7 +62,12 @@ function PartnerList({ currentUserId }) {
                   className="partner-avatar"
                 />
               ) : (
-                <div className="partner-avatar-placeholder">👤</div>
+                <div className="partner-avatar-placeholder">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#F07C60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21a8 8 0 0 0-16 0" />
+                    <circle cx="12" cy="8" r="4" />
+                  </svg>
+                </div>
               )}
             </div>
 

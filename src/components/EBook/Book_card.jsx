@@ -30,16 +30,18 @@ function Book_card({ book, onDetailClick, onDeleteClick }) {
                 </div>
             )}
 
-            <div className="book-title-badge">
-                <h3 className="book-title">{book.s_name}</h3>
-            </div>
-
             <button className="detail-link-btn" onClick={(e) => {
                 e.stopPropagation();
                 onDetailClick();
             }}>
                 책 디테일 보기 〉
             </button>
+
+            {/* 실제 책 표지처럼 - 이미지 위에 제목만 직접 */}
+            <div className="book-title-wrap">
+                <span className="book-title-eyebrow">DEAR BABY STORY</span>
+                <h3 className="book-title">{book.s_name}</h3>
+            </div>
 
             <button 
                 className="book-delete-btn" 
@@ -52,7 +54,11 @@ function Book_card({ book, onDetailClick, onDeleteClick }) {
             </button>
 
             <button className="order-floating-btn" onClick={(e) => e.stopPropagation()}>
-                <span className="btn-icon">📖</span> 실물 책 주문
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="btn-icon">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                실물 책 주문
             </button>
             
         </div>

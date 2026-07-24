@@ -96,7 +96,12 @@ function Edit_profile({ user, onClose, onSuccess }) {
         <div className="profile-image-section">
           <label htmlFor="profile-upload" className="image-label">
             <div className="image-circle" style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}} />
-            <div className="camera-icon">📷</div>
+            <div className="camera-icon">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
+            </div>
           </label>
           <input id="profile-upload" type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
         </div>

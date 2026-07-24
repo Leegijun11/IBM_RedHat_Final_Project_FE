@@ -69,15 +69,24 @@ function Photo_Gallery() {
 
     return (
         <div className="photo-gallery-container">
-            {/* 1. 헤더 영역 */}
             <div className="gallery-header">
-                <button className="back-btn" onClick={() => navigate("/home")}>
-                    ← 홈
+                <button className="back-btn" onClick={() => navigate("/home")} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    홈
                 </button>
-                <h2 className="gallery-title">우리아이 사진첩 📸</h2>
+                
+                <h2 className="gallery-title" style={{ display: 'flex', alignItems: 'center', margin: 0, gap: '6px' }}>
+                    눈바디 갤러리
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
+                        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                        <circle cx="12" cy="13" r="3"/>
+                    </svg>
+                </h2>
             </div>
 
-            {/* 2. 월 이동 네비게이터 */}
             <div className="month-navigator">
                 <button className="month-nav-btn" onClick={handlePrevMonth}>&lt;</button>
                 <span className="month-label">
@@ -86,7 +95,6 @@ function Photo_Gallery() {
                 <button className="month-nav-btn" onClick={handleNextMonth}>&gt;</button>
             </div>
 
-            {/* 3. 사진 갤러리 영역 */}
             <div className="gallery-content">
                 {loading ? (
                     <div className="status-message">사진을 불러오는 중입니다...</div>
@@ -107,7 +115,7 @@ function Photo_Gallery() {
                                                 {/* ★ 변경 포인트: i_id 기반 인증된 요청으로 사진 표시 */}
                                                 <SecureGrowthImage
                                                     i_id={photo.i_id}
-                                                    alt="아기 사진"
+                                                    alt="눈바디 사진"
                                                     className="photo-img"
                                                 />
                                             </div>

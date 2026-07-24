@@ -41,7 +41,6 @@ function Diary_list() {
     const [diaryList, setDiaryList] = useState([]);
     const [bId, setBId] = useState(null);
 
-        // new Date().toISOString().split("T")[0]
     const [selectedDate, setSelectedDate] = useState(
         toDateStr(new Date())
     );
@@ -107,7 +106,7 @@ function Diary_list() {
     useEffect(() => {
         if (bId) {
             handleCreateDiaryList(bId);
-            fetchWeekDiaryDates(bId, getWeekDates(selectedDate)); // ★ 추가
+            fetchWeekDiaryDates(bId, getWeekDates(selectedDate));
         }
     }, [selectedDate, bId]);
 
@@ -133,7 +132,13 @@ function Diary_list() {
     return (
         <div className="diary-page-wrap page-container">
             <div className="diary-page-header">
-                <h2>성장 일기 📝</h2>
+                <h2 style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
+                    성장 일기
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F07C60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z" />
+                    </svg>
+                </h2>
             </div>
 
             {/* 연/월 표시 + 주간 이동 */}
@@ -146,8 +151,11 @@ function Diary_list() {
                         prev.setDate(prev.getDate() - 7);
                         setSelectedDate(toDateStr(prev));
                     }}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
                 >
-                    ‹
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
                 </button>
                 <span className="week-calendar-month">{selectedMonthLabel}</span>
                 <button
@@ -158,8 +166,11 @@ function Diary_list() {
                         next.setDate(next.getDate() + 7);
                         setSelectedDate(toDateStr(next));
                     }}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
                 >
-                    ›
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </button>
             </div>
 
@@ -168,7 +179,7 @@ function Diary_list() {
                 {weekDates.map((d, idx) => {
                     const dStr = toDateStr(d);
                     const isActive = dStr === selectedDate;
-                    const hasDiary = diaryDates.has(dStr); // ★ 수정: false 하드코딩 제거
+                    const hasDiary = diaryDates.has(dStr);
                     return (
                         <div
                             key={dStr}
@@ -200,18 +211,22 @@ function Diary_list() {
                         className="diary-card"
                         onClick={() => navigate(`/diary/${diary.d_id}`)}
                     >
-                        {/* 1. 상단 영역: 감정 라벨과 삭제 버튼을 양끝으로 배치 (수정됨) */}
+                        {/* 1. 상단 영역: 감정 라벨과 삭제 버튼 */}
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "6px" }}>
                             <div>
                                 {diary.d_label && (
-                                    <span className="diary-label-chip">✨ {diary.d_label}</span>
+                                    <span className="diary-label-chip" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                                        </svg>
+                                        {diary.d_label}
+                                    </span>
                                 )}
                             </div>
                             
-                            {/* 삭제 버튼을 우측 상단으로 이동 */}
                             <button
                                 onClick={(e) => {
-                                    e.stopPropagation(); // 카드 상세 이동 클릭 이벤트 전파 차단
+                                    e.stopPropagation();
                                     handleDeleteDiary(diary.d_id);
                                 }}
                                 style={{ 
@@ -228,7 +243,7 @@ function Diary_list() {
                             </button>
                         </div>
 
-                        {/* 텍스트 내용과 이미지를 가로(Flex)로 배치하여 레이아웃을 최적화 */}
+                        {/* 텍스트 내용과 이미지 (4x2 비율 80x40px 고정) */}
                         <div style={{ display: "flex", gap: "14px", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
                             <div style={{ flex: 1, minWidth: 0 }}>
                                 <h3>{diary.d_title}</h3>
@@ -237,9 +252,8 @@ function Diary_list() {
                                 </p>
                             </div>
                             
-                            {/* ★ 변경 포인트: 인증된 요청(SecureImage)으로 썸네일 표시 */}
                             {diary.d_image && (
-                                <div style={{ width: "64px", height: "64px", flexShrink: 0, borderRadius: "var(--radius-sm)", overflow: "hidden", border: "1px solid var(--color-border)" }}>
+                                <div style={{ width: "80px", height: "40px", flexShrink: 0, borderRadius: "var(--radius-sm)", overflow: "hidden", border: "1px solid var(--color-border)" }}>
                                     <SecureImage
                                         path={diary.d_image}
                                         alt="아기 스냅샷"
@@ -249,25 +263,86 @@ function Diary_list() {
                             )}
                         </div>
 
-                        {/* 2. 하단 육아 범주 데이터 스탯 칩 (조건부 렌더링) */}
-                        <div style={{ display: "flex", flexWrap: "wrap", margin: "8px 0" }}>
-                            {diary.d_eat && diary.d_eat !== "없음" && (
-                                <span className="chip-eat" style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "12px", fontWeight: "700", padding: "6px 12px", borderRadius: "999px", margin: "4px 6px 4px 0", backgroundColor: "#FFF3CD", color: "#856404" }}>
-                                    🍼 식사 {diary.d_eat}
-                                </span>
-                            )}
-                            {diary.d_sleep && diary.d_sleep !== "없음" && (
-                                <span className="chip-sleep">💤 수면 {diary.d_sleep}</span>
-                            )}
-                            {diary.d_toilet && diary.d_toilet !== "없음" && (
-                                <span className="chip-toilet">💩 배변 {diary.d_toilet}</span>
-                            )}
-                            {diary.d_temp && diary.d_temp !== "없음" && (
-                                <span className="chip-temp">🌡️ 체온 {diary.d_temp}</span>
-                            )}
-                        </div>
+                        {/* 🌟 2. 육아 범주 데이터 스탯 (미니 대시보드 스타일 유지 + 수저/똥 아이콘 적용) */}
+                        {(diary.d_eat !== "없음" || diary.d_sleep !== "없음" || diary.d_toilet !== "없음" || diary.d_temp !== "없음") && (
+                            <div style={{ 
+                                display: "flex", 
+                                flexWrap: "wrap", 
+                                gap: "12px", 
+                                margin: "14px 0 8px 0", 
+                                padding: "12px", 
+                                backgroundColor: "#FDF9F5", 
+                                borderRadius: "12px", 
+                                border: "1px solid #F3EDE8" 
+                            }}>
+                                
+                                {diary.d_eat && diary.d_eat !== "없음" && (
+                                    <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: "80px" }}>
+                                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "#FFE8D6", display: "flex", alignItems: "center", justifyContent: "center", color: "#F07C60", flexShrink: 0 }}>
+                                            {/* 🌟 식사: 숟가락과 젓가락(수저) 아이콘 */}
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M8 2c-1.7 0-3 1.8-3 4 0 2 1.3 3.5 2.5 3.9V22"/>
+                                                <path d="M8 2c1.7 0 3 1.8 3 4 0 2-1.3 3.5-2.5 3.9"/>
+                                                <line x1="15" y1="2" x2="15" y2="22"/>
+                                                <line x1="19" y1="2" x2="19" y2="22"/>
+                                            </svg>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column" }}>
+                                            <span style={{ fontSize: "11px", color: "#A3968C", fontWeight: "600", lineHeight: "1.2" }}>식사</span>
+                                            <span style={{ fontSize: "13px", fontWeight: "800", color: "#333333", lineHeight: "1.2" }}>{diary.d_eat}</span>
+                                        </div>
+                                    </div>
+                                )}
 
-                        {/*  3. 하단 정보 영역: 삭제 버튼이 제거되고 작성일만 남음 (수정됨) */}
+                                {diary.d_sleep && diary.d_sleep !== "없음" && (
+                                    <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: "80px" }}>
+                                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "#EBEFF5", display: "flex", alignItems: "center", justifyContent: "center", color: "#6B8EAD", flexShrink: 0 }}>
+                                            {/* 수면: 달 아이콘 유지 */}
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                                            </svg>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column" }}>
+                                            <span style={{ fontSize: "11px", color: "#A3968C", fontWeight: "600", lineHeight: "1.2" }}>수면</span>
+                                            <span style={{ fontSize: "13px", fontWeight: "800", color: "#333333", lineHeight: "1.2" }}>{diary.d_sleep}</span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {diary.d_toilet && diary.d_toilet !== "없음" && (
+                                    <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: "80px" }}>
+                                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "#E6F2EB", display: "flex", alignItems: "center", justifyContent: "center", color: "#5EA37B", flexShrink: 0 }}>
+                                            {/* 🌟 배변: 둥글고 귀여운 똥 모양 아이콘 */}
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M12 2C8 2 8 7 8 7c-2 0-3 1.5-3 3 0 1.3 1 2.5 2 3-1.5.5-3 2-3 4 0 2.5 3 4 8 4s8-1.5 8-4c0-2-1.5-3.5-3-4 1-.5 2-1.7 2-3 0-1.5-1-3-3-3 0 0 0-5-4-5z"/>
+                                            </svg>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column" }}>
+                                            <span style={{ fontSize: "11px", color: "#A3968C", fontWeight: "600", lineHeight: "1.2" }}>배변</span>
+                                            <span style={{ fontSize: "13px", fontWeight: "800", color: "#333333", lineHeight: "1.2" }}>{diary.d_toilet}</span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {diary.d_temp && diary.d_temp !== "없음" && (
+                                    <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: "80px" }}>
+                                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", backgroundColor: "#FCEAE8", display: "flex", alignItems: "center", justifyContent: "center", color: "#D96A6A", flexShrink: 0 }}>
+                                            {/* 체온: 온도계 아이콘 유지 */}
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                                                <path d="M12 12v3"/>
+                                            </svg>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column" }}>
+                                            <span style={{ fontSize: "11px", color: "#A3968C", fontWeight: "600", lineHeight: "1.2" }}>체온</span>
+                                            <span style={{ fontSize: "13px", fontWeight: "800", color: "#333333", lineHeight: "1.2" }}>{diary.d_temp}</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* 3. 하단 정보 영역: 작성일 */}
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px" }}>
                             <span style={{ fontSize: "12px", color: "var(--text-hint)", fontWeight: "600" }}>
                                 {diary.d_date ? diary.d_date.split("T")[0] : ""}

@@ -41,9 +41,14 @@ function Tip_card() {
 
     return (
         <div className="home-card-base">
-            <div className="tip-card-header-wrap">
-                <div className="tip-icon-badge">✨</div>
-                <h2 className="tip-card-title">발달 팁 · 오늘</h2>
+            <div className="tip-card-header-wrap" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div className="tip-icon-badge" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
+                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                        <path d="M5 3v4M3 5h4"/>
+                    </svg>
+                </div>
+                <h2 className="tip-card-title" style={{ margin: 0 }}>성장 & 헬스 팁 · 오늘</h2>
                 <span className="tip-card-month-badge">
                     {babyMonth !== null ? `${babyMonth}개월` : ""}
                 </span>
@@ -55,9 +60,8 @@ function Tip_card() {
                     <p className="tip-card-content">{tip.t_content}</p>
                 </>
             ) : (
-                <p className="tip-card-content">해당 월령의 발달 팁이 없습니다.</p>
+                <p className="tip-card-content">해당 월령의 팁이 없습니다.</p>
             )}
-
 
         </div>
     );

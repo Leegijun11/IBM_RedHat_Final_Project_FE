@@ -646,3 +646,31 @@
 .alarm-wrap > div + div {
   margin-top: 8px;
 }
+
+
+/* 인삿말 뱃지 (이모지 대체) */
+.greeting-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #F2E8E0; /* 앱 테마에 맞는 연한 배경색 */
+    color: #F07C60; /* 앱 메인 포인트 컬러 */
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+/* 뱃지 안의 SVG 아이콘 높이 보정 */
+.greeting-badge svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* 감성적인 서브 텍스트 */
+.greeting-sub {
+    font-size: 13px;
+    color: #A3968C; /* 부드러운 회색/베이지톤 */
+    margin: 4px 0 0 0;
+}

@@ -88,7 +88,12 @@ function Baby_form() {
                 <span className="placeholder-text">사진 없음</span>
               )}
             </div>
-            <div className="camera-icon">📷</div>
+            <div className="camera-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
+            </div>
           </label>
           <input id="baby-upload" type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
         </div>

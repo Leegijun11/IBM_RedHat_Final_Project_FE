@@ -55,10 +55,18 @@ function CommunityCard({ post, onClick, onLikeToggle }) {
                     <div className="card-stats">
                         {/* 둥근 박스 스타일이 적용된 좋아요 버튼 */}
                         <button className={`card-like-btn ${post.is_liked ? "liked" : ""}`} onClick={handleLikeClick}>
-                            {post.is_liked ? "❤️" : "🤍"} {post.f_like_count || 0}
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill={post.is_liked ? "#F07C60" : "none"} stroke={post.is_liked ? "#F07C60" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-2px", marginRight: "4px" }}>
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                            {post.f_like_count || 0}
                         </button>
                         {/* 둥근 박스 스타일이 적용된 댓글 수 영역 */}
-                        <span className="card-comment-count">💬 {post.comment_count || 0}</span>
+                        <span className="card-comment-count">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-2px", marginRight: "4px" }}>
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                            {post.comment_count || 0}
+                        </span>
                     </div>
 
                     <button className="card-detail-btn" onClick={onClick}>자세히 보기</button>

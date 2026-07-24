@@ -539,7 +539,11 @@ function CompareChart({ baby, babyAge }) {
         <div className="compare-chart-inside">
 
             <h3 className="compare-chart-main-title">
-                📈 또래 대비 성장 지표
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F07C60" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "-3px", marginRight: "6px" }}>
+                    <polyline points="3 17 9 11 13 15 21 7" />
+                    <polyline points="14 7 21 7 21 14" />
+                </svg>
+                또래 대비 성장 지표
                 ({babyInfo.age}개월 /
                 {babyInfo.gender === "F"
                     ? "여아"

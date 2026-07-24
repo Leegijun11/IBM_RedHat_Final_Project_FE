@@ -97,24 +97,61 @@ function EBookMainPage() {
     return (
         <div className="ebook-page page-container">
             <div className="ebook-header">
-                <h2 className="ebook-title">성장 디지털 북 📖</h2>
+                {/* 🌟 📖 이모지 대체 (펼쳐진 책 모양 SVG) */}
+                <h2 className="ebook-title" style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
+                    성장 디지털 북
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                </h2>
             </div>
 
             <div className="milestone-gauge-card">
                 <div className="gauge-header">
-                    <span className="gauge-title">🌱 성장 마일스톤</span>
+                    {/* 🌟 🌱 이모지 대체 (새싹 SVG) */}
+                    <span className="gauge-title" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#5EA37B" }}>
+                            <path d="M12 22v-9"/>
+                            <path d="M12 13C8 13 4 9 4 5c4 0 8 4 8 8z"/>
+                            <path d="M12 13c4 0 8-4 8-8-4 0-8 4-8 8z"/>
+                        </svg>
+                        성장 마일스톤
+                    </span>
                     <span className="gauge-count">{achievedMilestones}개 달성</span>
                 </div>
                 <div className="gauge-track">
                     <div className="gauge-fill" style={{ width: `${achievedPct}%` }} />
                 </div>
+                
+                {/* 🌟 ✨, 📌, 📚 이모지 대체 및 상태별 메시지 아이콘 적용 */}
                 <p className="gauge-desc">
-                    {canCreateBook
-                        ? "✨ 디지털북을 만들 수 있어요!"
-                        : achievedMilestones < 8
-                        ? `📌 책 만들기까지 ${8 - achievedMilestones}개 더 달성해보세요`
-                        : "📚 마일스톤을 충분히 달성했어요!"}
+                    {canCreateBook ? (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
+                                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                            </svg>
+                            디지털북을 만들 수 있어요!
+                        </span>
+                    ) : achievedMilestones < 8 ? (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
+                                <line x1="12" y1="17" x2="12" y2="22"></line>
+                                <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.67V6h-6v4.67a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"></path>
+                            </svg>
+                            {`책 만들기까지 ${8 - achievedMilestones}개 더 달성해보세요`}
+                        </span>
+                    ) : (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#5EA37B" }}>
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            마일스톤을 충분히 달성했어요!
+                        </span>
+                    )}
                 </p>
+                
                 {canCreateBook && (
                     <button className="gauge-create-btn" onClick={() => navigate("/ebook/create")}>
                         + 새 책 만들기
