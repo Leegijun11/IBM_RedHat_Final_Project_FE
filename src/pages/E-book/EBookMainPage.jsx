@@ -85,7 +85,7 @@ function EBookMainPage() {
         }
     };
 
-    const REQUIRED_MILESTONE_COUNT = 4;
+    const REQUIRED_MILESTONE_COUNT = 5;
     const achievedPct = Math.min(Math.round((achievedMilestones / REQUIRED_MILESTONE_COUNT) * 100), 100);
     const canCreateBook = achievedMilestones >= REQUIRED_MILESTONE_COUNT;
 

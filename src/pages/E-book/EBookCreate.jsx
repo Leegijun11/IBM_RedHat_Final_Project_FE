@@ -6,7 +6,8 @@ import { useModal } from "../../hooks/useModal";
 import NaviBar from "../../components/common/NaviBar";
 import "../../styles/EBookCreate.css";
 
-const REQUIRED_MILESTONE_COUNT = 4;
+const REQUIRED_MILESTONE_COUNT = 5;
+const MIN_ACHIEVED_MILESTONE_COUNT = 3;
 
 function EBookCreate() {
     const navigate = useNavigate();
@@ -101,6 +102,13 @@ function EBookCreate() {
             showAlert("마일스톤 정보를 불러오는 중입니다. 잠시 후 다시 시도해주세요.", "error");
             return;
         }
+        if (selectedAchievedIds.length < MIN_ACHIEVED_MILESTONE_COUNT) {
+            showAlert(
+                `마일스톤을 달성한 일기는 최소 ${MIN_ACHIEVED_MILESTONE_COUNT}개 이상 선택해야 합니다. (현재: ${selectedAchievedIds.length}개)`,
+                "error"
+            );
+            return;
+        }
 
         navigate("/ebook/select", {
             state: {
@@ -150,7 +158,7 @@ function EBookCreate() {
                         <hr className="create-divider" />
 
                         <h4 className="diary-select-title">
-                            마일스톤 일기 선택 (최대 {REQUIRED_MILESTONE_COUNT}개)
+                            마일스톤 일기 선택 (최소 {MIN_ACHIEVED_MILESTONE_COUNT}개, 최대 {REQUIRED_MILESTONE_COUNT}개)
                         </h4>
 
                         {loadingAchieved ? (
@@ -183,9 +191,11 @@ function EBookCreate() {
                         )}
 
                         <p className="ebook-selected-count">
-                            {remainingCount > 0
-                                ? `선택한 마일스톤 일기: ${selectedAchievedIds.length}개 (다음 단계에서 ${remainingCount}개 더 선택하면 총 ${REQUIRED_MILESTONE_COUNT}개가 돼요)`
-                                : `선택한 마일스톤 일기: ${selectedAchievedIds.length} / ${REQUIRED_MILESTONE_COUNT}개`}
+                            {selectedAchievedIds.length < MIN_ACHIEVED_MILESTONE_COUNT
+                                ? `선택한 마일스톤 일기: ${selectedAchievedIds.length}개 (최소 ${MIN_ACHIEVED_MILESTONE_COUNT}개 선택 필요)`
+                                : remainingCount > 0
+                                    ? `선택한 마일스톤 일기: ${selectedAchievedIds.length}개 (다음 단계에서 ${remainingCount}개를 더 선택하면 총 ${REQUIRED_MILESTONE_COUNT}개가 돼요)`
+                                    : `선택한 마일스톤 일기: ${selectedAchievedIds.length} / ${REQUIRED_MILESTONE_COUNT}개`}
                         </p>
                     </>
                 )}
