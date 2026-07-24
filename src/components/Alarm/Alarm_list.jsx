@@ -31,8 +31,8 @@ function Alarm_list({ onAccept }) {
     const handleAccept = async (alarm) => {
         try {
             await createPartner({
-                p_role: "parent",
-                p_category: "guardian",
+                p_role: "",
+                p_category: alarm.p_category,
                 p_state: "active",
                 g_id: alarm.g_id,
                 u_id: alarm.receive_id,
@@ -44,6 +44,7 @@ function Alarm_list({ onAccept }) {
             console.error(error);
             showAlert("초대 수락에 실패하였습니다.", "error");
         }
+        console.log(alarm)
     };
 
     const handleDelete = async (a_id, alarm) => {
