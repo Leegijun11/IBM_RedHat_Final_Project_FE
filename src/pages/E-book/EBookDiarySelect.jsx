@@ -69,7 +69,9 @@ function EBookDiarySelect() {
     const {
         b_id,
         start_date,
-        end_date
+        end_date,
+        milestone_diary_ids = [],
+        required_additional_count
     } = state || {};
 
     const [diaries, setDiaries] = useState([]);
@@ -119,7 +121,7 @@ function EBookDiarySelect() {
 
                 setDiaries(
                     Array.isArray(result)
-                        ? result
+                        ? result.filter((d) => !milestone_diary_ids.includes(d.d_id))
                         : []
                 );
 
@@ -156,6 +158,17 @@ function EBookDiarySelect() {
             return;
         }
 
+        if (
+            typeof required_additional_count === "number" &&
+            selectedIds.length !== required_additional_count
+        ) {
+            showAlert(
+                `동화책을 만들기 위해 일기를 정확히 ${required_additional_count}개 선택해주세요. (현재: ${selectedIds.length}개)`,
+                "error"
+            );
+            return;
+        }
+
         setLoading(true);
         startTipRotation();
 
@@ -172,7 +185,7 @@ function EBookDiarySelect() {
                     s_creator: "",
                     s_comment: "",
                 },
-                selectedIds
+                [...milestone_diary_ids, ...selectedIds]
             );
 
             showAlert("디지털북이 생성되었습니다!");
@@ -243,6 +256,14 @@ function EBookDiarySelect() {
                 <hr className="create-divider" />
 
                 <h4 className="diary-select-title">일기 선택</h4>
+
+                {typeof required_additional_count === "number" && (
+                    <p className="ebook-selected-count">
+                        {required_additional_count > 0
+                            ? `마일스톤 일기 ${milestone_diary_ids.length}개 선택됨 — 동화책 완성을 위해 일기를 정확히 ${required_additional_count}개 더 선택해주세요.`
+                            : `마일스톤 일기 ${milestone_diary_ids.length}개로 동화책 조건을 채웠어요. 추가로 일기를 선택하지 않아도 됩니다.`}
+                    </p>
+                )}
 
                 {diaries.length === 0 ? (
 

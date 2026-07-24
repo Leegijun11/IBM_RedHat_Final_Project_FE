@@ -56,3 +56,11 @@ export const getSelectableDiaries = async (b_id, start_date, end_date) => {
     });
     return response.data;
 };
+
+// 기간 내 달성 마일스톤 일기 목록 조회 (자동 포함되는 일기 미리보기)
+export const getAchievedMilestoneDiaries = async (b_id, start_date, end_date) => {
+    const response = await api.get("/stories/achieved_milestones", {
+        params: { b_id, start_date, end_date }
+    });
+    return response.data;
+};
