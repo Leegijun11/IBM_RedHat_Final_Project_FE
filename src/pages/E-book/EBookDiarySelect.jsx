@@ -77,6 +77,7 @@ function EBookDiarySelect() {
     } = state || {};
 
     const [diaries, setDiaries] = useState([]);
+    const [diariesLoaded, setDiariesLoaded] = useState(false);
     const [selectedIds, setSelectedIds] = useState([]);
     const [loading, setLoading] = useState(false);
     const [detailDiary, setDetailDiary] = useState(null);
@@ -130,6 +131,8 @@ function EBookDiarySelect() {
             } catch (error) {
                 console.error(error);
                 setDiaries([]);
+            } finally {
+                setDiariesLoaded(true);
             }
         };
 
@@ -137,6 +140,18 @@ function EBookDiarySelect() {
 
     }, [b_id, navigate]);
 
+
+    // 선택 가능한 일기가 요구 개수보다 적을 수 있으므로(예: 기간 내 일기가 모두
+    // 마일스톤 일기로 사용된 경우), 실제 남은 일기 수를 넘지 않도록 보정한다.
+    const effectiveRequiredCount =
+        typeof required_additional_count === "number" && diariesLoaded
+            ? Math.min(required_additional_count, diaries.length)
+            : required_additional_count;
+
+    const requiredCountAdjusted =
+        typeof required_additional_count === "number" &&
+        diariesLoaded &&
+        effectiveRequiredCount < required_additional_count;
 
     const toggleSelect = (d_id) => {
         setSelectedIds((prev) =>
@@ -169,11 +184,11 @@ function EBookDiarySelect() {
         }
 
         if (
-            typeof required_additional_count === "number" &&
-            selectedIds.length !== required_additional_count
+            typeof effectiveRequiredCount === "number" &&
+            selectedIds.length !== effectiveRequiredCount
         ) {
             showAlert(
-                `동화책을 만들기 위해 일기를 정확히 ${required_additional_count}개 선택해주세요. (현재: ${selectedIds.length}개)`,
+                `동화책을 만들기 위해 일기를 정확히 ${effectiveRequiredCount}개 선택해주세요. (현재: ${selectedIds.length}개)`,
                 "error"
             );
             return;
@@ -273,11 +288,13 @@ function EBookDiarySelect() {
 
                 <h4 className="diary-select-title">일기 선택</h4>
 
-                {typeof required_additional_count === "number" && (
+                {typeof effectiveRequiredCount === "number" && (
                     <p className="ebook-selected-count">
-                        {required_additional_count > 0
-                            ? `마일스톤 일기 ${milestone_diary_ids.length}개 선택됨 — 동화책 완성을 위해 일기를 정확히 ${required_additional_count}개 더 선택해주세요.`
+                        {effectiveRequiredCount > 0
+                            ? `마일스톤 일기 ${milestone_diary_ids.length}개 선택됨 — 동화책 완성을 위해 일기를 정확히 ${effectiveRequiredCount}개 더 선택해주세요.`
                             : `마일스톤 일기 ${milestone_diary_ids.length}개로 동화책 조건을 채웠어요. 추가로 일기를 선택하지 않아도 됩니다.`}
+                        {requiredCountAdjusted &&
+                            " (선택 가능한 일기가 부족하여 요구 개수가 자동으로 조정되었어요.)"}
                     </p>
                 )}
 
