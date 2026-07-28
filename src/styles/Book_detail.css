@@ -1,4 +1,6 @@
 /* src/styles/Book_detail.css */
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&display=swap');
+
 
 /* 8가지 테마 컬러 정의 */
 .theme-1 { --m-bg: #FDF9F5; --m-text: #3A332D; --m-border: #EAE2DB; --m-arrow: #8EB285; }
@@ -10,66 +12,53 @@
 .theme-7 { --m-bg: #F0F7FB; --m-text: #2A4354; --m-border: #C8E1F2; --m-arrow: #7FB3D4; }
 .theme-8 { --m-bg: #1A2235; --m-text: #E8EEF2; --m-border: #2C3E5B; --m-arrow: #6A8BB0; }
 
-/* 전체 화면을 감싸는 오버레이 */
-.book-detail-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* .ebook-page와 동일한 구조 - page-container가 중앙 정렬을 담당 */
+.book-detail-page {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* 디테일 카드 본체 */
-.book-detail-container {
-  width: 100%;
-  max-width: 640px;
-  max-height: 85vh;
+  margin: 0 auto;
+  min-height: 100vh;
   background-color: var(--m-bg);
-  border-radius: 24px;
-  padding: 36px;
+  padding-bottom: 90px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  overflow: hidden;
+  overflow-x: hidden;
+  position: relative;
   transition: background-color 0.3s ease;
+  background-repeat: repeat;
+  background-size: 140px 140px;
+  background-attachment: fixed;
 }
 
-.detail-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--m-text);
-  margin: 0 0 15px 0;
-  text-align: center;
+/* .content-card 패턴과 동일하게 - 별도 flex 정렬 없이 자연스러운 블록 흐름 */
+.book-detail-container {
+  padding: 24px 20px;
+  box-sizing: border-box;
 }
 
 .detail-divider {
+  display: block;
+  width: 32px;
+  height: 3px;
+  background-color: var(--m-arrow);
+  margin: 0 auto 32px auto;
   border: none;
-  border-top: 1px solid var(--m-border);
-  margin-bottom: 20px;
+  border-radius: 4px;
+  opacity: 0.5;
 }
 
 .detail-content-wrapper {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 20px;
-  scrollbar-width: thin;
+  margin-bottom: 24px;
 }
 
-/* 페이지 뷰어 */
 .book-page-viewer {
   display: flex;
   align-items: center;
-  gap: 16px;
-  height: 100%;
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .book-page-viewer {
+    gap: 20px;
+  }
 }
 
 .book-page-item {
@@ -81,104 +70,515 @@
   text-align: left;
 }
 
-/* 기본 페이지 이미지 래퍼 및 이미지 */
 .page-img-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-height: 400px;
-  flex-shrink: 0;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .page-image {
-  max-width: 100%;
-  max-height: 400px;
+  width: 100%;
+  height: auto;
   object-fit: contain;
   display: block;
-  border-radius: 10px;
-  border: 1px solid var(--m-border);
-  background-color: var(--m-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
 
-/* 🌟 [핵심] 표지(앞표지/뒷표지)일 때 사진을 시원하게 키우는 스타일 */
 .book-page-item.is-cover {
   justify-content: center;
   align-items: center;
 }
 
 .page-img-wrapper.is-cover-wrapper {
-  max-height: 540px !important; /* 표지 세로 높이 대폭 확장 */
   margin-bottom: 0 !important;
+  position: relative;
+  border-radius: 12px;
 }
 
 .page-image.is-cover-img {
-  max-height: 540px !important; /* 표지 이미지 최대 높이 확장 */
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
 }
 
-.detail-content {
-  font-size: 15px;
-  line-height: 1.9;
-  color: var(--m-text);
-  white-space: pre-wrap;
-  margin: 10px 0 0 0;
-  text-align: left;
-  text-indent: 1em;
-}
-
-.page-number {
-  text-align: center;
-  color: var(--m-text);
-  opacity: 0.7;
-  font-size: 14px;
-  margin-top: 12px;
-  font-weight: 600;
-}
-
-/* 페이지 이동 화살표 */
 .page-nav-arrow {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid var(--m-border);
-  background-color: var(--m-bg);
-  color: var(--m-arrow);
-  font-size: 20px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: var(--m-border);
+  color: var(--m-text);
+  font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
+  font-family: 'Gaegu', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+@media (min-width: 768px) {
+  .page-nav-arrow {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
 }
 
 .page-nav-arrow:active:not(:disabled) {
   transform: scale(0.92);
-  background-color: var(--m-border);
+  background-color: var(--m-arrow);
+  color: #fff;
 }
 
 .page-nav-arrow:disabled {
-  border-color: var(--m-border);
-  background-color: var(--m-bg);
   color: var(--m-border);
   cursor: not-allowed;
   opacity: 0.4;
 }
 
-/* 닫기 버튼 */
 .close-btn {
-  padding: 14px;
-  background-color: var(--m-border);
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   color: var(--m-text);
-  border: none;
-  border-radius: 12px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 14px;
   cursor: pointer;
-  transition: opacity 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
 }
 
 .close-btn:hover {
-  opacity: 0.8;
+  background: var(--m-arrow);
+  color: #ffffff;
+  border-color: var(--m-arrow);
+  opacity: 1;
+}
+
+/* =========================================
+   📖 텍스트 스타일 (동화풍 손글씨/세리프 + 확대된 크기)
+   ========================================= */
+
+.detail-title {
+  font-family: 'Gowun Batang', 'Noto Serif KR', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--m-text);
+  margin: 0 0 16px 0;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+@media (min-width: 768px) {
+  .detail-title {
+    font-size: 30px;
+  }
+}
+
+.detail-content {
+  font-family: 'Gaegu', 'Gowun Batang', sans-serif;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 28px 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+  text-align: left;
+  line-height: 2;
+  color: var(--m-text);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  word-break: keep-all;
+  white-space: pre-wrap;
+  margin: 12px 0 0 0;
+  text-indent: 1em;
+}
+
+@media (min-width: 768px) {
+  .detail-content {
+    font-size: 23px;
+  }
+}
+
+.page-number {
+  display: inline-block;
+  margin: 16px auto 0;
+  padding: 8px 24px;
+  background: var(--m-arrow);
+  color: #fff;
+  border-radius: 20px;
+  font-family: 'Gaegu', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.theme-8 .page-number {
+  box-shadow: 0 0 10px rgba(255, 202, 40, 0.4);
+}
+
+/* =========================================
+   🌟 폴라로이드 프레임 (본문 페이지 이미지 틀)
+   ========================================= */
+
+.polaroid-frame {
+  background-color: #ffffff;
+  padding: 12px;
+  padding-bottom: 36px;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  border: 2px solid var(--m-border);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.polaroid-image-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.polaroid-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+  display: block;
+}
+
+.polaroid-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--m-border);
+}
+
+.polaroid-empty-icon {
+  opacity: 0.5;
+}
+
+.polaroid-empty-text {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.6;
+}
+
+.theme-8 .polaroid-empty-text { color: #FFE082; }
+.theme-8 .polaroid-empty-icon { color: #FFE082; opacity: 0.8; }
+
+/* 종이 질감 느낌으로 모서리를 살짝 불규칙하게 - 이미지 자체에만 적용 */
+.polaroid-image-container,
+.page-img-wrapper.is-cover-wrapper .page-image.is-cover-img {
+  clip-path: polygon(
+    1% 3%, 25% 0%, 50% 1.5%, 75% 0%, 99% 2%,
+    100% 25%, 98.5% 50%, 100% 75%, 99% 98%,
+    75% 100%, 50% 98.5%, 25% 100%, 0% 97%,
+    1.5% 75%, 0% 50%, 1.5% 25%
+  );
+}
+
+/* 테마별 프레임 컬러/보더 포인트 */
+.theme-1 .polaroid-frame { border: 2px solid #D4C4B7; box-shadow: 3px 6px 15px rgba(139, 115, 85, 0.15); }
+.theme-2 .polaroid-frame { border: 3px dashed #F3B6C9; border-radius: 12px; }
+.theme-3 .polaroid-frame { border: 2px solid #7B9D87; box-shadow: 6px 6px 0px #D8E2DA; }
+.theme-4 .polaroid-frame { border: 2px solid #EAE0B7; }
+.theme-5 .polaroid-frame { border: none; box-shadow: 0 0 0 3px #FAD0C4, 0 10px 25px rgba(255, 154, 158, 0.3); }
+.theme-6 .polaroid-frame { border: 2px solid #DCE8F2; box-shadow: 3px 6px 15px rgba(150, 180, 200, 0.2); }
+.theme-7 .polaroid-frame { border: 2px solid #EEEEEE; border-top: 6px solid #FF9A9E; }
+.theme-8 .polaroid-frame {
+  background-color: #1A2235;
+  border: 2px solid #5C7699;
+  box-shadow: 0 0 20px rgba(255, 202, 40, 0.15), 0 12px 30px rgba(10, 15, 25, 0.7);
+}
+
+/* 표지(커버) 이미지 테마별 컬러 포인트 */
+.theme-1 .is-cover-wrapper .page-image.is-cover-img { box-shadow: 0 10px 28px rgba(139, 115, 85, 0.2); }
+.theme-2 .is-cover-wrapper .page-image.is-cover-img { border: 3px dashed #F3B6C9; }
+.theme-3 .is-cover-wrapper .page-image.is-cover-img { box-shadow: 6px 6px 0px #D8E2DA; border: 2px solid #7B9D87; }
+.theme-4 .is-cover-wrapper .page-image.is-cover-img { border: 2px solid #EAE0B7; }
+.theme-5 .is-cover-wrapper .page-image.is-cover-img { box-shadow: 0 0 0 3px #FAD0C4, 0 10px 25px rgba(255, 154, 158, 0.3); }
+.theme-6 .is-cover-wrapper .page-image.is-cover-img { box-shadow: 3px 6px 15px rgba(150, 180, 200, 0.25); border: 2px solid #DCE8F2; }
+.theme-7 .is-cover-wrapper .page-image.is-cover-img { border: 2px solid #EEEEEE; border-top: 6px solid #FF9A9E; }
+.theme-8 .is-cover-wrapper .page-image.is-cover-img {
+  border: 2px solid #5C7699;
+  box-shadow: 0 0 20px rgba(255, 202, 40, 0.15), 0 12px 30px rgba(10, 15, 25, 0.7);
+}
+
+/* =========================================
+   🎨 배경 텍스처 (테마별 은은한 반복 패턴)
+   ========================================= */
+
+.theme-1 { /* 오리 연못 - 물결/나뭇잎 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='none' stroke='%238EB285' stroke-width='1.8' opacity='0.3'%3E%3Cpath d='M10 30q15-10 30 0t30 0'/%3E%3Cpath d='M70 90q15-10 30 0t30 0'/%3E%3Ccircle cx='110' cy='30' r='4'/%3E%3Ccircle cx='30' cy='100' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+.theme-2 { /* 꽃길 - 꽃송이 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='none' stroke='%23F29BB4' stroke-width='1.8' opacity='0.32'%3E%3Ccircle cx='20' cy='20' r='5'/%3E%3Ccircle cx='32' cy='13' r='5'/%3E%3Ccircle cx='32' cy='28' r='5'/%3E%3Ccircle cx='44' cy='20' r='5'/%3E%3Ccircle cx='100' cy='90' r='4'/%3E%3Ccircle cx='110' cy='84' r='4'/%3E%3C/g%3E%3C/svg%3E");
+}
+.theme-3 { /* 숲속 요정 - 스파클 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='%235B7A66' opacity='0.3'%3E%3Cpath d='m20 10 2 6L28 18l-6 2-2 6-2-6-6-2 6-2Z'/%3E%3Cpath d='m112 80 1.6 4.8L118 86l-4.4 1.6-1.6 4.4-1.6-4.4L106 86l4.4-1.6Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.theme-4 { /* 개구리 정원 - 해님 + 잎 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='none' stroke='%23B8C46E' stroke-width='1.8' opacity='0.3'%3E%3Ccircle cx='25' cy='25' r='7'/%3E%3Cpath d='M25 10v5M25 35v5M10 25h5M35 25h5'/%3E%3Cpath d='M100 100c4-4 4-10 0-15'/%3E%3Cpath d='M100 100c-4-4-4-10 0-15'/%3E%3C/g%3E%3C/svg%3E");
+}
+.theme-5 { /* 열기구 - 구름 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='none' stroke='%23E89E78' stroke-width='1.8' opacity='0.3'%3E%3Cpath d='M13 30h12a7 7 0 1 0-3-13.5A9 9 0 0 0 5 23a5.5 5.5 0 0 0 8 7Z'/%3E%3Cpath d='M93 95h12a7 7 0 1 0-3-13.5A9 9 0 0 0 85 88a5.5 5.5 0 0 0 8 7Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.theme-6 { /* 오두막 - 파랑새 실루엣 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='none' stroke='%237FB3D4' stroke-width='1.8' opacity='0.3'%3E%3Cpath d='M18 25c9-7 18-2 18 4-4 0-9 2-11 6 7 0 11 3 11 9-9 2-18-2-18-11Z'/%3E%3Cpath d='M98 90c7-5 13-1 13 3-3 0-7 1-8 4 4 0 8 2 8 6-7 1-12-2-13-8Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.theme-7 { /* 무지개 꿈 - 별 + 구름 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg opacity='0.3'%3E%3Cpath fill='%23FFB74D' d='m22 14 2.2 6.6L31 22l-6.4 2-2 6.4-2.2-6.4L14 22l6.4-1.8Z'/%3E%3Cpath fill='none' stroke='%234FC3F7' stroke-width='1.8' d='M93 95h12a7 7 0 1 0-3-13.5A9 9 0 0 0 85 88a5.5 5.5 0 0 0 8 7Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.theme-8 { /* 별고래 - 밤하늘 별 (좀 더 크고 진하게, 개수도 추가) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='%23FFE082' opacity='0.55'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3Ccircle cx='60' cy='45' r='1.4'/%3E%3Ccircle cx='105' cy='15' r='2.2'/%3E%3Ccircle cx='90' cy='80' r='1.6'/%3E%3Ccircle cx='30' cy='100' r='2'/%3E%3Ccircle cx='75' cy='25' r='1.2'/%3E%3Ccircle cx='45' cy='75' r='1.4'/%3E%3Cpath d='m118 100 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z'/%3E%3Cpath d='m15 55 1.5 4.5 4.5 1.5-4.5 1.5-1.5 4.5-1.5-4.5-4.5-1.5 4.5-1.5Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+
+/* =========================================
+   ✨ 프레임 주변 아이콘 흩뿌리기 (테마당 5개 레이어)
+   폴라로이드 프레임과 표지(cover) 이미지 모두 동일 적용
+   ========================================= */
+
+.polaroid-frame::before,
+.page-img-wrapper.is-cover-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -30px;
+  background-repeat: no-repeat;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+/* [테마1] 오리 연못 - 나뭇잎 5장 */
+.theme-1 .polaroid-frame::before,
+.theme-1 .is-cover-wrapper::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E8F5E9' stroke='%238EB285' stroke-width='2'%3E%3Cpath d='M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z'/%3E%3Cpath d='M2 22l10-10'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238EB285' stroke-width='2'%3E%3Cpath d='M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z'/%3E%3Cpath d='M2 22l10-10'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238EB285' stroke-width='2.5'%3E%3Cpath d='M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E8F5E9' stroke='%238EB285' stroke-width='2'%3E%3Cpath d='M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z'/%3E%3Cpath d='M2 22l10-10'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238EB285' stroke-width='2.5'%3E%3Cpath d='M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z'/%3E%3C/svg%3E");
+  background-position:
+    -18px -14px,
+    right -14px top 30%,
+    -10px bottom 26%,
+    right -16px bottom 40px,
+    50% bottom -14px;
+  background-size:
+    50px 50px,
+    36px 36px,
+    30px 30px,
+    28px 28px,
+    24px 24px;
+}
+
+/* [테마2] 꽃길 - 꽃송이 5개 */
+.theme-2 .polaroid-frame::before,
+.theme-2 .is-cover-wrapper::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFF0F5' stroke='%23F29BB4' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='3' fill='%23F29BB4'/%3E%3Cpath d='M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F29BB4' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3Cpath d='M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F29BB4' stroke-width='2.5'%3E%3Ccircle cx='12' cy='12' r='2.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFF0F5' stroke='%23F29BB4' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='3' fill='%23F29BB4'/%3E%3Cpath d='M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F29BB4' stroke-width='2.5'%3E%3Ccircle cx='12' cy='12' r='2.5'/%3E%3C/svg%3E");
+  background-position:
+    -16px -14px,
+    right -14px top 28%,
+    -12px bottom 30%,
+    right -14px bottom 46px,
+    50% bottom -10px;
+  background-size:
+    48px 48px,
+    30px 30px,
+    26px 26px,
+    26px 26px,
+    18px 18px;
+}
+
+/* [테마3] 숲속 요정 - 스파클 5개 */
+.theme-3 .polaroid-frame::before,
+.theme-3 .is-cover-wrapper::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E8F5E9' stroke='%235B7A66' stroke-width='1.5'%3E%3Cpath d='m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3l1.9 5.8 1.9-5.8a2 2 0 0 1 1.3-1.3l5.8-1.9-5.8-1.9a2 2 0 0 1-1.3-1.3Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B7A66' stroke-width='2'%3E%3Cpath d='m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3l1.9 5.8 1.9-5.8a2 2 0 0 1 1.3-1.3l5.8-1.9-5.8-1.9a2 2 0 0 1-1.3-1.3Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B7A66' stroke-width='2.5'%3E%3Cpath d='m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3l1.9 5.8 1.9-5.8a2 2 0 0 1 1.3-1.3l5.8-1.9-5.8-1.9a2 2 0 0 1-1.3-1.3Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E8F5E9' stroke='%235B7A66' stroke-width='1.5'%3E%3Cpath d='m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3l1.9 5.8 1.9-5.8a2 2 0 0 1 1.3-1.3l5.8-1.9-5.8-1.9a2 2 0 0 1-1.3-1.3Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B7A66' stroke-width='2.5'%3E%3Cpath d='m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3l1.9 5.8 1.9-5.8a2 2 0 0 1 1.3-1.3l5.8-1.9-5.8-1.9a2 2 0 0 1-1.3-1.3Z'/%3E%3C/svg%3E");
+  background-position:
+    right -14px top -10px,
+    -12px bottom 42px,
+    right 26px bottom -12px,
+    -14px top 28%,
+    right 30% bottom -10px;
+  background-size:
+    42px 42px,
+    24px 24px,
+    20px 20px,
+    26px 26px,
+    18px 18px;
+}
+
+/* [테마4] 개구리 정원 - 해님 + 잎 5개 */
+.theme-4 .polaroid-frame::before,
+.theme-4 .is-cover-wrapper::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFF9C4' stroke='%23B8C46E' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M5 5l1.5 1.5M17.5 17.5L19 19M2 12h2M20 12h2M5 19l1.5-1.5M17.5 6.5L19 5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B8C46E' stroke-width='2'%3E%3Cpath d='M12 22c4-4 4-10 0-14'/%3E%3Cpath d='M12 22c-4-4-4-10 0-14'/%3E%3Cpath d='M12 22V8'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B8C46E' stroke-width='2'%3E%3Cpath d='M12 22c4-4 4-10 0-14'/%3E%3Cpath d='M12 22c-4-4-4-10 0-14'/%3E%3Cpath d='M12 22V8'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFF9C4' stroke='%23B8C46E' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M5 5l1.5 1.5M17.5 17.5L19 19M2 12h2M20 12h2M5 19l1.5-1.5M17.5 6.5L19 5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B8C46E' stroke-width='2.5'%3E%3Cpath d='M12 22c4-4 4-10 0-14'/%3E%3Cpath d='M12 22c-4-4-4-10 0-14'/%3E%3Cpath d='M12 22V8'/%3E%3C/svg%3E");
+  background-position:
+    -18px -14px,
+    right -14px top 30%,
+    -10px bottom 26%,
+    right -16px bottom 40px,
+    50% bottom -14px;
+  background-size:
+    50px 50px,
+    36px 36px,
+    30px 30px,
+    28px 28px,
+    24px 24px;
+}
+
+/* [테마5] 열기구 - 뭉게구름 5개 */
+.theme-5 .polaroid-frame::before,
+.theme-5 .is-cover-wrapper::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF' stroke='%23E89E78' stroke-width='1'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF' stroke='%23E89E78' stroke-width='1.5'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF' stroke='%23E89E78' stroke-width='2'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF' stroke='%23E89E78' stroke-width='1.5'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF' stroke='%23E89E78' stroke-width='2'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E");
+  background-position:
+    right -20px top -16px,
+    -16px bottom 44px,
+    right 20px bottom -10px,
+    -14px top 28%,
+    right 30% top -12px;
+  background-size:
+    52px 52px,
+    34px 34px,
+    22px 22px,
+    24px 24px,
+    26px 26px;
+}
+
+/* [테마6] 작은 오두막 - 파랑새 5마리 */
+.theme-6 .polaroid-frame::before,
+.theme-6 .is-cover-wrapper::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF' stroke='%237FB3D4' stroke-width='1.5'%3E%3Cpath d='M16 7h.01'/%3E%3Cpath d='M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20'/%3E%3Cpath d='m20 7 2 .5-2 .5'/%3E%3Cpath d='M10 18v3'/%3E%3Cpath d='M14 17.75V21'/%3E%3Cpath d='M7 18a6 6 0 0 0 3.84-10.61'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237FB3D4' stroke-width='2'%3E%3Cpath d='M16 7h.01'/%3E%3Cpath d='M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237FB3D4' stroke-width='2.5'%3E%3Cpath d='M16 7h.01'/%3E%3Cpath d='M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF' stroke='%237FB3D4' stroke-width='1.5'%3E%3Cpath d='M16 7h.01'/%3E%3Cpath d='M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20'/%3E%3Cpath d='m20 7 2 .5-2 .5'/%3E%3Cpath d='M10 18v3'/%3E%3Cpath d='M14 17.75V21'/%3E%3Cpath d='M7 18a6 6 0 0 0 3.84-10.61'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237FB3D4' stroke-width='2.5'%3E%3Cpath d='M16 7h.01'/%3E%3Cpath d='M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20'/%3E%3C/svg%3E");
+  background-position:
+    -16px -12px,
+    right -12px bottom 40px,
+    right 28px bottom -12px,
+    -12px bottom 28%,
+    50% top -14px;
+  background-size:
+    44px 44px,
+    26px 26px,
+    20px 20px,
+    24px 24px,
+    22px 22px;
+}
+
+/* [테마7] 무지개 꿈 - 별+구름 5개 */
+.theme-7 .polaroid-frame::before,
+.theme-7 .is-cover-wrapper::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFF59D' stroke='%23FFB74D' stroke-width='1.5'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2381D4FA' stroke='%234FC3F7' stroke-width='1.5'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFF59D' stroke='%23FFB74D' stroke-width='2'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2381D4FA' stroke='%234FC3F7' stroke-width='2'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFF59D' stroke='%23FFB74D' stroke-width='2.5'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E");
+  background-position:
+    right -14px top -10px,
+    -18px bottom 42px,
+    right 24px bottom -10px,
+    -14px top 26%,
+    right 32% top -12px;
+  background-size:
+    40px 40px,
+    46px 46px,
+    20px 20px,
+    22px 22px,
+    18px 18px;
+}
+
+/* [테마8] 별고래 - 달 + 별 5개 */
+.theme-8 .polaroid-frame::before,
+.theme-8 .is-cover-wrapper::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFE082' stroke='%23FFCA28' stroke-width='1.5'%3E%3Cpath d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFE082' stroke='%23FFCA28' stroke-width='1.5'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFE082' stroke='%23FFCA28' stroke-width='2'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFE082' stroke='%23FFCA28' stroke-width='2'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFE082' stroke='%23FFCA28' stroke-width='2.5'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E");
+  background-position:
+    -18px -14px,
+    right -14px bottom 42px,
+    right 26px bottom -8px,
+    -14px top 30%,
+    right 32% top -12px;
+  background-size:
+    50px 50px,
+    32px 32px,
+    18px 18px,
+    16px 16px,
+    16px 16px;
+  filter: drop-shadow(0 0 8px rgba(255, 202, 40, 0.5));
+}
+
+
+/* 테마8(별고래) 전용 - 본문 박스는 어두운 톤으로, 글자는 밝게 유지 */
+.theme-8 .detail-content {
+  background: rgba(26, 34, 53, 0.75); /* --m-bg 계열의 반투명 다크 */
+  border: 1px solid rgba(255, 224, 130, 0.15); /* 은은한 골드 테두리 */
+  color: #F4F1E8; /* 순백보다 살짝 따뜻한 톤으로 눈부심 방지 */
+}
+
+.theme-8 .close-btn {
+  background: rgba(26, 34, 53, 0.75);
+  border: 1px solid rgba(255, 224, 130, 0.15);
+  color: #F4F1E8;
+}
+
+.theme-8 .close-btn:hover {
+  background: var(--m-arrow);
+  color: #1A2235;
+  border-color: var(--m-arrow);
 }

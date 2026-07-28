@@ -22,6 +22,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ModalProvider } from './contexts/ModalContext';
 import Diary_detail from './components/Diary/Diary_detail';
 import EBookDiarySelect from './pages/E-book/EBookDiarySelect';
+import Book_detail from './components/EBook/Book_detail';
 import "./styles/theme.css";
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="partner" element={<Partner />} />
           <Route path='/diary/:d_id' element={<Diary_detail/>}/>
           <Route path='/ebook/select' element={<EBookDiarySelect/>}/>
+          <Route path='/ebook/:s_id' element={<Book_detail />}/>
         </Routes>
     </ModalProvider>
   </AuthProvider>      

@@ -35,7 +35,6 @@ function Diary_detail() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
                         {diary.d_label && (
                             <span className="diary-label-chip" style={{ margin: 0, display: "inline-flex", alignItems: "center", gap: "4px" }}>
-                                {/* 🌟 기존 ✨ 이모지 대체 */}
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
                                 </svg>
@@ -53,7 +52,7 @@ function Diary_detail() {
                     {/* 3. 아기 컴포넌트 성장 사진이 업로드 되어있을 경우 이미지 뷰어 바인딩 */}
                     {/* ★ 변경 포인트: 인증된 요청(SecureImage)으로 사진을 가져와 표시 */}
                     {diary.d_image && (
-                        <div style={{ width: "100%", maxHeight: "280px", overflow: "hidden", borderRadius: "var(--radius-md)", margin: "14px 0", border: "1px solid var(--color-border)" }}>
+                        <div style={{ width: "100%", overflow: "hidden", borderRadius: "var(--radius-md)", margin: "14px 0", border: "1px solid var(--color-border)" }}>
                             <SecureImage
                                 path={diary.d_image}
                                 alt="아기 일기 성장 스냅샷"

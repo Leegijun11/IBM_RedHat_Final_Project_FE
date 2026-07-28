@@ -34,8 +34,8 @@ const COVER_OPTIONS = [
         {
         id: 4,
         name: "개구리 정원",
-        front: "cover/fcover4.png",
-        back: "cover/bcover4.png"
+        front: "cover/bcover4.png",
+        back: "cover/fcover4.png"
     },
         {
         id: 5,

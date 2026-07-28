@@ -6,7 +6,6 @@ import { getCurrentBaby } from "../../services/partner_api";
 import { useModal } from "../../hooks/useModal";
 import GrowthChart from "../../components/EBook/Growth_chart";
 import BookCard from "../../components/EBook/Book_card";
-import BookDetail from "../../components/EBook/Book_detail";
 import MilestoneList from "../../components/EBook/MilestoneList";
 import CompareChart from "../../components/EBook/CompareChart";
 import NaviBar from "../../components/common/NaviBar";
@@ -16,7 +15,6 @@ function EBookMainPage() {
     const navigate = useNavigate();
     const { showAlert, showConfirm } = useModal(); 
     const [books, setBooks] = useState([]);
-    const [selectedBook, setSelectedBook] = useState(null);
     const [baby, setBaby] = useState(null);
     const [babyAge, setBabyAge] = useState(0);
     const [tab, setTab] = useState("growth");
@@ -76,9 +74,6 @@ function EBookMainPage() {
             setBooks(nextBooks);
             const nextTotalPages = Math.max(1, Math.ceil(nextBooks.length / BOOKS_PER_PAGE));
             if (currentPage > nextTotalPages) setCurrentPage(nextTotalPages);
-            if (selectedBook && selectedBook.s_id === s_id) {
-                setSelectedBook(null);
-            }
         } catch (error) {
             console.error(error);
             showAlert("삭제에 실패했습니다.", "error");
@@ -98,7 +93,6 @@ function EBookMainPage() {
     return (
         <div className="ebook-page page-container">
             <div className="ebook-header">
-                {/* 🌟 📖 이모지 대체 (펼쳐진 책 모양 SVG) */}
                 <h2 className="ebook-title" style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
                     성장 디지털 북
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#F07C60" }}>
@@ -110,7 +104,6 @@ function EBookMainPage() {
 
             <div className="milestone-gauge-card">
                 <div className="gauge-header">
-                    {/* 🌟 🌱 이모지 대체 (새싹 SVG) */}
                     <span className="gauge-title" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#5EA37B" }}>
                             <path d="M12 22v-9"/>
@@ -125,7 +118,6 @@ function EBookMainPage() {
                     <div className="gauge-fill" style={{ width: `${achievedPct}%` }} />
                 </div>
                 
-                {/* 🌟 ✨, 📌, 📚 이모지 대체 및 상태별 메시지 아이콘 적용 */}
                 <p className="gauge-desc">
                     {canCreateBook ? (
                         <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
@@ -161,7 +153,6 @@ function EBookMainPage() {
                             <BookCard
                                 key={book.s_id}
                                 book={book}
-                                onDetailClick={() => setSelectedBook(book)}
                                 onDeleteClick={() => handleDeleteBook(book.s_id)}
                             />
                         ))}
@@ -195,14 +186,6 @@ function EBookMainPage() {
                     </>
                 )}
             </div>
-
-            {selectedBook && (
-                <BookDetail
-                    book={selectedBook}
-                    onClose={() => setSelectedBook(null)}
-                    onDeleteClick={() => handleDeleteBook(selectedBook.s_id)}
-                />
-            )}
 
             <div className="ebook-tab">
                 <button className={tab === "growth" ? "active" : ""} onClick={() => setTab("growth")}>
