@@ -66,10 +66,14 @@
 }
 
 .empty-book {
+  display: block; 
+  width: 100%;
   text-align: center;
   color: #A3968C;
   padding: 40px 0;
   font-size: 14px;
+  /* ✨ 이 한 줄이 핵심입니다! 그리드의 모든 열을 가로지르도록 설정 ✨ */
+  grid-column: 1 / -1; 
 }
 
 /* 탭 버튼 영역 (완벽한 50:50 대칭) */

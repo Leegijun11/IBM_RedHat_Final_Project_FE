@@ -26,7 +26,7 @@ function Diary_detail() {
     }, [d_id]);
 
     return (
-        <div className="diary-detail-wrap">
+        <div className="diary-detail-wrap page-container">
             <h2>일기 상세 조회</h2>
 
             {diary && (

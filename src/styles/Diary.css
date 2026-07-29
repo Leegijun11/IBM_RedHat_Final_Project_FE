@@ -254,7 +254,7 @@
   width: 100%;
   min-height: 100vh;
   margin: 0 auto;
-  background-color: var(--main-bg);
+  background-color: var(--color-bg);
   padding: 20px 20px 60px;
   box-sizing: border-box;
   font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
@@ -263,28 +263,28 @@
 .diary-detail-wrap h2 {
   font-size: 20px;
   font-weight: 800;
-  color: var(--text-main);
+  color: var(--color-text-primary);
   margin: 4px 0 16px;
 }
 
 .diary-detail-card {
-  background-color: var(--card-white);
+  background-color: var(--color-surface);
   border-radius: var(--radius-lg);
   padding: 24px 20px;
-  box-shadow: var(--shadow-light);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
   box-sizing: border-box;
 }
 
 .diary-detail-card h3 {
   font-size: 18px;
   font-weight: 800;
-  color: var(--text-main);
+  color: var(--color-text-primary);
   margin: 0 0 12px;
 }
 
 .diary-detail-card p {
   font-size: 14px;
-  color: var(--text-sub);
+  color: var(--color-text-secondary);
   line-height: 1.6;
   margin: 0 0 8px;
 }
@@ -294,10 +294,10 @@
   width: 100%;
   margin-top: 20px;
   padding: 16px 0;
-  background-color: var(--card-white);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  color: var(--text-sub);
+  color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
